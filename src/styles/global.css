@@ -146,7 +146,7 @@ a {
 section {
   position: relative;
   z-index: var(--z-content);
-  padding-block: clamp(4.5rem, 9vw, 8.5rem);
+  padding-block: clamp(3rem, 6vw, 5.5rem);
   isolation: isolate;
 }
 
@@ -339,7 +339,7 @@ html[data-theme='light'] .theme-toggle .ico--sun { display: block; }
 
 .page-intro {
   position: relative;
-  padding: 11rem 0 0;
+  padding: 9rem 0 0;
   min-height: 0;
 }
 

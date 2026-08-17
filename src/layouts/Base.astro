@@ -9,8 +9,8 @@ interface Props {
 
 const { title = '上古祝门 · 古巫祝脉', description = '古巫祝脉，上古祝门，传承祝法之道。祝，咒也。以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。' } = Astro.props;
 
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = (Astro.url.pathname.replace(/\/$/, '') || '/').replace(base, '') || '/';
 
 const nav = [
   { href: '/yuanqi', label: '缘起' },
@@ -47,7 +47,7 @@ const nav = [
 
     <header class="nav" id="nav">
       <div class="nav-inner wrap">
-        <a class="brand" href="/">
+        <a class="brand" href={base || '/'}>
           <span class="brand-seal"><img src={`${base}/巫字.png`} alt="巫" width="155" height="153" /></span>
           <span class="brand-name">
             <b>上古祝门</b>
@@ -57,7 +57,7 @@ const nav = [
         <nav class="nav-links" aria-label="主导航">
           {
             nav.map((n) => (
-              <a href={n.href} class:list={{ active: path === n.href }}>{n.label}</a>
+              <a href={`${base}${n.href}`} class:list={{ active: path === n.href }}>{n.label}</a>
             ))
           }
         </nav>

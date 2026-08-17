@@ -1,4 +1,5 @@
 ---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <section class="macro">
@@ -28,7 +29,7 @@
 
     <div class="macro-cite reveal" data-d="3">
       <p>真正的完整巫之传承并未断绝，<br />而是在重大变故前，提前离于世间。</p>
-      <a class="btn" href="/chuancheng">阅览传承 →</a>
+      <a class="btn" href={`${base}/chuancheng`}>阅览传承 →</a>
     </div>
   </div>
 </section>

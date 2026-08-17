@@ -1,4 +1,6 @@
 ﻿---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 // 八卦 (trigrams) radiating outward around the ring.
 // patterns: [topBroken, middleBroken, bottomBroken]
 const patterns = [
@@ -50,8 +52,8 @@ const trigrams = patterns.map((p, i) => {
       祝，咒也。以诵咒通窍开脉，锻炼神形，<br class="br-lg" />追求天人合一，万物一咒。
     </p>
     <div class="hero-cta">
-      <a class="btn btn--primary" href="/yuanqi">阅览传承</a>
-      <a class="btn" href="/baoming">报名须知</a>
+      <a class="btn btn--primary" href={`${base}/yuanqi`}>阅览传承</a>
+      <a class="btn" href={`${base}/baoming`}>报名须知</a>
     </div>
   </div>
 

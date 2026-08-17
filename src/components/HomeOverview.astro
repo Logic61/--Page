@@ -1,4 +1,6 @@
 ﻿---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 const items = [
   { href: '/yuanqi', num: '壹', title: '缘起', sub: '祝之由来', desc: '巫祝巫祝，巫，祝也。自殷商史、祝、卜而起，一门之祝，源于上古。' },
   { href: '/tixi', num: '贰', title: '体系', sub: '祭祀 · 巫医', desc: '祭祀体系通天地先祖，巫医体系以祝愈疾。二道相合，方为完整之巫。' },
@@ -24,7 +26,7 @@ const items = [
       {
         items.map((it, i) => (
           <li class="reveal" data-d={String((i % 4) + 2)}>
-            <a href={it.href} class="gate-row">
+            <a href={`${base}${it.href}`} class="gate-row">
               <span class="gate-num kai">{it.num}</span>
               <span class="gate-title kai">{it.title}</span>
               <span class="gate-sub">{it.sub}</span>

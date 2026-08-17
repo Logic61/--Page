@@ -1,4 +1,6 @@
 ﻿---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 const links = [
   { href: '/yuanqi', label: '缘起' },
   { href: '/tixi', label: '体系' },
@@ -23,7 +25,7 @@ const links = [
       <nav class="foot-links">
         {
           links.map((l) => (
-            <a href={l.href}>{l.label}</a>
+            <a href={`${base}${l.href}`}>{l.label}</a>
           ))
         }
       </nav>
@@ -45,7 +47,7 @@ const links = [
 <style>
   .foot {
     border-top: 1px solid var(--ink-line);
-    padding: clamp(3.5rem, 6vw, 5.5rem) 0 2.5rem;
+    padding: clamp(2.5rem, 4vw, 3.5rem) 0 2.5rem;
     background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.4));
   }
 
