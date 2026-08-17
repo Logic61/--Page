@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Way from '../components/Way.astro';
+import Yinjue from '../components/Yinjue.astro';
+import Footer from '../components/Footer.astro';
+
+const { title, description } = {
+  title: '祝法 · 祝，咒也',
+  description: '祝，咒也。祝祷、祝由、音诀咒音——以诵咒通窍开脉，锻炼神形。',
+};
+---
+
+<Base title={title} description={description}>
+  <PageIntro
+    mark="咒"
+    title="祝，咒也"
+    sub="此脉以诵咒为主，通窍开脉，锻炼神形，令人身体健康，延年益寿，继而追求天人合一、万物一咒的咒法至高境界。"
+  />
+  <Way />
+  <Yinjue />
+  <Footer />
+</Base>

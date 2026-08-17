@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Origin from '../components/Origin.astro';
+import Macro from '../components/Macro.astro';
+import Footer from '../components/Footer.astro';
+
+const { title, description } = {
+  title: '缘起 · 上古祝门',
+  description: '巫祝巫祝，巫，祝也。祝之由来，自殷商史、祝、卜而起。',
+};
+---
+
+<Base title={title} description={description}>
+  <PageIntro
+    mark="祝"
+    title="祝之由来"
+    sub="巫祝巫祝，巫，祝也。巫为沟通天地、先祖之人，本门之祝，正源于此。"
+    meta="敬告：本脉上古祝法所示内容，未经科学证实，切勿迷信。"
+  />
+  <Origin />
+  <Macro />
+  <Footer />
+</Base>

@@ -1,0 +1,234 @@
+﻿---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const steps = [
+  { num: '壹', title: '加群交流', text: '加入群聊满一月，时常交流，相互了解。' },
+  { num: '贰', title: '通读文件', text: '通读群内文件，明白、了解修炼之目的。' },
+  { num: '叁', title: '心诚考察', text: '真心修行，经考察与双方认同后，方可学习。' },
+  { num: '肆', title: '循序修习', text: '师父领进门，修行在个人。修法可学，课程不卖。' },
+];
+
+const rules = [
+  '自古道法不传外族，报名要求为华夏一族之苗裔。',
+  '有门派宗门者、宗教偏执狂热者，请勿开口。',
+  '一切内容未经报备、允许，不得外泄（现实、网络，乃至父母亲人也不可）。',
+  '修法可学，课程不卖——有学习的权利，无归属与传播的权利。',
+  '报名请谨慎考虑，一经报名，概不退款、不打折、不调价、不分期。',
+];
+---
+
+<section class="reg" id="baoming">
+  <div class="wrap">
+    <header class="s-head reveal">
+      <div class="title-row">
+        <span class="eyebrow">报名须知</span>
+        <h2 class="section-title">愿者自来</h2>
+      </div>
+      <div class="rule"></div>
+      <p class="sub">
+        有意拜师学习者，请踏实工作生活，勿抱侥幸思想。愿者来，不强迫，不强求。
+      </p>
+    </header>
+
+    <div class="reg-grid">
+      <div class="reg-steps reveal">
+        <ol class="steps">
+          {
+            steps.map((s) => (
+              <li>
+                <span class="step-num kai">{s.num}</span>
+                <div>
+                  <h3>{s.title}</h3>
+                  <p>{s.text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+
+      <div class="reg-side">
+        <div class="reg-qr reveal" data-d="2">
+          <div class="qr-frame">
+            <img src={`${base}/公众号二维码.jpg`} alt="公众号二维码" loading="lazy" />
+          </div>
+          <p>扫码关注 · 联系巫恒先生</p>
+        </div>
+
+        <aside class="reg-disclaim reveal" data-d="3">
+          <span class="reg-disclaim-mark zhuan">敬</span>
+          <p>
+            上古巫祝，系古人创造的一种巫祝养生理论。长生之说虚妄，修炼之事无凭，未经科学证实，不符合主流唯物主义价值观。本人作为巫祝理论学者，仅保证所授内容系巫祝思想传承，并非本人编造；不保证长生不老，仅供作为一项爱好，研究古代巫祝养生之用。
+          </p>
+        </aside>
+      </div>
+    </div>
+
+    <div class="reg-rules reveal">
+      <h3 class="reg-rules-title kai">报名要求</h3>
+      <ul>
+        {
+          rules.map((r) => (
+            <li>
+              <span class="rule-dot"></span>
+              <p>{r}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .reg {
+    border-top: 1px solid var(--ink-line);
+  }
+
+  .reg-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+
+  .steps {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .steps li {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.6rem 0.4rem;
+    border-top: 1px solid var(--ink-line);
+    align-items: flex-start;
+  }
+
+  .steps li:first-child { border-top: none; padding-top: 0.4rem; }
+
+  .step-num {
+    flex: none;
+    font-size: 1.5rem;
+    color: var(--cinnabar-bright);
+    letter-spacing: 0.15em;
+    width: 2.6rem;
+    padding-top: 0.2rem;
+  }
+
+  .steps h3 {
+    font-family: var(--font-kai);
+    font-size: 1.3rem;
+    letter-spacing: 0.22em;
+    color: var(--heading);
+    margin-bottom: 0.5rem;
+  }
+
+  .steps p {
+    color: var(--bone-dim);
+    font-size: 0.9rem;
+    line-height: 2;
+    max-width: 32em;
+  }
+
+  .reg-side {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+  }
+
+  .reg-qr {
+    text-align: center;
+  }
+
+  .qr-frame {
+    display: inline-block;
+    border: 1px solid var(--ink-line);
+    border-radius: 3px;
+    padding: 1rem;
+    background: var(--panel-strong);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+  }
+
+  .qr-frame img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+  }
+
+  .reg-qr p {
+    margin-top: 1rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.3em;
+    color: var(--bone-faint);
+  }
+
+  .reg-disclaim {
+    border: 1px dashed rgba(178, 58, 44, 0.35);
+    border-radius: 3px;
+    padding: 1.4rem 1.5rem;
+    display: flex;
+    gap: 1.1rem;
+    align-items: flex-start;
+    background: var(--panel-soft);
+  }
+
+  .reg-disclaim-mark {
+    font-size: 1.8rem;
+    color: var(--cinnabar);
+    line-height: 1.4;
+  }
+
+  .reg-disclaim p {
+    color: var(--bone-faint);
+    font-size: 0.84rem;
+    line-height: 2.1;
+  }
+
+  .reg-rules {
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    border-top: 1px solid var(--ink-line);
+    padding-top: 2rem;
+  }
+
+  .reg-rules-title {
+    font-size: 1.3rem;
+    letter-spacing: 0.3em;
+    color: var(--bronze-bright);
+    margin-bottom: 1.4rem;
+  }
+
+  .reg-rules ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem 2.5rem;
+  }
+
+  .reg-rules li {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+  }
+
+  .rule-dot {
+    flex: none;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--cinnabar);
+    margin-top: 0.75em;
+  }
+
+  .reg-rules p {
+    color: var(--bone-dim);
+    font-size: 0.9rem;
+    line-height: 1.95;
+  }
+
+  @media (max-width: 900px) {
+    .reg-grid { grid-template-columns: 1fr; }
+    .reg-rules ul { grid-template-columns: 1fr; }
+  }
+</style>

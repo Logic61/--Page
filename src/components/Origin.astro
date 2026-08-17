@@ -1,0 +1,150 @@
+﻿---
+const offices = [
+  { name: '大祝', desc: '掌祭祀祈祷' },
+  { name: '小祝', desc: '掌小祭祀祝事' },
+  { name: '丧祝', desc: '掌丧祭祀祝事' },
+  { name: '甸祝', desc: '掌猎祭祀祝事' },
+  { name: '诅祝', desc: '掌惩戒敌人祝事' },
+  { name: '司祝', desc: '掌庙宇祷辞祝事' },
+  { name: '男巫', desc: '祭祀多舞以悦鬼神' },
+  { name: '女巫', desc: '祭祀歌舞迎神祈祷' },
+];
+---
+
+<section class="origin" id="yuanqi">
+  <div class="wrap">
+    <div class="origin-grid">
+      <div class="origin-side reveal">
+        <span class="vtext origin-big">巫祝巫祝 · 巫，祝也</span>
+        <div class="origin-seal"><span class="seal">巫</span></div>
+      </div>
+
+      <div class="origin-main">
+        <header class="s-head reveal">
+          <div class="title-row">
+            <span class="eyebrow">缘起</span>
+            <h2 class="section-title">祝之由来</h2>
+          </div>
+          <div class="rule"></div>
+        </header>
+
+        <div class="origin-prose reveal" data-d="2">
+          <p>
+            巫祝巫祝，巫，祝也。巫的传说古来已久。巫，为沟通天地、先祖之人。殷商之时，巫承担着沟通「天帝」与「人帝」的重任，传达彼此之意志，由此衍生出三种别样的职业——<b>史</b>掌天文历法、历史文献；<b>祝</b>主导祭祀祈福；<b>卜</b>负责占问吉凶。而本门之祝，正源于此。
+          </p>
+          <p>
+            祝，即巫中的大主祭，祭祀之主，沟通神明、世间。上古之时，从中央到地方各级官府皆有配置，门类繁多。大巫巫咸为帝尧之医，<i>祝树树枯，祝鸟鸟坠</i>，祝人则添福寿、愈疾病。其中流传至今者，为「祝祷」与「祝由」二道。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <ul class="offices reveal">
+      {
+        offices.map((o, i) => (
+          <li>
+            <span class="office-name kai">{o.name}</span>
+            <span class="office-desc">{o.desc}</span>
+            <span class="office-num">{('0' + (i + 1)).slice(-2)}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .origin {
+    border-top: 1px solid var(--ink-line);
+  }
+
+  .origin-grid {
+    display: grid;
+    grid-template-columns: 10rem 1fr;
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+
+  .origin-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding-top: 0.8rem;
+  }
+
+  .origin-big {
+    font-family: var(--font-kai);
+    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+    letter-spacing: 0.6em;
+    color: var(--bronze);
+    line-height: 2;
+    opacity: 0.9;
+  }
+
+  .origin-prose p {
+    color: var(--bone-dim);
+    max-width: 46em;
+    margin-bottom: 1.4rem;
+    font-size: 1.02rem;
+    line-height: 2.2;
+  }
+
+  .origin-prose b {
+    color: var(--bronze-bright);
+    font-weight: 600;
+  }
+
+  .origin-prose i {
+    color: var(--bone);
+    font-style: normal;
+  }
+
+  .offices {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: clamp(3rem, 6vw, 5rem);
+    border-top: 1px solid var(--ink-line);
+    border-bottom: 1px solid var(--ink-line);
+  }
+
+  .offices li {
+    position: relative;
+    padding: 1.6rem 1.4rem;
+    border-left: 1px solid var(--ink-line);
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .offices li:first-child { border-left: none; }
+
+  .office-name {
+    font-size: 1.3rem;
+    letter-spacing: 0.2em;
+    color: var(--heading);
+  }
+
+  .office-desc {
+    font-size: 0.8rem;
+    color: var(--bone-faint);
+    letter-spacing: 0.1em;
+  }
+
+  .office-num {
+    position: absolute;
+    top: 1.1rem;
+    right: 1.2rem;
+    font-size: 0.7rem;
+    color: var(--bronze-dim);
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 900px) {
+    .origin-grid { grid-template-columns: 1fr; }
+    .origin-side { flex-direction: row; justify-content: flex-start; }
+    .origin-big { writing-mode: horizontal-tb; letter-spacing: 0.3em; }
+    .offices { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

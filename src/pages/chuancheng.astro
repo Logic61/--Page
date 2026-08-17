@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Inheritance from '../components/Inheritance.astro';
+import HardToLearn from '../components/HardToLearn.astro';
+import Footer from '../components/Footer.astro';
+
+const { title, description } = {
+  title: '传承 · 隐传至今',
+  description: '隐传密传，师寻徒传，不记文字，不载外物。古巫祝脉传承人巫恒，半显于世。',
+};
+---
+
+<Base title={title} description={description}>
+  <PageIntro
+    mark="隐"
+    title="隐传至今"
+    sub="真正的完整巫之传承并未断绝，而是在重大变故前提前离于世间，自古隐秘，不问世事，不管轮转，传承至今。"
+  />
+  <Inheritance />
+  <HardToLearn />
+  <Footer />
+</Base>

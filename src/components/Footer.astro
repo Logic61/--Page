@@ -1,0 +1,131 @@
+﻿---
+const links = [
+  { href: '/yuanqi', label: '缘起' },
+  { href: '/tixi', label: '体系' },
+  { href: '/zhufa', label: '祝法' },
+  { href: '/chuancheng', label: '传承' },
+  { href: '/kecheng', label: '课程' },
+  { href: '/wenda', label: '问答' },
+  { href: '/baoming', label: '报名' },
+];
+---
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="seal" style="font-size:1.3rem;">祝</span>
+        <div>
+          <h2 class="kai">上古祝门</h2>
+          <p>古巫祝脉 · 隐传至今 · 半显于世</p>
+        </div>
+      </div>
+      <nav class="foot-links">
+        {
+          links.map((l) => (
+            <a href={l.href}>{l.label}</a>
+          ))
+        }
+      </nav>
+    </div>
+
+    <div class="foot-note">
+      <p>
+        本网站所载内容系巫祝养生理论传承，未经科学证实，切勿迷信。敬告：修行之事无凭，仅供作为一项爱好，研究古代巫祝养生之用。
+      </p>
+    </div>
+
+    <div class="foot-bottom">
+      <p>© 上古祝门 · 古巫祝脉</p>
+      <p class="foot-motto kai">祝，咒也 · 天人合一 · 万物一咒</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    border-top: 1px solid var(--ink-line);
+    padding: clamp(3.5rem, 6vw, 5.5rem) 0 2.5rem;
+    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.4));
+  }
+
+  html[data-theme='light'] .foot {
+    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.04));
+  }
+
+  .foot-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .foot-brand {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+  }
+
+  .foot-brand h2 {
+    font-size: 1.5rem;
+    letter-spacing: 0.35em;
+    color: var(--heading);
+    margin-bottom: 0.3rem;
+  }
+
+  .foot-brand p {
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    color: var(--bone-faint);
+  }
+
+  .foot-links {
+    display: flex;
+    gap: 1.8rem;
+    flex-wrap: wrap;
+  }
+
+  .foot-links a {
+    font-family: var(--font-kai);
+    font-size: 0.9rem;
+    letter-spacing: 0.25em;
+    color: var(--bone-dim);
+    transition: color 0.3s var(--ease-soft);
+  }
+
+  .foot-links a:hover {
+    color: var(--bronze-bright);
+  }
+
+  .foot-note {
+    margin-top: 3rem;
+    border-top: 1px solid var(--ink-line);
+    padding-top: 1.6rem;
+  }
+
+  .foot-note p {
+    color: var(--bone-faint);
+    font-size: 0.78rem;
+    line-height: 2.1;
+    letter-spacing: 0.06em;
+    max-width: 54em;
+  }
+
+  .foot-bottom {
+    margin-top: 1.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.78rem;
+    color: var(--bone-faint);
+    letter-spacing: 0.2em;
+  }
+
+  .foot-motto {
+    color: var(--bronze-dim);
+    letter-spacing: 0.3em;
+  }
+</style>

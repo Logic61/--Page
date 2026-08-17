@@ -1,0 +1,165 @@
+﻿---
+const faqs = [
+  {
+    q: '什么是音诀（咒音）？',
+    a: '音诀，又称咒音，属于咒法的一种。通过不同音诀的发出，可以产生人体内振，调理不同的人体器官，对身体，或对精神产生直接的影响。',
+  },
+  {
+    q: '咒音与佛、道教的咒语是一回事吗？',
+    a: '不是。咒音与佛道教咒语都属于广义咒法的范畴，但作用原理、用途和形式都有很大区别。咒音形式一般为单音节发音，用于养生却病，用的是声音本身的效果。佛道教咒语则起到沟通鬼神的作用，用的是咒语的含义以及信仰的精诚。',
+  },
+  {
+    q: '为什么自古以来，修炼之事常人难知？',
+    a: '其一，古代阶级如天堑，修炼曾是皇室宗亲、贵族才可接触之事，周朝之时，巫教教主便是周天子。其二，后来传承变故，法门逐渐被少数人收拢，转为隐传、密传、师寻徒传，不记文字，不载外物，外界难知。其三，无财不养道，修炼又需大把时间与机缘，此三条，便抹去了诸多之人。',
+  },
+  {
+    q: '修炼为何还要收取费用？',
+    a: '道尊德贵，法不空传。师父付出知识、道法与劳动，收取费用天经地义——孔子有教无类，尚收十条腊肉。何况人性之中，越是容易得到的，越不珍惜。凡是想白学的，大多不会踏踏实实真修。',
+  },
+  {
+    q: '修炼究竟求什么？',
+    a: '无论修巫、修真、修仙、修佛，最终的目的皆是长生——形神俱妙、互化有无、长生久视。这是要有完整传承的，不是随便看点书、拜个宗教，或在世面上学点什么便有用。',
+  },
+  {
+    q: '何为祝法缘法？',
+    a: '祝，咒也。练时以发声的方式去练习。练习注意发音标准，发音之后自然延长，轻声细语，保护嗓子；不建议一口气全部练完，适当保留。',
+  },
+];
+---
+
+<section class="faq" id="wenda">
+  <div class="wrap">
+    <header class="s-head reveal">
+      <div class="title-row">
+        <span class="eyebrow">修炼问答</span>
+        <h2 class="section-title">常见疑问</h2>
+      </div>
+      <div class="rule"></div>
+    </header>
+
+    <div class="faq-list">
+      {
+        faqs.map((f, i) => (
+          <details class={['faq-item', 'reveal'].join(' ')}>
+            <summary>
+              <span class="faq-num kai">{('壹贰叁肆伍陆柒捌玖拾')[i]}</span>
+              <span class="faq-q">{f.q}</span>
+              <span class="faq-ico" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-a">
+              <p>{f.a}</p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+
+    <p class="faq-more reveal">
+      更多问答，见修炼问答文件与<a href="/kecheng">报名必读 →</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .faq {
+    border-top: 1px solid var(--ink-line);
+  }
+
+  .faq-list {
+    border-top: 1px solid var(--ink-line);
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--ink-line);
+  }
+
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 1.3rem;
+    padding: 1.5rem 0.5rem;
+    transition: padding-left 0.4s var(--ease-soft);
+    user-select: none;
+  }
+
+  .faq-item summary::-webkit-details-marker { display: none; }
+
+  .faq-item summary:hover {
+    padding-left: 1rem;
+  }
+
+  .faq-num {
+    color: var(--cinnabar);
+    font-size: 1.2rem;
+    min-width: 2.2rem;
+  }
+
+  .faq-q {
+    font-family: var(--font-kai);
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    letter-spacing: 0.12em;
+    color: var(--heading);
+  }
+
+  .faq-ico {
+    margin-left: auto;
+    width: 14px;
+    height: 14px;
+    position: relative;
+    flex: none;
+  }
+
+  .faq-ico::before,
+  .faq-ico::after {
+    content: '';
+    position: absolute;
+    background: var(--bronze-dim);
+    transition: transform 0.4s var(--ease-soft), background 0.3s;
+  }
+
+  .faq-ico::before {
+    width: 14px;
+    height: 1px;
+    top: 6.5px;
+  }
+
+  .faq-ico::after {
+    width: 1px;
+    height: 14px;
+    left: 6.5px;
+  }
+
+  .faq-item[open] summary .faq-ico::after {
+    transform: scaleY(0);
+  }
+
+  .faq-item[open] summary .faq-ico::before {
+    background: var(--cinnabar-bright);
+  }
+
+  .faq-a {
+    padding: 0 0.5rem 1.8rem 3.5rem;
+  }
+
+  .faq-a p {
+    color: var(--bone-dim);
+    max-width: 46em;
+    line-height: 2.15;
+    font-size: 0.96rem;
+  }
+
+  .faq-more {
+    margin-top: 2rem;
+    text-align: center;
+    color: var(--bone-faint);
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+  }
+
+  .faq-more a {
+    color: var(--bronze);
+    border-bottom: 1px solid var(--bronze-dim);
+  }
+</style>

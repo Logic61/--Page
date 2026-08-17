@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Registration from '../components/Registration.astro';
+import Footer from '../components/Footer.astro';
+
+const { title, description } = {
+  title: '报名 · 愿者自来',
+  description: '有意拜师学习者，请踏实工作生活，勿抱侥幸思想。愿者来，不强迫，不强求。',
+};
+---
+
+<Base title={title} description={description}>
+  <PageIntro
+    mark="缘"
+    title="愿者自来"
+    sub="有意拜师学习者，请踏实工作生活，勿抱侥幸思想。愿者来，不强迫，不强求——请考虑清楚，再决定是否报名。"
+    meta="报名请谨慎考虑，一经报名，概不退款、不打折、不调价、不分期。"
+  />
+  <Registration />
+  <Footer />
+</Base>

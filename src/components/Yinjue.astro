@@ -1,0 +1,164 @@
+﻿---
+const benefits = [
+  '补泻精气，促进疾病自我疗愈',
+  '调理器官，改善身体健康状态',
+  '通畅经脉，促进周身气血运行',
+  '锻炼神形，辅助人体神炁修炼',
+  '疏通筋脉，改善五脏之功效',
+  '开发自身潜能',
+  '养正气，排恶气，为身魂做彻底大扫除',
+  '调理情绪：过喜、过怒、过忧、过思、过惊、过恐、过悲',
+  '调理气血：气虚、气滞、气逆、气闭、气陷、气弱',
+  '调理慢性病：呼吸、神经、心血管、消化、内分泌、循环、泌尿、生殖系统',
+  '增强免疫、自愈、修复、愈合再生、内分泌调节、消化能力',
+  '活跃思维、开发智慧、帮助记忆、美化人生、延缓衰老',
+];
+
+const kinds = [
+  { zi: '咒', name: '原始咒', desc: '由本音振动而发挥作用，作用于身体调理。养生六字诀、虎豹雷音、马王堆五字咒，皆属此类。', mark: '本音' },
+  { zi: '战', name: '战斗咒', desc: '用于激励勇气、发挥力量、战胜敌人。例如「哼」「哈」之类武术发声。', mark: '提气' },
+  { zi: '神', name: '通神咒', desc: '咒语逐渐形成鬼神契约，诵之通神，产生各种不同效果。如金光咒、准提咒等。', mark: '通神' },
+  { zi: '合', name: '混合咒', desc: '在原有咒印基础上形成沟通鬼神的效果，既是原始咒，又是通神咒。如六字大明咒。', mark: '兼具' },
+];
+---
+
+<section class="yinjue">
+  <div class="wrap">
+    <header class="s-head reveal">
+      <div class="title-row">
+        <span class="eyebrow">音诀</span>
+        <h2 class="section-title">咒音之妙</h2>
+      </div>
+      <div class="rule"></div>
+      <p class="sub">
+        音诀，又称咒音，属于咒法的一种。通过不同音诀的发出，产生人体内振，调理不同的人体器官，对身体或精神产生直接影响。药王孙思邈修炼六字诀，寿至百四十。
+      </p>
+    </header>
+
+    <ul class="benefits reveal">
+      {
+        benefits.map((b) => (
+          <li><span class="b-dot"></span><p>{b}</p></li>
+        ))
+      }
+    </ul>
+
+    <div class="kinds">
+      {
+        kinds.map((k, i) => (
+          <article class="kind reveal" data-d={String((i % 3) + 2)}>
+            <header>
+              <span class="kind-zi kai">{k.zi}</span>
+              <div>
+                <h3>{k.name}</h3>
+                <span class="kind-mark">{k.mark}</span>
+              </div>
+            </header>
+            <p>{k.desc}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .yinjue {
+    border-top: 1px solid var(--ink-line);
+  }
+
+  .benefits {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem 2.6rem;
+    border-top: 1px solid var(--ink-line);
+    padding-top: 1.8rem;
+    max-width: 62em;
+  }
+
+  .benefits li {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+  }
+
+  .b-dot {
+    flex: none;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--cinnabar);
+    margin-top: 0.8em;
+  }
+
+  .benefits p {
+    color: var(--bone-dim);
+    font-size: 0.95rem;
+    line-height: 2;
+  }
+
+  .kinds {
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+  }
+
+  .kind {
+    border: 1px solid var(--ink-line);
+    border-radius: 3px;
+    background: var(--panel-grad);
+    padding: 1.7rem 1.5rem;
+    transition: border-color 0.4s var(--ease-soft), transform 0.4s var(--ease-soft);
+  }
+
+  .kind:hover {
+    border-color: rgba(178, 58, 44, 0.45);
+    transform: translateY(-3px);
+  }
+
+  .kind header {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .kind-zi {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(184, 154, 94, 0.4);
+    border-radius: 50%;
+    color: var(--bronze-bright);
+    font-size: 1.15rem;
+  }
+
+  .kind h3 {
+    font-family: var(--font-kai);
+    font-size: 1.2rem;
+    letter-spacing: 0.2em;
+    color: var(--heading);
+  }
+
+  .kind-mark {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--cinnabar-bright);
+  }
+
+  .kind p {
+    color: var(--bone-dim);
+    font-size: 0.88rem;
+    line-height: 2;
+  }
+
+  @media (max-width: 900px) {
+    .benefits { grid-template-columns: 1fr; }
+    .kinds { grid-template-columns: 1fr; }
+  }
+</style>

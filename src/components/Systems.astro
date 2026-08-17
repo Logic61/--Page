@@ -1,0 +1,174 @@
+﻿---
+---
+
+<section class="systems" id="tixi">
+  <div class="wrap">
+    <header class="s-head reveal">
+      <div class="title-row">
+        <span class="eyebrow">巫祝体系</span>
+        <h2 class="section-title">祭祀 · 巫医</h2>
+      </div>
+      <div class="rule"></div>
+      <p class="sub">
+        巫祝之中有两大体系，一为「祭祀」，通天地先祖；一为「巫医」，以祝愈疾。二者相合，方为完整之巫。
+      </p>
+    </header>
+
+    <div class="sys-grid">
+      <article class="sys-panel sys--ritual reveal">
+        <header class="sys-head">
+          <span class="sys-mark kai">壹</span>
+          <div>
+            <h3>祭祀体系</h3>
+            <span class="sys-tag">祖先神道 · 通天地</span>
+          </div>
+        </header>
+        <div class="sys-body">
+          <p>
+            上古祭祀，大到天地、中到国家宗庙、小到世家宗祠、末到家中牌位，规格之严，内容之巨，非一句两句能尽述。《礼记·王制》载：天子七庙、诸侯五庙、大夫三庙，士一庙。不同规格，不可僭越。
+          </p>
+          <p>
+            祭祀之次序，首为天地。天以天帝为象征——昊天上帝，即古来老百姓口中的「老天爷」。而天帝之选取，为死去的<b>人皇</b>：华夏各部之首领，生为人皇，开辟四方；死为天帝，继续庇佑子民。伏羲、炎帝、黄帝，皆列于其中。
+          </p>
+          <p>
+            完整祭祀，即「先祖神道」——神道之中，人与神互相影响最小的一条路。子孙祭拜先人，单纯敬仰与缅怀。清明、中元、年节上坟，祠堂牌位、族谱宗祠，皆源于此。
+          </p>
+        </div>
+      </article>
+
+      <article class="sys-panel sys--medical reveal" data-d="2">
+        <header class="sys-head">
+          <span class="sys-mark kai">贰</span>
+          <div>
+            <h3>巫医体系</h3>
+            <span class="sys-tag">祝由却病 · 通世间</span>
+          </div>
+        </header>
+        <div class="sys-body">
+          <p>
+            医之古字作「毉」，其下乃巫。中医演化，有源于巫。上古巫咸，以鸿术为帝尧之医，能祝延人之福，愈人之病。
+          </p>
+          <p>
+            《黄帝内经》中亦载「祝由」之术：通过祝祷疾病根因，以疗愈相关病情。巫医分高低，为尧帝治疾者，为民间治病者，皆受人尊敬。后世所流传的诸多内容，实则处于民间巫医地位而流传至今。
+          </p>
+        </div>
+      </article>
+    </div>
+
+    <blockquote class="sys-quote reveal">
+      <span class="sys-quote-mark vtext">医</span>
+      <p>医之古字作毉，其下乃巫。</p>
+      <span class="sys-quote-mark vtext">巫</span>
+    </blockquote>
+  </div>
+</section>
+
+<style>
+  .systems {
+    border-top: 1px solid var(--ink-line);
+  }
+
+  .sys-grid {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .sys-panel {
+    border: 1px solid var(--ink-line);
+    border-radius: 3px;
+    background: var(--panel-mid);
+    padding: clamp(1.8rem, 3.5vw, 3rem);
+    position: relative;
+  }
+
+  .sys-panel::after {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(184, 154, 94, 0.08);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+
+  .sys--ritual {
+    background:
+      radial-gradient(500px 300px at 100% 0%, rgba(178, 58, 44, 0.06), transparent 70%),
+      var(--panel-strong);
+  }
+
+  .sys-head {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-bottom: 1.6rem;
+  }
+
+  .sys-mark {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    font-size: 1.3rem;
+    color: #f0e3c8;
+    background: radial-gradient(circle at 30% 25%, rgba(207, 75, 57, 0.9), rgba(143, 44, 34, 0.95));
+    box-shadow: 0 0 0 1px rgba(255, 226, 196, 0.25) inset, 0 6px 24px rgba(143, 44, 34, 0.35);
+  }
+
+  .sys-head h3 {
+    font-family: var(--font-kai);
+    font-size: 1.5rem;
+    letter-spacing: 0.3em;
+    color: var(--heading);
+  }
+
+  .sys-tag {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    color: var(--bronze-dim);
+  }
+
+  .sys-body p {
+    color: var(--bone-dim);
+    font-size: 0.95rem;
+    line-height: 2.15;
+    margin-bottom: 1.2rem;
+  }
+
+  .sys-body p:last-child { margin-bottom: 0; }
+  .sys-body b { color: var(--bronze-bright); font-weight: 600; }
+
+  .sys-quote {
+    margin-top: clamp(3rem, 6vw, 5rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    border-top: 1px solid var(--ink-line);
+    border-bottom: 1px solid var(--ink-line);
+    padding: 2rem 1rem;
+  }
+
+  .sys-quote p {
+    font-family: var(--font-kai);
+    font-size: clamp(1.2rem, 2.6vw, 1.9rem);
+    letter-spacing: 0.4em;
+    color: var(--bronze-bright);
+    text-align: center;
+  }
+
+  .sys-quote-mark {
+    font-size: 1.4rem;
+    color: var(--cinnabar);
+    letter-spacing: 0.3em;
+  }
+
+  @media (max-width: 900px) {
+    .sys-grid { grid-template-columns: 1fr; }
+    .sys-quote { flex-direction: column; gap: 0.8rem; }
+    .sys-quote-mark { writing-mode: horizontal-tb; }
+  }
+</style>

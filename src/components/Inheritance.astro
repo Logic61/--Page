@@ -1,0 +1,115 @@
+﻿---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<section class="inherit" id="chuancheng">
+  <div class="wrap">
+    <header class="s-head reveal">
+      <div class="title-row">
+        <span class="eyebrow">隐传至今</span>
+        <h2 class="section-title">巫之传承</h2>
+      </div>
+      <div class="rule"></div>
+    </header>
+
+    <div class="inh-grid">
+      <figure class="inh-figure reveal">
+        <div class="inh-frame">
+          <img src={`${base}/归源图.png`} alt="归源图" loading="lazy" />
+        </div>
+        <figcaption>归源图 · 古巫祝脉</figcaption>
+      </figure>
+
+      <div class="inh-text reveal" data-d="2">
+        <p>
+          岁月流转，世事轮转。至秦之后，显世巫祝开始巫道合流，大部分被五斗米道收纳，少部分融于儒教，再少部分流入民间，沦为所谓的「巫医」。历经变迁，巫之一字，已被后来者弄得乌烟瘴气。
+        </p>
+        <p>
+          但真正的完整巫之传承，并未因此断绝。早在重大变故之前，便已<b>提前离于世间</b>，自古隐秘，不问世事，不管轮转——隐传、密传、师寻徒传，口传心授，不记文字，不载外物，外界难知。本脉即为其中之一，传承至今。
+        </p>
+        <p>
+          巫之传承之中，<b>静定、存思、音诀</b>是主要方便；法术方面，役使鬼神、天人感交皆为正统巫法；祝由，则是巫教治病驱邪之传承。
+        </p>
+
+        <p>
+          真正的完整巫之传承并未断绝，<br />而是提前离于世间，隐秘传承至今。
+        </p>
+
+        <p class="inh-now">
+          古巫祝脉传承人<b>巫恒</b>，于今半显于世，传授上古祝法养生之道。有志于修行求道者，可争取机缘前往学习。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .inherit {
+    border-top: 1px solid var(--ink-line);
+  }
+
+  .inh-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: clamp(2.5rem, 6vw, 5.5rem);
+    align-items: start;
+  }
+
+  .inh-frame {
+    border: 1px solid var(--ink-line);
+    border-radius: 3px;
+    padding: 1rem;
+    background: var(--panel-strong);
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  }
+
+  .inh-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0.35rem;
+    border: 1px solid rgba(184, 154, 94, 0.16);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+
+  .inh-frame img {
+    width: 100%;
+    filter: saturate(0.9) contrast(1.05);
+  }
+
+  .inh-figure figcaption {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.5em;
+    color: var(--bone-faint);
+  }
+
+  .inh-text p {
+    color: var(--bone-dim);
+    line-height: 2.2;
+    margin-bottom: 1.4rem;
+    font-size: 0.99rem;
+  }
+
+  .inh-text b {
+    color: var(--bronze-bright);
+    font-weight: 600;
+  }
+
+  .inh-now {
+    font-size: 1.05rem !important;
+    color: var(--bone) !important;
+  }
+
+  .inh-now b {
+    font-family: var(--font-kai);
+    color: var(--cinnabar-bright);
+    font-size: 1.2em;
+  }
+
+  @media (max-width: 900px) {
+    .inh-grid { grid-template-columns: 1fr; }
+  }
+</style>

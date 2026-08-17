@@ -1,0 +1,256 @@
+﻿---
+const levels = [
+  {
+    tag: '基础课',
+    desc: '通窍开脉 · 强身健体',
+    courses: [
+      { name: '开启脉门', line: '通脉养生、补益身体，养练精神，挖掘潜能，为全面提升自己而做基础。' },
+      { name: '脉门升华', line: '提升健康状态，驱除风寒湿邪，打通瘀滞经脉，促进气血转化。' },
+      { name: '经门升华', line: '打通奇经八脉，壮大十二正经，令经脉恢复少年之态。愿你出走半生，归来仍是少年。' },
+    ],
+  },
+  {
+    tag: '特殊课',
+    desc: '正法护道 · 打牢根基',
+    courses: [
+      { name: '吐纳六字诀', line: '细讲咒法核心秘密，调理症状、消除病根，摆脱亚健康，打下坚实基础。' },
+      { name: '辟邪护道咒', line: '咒法修炼，震动内外，为鬼神所妒忌。先学辟邪之咒，保吾安康。' },
+      { name: '玄黄贯力咒', line: '修炼之人，岂可孱弱如鸡仔？若孱弱如鸡仔，己岂不危矣？' },
+    ],
+  },
+];
+
+const advanced = [
+  { zi: '韵', name: '音韵', line: '晓祝咒之音韵，入祝法之大道' },
+  { zi: '源', name: '本命源咒', line: '筑本命之源咒，明己道之根本' },
+  { zi: '音', name: '祝咒本音', line: '祝咒本音，晓之根本，不偏不离' },
+  { zi: '神', name: '养化之神', line: '晓神之根本，养己之本源' },
+  { zi: '理', name: '祝咒原理', line: '知祝咒原理，晓其运用' },
+  { zi: '脏', name: '脏腑秘咒', line: '明脏腑之密，其升华之道' },
+  { zi: '声', name: '祝咒的发声', line: '懂发声之道，纠无形根基' },
+  { zi: '形', name: '祝咒炼形', line: '绝传之密，生命升华' },
+  { zi: '气', name: '声气处理', line: '减少损亏，敛生命精华' },
+  { zi: '道', name: '咒音合道', line: '聚散自如，与道长存' },
+];
+---
+
+<section class="courses" id="kecheng">
+  <div class="wrap">
+    <header class="s-head reveal">
+      <div class="title-row">
+        <span class="eyebrow">祝法课程</span>
+        <h2 class="section-title">上古祝法 · 三类课程</h2>
+      </div>
+      <div class="rule"></div>
+      <p class="sub">
+        上古祝法共分三类课程——基础课、特殊课、高级课。课程可学，不对外售卖；高级课不作直接售卖，需实修入境界后循序而进。
+      </p>
+    </header>
+
+    <div class="lvl">
+      {
+        levels.map((lv, li) => (
+          <div class={['lvl-block', 'reveal'].join(' ')}>
+            <header class="lvl-head">
+              <span class="lvl-tag kai">{lv.tag}</span>
+              <span class="lvl-desc">{lv.desc}</span>
+            </header>
+            <div class="lvl-grid">
+              {
+                lv.courses.map((c, ci) => (
+                  <article class="course-card">
+                    <span class="course-idx">{lv.tag}{ci + 1}</span>
+                    <h3 class="kai">{c.name}</h3>
+                    <p>{c.line}</p>
+                  </article>
+                ))
+              }
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="adv reveal">
+      <header class="lvl-head">
+        <span class="lvl-tag kai">高级课</span>
+        <span class="lvl-desc">祝法隐秘十课 · 不直接售卖</span>
+      </header>
+      <ul class="adv-list">
+        {
+          advanced.map((a) => (
+            <li>
+              <span class="adv-zi kai">{a.zi}</span>
+              <span class="adv-name kai">{a.name}</span>
+              <span class="adv-line">{a.line}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <aside class="course-note reveal">
+      <span class="course-note-mark zhuan">学</span>
+      <p>
+        本门课程系古代巫祝养生理论之传承，未经科学证实。报名之前请通读群内文件，加群交流满一月，考察而进。道贵师传，法贵专精，请勿自我脑补。
+      </p>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .courses {
+    border-top: 1px solid var(--ink-line);
+  }
+
+  .lvl {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2.5rem, 5vw, 3.5rem);
+  }
+
+  .lvl-block,
+  .adv {
+    border-top: 1px solid var(--ink-line);
+    padding-top: 1.6rem;
+  }
+
+  .lvl-head {
+    display: flex;
+    align-items: baseline;
+    gap: 1.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.6rem;
+  }
+
+  .lvl-tag {
+    font-size: 1.5rem;
+    letter-spacing: 0.35em;
+    color: var(--cinnabar-bright);
+  }
+
+  .lvl-desc {
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    color: var(--bronze-dim);
+  }
+
+  .lvl-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+
+  .course-card {
+    border: 1px solid var(--ink-line);
+    border-radius: 3px;
+    background: var(--panel-grad);
+    padding: 1.8rem 1.6rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.4s var(--ease-soft), transform 0.4s var(--ease-soft);
+  }
+
+  .course-card:hover {
+    border-color: rgba(178, 58, 44, 0.45);
+    transform: translateY(-3px);
+  }
+
+  .course-idx {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    color: var(--bone-faint);
+  }
+
+  .course-card h3 {
+    font-size: 1.35rem;
+    letter-spacing: 0.24em;
+    color: var(--heading);
+    margin-bottom: 0.8rem;
+  }
+
+  .course-card p {
+    color: var(--bone-dim);
+    font-size: 0.88rem;
+    line-height: 2;
+  }
+
+  .adv-list {
+    list-style: none;
+    border-bottom: 1px solid var(--ink-line);
+  }
+
+  .adv-list li {
+    display: grid;
+    grid-template-columns: 2.6rem 8.5rem 1fr;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1.05rem 0.6rem;
+    border-top: 1px solid var(--ink-line);
+    transition: background 0.4s var(--ease-soft);
+  }
+
+  .adv-list li:hover {
+    background: rgba(178, 58, 44, 0.05);
+  }
+
+  .adv-zi {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(184, 154, 94, 0.4);
+    border-radius: 50%;
+    color: var(--bronze-bright);
+    font-size: 1.1rem;
+  }
+
+  .adv-name {
+    font-size: 1.12rem;
+    letter-spacing: 0.22em;
+    color: var(--heading);
+  }
+
+  .adv-line {
+    font-size: 0.84rem;
+    color: var(--bone-faint);
+    letter-spacing: 0.08em;
+  }
+
+  .course-note {
+    margin-top: 2.6rem;
+    display: flex;
+    gap: 1.4rem;
+    align-items: flex-start;
+    border: 1px dashed rgba(184, 154, 94, 0.3);
+    border-radius: 3px;
+    padding: 1.6rem 1.8rem;
+    background: var(--panel-soft);
+  }
+
+  .course-note-mark {
+    font-size: 2.2rem;
+    color: var(--cinnabar);
+    line-height: 1.2;
+  }
+
+  .course-note p {
+    color: var(--bone-dim);
+    font-size: 0.9rem;
+    line-height: 2.1;
+  }
+
+  @media (max-width: 900px) {
+    .lvl-grid { grid-template-columns: 1fr; }
+    .adv-list li {
+      grid-template-columns: 2.4rem 1fr;
+    }
+    .adv-line {
+      grid-column: 2;
+      margin-top: -0.6rem;
+    }
+  }
+</style>

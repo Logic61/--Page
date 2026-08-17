@@ -1,0 +1,172 @@
+﻿---
+const notTeach = [
+  '先天、后天大疾病者：心脏病、内脏病、身体某处问题、精神病等。',
+  '沉迷幻境，无法自拔，过分追求功感者。',
+  '引经据典、空谈阔论、好高骛远、心性不定，自创自悟、想一步登天者。',
+  '好奇、新鲜感，无恒心、无毅力者。',
+  '偏执狂热的宗教分子，有门有派者。',
+  '急功近利，追求神通，心术不正者。',
+  '脑补家、空说家、研究家、科学家、考据家、理论家、小说家、悟道者。',
+];
+
+const mustKnow = [
+  '所授为上古巫祝养生之道：不练金丹，不出阳神，没有男女限制。',
+  '不开神通，不沉迷神通。想追求神通的，还是算了，何必浪费钱财。',
+  '学习前，请通读群内文件。修炼如同逆水行舟，不努力很容易退转。',
+  '道贵师传，法贵专精。请按操作修炼，不要自我脑补、加或减。',
+  '一切内容，未经报备、允许，不得外泄——无论现实还是网络，甚至父母亲人也不可。',
+  '愿者来，不强迫，不强求。请考虑清楚，再决定是否报名。',
+];
+---
+
+<section class="bidu">
+  <div class="wrap">
+    <header class="s-head reveal">
+      <div class="title-row">
+        <span class="eyebrow">报名必读</span>
+        <h2 class="section-title">自古多不传，此间亦同</h2>
+      </div>
+      <div class="rule"></div>
+    </header>
+
+    <div class="bidu-grid">
+      <article class="bidu-panel bidu--warn reveal">
+        <header class="bidu-head">
+          <span class="bidu-mark kai">忌</span>
+          <h3>不传类</h3>
+        </header>
+        <ul>
+          {
+            notTeach.map((n) => (
+              <li><span class="bidu-dot"></span><p>{n}</p></li>
+            ))
+          }
+        </ul>
+      </article>
+
+      <article class="bidu-panel bidu--know reveal" data-d="2">
+        <header class="bidu-head">
+          <span class="bidu-mark kai">诫</span>
+          <h3>必知类</h3>
+        </header>
+        <ul>
+          {
+            mustKnow.map((m) => (
+              <li><span class="bidu-dot"></span><p>{m}</p></li>
+            ))
+          }
+        </ul>
+      </article>
+    </div>
+
+    <aside class="bidu-note reveal">
+      <p>
+        本人不做生意，也不是卖资料。本着花钱买资料目的没必要——有那些钱，不如自己留着，或者孝顺父母。
+      </p>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .bidu {
+    border-top: 1px solid var(--ink-line);
+  }
+
+  .bidu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .bidu-panel {
+    border: 1px solid var(--ink-line);
+    border-radius: 3px;
+    padding: clamp(1.8rem, 3vw, 2.6rem);
+  }
+
+  .bidu--warn {
+    background: linear-gradient(180deg, rgba(178, 58, 44, 0.06), transparent 70%);
+  }
+
+  .bidu--know {
+    background: linear-gradient(180deg, rgba(184, 154, 94, 0.05), transparent 70%);
+  }
+
+  .bidu-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .bidu-mark {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    color: #f0e3c8;
+    background: radial-gradient(circle at 30% 25%, rgba(207, 75, 57, 0.9), rgba(143, 44, 34, 0.95));
+  }
+
+  .bidu--know .bidu-mark {
+    background: radial-gradient(circle at 30% 25%, rgba(184, 154, 94, 0.9), rgba(125, 106, 68, 0.95));
+  }
+
+  .bidu-head h3 {
+    font-family: var(--font-kai);
+    font-size: 1.4rem;
+    letter-spacing: 0.3em;
+    color: var(--heading);
+  }
+
+  .bidu-panel ul {
+    list-style: none;
+  }
+
+  .bidu-panel li {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    padding-block: 0.7rem;
+    border-top: 1px solid var(--ink-line);
+  }
+
+  .bidu-panel li:first-child { border-top: none; }
+
+  .bidu-dot {
+    flex: none;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--cinnabar);
+    margin-top: 0.75em;
+  }
+
+  .bidu--know .bidu-dot { background: var(--bronze); }
+
+  .bidu-panel li p {
+    color: var(--bone-dim);
+    font-size: 0.92rem;
+    line-height: 1.95;
+  }
+
+  .bidu-note {
+    margin-top: 2rem;
+    border-left: 2px solid var(--bronze-dim);
+    padding: 1rem 1.4rem;
+    background: linear-gradient(90deg, rgba(184, 154, 94, 0.05), transparent 80%);
+  }
+
+  .bidu-note p {
+    color: var(--bronze);
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+    line-height: 2;
+  }
+
+  @media (max-width: 900px) {
+    .bidu-grid { grid-template-columns: 1fr; }
+  }
+</style>

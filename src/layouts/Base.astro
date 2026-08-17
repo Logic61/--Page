@@ -1,0 +1,136 @@
+---
+import '../styles/global.css';
+import Atmosphere from '../components/Atmosphere.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = '上古祝门 · 古巫祝脉', description = '古巫祝脉，上古祝门，传承祝法之道。祝，咒也。以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。' } = Astro.props;
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const nav = [
+  { href: '/yuanqi', label: '缘起' },
+  { href: '/tixi', label: '体系' },
+  { href: '/zhufa', label: '祝法' },
+  { href: '/chuancheng', label: '传承' },
+  { href: '/kecheng', label: '课程' },
+  { href: '/wenda', label: '问答' },
+  { href: '/baoming', label: '报名' },
+];
+---
+
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <title>{title}</title>
+    <script>
+      (function () {
+        var saved = null;
+        try { saved = localStorage.getItem('zhumen-theme'); } catch (e) {}
+        var dark = saved ? saved === 'dark' : false;
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+        document.documentElement.classList.add('js');
+      })();
+    </script>
+  </head>
+  <body>
+    <Atmosphere />
+
+    <header class="nav" id="nav">
+      <div class="nav-inner wrap">
+        <a class="brand" href="/">
+          <span class="brand-seal"><img src={`${base}/巫字.png`} alt="巫" width="155" height="153" /></span>
+          <span class="brand-name">
+            <b>上古祝门</b>
+            <small>古巫祝脉 · 隐传至今</small>
+          </span>
+        </a>
+        <nav class="nav-links" aria-label="主导航">
+          {
+            nav.map((n) => (
+              <a href={n.href} class:list={{ active: path === n.href }}>{n.label}</a>
+            ))
+          }
+        </nav>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换明暗模式" title="切换明暗模式">
+          <svg class="ico-ico ico--moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          <svg class="ico-ico ico--sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="top">
+      <slot />
+    </main>
+
+    <script>
+      const rootEl = document.documentElement;
+      const toggle = document.getElementById('themeToggle');
+
+      const applyTheme = (theme) => {
+        rootEl.setAttribute('data-theme', theme);
+        try { localStorage.setItem('zhumen-theme', theme); } catch (e) {}
+      };
+
+      toggle?.addEventListener('click', () => {
+        const next = rootEl.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        applyTheme(next);
+      });
+
+      const navEl = document.getElementById('nav');
+      const onScroll = () => {
+        if (window.scrollY > 40) navEl?.classList.add('scrolled');
+        else navEl?.classList.remove('scrolled');
+      };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      // scroll reveal — content is never permanently hidden
+      const revealInView = () => {
+        document.querySelectorAll('.reveal:not(.in)').forEach((el) => {
+          const r = el.getBoundingClientRect();
+          if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('in');
+        });
+      };
+      const revealAll = () =>
+        document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
+      if (!('IntersectionObserver' in window)) {
+        revealAll();
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('in');
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.1, rootMargin: '0px 0px -6% 0px' }
+        );
+        document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+        // rAF-throttled scroll safety net: nothing may stay hidden after a fast scroll
+        let ticking = false;
+        const onScroll = () => {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(() => {
+            revealInView();
+            ticking = false;
+          });
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        setTimeout(revealInView, 900);
+      }
+    </script>
+  </body>
+</html>

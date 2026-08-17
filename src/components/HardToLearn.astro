@@ -1,0 +1,144 @@
+﻿---
+const causes = [
+  {
+    num: '壹',
+    title: '阶级',
+    text: '古代阶级如天堑。修炼之事，很久很久之前便只是皇室宗亲、贵族所能接触。周朝之时，巫教教主便是周天子。即便国家大臣，能接触，也未必能修炼——古代很多事是不讲理的。',
+  },
+  {
+    num: '贰',
+    title: '变故',
+    text: '时间流转，传承、法门逐渐被少数人收拢，保留了其中部分修法。自此启了隐传、秘传、师寻徒传，口口相传，不记文字，不载外物，外界难知，不显于世。夏商周之后，后世皇帝亦失去机会。',
+  },
+  {
+    num: '叁',
+    title: '限制',
+    text: '无财不养道——光钱便排除了许多人；修炼又需大把时间，再排除许多人；求仙问道，拜访名人雅士，亦非一般人所能及。三座山，压尽世人。',
+  },
+  {
+    num: '肆',
+    title: '古来有成者',
+    text: '回望古来有名者：留侯之后、冠缨世家，进士县令、世代官宦，山中宰相、朝廷奉养，世家门阀，大诗人、无数人追着送钱……身份皆非寻常。求道之路，向来是少数人的事。',
+  },
+];
+
+const names = ['张良之后 · 世家', '进士县令 · 官宦', '山中宰相 · 奉养', '葛家 · 门阀', '李白 · 诗仙', '张三丰 · 县官'];
+---
+
+<section class="hard">
+  <div class="wrap">
+    <header class="s-head reveal">
+      <div class="title-row">
+        <span class="eyebrow">为何难知</span>
+        <h2 class="section-title">修炼之难</h2>
+      </div>
+      <div class="rule"></div>
+      <p class="sub">
+        修行之事，自古以来普罗大众绝大部分不得而知。此事古难全，其中包含太多太多。
+      </p>
+    </header>
+
+    <div class="causes">
+      {
+        causes.map((c, i) => (
+          <article class={['cause', 'reveal'].join(' ')}>
+            <span class="cause-num kai">{c.num}</span>
+            <div>
+              <h3>{c.title}</h3>
+              <p>{c.text}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="names reveal" data-d="3">
+      <p class="names-title kai">古来求道有成者，其身份何如</p>
+      <ul class="names-row">
+        {
+          names.map((n) => (
+            <li>{n}</li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hard {
+    border-top: 1px solid var(--ink-line);
+  }
+
+  .causes {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cause {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: 1.5rem;
+    padding: 1.9rem 0.4rem;
+    border-top: 1px solid var(--ink-line);
+    align-items: start;
+  }
+
+  .cause:first-child { border-top: none; padding-top: 0.4rem; }
+
+  .cause-num {
+    font-size: 1.6rem;
+    color: var(--cinnabar);
+    letter-spacing: 0.12em;
+    padding-top: 0.2rem;
+  }
+
+  .cause h3 {
+    font-family: var(--font-kai);
+    font-size: 1.35rem;
+    letter-spacing: 0.24em;
+    color: var(--heading);
+    margin-bottom: 0.7rem;
+  }
+
+  .cause p {
+    color: var(--bone-dim);
+    font-size: 0.97rem;
+    line-height: 2.15;
+    max-width: 46em;
+  }
+
+  .names {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    border-top: 1px solid var(--ink-line);
+    padding-top: 2rem;
+  }
+
+  .names-title {
+    font-size: 1.05rem;
+    letter-spacing: 0.3em;
+    color: var(--bronze);
+    margin-bottom: 1.4rem;
+  }
+
+  .names-row {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+  }
+
+  .names-row li {
+    border: 1px solid var(--ink-line);
+    border-radius: 3px;
+    padding: 0.7em 1.5em;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    color: var(--bone-dim);
+    background: var(--panel-grad);
+  }
+
+  @media (max-width: 820px) {
+    .cause { grid-template-columns: 2.8rem 1fr; }
+  }
+</style>

@@ -1,0 +1,202 @@
+﻿---
+const arts = [
+  {
+    num: '壹',
+    title: '祝祷',
+    sub: '以祝延福',
+    text: '上古祝祷，非今日口头之祝福语。大巫巫咸，祝树树枯，祝鸟鸟坠；祝之于人，则添福寿、愈疾病。修行人到一定境界，精神精纯，便具无形之力，可映照现实。',
+  },
+  {
+    num: '贰',
+    title: '祝由',
+    sub: '以祝却病',
+    text: '通过祝祷疾病之根因，以疗愈病情，是谓祝由。医之古字作「毉」，其下乃巫，中医演化有源于巫。《黄帝内经》中亦载祝由之术。至于是否有效，则与自身修为密切相关。',
+  },
+  {
+    num: '叁',
+    title: '音诀咒音',
+    sub: '以声养生',
+    text: '咒音，又称音诀，属于咒法的一种。以不同音诀发出，产生人体内振，调理不同的人体器官，对身体与精神产生直接影响。形式一般为单音节发音，养生却病，用的是声音本身的效果。药王孙思邈修炼六字诀，寿至百四十。',
+  },
+];
+
+const six = [
+  { zi: '嘘', tag: '属肝 · 理气明目' },
+  { zi: '呵', tag: '属心 · 安心定神' },
+  { zi: '呼', tag: '属脾 · 运化消积' },
+  { zi: '呬', tag: '属肺 · 肃降清浊' },
+  { zi: '吹', tag: '属肾 · 固本培元' },
+  { zi: '嘻', tag: '属三焦 · 通调水道' },
+];
+---
+
+<section class="way" id="zhufa">
+  <div class="wrap">
+    <header class="s-head reveal">
+      <div class="title-row">
+        <span class="eyebrow">祝法之道</span>
+        <h2 class="section-title">祝，咒也</h2>
+      </div>
+      <div class="rule"></div>
+      <p class="sub">
+        此脉以诵咒为主，通窍开脉，锻炼神形，令人身体健康，延年益寿，继而追求天人合一、万物一咒的咒法至高境界。
+      </p>
+    </header>
+
+    <div class="arts">
+      {
+        arts.map((a, i) => (
+          <article class={['art', i % 2 ? 'art--right' : '', 'reveal'].join(' ')}>
+            <div class="art-num kai">{a.num}</div>
+            <div class="art-box">
+              <header>
+                <h3>{a.title}</h3>
+                <span class="art-sub">{a.sub}</span>
+              </header>
+              <p>{a.text}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="liuzi reveal">
+      <p class="liuzi-title kai">养生六字诀 · 一音一脏</p>
+      <div class="liuzi-row">
+        {
+          six.map((s) => (
+            <div class="liuzi-cell">
+              <span class="liuzi-zi kai">{s.zi}</span>
+              <span class="liuzi-tag">{s.tag}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .way {
+    border-top: 1px solid var(--ink-line);
+  }
+
+  .arts {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .art {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: start;
+    padding-block: clamp(2rem, 4vw, 3rem);
+    border-bottom: 1px solid var(--ink-line);
+  }
+
+  .art--right {
+    grid-template-columns: 1fr 5rem;
+    direction: rtl;
+  }
+
+  .art--right > * { direction: ltr; }
+  .art--right .art-num { order: 2; }
+
+  .art-num {
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--bronze-dim);
+    letter-spacing: 0.1em;
+    padding-top: 0.2rem;
+  }
+
+  .art-box {
+    max-width: 40em;
+  }
+
+  .art-box header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.9rem;
+  }
+
+  .art-box h3 {
+    font-family: var(--font-kai);
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    letter-spacing: 0.3em;
+    color: var(--heading);
+  }
+
+  .art-sub {
+    font-size: 0.78rem;
+    letter-spacing: 0.26em;
+    color: var(--cinnabar-bright);
+  }
+
+  .art-box p {
+    color: var(--bone-dim);
+    line-height: 2.15;
+    font-size: 0.98rem;
+  }
+
+  .liuzi {
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    text-align: center;
+  }
+
+  .liuzi-title {
+    font-size: 1.15rem;
+    letter-spacing: 0.4em;
+    color: var(--bronze);
+    margin-bottom: 2rem;
+  }
+
+  .liuzi-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+  }
+
+  .liuzi-cell {
+    border: 1px solid var(--ink-line);
+    border-radius: 3px;
+    background: var(--panel-grad);
+    padding: 1.6rem 0.5rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+    transition: border-color 0.4s var(--ease-soft), transform 0.4s var(--ease-soft);
+  }
+
+  .liuzi-cell:hover {
+    border-color: rgba(212, 184, 119, 0.4);
+    transform: translateY(-4px);
+  }
+
+  .liuzi-zi {
+    font-size: 2.6rem;
+    color: var(--heading);
+    line-height: 1;
+  }
+
+  .liuzi-tag {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    color: var(--bone-faint);
+  }
+
+  @media (max-width: 900px) {
+    .art,
+    .art--right {
+      grid-template-columns: 3.4rem 1fr;
+      direction: ltr;
+    }
+    .art--right .art-num { order: 0; }
+    .liuzi-row { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>

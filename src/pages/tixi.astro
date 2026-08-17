@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Systems from '../components/Systems.astro';
+import Footer from '../components/Footer.astro';
+
+const { title, description } = {
+  title: '体系 · 祭祀 · 巫医',
+  description: '巫祝有两大体系——祭祀通天地先祖，巫医以祝愈疾。',
+};
+---
+
+<Base title={title} description={description}>
+  <PageIntro
+    mark="祭"
+    title="巫祝体系"
+    sub="巫祝之中有两大体系：一为「祭祀」，通天地先祖；一为「巫医」，以祝愈疾。二者相合，方为完整之巫。"
+  />
+  <Systems />
+  <Footer />
+</Base>

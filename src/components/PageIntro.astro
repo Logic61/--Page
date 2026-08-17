@@ -1,0 +1,22 @@
+---
+interface Props {
+  mark: string;
+  title: string;
+  sub: string;
+  meta?: string;
+}
+
+const { mark, title, sub, meta } = Astro.props;
+---
+
+<section class="page-intro">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="pi-mark">{mark}</div>
+      <h1>{title}</h1>
+      <div class="pi-rule"></div>
+      <p class="pi-sub">{sub}</p>
+      {meta && <p class="pi-meta">{meta}</p>}
+    </div>
+  </div>
+</section>

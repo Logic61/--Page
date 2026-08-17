@@ -1,0 +1,136 @@
+---
+// Fixed atmospheric background: ink gradient + stars + drifting mist
+const density = 110;
+---
+
+<div class="atmos" aria-hidden="true">
+  <div class="ink-glow"></div>
+  <div class="stars" id="stars" data-n={density}></div>
+  <div class="mist mist-a"></div>
+  <div class="mist mist-b"></div>
+  <div class="mist mist-c"></div>
+</div>
+
+<script>
+  const els = document.querySelectorAll('.stars');
+  els.forEach((el) => {
+    const n = Number(el.dataset.n) || 110;
+    let html = '';
+    for (let i = 0; i < n; i++) {
+      const x = Math.random() * 100;
+      const y = Math.random() * 100;
+      const s = Math.random() * 1.6 + 0.4;
+      const tw = (Math.random() * 4 + 3).toFixed(2);
+      const delay = (Math.random() * 6).toFixed(2);
+      const warm = Math.random() > 0.86;
+      const color = warm ? 'rgba(212,184,119,0.8)' : 'rgba(220,226,232,0.7)';
+      html += `<i style="left:${x.toFixed(2)}%;top:${y.toFixed(2)}%;width:${s.toFixed(2)}px;height:${s.toFixed(2)}px;background:${color};animation-duration:${tw}s;animation-delay:${delay}s"></i>`;
+    }
+    el.innerHTML = html;
+  });
+</script>
+
+<style>
+  .atmos {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-atmos);
+    pointer-events: none;
+    background:
+      radial-gradient(1200px 700px at 50% -10%, rgba(24, 35, 45, 0.85), transparent 60%),
+      radial-gradient(900px 500px at 85% 20%, rgba(178, 58, 44, 0.05), transparent 55%),
+      radial-gradient(700px 500px at 12% 80%, rgba(95, 125, 107, 0.05), transparent 60%),
+      var(--ink);
+  }
+
+  .ink-glow {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(600px 300px at 50% 30%, rgba(178, 58, 44, 0.045), transparent 70%),
+      radial-gradient(800px 600px at 90% 110%, rgba(184, 154, 94, 0.035), transparent 70%);
+  }
+
+  .stars i {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.9;
+    animation-name: twinkle;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.15; transform: scale(0.8); }
+    50% { opacity: 0.95; transform: scale(1); }
+  }
+
+  .mist {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(50px);
+    opacity: 0.42;
+    animation: drift 30s ease-in-out infinite alternate;
+  }
+
+  .mist-a {
+    width: 46vw;
+    height: 26vw;
+    left: -8vw;
+    top: 34%;
+    background: radial-gradient(closest-side, rgba(70, 84, 98, 0.20), transparent);
+  }
+
+  .mist-b {
+    width: 40vw;
+    height: 22vw;
+    right: -6vw;
+    top: 12%;
+    background: radial-gradient(closest-side, rgba(52, 66, 80, 0.22), transparent);
+    animation-duration: 32s;
+    animation-delay: -8s;
+  }
+
+  .mist-c {
+    width: 36vw;
+    height: 20vw;
+    left: 30%;
+    bottom: -8vw;
+    background: radial-gradient(closest-side, rgba(90, 64, 44, 0.16), transparent);
+    animation-duration: 38s;
+    animation-delay: -16s;
+  }
+
+  @keyframes drift {
+    from { transform: translate3d(0, 0, 0) scale(1); }
+    to { transform: translate3d(4vw, -3vw, 0) scale(1.08); }
+  }
+
+  html[data-theme='light'] .atmos {
+    background:
+      radial-gradient(1200px 700px at 50% -10%, rgba(218, 210, 188, 0.9), transparent 60%),
+      radial-gradient(900px 500px at 85% 20%, rgba(178, 58, 44, 0.06), transparent 55%),
+      radial-gradient(700px 500px at 12% 80%, rgba(79, 109, 91, 0.06), transparent 60%),
+      var(--ink);
+  }
+
+  html[data-theme='light'] .mist-a {
+    background: radial-gradient(closest-side, rgba(160, 152, 130, 0.28), transparent);
+  }
+
+  html[data-theme='light'] .mist-b {
+    background: radial-gradient(closest-side, rgba(150, 142, 122, 0.3), transparent);
+  }
+
+  html[data-theme='light'] .mist-c {
+    background: radial-gradient(closest-side, rgba(178, 58, 44, 0.1), transparent);
+  }
+
+  html[data-theme='light'] .stars i {
+    opacity: 0.35;
+  }
+
+  html[data-theme='light'] .ink-glow {
+    opacity: 0.6;
+  }
+</style>

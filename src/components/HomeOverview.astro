@@ -1,0 +1,137 @@
+﻿---
+const items = [
+  { href: '/yuanqi', num: '壹', title: '缘起', sub: '祝之由来', desc: '巫祝巫祝，巫，祝也。自殷商史、祝、卜而起，一门之祝，源于上古。' },
+  { href: '/tixi', num: '贰', title: '体系', sub: '祭祀 · 巫医', desc: '祭祀体系通天地先祖，巫医体系以祝愈疾。二道相合，方为完整之巫。' },
+  { href: '/zhufa', num: '叁', title: '祝法', sub: '祝，咒也', desc: '祝祷、祝由、音诀咒音。以诵咒通窍开脉，锻炼神形，延年益寿。' },
+  { href: '/chuancheng', num: '肆', title: '传承', sub: '隐传至今', desc: '隐传密传，师寻徒传，不记文字，不载外物。巫恒于今半显于世。' },
+  { href: '/kecheng', num: '伍', title: '课程', sub: '上古祝法', desc: '基础课、特殊课、高级课。修法可学，课程不卖，考察而进。' },
+  { href: '/wenda', num: '陆', title: '问答', sub: '修炼问答', desc: '音诀为何、咒音之别、修炼之难、法金之说，皆在此中。' },
+  { href: '/baoming', num: '柒', title: '报名', sub: '愿者自来', desc: '加群交流，通读文件，考察而进。愿者来，不强迫，不强求。' },
+];
+---
+
+<section class="overview">
+  <div class="wrap">
+    <header class="s-head reveal">
+      <div class="title-row">
+        <span class="eyebrow">一窥门径</span>
+        <h2 class="section-title">入我门来</h2>
+      </div>
+      <div class="rule"></div>
+    </header>
+
+    <ul class="gate">
+      {
+        items.map((it, i) => (
+          <li class="reveal" data-d={String((i % 4) + 2)}>
+            <a href={it.href} class="gate-row">
+              <span class="gate-num kai">{it.num}</span>
+              <span class="gate-title kai">{it.title}</span>
+              <span class="gate-sub">{it.sub}</span>
+              <span class="gate-desc">{it.desc}</span>
+              <span class="gate-arrow" aria-hidden="true"></span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .overview {
+    border-top: 1px solid var(--ink-line);
+  }
+
+  .gate {
+    list-style: none;
+    border-top: 1px solid var(--ink-line);
+  }
+
+  .gate-row {
+    display: grid;
+    grid-template-columns: 3.4rem 5.5rem 7rem 1fr 1.6rem;
+    align-items: baseline;
+    gap: 1.2rem;
+    padding: 1.5rem 0.6rem;
+    border-bottom: 1px solid var(--ink-line);
+    transition: background 0.4s var(--ease-soft), padding-left 0.4s var(--ease-soft);
+  }
+
+  .gate-row:hover {
+    background: linear-gradient(90deg, rgba(178, 58, 44, 0.06), transparent 70%);
+    padding-left: 1.2rem;
+  }
+
+  .gate-num {
+    font-size: 1.4rem;
+    color: var(--cinnabar);
+    letter-spacing: 0.1em;
+  }
+
+  .gate-title {
+    font-size: 1.35rem;
+    letter-spacing: 0.2em;
+    color: var(--heading);
+  }
+
+  .gate-sub {
+    font-size: 0.8rem;
+    letter-spacing: 0.26em;
+    color: var(--bronze);
+  }
+
+  .gate-desc {
+    font-size: 0.9rem;
+    color: var(--bone-dim);
+    line-height: 1.9;
+    max-width: 34em;
+  }
+
+  .gate-arrow {
+    position: relative;
+    width: 16px;
+    height: 16px;
+  }
+
+  .gate-arrow::before,
+  .gate-arrow::after {
+    content: '';
+    position: absolute;
+    background: var(--bronze-dim);
+    transition: background 0.3s, transform 0.4s var(--ease-soft);
+  }
+
+  .gate-arrow::before {
+    width: 14px;
+    height: 1px;
+    top: 7px;
+    left: 0;
+  }
+
+  .gate-arrow::after {
+    width: 8px;
+    height: 8px;
+    top: 3.5px;
+    left: 6px;
+    border-right: 1px solid var(--bronze-dim);
+    border-bottom: 1px solid var(--bronze-dim);
+    transform: rotate(-45deg);
+  }
+
+  .gate-row:hover .gate-arrow::before,
+  .gate-row:hover .gate-arrow::after {
+    background: var(--cinnabar-bright);
+    border-color: var(--cinnabar-bright);
+  }
+
+  @media (max-width: 820px) {
+    .gate-row {
+      grid-template-columns: 2.6rem 1fr 1.4rem;
+      row-gap: 0.4rem;
+    }
+    .gate-sub { grid-column: 2; }
+    .gate-desc { grid-column: 2; }
+    .gate-arrow { grid-column: 3; grid-row: 1; }
+  }
+</style>
