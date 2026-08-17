@@ -65,8 +65,21 @@ const nav = [
           <svg class="ico-ico ico--moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
           <svg class="ico-ico ico--sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </button>
+        <button class="nav-burger" id="navBurger" type="button" aria-label="打开菜单" aria-expanded="false" aria-controls="mobileMenu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </header>
+
+    <div class="drawer" id="mobileMenu" aria-hidden="true">
+      <nav class="drawer-links" aria-label="移动端导航">
+        {
+          nav.map((n) => (
+            <a href={`${base}${n.href}`} class:list={{ active: path === n.href }}>{n.label}</a>
+          ))
+        }
+      </nav>
+    </div>
 
     <main id="top">
       <slot />
@@ -93,6 +106,30 @@ const nav = [
       };
       onScroll();
       window.addEventListener('scroll', onScroll, { passive: true });
+
+      const burger = document.getElementById('navBurger');
+      const drawer = document.getElementById('mobileMenu');
+      const closeDrawer = () => {
+        drawer?.setAttribute('aria-hidden', 'true');
+        burger?.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('menu-open');
+      };
+      burger?.addEventListener('click', () => {
+        const open = drawer?.getAttribute('aria-hidden') === 'false';
+        if (open) closeDrawer();
+        else {
+          drawer?.setAttribute('aria-hidden', 'false');
+          burger?.setAttribute('aria-expanded', 'true');
+          document.body.classList.add('menu-open');
+        }
+      });
+      drawer?.addEventListener('click', (e) => {
+        if (e.target === drawer) closeDrawer();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeDrawer();
+      });
+      drawer?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeDrawer));
 
       // scroll reveal — content is never permanently hidden
       const revealInView = () => {

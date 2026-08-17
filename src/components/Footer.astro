@@ -126,6 +126,12 @@ const links = [
     letter-spacing: 0.2em;
   }
 
+  @media (max-width: 820px) {
+    .foot-top { flex-direction: column; gap: 1.4rem; }
+    .foot-links { gap: 1rem 1.4rem; }
+    .foot-bottom { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  }
+
   .foot-motto {
     color: var(--bronze-dim);
     letter-spacing: 0.3em;
