@@ -1,0 +1,53 @@
+---
+const practices = [
+  {
+    title: '先建立日常活动',
+    text: '中小学广播体操是容易开始的基础活动。练习的关键在于动作是否认真、是否能持续，而非名称是否玄妙。',
+  },
+  {
+    title: '选择常见养生法',
+    text: '八段锦、五禽戏与八部金刚功被列作可自行了解的传统养生项目。应从身体状况与可持续的时间安排出发，避免追逐速效。',
+  },
+  {
+    title: '把生活放在前面',
+    text: '踏实工作、规律作息与长期练习，是一切修习的根本。先安顿好生活，再谈精进。',
+  },
+];
+---
+
+<section class="daily">
+  <div class="wrap">
+    <header class="s-head reveal">
+      <div class="title-row">
+        <span class="eyebrow">日常养生</span>
+        <h2 class="section-title">先从可持续处开始</h2>
+      </div>
+      <div class="rule"></div>
+      <p class="sub">日常养生重在可持续。先从人人可做的基础活动开始，再逐步建立自己的练习节奏。</p>
+    </header>
+
+    <div class="daily-grid">
+      {practices.map((item, index) => (
+        <article class="daily-item reveal" data-d={String(index + 2)}>
+          <span class="daily-num kai">{['一', '二', '三'][index]}</span>
+          <div>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .daily { border-top: 1px solid var(--ink-line); }
+  .daily-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--ink-line); border-bottom: 1px solid var(--ink-line); }
+  .daily-item { display: grid; grid-template-columns: 3.2rem 1fr; gap: 1rem; padding: 2rem 1.5rem; border-left: 1px solid var(--ink-line); }
+  .daily-item:first-child { border-left: none; }
+  .daily-num { color: var(--cinnabar); font-size: 1.7rem; }
+  .daily-item h3 { font-family: var(--font-kai); font-size: 1.25rem; letter-spacing: 0.18em; color: var(--heading); margin-bottom: 0.75rem; }
+  .daily-item p { color: var(--bone-dim); font-size: 0.92rem; line-height: 2; }
+  @media (max-width: 900px) { .daily-grid { grid-template-columns: 1fr; } .daily-item { border-left: none; border-top: 1px solid var(--ink-line); } .daily-item:first-child { border-top: none; } }
+</style>
