@@ -174,45 +174,31 @@ const core = `
   </defs>
 
   <g transform="translate(1000 1000)">
-    <!-- 外环：顺时针缓转 -->
+    <!-- 外环：顺时针缓转（结构层） -->
     <g class="a-rotate-cw">
-      <!-- 暗层：结构线条（雷纹线 / 圆环 / 阵眼） -->
       <g class="a-dim">
         <g set:html={ring950} />
         <g set:html={nonagramWeb} />
         <g set:html={nodes9} />
       </g>
-      <!-- 亮层：符文与中心同亮度；轨道线随环同行 -->
-      <g class="a-track" set:html={track1} />
       <g class="a-bright">
         <g set:html={bolts9} />
-        <g set:html={lei1} />
-      </g>
-      <g class="a-track" set:html={track2} />
-      <g class="a-bright">
-        <g set:html={lei2} />
       </g>
       <circle class="a-sheen" r="932" />
     </g>
 
-    <!-- 中环：逆时针缓转 -->
+    <!-- 中环：逆时针缓转（结构层） -->
     <g class="a-rotate-ccw">
       <g class="a-dim">
         <g set:html={lotus9} />
       </g>
-      <g class="a-track" set:html={track3} />
       <g class="a-bright">
         <g set:html={band27} />
-        <g set:html={lei3} />
-      </g>
-      <g class="a-track" set:html={track4} />
-      <g class="a-bright">
-        <g set:html={lei4} />
       </g>
       <circle class="a-sheen2" r="668" />
     </g>
 
-    <!-- 内环：逆转细层 -->
+    <!-- 内环：逆转细层（结构层） -->
     <g class="a-rotate-cw">
       <g class="a-dim">
         <g set:html={lotusInner9} />
@@ -221,10 +207,28 @@ const core = `
         <g set:html={beads54} />
         <g set:html={ring300} />
       </g>
+    </g>
+
+    <!-- 五道符文环：相邻两两顺逆交替（cw / ccw / cw / ccw / cw），轨道随环同行 -->
+    <g class="a-rotate-cw">
+      <g class="a-track" set:html={track1} />
+      <g class="a-bright" set:html={lei1} />
+    </g>
+    <g class="a-rotate-ccw">
+      <g class="a-track" set:html={track2} />
+      <g class="a-bright" set:html={lei2} />
+    </g>
+    <g class="a-rotate-cw">
+      <g class="a-track" set:html={track3} />
+      <g class="a-bright" set:html={lei3} />
+    </g>
+    <g class="a-rotate-ccw">
+      <g class="a-track" set:html={track4} />
+      <g class="a-bright" set:html={lei4} />
+    </g>
+    <g class="a-rotate-cw">
       <g class="a-track" set:html={track5} />
-      <g class="a-bright">
-        <g set:html={lei5} />
-      </g>
+      <g class="a-bright" set:html={lei5} />
     </g>
 
     <!-- 定核：不转；雷纹线九边暗、巫字太极亮 -->
