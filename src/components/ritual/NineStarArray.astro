@@ -88,7 +88,6 @@ const ring300 = `<circle class="a-ring" r="300"/>`;
 // ---- 定核（不转）----
 // 双九边形偏轴交叠 + 亮九芒星 {9/4} + 太极巫字镇心
 const corePoly = `<path class="a-poly" d="${starPath(9, 1, 236, 0)}"/><path class="a-poly" d="${starPath(9, 1, 236, 20)}"/>`;
-const coreStar = `<path d="${starPath(9, 4, 168, 10)}" fill="none" stroke="#cfa95e" stroke-width="4" opacity="0.9"/>`;
 const core = `
   <g class="a-taiji"><use href="#taiji" transform="scale(1.15)"/></g>
   <image
@@ -170,7 +169,6 @@ const core = `
     <!-- 定核：不转，镇住全阵 -->
     <g class="a-bright">
       <g set:html={corePoly} />
-      <g set:html={coreStar} />
       <g set:html={core} />
     </g>
   </g>
