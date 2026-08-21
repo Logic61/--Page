@@ -1,0 +1,132 @@
+---
+const groups = [
+  {
+    id: 'concepts',
+    title: '概念辨析',
+    mark: '辨',
+    items: [
+      { q: '音诀是什么？', a: '音诀又称咒音，属于咒法的一种。通过不同音诀的发出，可以产生人体内振，调理不同的人体器官，对身体或精神产生直接影响。一个音诀从选择、口型、发声、收声，到声音高低、音调扬抑与发声技巧，都有相应规则。' },
+      { q: '音诀与宗教咒语相同吗？', a: '音诀和佛道教咒语都属于广义咒法，但作用原理、用途与形式有很大区别。音诀一般为单音节发音，养生却病用的是声音本身的效果；佛道教咒语则重文字含义、信仰语境与沟通鬼神之用。' },
+      { q: '音诀与音乐疗愈相同吗？', a: '两者并非一回事。咒法音诀的效用在于人体内振，由内而外调理、恢复器官功能；音乐疗愈基于五音特质，引起七情变化，再反映到五脏。两者可以交叉，但原理不同。' },
+      { q: '音诀是怎样产生的？', a: '人类尚未产生完整语言时，已经用简单音节指代事物。那时人的本能灵觉未泯，每一个音都接近所描述的事物本身，声音与实质天然相应。语言是最初的咒，文字是最初的符。时代变迁之后，古音多已变化，只有部分咒音仍留存于修炼与祝由之中。' },
+    ],
+  },
+  {
+    id: 'types',
+    title: '咒法分类',
+    mark: '类',
+    items: [
+      { q: '原始咒', a: '应用于身体，以本音振动而发挥作用，用来调理身体、治愈疾病。养生六字诀、虎豹雷音、马王堆五字咒，皆属于这一类。' },
+      { q: '战斗咒', a: '应用于战斗，以声音激励勇气、发挥力量、战胜敌人。此类咒法未必有固定名称，武术中「哼」「哈」之类发声便是常见形式。' },
+      { q: '通神咒与混合咒', a: '应用于信仰，咒语逐渐形成鬼神契约，诵之通神，称为通神咒。另有在原始咒印上形成通神作用者，既是原始咒又是通神咒，六字大明咒即属此类。' },
+      { q: '祝祷与祝由', a: '祝祷以祝延福，以精神之精纯映照现实；祝由则以祝祷疾病根因而愈疾，属于巫医一脉。二者都以祝为用，却一偏祭祀祈愿，一偏养生却病。' },
+    ],
+  },
+  {
+    id: 'practice',
+    title: '练习要素',
+    mark: '习',
+    items: [
+      { q: '发声需要注意什么？', a: '发声有起有收，需处理口型、气息、音高、音调和扬抑。用力、用气都要适度，练习时不可逞强，更不能随意增减、拼接不同法门。' },
+      { q: '音诀与器官一一对应吗？', a: '不是一一对应。不同音诀与不同器官之间，既有一对多，也有多对一，但主次和效果并不相同。养生却病时，应取最适合当前情况的音诀使用。' },
+      { q: '录音反复听可以代替练习吗？', a: '听音自有影响，但不能代替亲自诵念。诵念是由内而外的身体振动，调理层次较深；外来声音由外而内，层次较浅。反复听得过久，也会扰乱自身气血运行。' },
+      { q: '音诀如何锻炼精神？', a: '音诀除了深层养炼精神，最基础的作用是减少杂念、使精神专注，有助于心性修持与气质养成，也能辅助凝神入定。发声时心神散乱，只求声音洪亮，并不能得其真意。' },
+      { q: '每天练多久才合适？', a: '练习时长以适度为先，用力、用气都不可过度。正确练习不会以嗓子疼和劳累为常态；若出现这些情况，应先减量、停练并检查发声方法。' },
+    ],
+  },
+  {
+    id: 'boundaries',
+    title: '边界与日常',
+    mark: '界',
+    items: [
+      { q: '可以追求快速效果吗？', a: '不可急功近利。音诀调理是深层、潜移默化的过程，促使身体自身功能逐渐增强。急病不以此为主，慢性病与亚健康则重在日积月累，功夫越深，调理越稳。' },
+      { q: '日常可以从哪里开始？', a: '中小学广播体操、八部金刚功、八段锦、五禽戏，皆可作为常见的基础养生功法。功法不在名称玄奇，而在动作认真、持续数月，真正做到实修。' },
+      { q: '哪些人适合从养生入手？', a: '慢性疾病患者、亚健康人群，以及养生与修炼爱好者，都可先从平和、简便的养生方式入手。老人、小孩亦应以动作简易、时间零散可练、身体能够承受为原则，不可强求。' },
+      { q: '身体不适时怎么办？', a: '正确练习时应当适度。若出现持续疼痛、异常不适或原有疾病加重，应立即停止并寻求正规医疗意见。本站内容未经科学验证，不用于诊断、治疗或替代医疗。' },
+    ],
+  },
+];
+---
+
+<section class="knowledge-nav" aria-labelledby="knowledge-index-title">
+  <div class="wrap">
+    <header class="knowledge-heading reveal">
+      <h2 id="knowledge-index-title" class="section-title">先按问题查找</h2>
+      <p>从修炼基础、咒音原理、咒法分类到日常练习，把入门时最容易混淆的问题逐一讲清。</p>
+    </header>
+
+    <nav class="knowledge-jumps reveal" data-d="2" aria-label="知识点目录">
+      {groups.map((group) => <a href={`#${group.id}`}><span class="kai">{group.mark}</span>{group.title}</a>)}
+    </nav>
+
+    <aside class="knowledge-warning reveal">
+      <strong>修习原则</strong>
+      <p>道贵师传，法贵专精。得到一法之后，应依次第专心而行，不随意增减，不自作聪明，也不把一时感觉当作境界。</p>
+    </aside>
+  </div>
+</section>
+
+<section class="knowledge-groups" aria-label="知识点正文">
+  <div class="wrap">
+    {groups.map((group) => (
+      <article class="knowledge-group reveal" id={group.id}>
+        <header>
+          <span class="knowledge-mark kai">{group.mark}</span>
+          <h2>{group.title}</h2>
+        </header>
+        <div class="knowledge-answers">
+          {group.items.map((item, index) => (
+            <details open={index === 0}>
+              <summary>{item.q}<span aria-hidden="true"></span></summary>
+              <p>{item.a}</p>
+            </details>
+          ))}
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .knowledge-nav,
+  .knowledge-groups { border-top: 1px solid var(--ink-line); }
+  .knowledge-heading { margin-bottom: 2rem; }
+  .knowledge-heading p { margin-top: 1rem; max-width: 42rem; color: var(--bone-dim); line-height: 2; }
+  .knowledge-jumps { display: grid; grid-template-columns: repeat(4, 1fr); border-block: 1px solid var(--ink-line); }
+  .knowledge-jumps a { display: flex; align-items: center; gap: 0.8rem; padding: 1.2rem; border-left: 1px solid var(--ink-line); color: var(--bone-dim); transition: color 0.25s var(--ease-soft), background 0.25s var(--ease-soft); }
+  .knowledge-jumps a:first-child { border-left: 0; }
+  .knowledge-jumps a:hover { color: var(--heading); background: rgba(178, 58, 44, 0.05); }
+  .knowledge-jumps span { color: var(--cinnabar); font-size: 1.25rem; }
+  .knowledge-warning { display: grid; grid-template-columns: 8rem 1fr; gap: 1.2rem; margin-top: 1.8rem; padding: 1.25rem 1.4rem; border: 1px solid var(--ink-line); border-radius: 3px; background: var(--panel-soft); }
+  .knowledge-warning strong { color: var(--bronze-bright); font-family: var(--font-kai); letter-spacing: 0.16em; }
+  .knowledge-warning p { color: var(--bone-faint); font-size: 0.86rem; line-height: 1.9; }
+
+  .knowledge-groups .wrap { display: grid; gap: clamp(3rem, 6vw, 5rem); }
+  .knowledge-group { scroll-margin-top: 6rem; display: grid; grid-template-columns: 14rem 1fr; gap: clamp(2rem, 5vw, 4.5rem); }
+  .knowledge-group > header { display: flex; align-items: flex-start; gap: 1rem; }
+  .knowledge-mark { display: grid; place-items: center; width: 42px; height: 42px; flex: none; border: 1px solid var(--cinnabar); border-radius: 3px; color: var(--cinnabar-bright); font-size: 1.2rem; }
+  .knowledge-group h2 { color: var(--heading); font-family: var(--font-kai); font-size: 1.45rem; letter-spacing: 0.2em; }
+  .knowledge-answers { border-top: 1px solid var(--ink-line); }
+  .knowledge-answers details { border-bottom: 1px solid var(--ink-line); }
+  .knowledge-answers summary { list-style: none; display: flex; align-items: center; gap: 1rem; padding: 1.25rem 0.35rem; cursor: pointer; color: var(--heading); font-family: var(--font-kai); font-size: 1.08rem; letter-spacing: 0.1em; }
+  .knowledge-answers summary::-webkit-details-marker { display: none; }
+  .knowledge-answers summary span { position: relative; width: 14px; height: 14px; margin-left: auto; }
+  .knowledge-answers summary span::before,
+  .knowledge-answers summary span::after { content: ''; position: absolute; inset: 6px 0 auto; height: 1px; background: var(--bronze); transition: transform 0.25s var(--ease-soft); }
+  .knowledge-answers summary span::after { transform: rotate(90deg); }
+  .knowledge-answers details[open] summary span::after { transform: rotate(0); }
+  .knowledge-answers details p { max-width: 48rem; padding: 0 2.5rem 1.4rem 0.35rem; color: var(--bone-dim); font-size: 0.92rem; line-height: 2; }
+
+  @media (max-width: 820px) {
+    .knowledge-jumps { grid-template-columns: 1fr 1fr; }
+    .knowledge-jumps a:nth-child(3) { border-left: 0; border-top: 1px solid var(--ink-line); }
+    .knowledge-jumps a:nth-child(4) { border-top: 1px solid var(--ink-line); }
+    .knowledge-group { grid-template-columns: 1fr; gap: 1.2rem; }
+  }
+  @media (max-width: 560px) {
+    .knowledge-jumps { grid-template-columns: 1fr; }
+    .knowledge-jumps a { border-left: 0; border-top: 1px solid var(--ink-line); }
+    .knowledge-jumps a:first-child { border-top: 0; }
+    .knowledge-warning { grid-template-columns: 1fr; gap: 0.35rem; }
+  }
+</style>

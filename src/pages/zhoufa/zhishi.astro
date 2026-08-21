@@ -1,0 +1,298 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import Footer from '../../components/Footer.astro';
+import knowledge from '../../data/knowledge.json';
+
+const cats = knowledge.categories;
+const catName = (id) => cats.find((c) => c.id === id)?.name || '';
+const faqSet = new Set(knowledge.faqIds);
+const groups = cats.map((c) => ({
+  ...c,
+  items: knowledge.items.filter((i) => i.category === c.id),
+}));
+const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
+---
+
+<Base title="知识点 · 上古祝门" description="按修炼基础、师承传承、修行境界、祝法养生、宗教神道等类别整理的上古祝门问答与知识点，支持全文检索。">
+  <PageIntro
+    mark="知"
+    title="知识点"
+    sub="由「修炼基础认知」与「祝法与修行」两份问答整理而来，分门别类，可检索、可展开全文。"
+    meta="修行、修炼理论内容，未经科学证实，切勿迷信"
+  />
+
+  <section class="kb" aria-labelledby="kb-title">
+    <div class="wrap">
+
+      <div class="kb-notice reveal">
+        <b class="kai">敬告</b>
+        <p>{knowledge.notice.split('\n').filter(Boolean).join('。')}</p>
+      </div>
+
+      <details class="kb-preface reveal" data-d="2">
+        <summary class="kai">作者前言 <span class="kb-summary-hint">展开阅读</span></summary>
+        <div class="kb-preface-body">
+          {knowledge.preface.map((p) => <p>{p}</p>)}
+        </div>
+      </details>
+
+      <div class="kb-toolbar reveal" data-d="3">
+        <div class="kb-tabs" role="tablist" aria-label="知识点分类">
+          <button class="k-tab active" data-tab="faq" role="tab">常见问题 <em>{knowledge.faqIds.length}</em></button>
+          <button class="k-tab" data-tab="all" role="tab">全部 <em>{knowledge.items.length}</em></button>
+          {
+            cats.map((c) => (
+              <button class="k-tab" data-tab={c.id} role="tab">{c.name} <em>{countOf(c.id)}</em></button>
+            ))
+          }
+        </div>
+        <div class="kb-search">
+          <input id="kSearch" type="search" placeholder="在当前分类中搜索关键词…" autocomplete="off" aria-label="知识点搜索" />
+          <span class="kb-count" id="kCount"></span>
+        </div>
+      </div>
+
+      <div class="k-list" id="kList">
+        {
+          groups.map((g) => (
+            <div class="k-group" data-cat={g.id}>
+              <h3 class="k-group-title kai">{g.name}<span>{g.items.length} 条</span></h3>
+              {
+                g.items.map((it) => (
+                  <article class="k-item" id={'k-' + it.id} data-cat={it.category} data-faq={faqSet.has(it.id) ? '1' : '0'}>
+                    <button class="k-q" type="button" aria-expanded="false" aria-controls={'k-a-' + it.id}>
+                      <span class="k-q-body">
+                        <b>{it.title}</b>
+                        <i>{it.excerpt}</i>
+                      </span>
+                      <span class="k-chevron" aria-hidden="true">＋</span>
+                    </button>
+                    <div class="k-a" id={'k-a-' + it.id} hidden>
+                      {
+                        it.content.map((p) => {
+                          const m = p.match(/^【(.+?)】$/);
+                          if (m) return <p class="k-sub"><b>{m[1]}</b></p>;
+                          return <p>{p}</p>;
+                        })
+                      }
+                    </div>
+                  </article>
+                ))
+              }
+            </div>
+          ))
+        }
+      </div>
+
+      <p class="kb-trailer kai reveal">依据《知识点》整理 · 修行理论内容，未经科学证实，切勿迷信</p>
+
+    </div>
+  </section>
+
+  <Footer />
+</Base>
+
+<style>
+  .kb { border-top: 1px solid var(--ink-line); }
+
+  .kb-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.1rem;
+    padding: 1.1rem 1.4rem;
+    border: 1px solid var(--ink-line);
+    border-left: 3px solid var(--cinnabar);
+    background: var(--panel-soft);
+    border-radius: 2px;
+  }
+  .kb-notice b {
+    flex: none;
+    color: #f2dfc4;
+    background: var(--cinnabar);
+    padding: 0.28em 0.55em;
+    font-size: 0.82rem;
+    letter-spacing: 0.3em;
+    border-radius: 2px;
+    transform: translateY(0.2em);
+  }
+  .kb-notice p { color: var(--bone-dim); font-size: 0.9rem; line-height: 2; }
+
+  .kb-preface {
+    margin-top: 1.4rem;
+    border: 1px solid var(--ink-line);
+    border-radius: 3px;
+    background: var(--panel-soft);
+  }
+  .kb-preface summary {
+    cursor: pointer;
+    padding: 0.9rem 1.2rem;
+    color: var(--heading);
+    font-size: 1rem;
+    letter-spacing: 0.24em;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .kb-preface summary::-webkit-details-marker { display: none; }
+  .kb-summary-hint { color: var(--bone-faint); font-size: 0.72rem; letter-spacing: 0.18em; }
+  .kb-preface-body { padding: 0.4rem 1.3rem 1.1rem; border-top: 1px solid var(--ink-line); }
+  .kb-preface-body p { margin-top: 0.7rem; color: var(--bone-dim); font-size: 0.9rem; line-height: 2; }
+
+  .kb-toolbar { margin-top: clamp(2.2rem, 4vw, 3rem); }
+  .kb-tabs { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+  .k-tab {
+    font-family: var(--font-kai);
+    font-size: 0.92rem;
+    letter-spacing: 0.12em;
+    padding: 0.5em 1.05em;
+    border: 1px solid var(--ink-line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--bone-dim);
+    cursor: pointer;
+    transition: color 0.3s var(--ease-soft), border-color 0.3s var(--ease-soft), background 0.3s var(--ease-soft);
+  }
+  .k-tab em { font-style: normal; color: var(--bone-faint); font-size: 0.72em; margin-left: 0.3em; }
+  .k-tab:hover { color: var(--bronze-bright); border-color: var(--bronze-dim); }
+  .k-tab.active { color: #f2dfc4; border-color: var(--cinnabar); background: linear-gradient(180deg, rgba(178,58,44,0.85), rgba(143,44,34,0.85)); }
+  .k-tab.active em { color: rgba(242, 223, 196, 0.75); }
+
+  .kb-search {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .kb-search input {
+    flex: 1;
+    max-width: 30rem;
+    padding: 0.65em 1em;
+    border: 1px solid var(--ink-line);
+    border-radius: 3px;
+    background: var(--panel-soft);
+    color: var(--bone);
+    font-family: var(--font-song);
+    font-size: 0.92rem;
+    outline: none;
+    transition: border-color 0.3s var(--ease-soft);
+  }
+  .kb-search input:focus { border-color: var(--bronze-dim); }
+  .kb-search input::placeholder { color: var(--bone-faint); }
+  .kb-count { color: var(--bone-faint); font-size: 0.8rem; letter-spacing: 0.14em; white-space: nowrap; }
+
+  .k-list { margin-top: 1.4rem; border-top: 1px solid var(--ink-line); }
+
+  .k-group { margin-bottom: 2.2rem; }
+  .k-group-title {
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+    margin: 1.6rem 0 0.4rem;
+    padding-left: 0.9rem;
+    border-left: 3px solid var(--cinnabar);
+    color: var(--heading);
+    font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+    letter-spacing: 0.24em;
+  }
+  .k-group-title span { color: var(--bone-faint); font-size: 0.78rem; letter-spacing: 0.14em; }
+
+  .k-item { border-bottom: 1px solid var(--ink-line); }
+  .k-q {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 1.1rem 0.8rem;
+    background: transparent;
+    border: 0;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.3s var(--ease-soft), padding-left 0.3s var(--ease-soft);
+  }
+  .k-q:hover { background: var(--panel-soft); padding-left: 1.1rem; }
+  .k-q-body { display: block; min-width: 0; }
+  .k-q-body b { display: block; color: var(--heading); font-size: 1.04rem; letter-spacing: 0.08em; line-height: 1.7; }
+  .k-q-body i { display: block; margin-top: 0.3rem; color: var(--bone-faint); font-size: 0.84rem; font-style: normal; line-height: 1.8; overflow: hidden; }
+  .k-chevron { color: var(--bronze-dim); font-size: 1rem; transition: transform 0.3s var(--ease-soft); }
+  .k-item.open .k-chevron { transform: rotate(45deg); }
+
+  .k-a { padding: 0.2rem 1rem 1.2rem; }
+  .k-a p {
+    margin-top: 0.7rem;
+    color: var(--bone-dim);
+    font-size: 0.94rem;
+    line-height: 2.1;
+    text-indent: 2em;
+  }
+  .k-a p.k-sub { text-indent: 0; margin-top: 1rem; }
+  .k-a p.k-sub b { color: var(--bronze-bright); font-size: 0.92rem; letter-spacing: 0.14em; }
+
+  .kb-trailer { margin-top: 2.4rem; text-align: center; color: var(--bone-faint); font-size: 0.82rem; letter-spacing: 0.2em; }
+
+  @media (max-width: 600px) {
+    .k-q { grid-template-columns: 1fr auto; gap: 0.6rem; padding: 0.9rem 0.4rem; }
+    .k-a { padding-left: 0.4rem; }
+    .kb-notice { flex-direction: column; gap: 0.5rem; }
+  }
+</style>
+
+<script>
+  const items = Array.from(document.querySelectorAll('.k-item'));
+  const groups = Array.from(document.querySelectorAll('.k-group'));
+  const tabBtns = Array.from(document.querySelectorAll('.k-tab'));
+  const searchInput = document.getElementById('kSearch');
+  const countEl = document.getElementById('kCount');
+
+  function apply() {
+    const tab = document.querySelector('.k-tab.active').dataset.tab;
+    const q = searchInput.value.trim();
+    let visible = 0;
+    groups.forEach((g) => {
+      const head = g.querySelector('.k-group-title');
+      let gShow = false;
+      g.querySelectorAll('.k-item').forEach((it) => {
+        const inCat = tab === 'all' || (tab === 'faq' ? it.dataset.faq === '1' : it.dataset.cat === tab);
+        const inQ = !q || it.textContent.includes(q);
+        const show = inCat && inQ;
+        it.style.display = show ? '' : 'none';
+        if (show) { gShow = true; visible++; }
+      });
+      g.style.display = gShow ? '' : 'none';
+      g.style.marginBottom = tab === 'faq' ? '0' : '';
+      if (head) head.style.display = !q && tab !== 'faq' && gShow ? '' : 'none';
+    });
+    countEl.textContent = visible ? '共 ' + visible + ' 条' : '';
+  }
+
+  tabBtns.forEach((b) => b.addEventListener('click', () => {
+    tabBtns.forEach((x) => x.classList.toggle('active', x === b));
+    apply();
+  }));
+  searchInput.addEventListener('input', apply);
+
+  document.querySelectorAll('.k-q').forEach((btn) => btn.addEventListener('click', () => {
+    const art = btn.closest('.k-item');
+    const open = art.classList.toggle('open');
+    const ans = art.querySelector('.k-a');
+    ans.hidden = !open;
+    btn.setAttribute('aria-expanded', String(open));
+  }));
+
+  function openHash() {
+    const m = location.hash.match(/^#k-(.+)$/);
+    if (!m) return;
+    const el = document.getElementById('k-' + m[1]);
+    if (!el) return;
+    el.classList.add('open');
+    const ans = el.querySelector('.k-a');
+    ans.hidden = false;
+    el.querySelector('.k-q').setAttribute('aria-expanded', 'true');
+    setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'center' }), 80);
+  }
+  window.addEventListener('hashchange', openHash);
+  openHash();
+  apply();
+</script>

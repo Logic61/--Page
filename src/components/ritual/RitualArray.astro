@@ -1,0 +1,226 @@
+---
+// 云雷祭阵 v3 —— 圆形魔法阵（黑金）
+// 结构：同心圆环 + 双层圆圈之间填满符文（八卦爻/雷纹/云纹轮换，密集排列）
+//      + 刻度环 + 八芒星几何 + 十二辰位 + 四阵阵眼 + 雷文核心（太极底·巫字）。
+// 运动：外环顺时针 / 内环逆时针极慢旋转；核心与四阵阵眼固定不动。
+import ThunderSquare from '../array/patterns/thunder-square.astro';
+import ThunderHook from '../array/patterns/thunder-hook.astro';
+import ThunderWave from '../array/patterns/thunder-wave.astro';
+import CloudSingle from '../array/patterns/cloud-single.astro';
+import CloudDouble from '../array/patterns/cloud-double.astro';
+import CloudS from '../array/patterns/cloud-s.astro';
+import KuiCurve from '../array/patterns/kui-curve.astro';
+import Quequ from '../array/patterns/quequ.astro';
+import BeadBorder from '../array/patterns/bead-border.astro';
+import BronzeCore from '../array/patterns/bronze-core.astro';
+import Hui from '../array/patterns/hui.astro';
+import HookPair from './patterns/hook-pair.astro';
+import CloudTriple from './patterns/cloud-triple.astro';
+import Trigram from './patterns/trigram.astro';
+import Taiji from './patterns/taiji.astro';
+import SevenStars from './patterns/seven-stars.astro';
+import { ringUses, ringTicks, polygonPath } from './ritual.js';
+
+const n2 = (v) => Math.round(v * 10) / 10;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const TRIG8 = ['qian', 'dui', 'li', 'zhen', 'xun', 'kan', 'gen', 'kun'];
+
+// 至少 6 种历代雷文/云雷纹，交替排布（不再是八卦填充）
+const MOTIFS_OUTER = [
+  { id: 'thunder-square', scale: 2.1 },
+  { id: 'cloud-single', scale: 2.2 },
+  { id: 'hook-pair', scale: 2.0 },
+  { id: 'hui', scale: 2.1 },
+  { id: 'cloud-double', scale: 2.3 },
+  { id: 'thunder-hook', scale: 2.0 },
+  { id: 'cloud-s', scale: 2.2 },
+  { id: 'kui-curve', scale: 2.0 },
+];
+const MOTIFS_MID = [
+  { id: 'quequ', scale: 1.15 },
+  { id: 'cloud-s', scale: 1.5 },
+  { id: 'thunder-wave', scale: 1.5 },
+  { id: 'kui-curve', scale: 1.3 },
+  { id: 'cloud-double', scale: 1.6 },
+  { id: 'thunder-hook', scale: 1.4 },
+];
+const MOTIFS_INNER = [
+  { id: 'thunder-square', scale: 1.7 },
+  { id: 'cloud-double', scale: 1.9 },
+  { id: 'hui', scale: 1.7 },
+  { id: 'hook-pair', scale: 1.8 },
+  { id: 'cloud-single', scale: 1.9 },
+  { id: 'thunder-wave', scale: 1.9 },
+  { id: 'kui-curve', scale: 1.7 },
+  { id: 'cloud-s', scale: 1.9 },
+];
+const MOTIFS_FINE = [
+  { id: 'thunder-square', scale: 0.62 },
+  { id: 'cloud-single', scale: 0.65 },
+  { id: 'hui', scale: 0.6 },
+  { id: 'hook-pair', scale: 0.6 },
+  { id: 'cloud-s', scale: 0.65 },
+  { id: 'thunder-wave', scale: 0.6 },
+];
+const MOTIFS_SMALL = [
+  { id: 'thunder-square', scale: 1.5 },
+  { id: 'cloud-single', scale: 1.5 },
+  { id: 'hui', scale: 1.4 },
+  { id: 'cloud-s', scale: 1.6 },
+  { id: 'thunder-wave', scale: 1.5 },
+  { id: 'kui-curve', scale: 1.4 },
+];
+const MOTIFS_TINY = [
+  { id: 'thunder-square', scale: 0.95 },
+  { id: 'cloud-single', scale: 1.0 },
+  { id: 'hui', scale: 0.9 },
+  { id: 'hook-pair', scale: 0.9 },
+  { id: 'cloud-s', scale: 1.0 },
+  { id: 'thunder-wave', scale: 0.95 },
+];
+
+// 巫/雷纹 6 张截图符号：按 1-2-3-4-5-6 轮番交替
+const LEI6 = ['lei-1', 'lei-2', 'lei-3', 'lei-4', 'lei-5', 'lei-6'];
+const leiRing = (r, n, s, offset, gaps = []) =>
+  ringUses(LEI6.map((id) => ({ id, scale: s })), r, n, { offset, scaleCycle: [1], gaps });
+const trigramRing = [0, 45, 90, 135, 180, 225, 270, 315]
+  .map((a, i) => {
+    const rad = (a * Math.PI) / 180;
+    return `<use class="a-tri" href="#trigram-${TRIG8[i]}" transform="translate(${n2(Math.cos(rad) * 460)} ${n2(Math.sin(rad) * 460)}) scale(1.2)"/>`;
+  })
+  .join('');
+
+// ---- 外阵（顺时针缓转）：R 480 ~ 1000 ----
+// 最外缘：主圆 + 6 截图符号环（替代短横刻度）
+const outerEdge = `<circle class="a-ring" r="1000"/>`;
+const ring780 = `<circle class="a-ring" r="780"/>`;
+
+// 符文圈（外）：123456 连续环绕，不留空
+const band3 = leiRing(890, 48, 0.8, 0.5);
+const edge3 = `<circle class="a-ring a-thin" r="860"/><circle class="a-ring a-thin" r="920"/>`;
+
+// 十二辰位节点环
+const ring640 = `<circle class="a-ring" r="640"/>` + Array.from({ length: 12 }, (_, i) => {
+  const a = (i * 30 * Math.PI) / 180;
+  return `<g transform="translate(${n2(Math.cos(a) * 640)} ${n2(Math.sin(a) * 640)})"><circle class="a-node" r="12"/><circle class="a-node-ring" r="20"/></g>`;
+}).join('');
+
+// 符文圈（内）：123456 轮换，四隅偶尔空一个小缺口
+const band1 = leiRing(590, 36, 0.65, 0.5, [
+  { angle: 45, half: 6 },
+  { angle: 135, half: 6 },
+  { angle: 225, half: 6 },
+  { angle: 315, half: 6 },
+]);
+const edge1 = `<circle class="a-ring a-thin" r="560"/><circle class="a-ring a-thin" r="620"/>`;
+// 八卦八芒：两正方形 0° / 45° 交叠
+const octagram = `<path class="a-poly" d="${polygonPath(4, 505, 0)}"/><path class="a-poly" d="${polygonPath(4, 505, 45)}"/>`;
+const ring430 = `<circle class="a-ring a-thin" r="430"/>`;
+
+// ---- 内阵（逆时针缓转）：R 150 ~ 470 ----
+const ring270 = `<circle class="a-ring a-thin" r="270"/>`;
+const beads = ringUses([{ id: 'bead-border' }], 200, 48, { scaleCycle: [1] });
+const ring150 = `<circle class="a-ring" r="150"/>`;
+const innerPoly = `<path class="a-poly" d="${polygonPath(4, 118, 0)}"/><path class="a-poly" d="${polygonPath(4, 118, 45)}"/>`;
+
+// ---- 定阵（不转）：雷文核心 + 四阵阵眼 + 北斗七星 ----
+const core = `
+  <g class="a-taiji"><use href="#taiji" transform="scale(1.8)"/></g>
+  <image
+    class="a-wu-img"
+    href="${base}/巫字-gold.png"
+    x="-110" y="-110" width="220" height="220"
+    preserveAspectRatio="xMidYMid meet"
+  />`;
+
+const KNOTS = [
+  { x: 0, y: -640, rot: -90 },
+  { x: 640, y: 0, rot: 0 },
+  { x: 0, y: 640, rot: 90 },
+  { x: -640, y: 0, rot: 180 },
+];
+const knots = KNOTS.map(
+  ({ x, y, rot }) => `
+  <g transform="translate(${n2(x)} ${n2(y)}) rotate(${rot})" class="a-knot">
+    <use href="#hook-pair" transform="scale(1.8)"/>
+    <use href="#cloud-double" transform="scale(1.8)"/>
+    <use href="#bronze-core" transform="scale(1.5)"/>
+    <circle r="10"/>
+  </g>`
+).join('');
+---
+
+<svg
+  class="array-bg"
+  viewBox="0 0 2000 2000"
+  preserveAspectRatio="xMidYMid meet"
+  aria-hidden="true"
+>
+  <defs>
+    <ThunderSquare />
+    <ThunderHook />
+    <ThunderWave />
+    <CloudSingle />
+    <CloudDouble />
+    <CloudS />
+    <KuiCurve />
+    <Quequ />
+    <BeadBorder />
+    <BronzeCore />
+    <Hui />
+    <HookPair />
+    <CloudTriple />
+    <Trigram />
+    <Taiji />
+    <SevenStars />
+    <image id="lei-1" href={`${base}/leiwen/1-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-2" href={`${base}/leiwen/2-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-3" href={`${base}/leiwen/3-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-4" href={`${base}/leiwen/4-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-5" href={`${base}/leiwen/5-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-6" href={`${base}/leiwen/6-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <!-- 地纹：四种雷云纹混铺 -->
+    <pattern id="ambientTex" width="96" height="96" patternUnits="userSpaceOnUse">
+      <use href="#thunder-square" transform="translate(24 24) scale(0.8)" />
+      <use href="#cloud-single" transform="translate(72 24) scale(0.5)" />
+      <use href="#hui" transform="translate(48 72) scale(0.7)" />
+      <use href="#thunder-hook" transform="translate(4 4) scale(0.38) rotate(45)" />
+    </pattern>
+  </defs>
+
+  <rect class="a-faint" width="2000" height="2000" fill="url(#ambientTex)" />
+
+  <g transform="translate(1000 1000)">
+    <!-- 外圈符文 + 外圈几何线：顺时针缓转 -->
+    <g class="a-rotate-cw">
+      <g class="a-dim">
+        <g set:html={edge3} />
+        <g set:html={band3} />
+        <g set:html={ring780} />
+        <g set:html={ring640} />
+      </g>
+    </g>
+
+    <!-- 内圈符文 + 内部玄妙几何线：逆时针缓转 -->
+    <g class="a-rotate-ccw">
+      <g class="a-dim">
+        <g set:html={edge1} />
+        <g set:html={band1} />
+        <g set:html={ring430} />
+        <g set:html={octagram} />
+        <g set:html={ring270} />
+        <g set:html={ring150} />
+      </g>
+      <g class="a-bright">
+        <g set:html={innerPoly} />
+      </g>
+    </g>
+
+    <!-- 定阵：核心与阵眼不动，镇住全阵 -->
+    <g class="a-bright a-fixed">
+      <g set:html={core} />
+      <g set:html={knots} />
+      <use class="a-star" href="#seven-stars" transform="translate(0 780) scale(1.5)" />
+    </g>
+  </g>
+</svg>

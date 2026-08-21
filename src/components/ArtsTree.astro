@@ -1,0 +1,460 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const arts = [
+  {
+    href: '/zhoufa',
+    glyph: '祝',
+    name: '上古祝法',
+    sub: '祝祷 · 祝由 · 音诀',
+    desc: '以诵咒通窍开脉，养炼神形，追求天人合一、万物一咒。',
+    className: 'branch--blessing',
+    shape: 'M468 318 C456 270 458 228 472 184 C481 154 476 112 491 62 C497 44 511 37 526 48 C538 58 536 74 531 92 C521 128 528 165 523 202 C518 247 530 282 527 321 C509 333 487 333 468 318 Z',
+    cx: 510,
+    cy: 80,
+    labelX: 510,
+    labelY: 171,
+    anchor: 'middle',
+  },
+  {
+    href: '/zhenqi',
+    glyph: '气',
+    name: '真气治病',
+    sub: '外气 · 神气 · 激发',
+    desc: '辨明外气治病之机，激发潜力、赋予精气、移除恶气。',
+    className: 'branch--qi',
+    shape: 'M477 391 C429 384 387 364 346 335 C310 309 281 283 233 275 C209 271 194 258 201 242 C208 226 225 228 247 233 C300 245 337 268 376 296 C416 325 447 340 489 347 C500 362 495 382 477 391 Z',
+    cx: 190,
+    cy: 250,
+    labelX: 175,
+    labelY: 344,
+    anchor: 'middle',
+  },
+  {
+    href: '/oujing',
+    glyph: '景',
+    name: '偶景',
+    sub: '内景 · 观照 · 守一',
+    desc: '辨明内景与幻境，修性守一，不为妄境所误。',
+    className: 'branch--vision',
+    shape: 'M536 407 C585 397 623 374 665 340 C704 309 738 286 788 280 C811 277 826 286 828 302 C830 318 815 326 793 329 C750 336 722 356 690 382 C647 419 608 448 548 460 C529 451 524 426 536 407 Z',
+    cx: 835,
+    cy: 304,
+    labelX: 842,
+    labelY: 398,
+    anchor: 'middle',
+  },
+  {
+    href: '/aozhan',
+    glyph: '战',
+    name: '鏖战之法',
+    sub: '丹基 · 房中 · 养生',
+    desc: '源自人元丹法筑基，交而不泄，以养生为根。',
+    className: 'branch--battle',
+    shape: 'M464 512 C420 515 382 526 346 548 C314 567 285 589 257 618 C244 631 225 635 215 623 C204 610 212 594 225 580 C257 545 291 519 328 497 C367 474 408 462 460 462 C477 474 479 498 464 512 Z',
+    cx: 205,
+    cy: 635,
+    labelX: 285,
+    labelY: 618,
+    anchor: 'start',
+  },
+];
+---
+
+<section class="lineage" aria-labelledby="lineage-title">
+  <div class="lineage-shell">
+    <header class="lineage-intro">
+      <p class="lineage-kicker kai">法脉归源</p>
+      <h2 id="lineage-title" class="kai">四脉同源，各有所传</h2>
+      <p>触其符印，循脉而入</p>
+    </header>
+
+    <div class="lineage-stage">
+      <svg class="lineage-map" viewBox="0 0 1000 760" role="img" aria-labelledby="lineage-map-title lineage-map-desc">
+        <title id="lineage-map-title">上古祝门四脉法脉目录</title>
+        <desc id="lineage-map-desc">由一条厚重暗金主干分出上古祝法、真气治病、偶景与鏖战之法四个可点击支脉。</desc>
+        <defs>
+          <linearGradient id="stoneShade" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#15110e" />
+            <stop offset="0.48" stop-color="#080706" />
+            <stop offset="1" stop-color="#110c08" />
+          </linearGradient>
+          <linearGradient id="oldGold" x1="0.08" y1="0.9" x2="0.9" y2="0.08">
+            <stop offset="0" stop-color="#21170f" />
+            <stop offset="0.2" stop-color="#3b2a1b" />
+            <stop offset="0.44" stop-color="#685035" />
+            <stop offset="0.58" stop-color="#4f3a25" />
+            <stop offset="0.78" stop-color="#382619" />
+            <stop offset="1" stop-color="#17100b" />
+          </linearGradient>
+          <radialGradient id="sealGold" cx="35%" cy="28%" r="75%">
+            <stop offset="0" stop-color="#85683c" />
+            <stop offset="0.24" stop-color="#5d4326" />
+            <stop offset="0.7" stop-color="#2d1f14" />
+            <stop offset="1" stop-color="#100b08" />
+          </radialGradient>
+          <radialGradient id="rootCore" cx="42%" cy="30%" r="80%">
+            <stop offset="0" stop-color="#5f4322" />
+            <stop offset="0.48" stop-color="#17110c" />
+            <stop offset="1" stop-color="#050403" />
+          </radialGradient>
+          <filter id="stoneGrain" x="-10%" y="-10%" width="120%" height="120%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.018 0.11" numOctaves="2" seed="19" result="grain" />
+            <feColorMatrix in="grain" type="matrix" values="0.12 0 0 0 0.015 0 0.1 0 0 0.01 0 0 0.08 0 0.006 0 0 0 0.12 0" result="quietGrain" />
+            <feBlend in="SourceGraphic" in2="quietGrain" mode="multiply" />
+          </filter>
+          <filter id="carvedRelief" x="-30%" y="-30%" width="160%" height="170%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.03 0.12" numOctaves="2" seed="11" result="rough" />
+            <feDisplacementMap in="SourceGraphic" in2="rough" scale="1.6" xChannelSelector="R" yChannelSelector="B" result="distorted" />
+            <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur" />
+            <feOffset in="blur" dx="0" dy="8" result="offset" />
+            <feFlood flood-color="#020100" flood-opacity="0.72" result="shadowColor" />
+            <feComposite in="shadowColor" in2="offset" operator="in" result="shadow" />
+            <feMerge><feMergeNode in="shadow" /><feMergeNode in="distorted" /></feMerge>
+          </filter>
+        </defs>
+
+        <rect x="14" y="14" width="972" height="732" rx="2" fill="url(#stoneShade)" filter="url(#stoneGrain)" />
+
+        <g class="buried-patterns" aria-hidden="true">
+          <path d="M47 162 H153 V91 H248 V150 H205 V119 H232 M47 192 H180 V235 H108 V209 H151" />
+          <path d="M748 93 H923 V171 H852 V129 H891 V151 M786 195 H956 V246 H903 V218 H930" />
+          <path d="M731 588 H936 V676 H861 V624 H900 V649 M766 705 H921" />
+          <circle cx="120" cy="548" r="72" />
+          <circle cx="120" cy="548" r="45" stroke-dasharray="31 13 8 10" />
+          <path d="M120 476 V500 M120 596 V620 M48 548 H72 M168 548 H192 M69 497 L86 514 M154 582 L171 599" />
+        </g>
+
+        <g class="stone-cracks" aria-hidden="true">
+          <path d="M38 62 L113 116 L98 151 L147 181 L138 225" />
+          <path d="M954 416 L884 447 L902 483 L846 511 L860 552 L812 575" />
+          <path d="M610 39 L598 88 L620 117 L601 152" />
+        </g>
+
+        <path class="trunk-shadow" d="M454 744 C447 672 457 602 445 544 C433 491 428 446 448 397 C462 363 467 332 468 302 C488 287 521 286 540 304 C541 342 550 373 562 408 C579 456 575 501 561 548 C546 598 557 677 544 744 Z" />
+        <path class="trunk-body" d="M454 738 C449 670 460 601 447 544 C436 493 432 450 451 403 C467 365 470 331 468 306 C486 290 521 290 539 306 C538 343 548 376 559 409 C575 456 570 499 557 545 C542 599 554 671 542 738 Z" />
+        <path class="trunk-highlight" d="M489 712 C482 646 491 589 480 537 C471 491 472 455 486 421 C498 391 502 354 498 320" />
+
+        {arts.map((art) => (
+          <a href={`${base}${art.href}`} class={`law-branch ${art.className}`} aria-label={`进入${art.name}`}>
+            <path class="branch-shadow" d={art.shape} />
+            <path class="branch-body" d={art.shape} />
+            <path class="branch-wear" d={art.shape} />
+            <g class="rune-node" transform={`translate(${art.cx} ${art.cy})`}>
+              <circle class="seal-shadow" r="57" />
+              <circle class="seal-broken" r="52" />
+              <circle class="seal-plate" r="43" />
+              <circle class="seal-groove" r="35" />
+              <path class="seal-rays" d="M0-61V-49 M0 49V61 M-61 0H-49 M49 0H61 M-43-43L-34-34 M34 34L43 43 M43-43L34-34 M-34 34L-43 43" />
+              <text class="seal-glyph kai" text-anchor="middle" dy="0.36em">{art.glyph}</text>
+            </g>
+            <g class="branch-label">
+              <text class="branch-name kai" x={art.labelX} y={art.labelY} text-anchor={art.anchor}>{art.name}</text>
+              <text class="branch-sub" x={art.labelX} y={art.labelY + 27} text-anchor={art.anchor}>{art.sub}</text>
+            </g>
+          </a>
+        ))}
+
+        <g class="root-seal" transform="translate(500 697)" aria-hidden="true">
+          <path d="M0-50 L36-36 L50 0 L36 36 L0 50 L-36 36 L-50 0 L-36-36 Z" />
+          <circle r="34" />
+          <text class="kai" text-anchor="middle" dy="0.35em">巫</text>
+        </g>
+
+        <text class="root-caption kai" x="500" y="757" text-anchor="middle">四脉同源</text>
+      </svg>
+
+      <nav class="mobile-lineage" aria-label="四脉分支">
+        {arts.map((art, index) => (
+          <a href={`${base}${art.href}`} class="mobile-branch">
+            <span class="mobile-seal kai">{art.glyph}</span>
+            <span class="mobile-copy">
+              <small class="kai">{['壹', '贰', '叁', '肆'][index]}</small>
+              <b class="kai">{art.name}</b>
+              <span>{art.sub}</span>
+              <em>{art.desc}</em>
+            </span>
+          </a>
+        ))}
+        <div class="mobile-root kai" aria-hidden="true"><span>巫</span></div>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<style>
+  .lineage {
+    position: relative;
+    z-index: 2;
+    padding: 0 0 clamp(3rem, 7vw, 6rem);
+  }
+
+  .lineage-shell {
+    width: min(100% - 2.5rem, 86rem);
+    margin-inline: auto;
+  }
+
+  .lineage-intro {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 0.6rem 2rem;
+    margin-bottom: 1.25rem;
+    padding-inline: 0.5rem;
+  }
+
+  .lineage-kicker {
+    grid-column: 1 / -1;
+    color: #80683d;
+    font-size: 0.75rem;
+    letter-spacing: 0.42em;
+  }
+
+  .lineage-intro h2 {
+    color: #d7c291;
+    font-size: clamp(1.45rem, 3vw, 2.4rem);
+    font-weight: 500;
+    letter-spacing: 0.22em;
+  }
+
+  .lineage-intro > p:last-child {
+    color: #6f624c;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+  }
+
+  .lineage-stage {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(173, 133, 65, 0.28);
+    background: #090705;
+    box-shadow:
+      inset 0 0 0 1px rgba(237, 205, 132, 0.06),
+      inset 0 0 90px rgba(0, 0, 0, 0.88),
+      0 28px 80px rgba(0, 0, 0, 0.48);
+  }
+
+  .lineage-stage::before,
+  .lineage-stage::after {
+    content: '';
+    position: absolute;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .lineage-stage::before {
+    inset: 8px;
+    border: 1px solid rgba(190, 147, 76, 0.14);
+    box-shadow: inset 0 0 34px rgba(0, 0, 0, 0.76);
+  }
+
+  .lineage-stage::after {
+    inset: 0;
+    background:
+      radial-gradient(circle at 51% 38%, rgba(126, 83, 35, 0.045), transparent 28%),
+      radial-gradient(circle at 18% 36%, rgba(108, 71, 31, 0.028), transparent 17%),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.48), transparent 18%, transparent 82%, rgba(0, 0, 0, 0.55));
+  }
+
+  .lineage-map { display: block; width: 100%; height: auto; }
+
+  .buried-patterns {
+    fill: none;
+    stroke: #80603a;
+    stroke-width: 4;
+    stroke-linecap: square;
+    opacity: 0.055;
+    filter: drop-shadow(0 2px 1px rgba(0, 0, 0, 0.85));
+  }
+
+  .stone-cracks {
+    fill: none;
+    stroke: #846341;
+    stroke-width: 2.2;
+    opacity: 0.11;
+  }
+
+  .trunk-shadow,
+  .branch-shadow { fill: #010100; opacity: 0.86; transform: translateY(8px); }
+
+  .trunk-body,
+  .branch-body {
+    fill: url(#oldGold);
+    stroke: #1d130c;
+    stroke-width: 3;
+    filter: url(#carvedRelief);
+    transition: filter 0.42s var(--ease-soft), opacity 0.42s var(--ease-soft);
+  }
+
+  .trunk-highlight {
+    fill: none;
+    stroke: rgba(174, 139, 82, 0.24);
+    stroke-width: 3;
+    stroke-linecap: round;
+    opacity: 0.46;
+  }
+
+  .branch-wear {
+    fill: none;
+    stroke: rgba(23, 14, 9, 0.78);
+    stroke-width: 5;
+    stroke-dasharray: 2 21 7 33;
+    stroke-linecap: round;
+    opacity: 0.42;
+    pointer-events: none;
+  }
+
+  .law-branch { cursor: pointer; outline: none; }
+  .law-branch:hover .branch-body,
+  .law-branch:focus-visible .branch-body { filter: url(#carvedRelief); }
+  .law-branch:hover .branch-wear,
+  .law-branch:focus-visible .branch-wear { opacity: 0.18; }
+
+  .seal-shadow { fill: #020100; opacity: 0.88; transform: translateY(5px); }
+  .seal-broken {
+    fill: none;
+    stroke: #634a2d;
+    stroke-width: 7;
+    stroke-dasharray: 78 12 24 8 48 16;
+    transform-origin: center;
+    transition: stroke 0.4s var(--ease-soft), transform 0.7s var(--ease-soft);
+  }
+  .seal-plate { fill: url(#sealGold); stroke: #705333; stroke-width: 2.5; filter: url(#carvedRelief); }
+  .seal-groove { fill: url(#rootCore); stroke: #806340; stroke-width: 2; }
+  .seal-rays { fill: none; stroke: #725536; stroke-width: 2.5; stroke-linecap: square; transition: stroke 0.4s var(--ease-soft); }
+  .seal-glyph { fill: #b99a63; font-size: 36px; transition: fill 0.4s var(--ease-soft); }
+
+  .branch-label { pointer-events: none; }
+  .branch-name {
+    fill: #b7a17a;
+    font-size: 23px;
+    letter-spacing: 0.18em;
+    paint-order: stroke;
+    stroke: #070503;
+    stroke-width: 7px;
+    transition: fill 0.4s var(--ease-soft);
+  }
+  .branch-sub {
+    fill: #77644a;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    paint-order: stroke;
+    stroke: #070503;
+    stroke-width: 5px;
+  }
+
+  .law-branch:hover .seal-broken,
+  .law-branch:focus-visible .seal-broken { stroke: #b08a55; transform: rotate(8deg); }
+  .law-branch:hover .seal-rays,
+  .law-branch:focus-visible .seal-rays { stroke: #b18b58; }
+  .law-branch:hover .seal-glyph,
+  .law-branch:focus-visible .seal-glyph,
+  .law-branch:hover .branch-name,
+  .law-branch:focus-visible .branch-name { fill: #d1b782; }
+
+  .root-seal path { fill: url(#sealGold); stroke: #2b1c11; stroke-width: 3; filter: url(#carvedRelief); }
+  .root-seal circle { fill: url(#rootCore); stroke: #765836; stroke-width: 2; }
+  .root-seal text { fill: #ad8d59; font-size: 29px; }
+  .root-caption { fill: #6f5a36; font-size: 12px; letter-spacing: 0.42em; }
+
+  .mobile-lineage { display: none; }
+
+  @media (max-width: 760px) {
+    .lineage { padding-bottom: 3rem; }
+    .lineage-shell { width: min(100% - 1.5rem, 86rem); }
+    .lineage-intro { grid-template-columns: 1fr; align-items: start; }
+    .lineage-intro > p:last-child { margin-top: 0.3rem; }
+    .lineage-map { display: none; }
+    .lineage-stage { padding: 2.2rem 1rem 2rem; }
+    .mobile-lineage {
+      position: relative;
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+      padding-bottom: 5rem;
+    }
+    .mobile-lineage::before {
+      content: '';
+      position: absolute;
+      top: 2.7rem;
+      bottom: 2.5rem;
+      left: 2.6rem;
+      width: 18px;
+      background: linear-gradient(90deg, #2d1b0b, #7b5426 24%, #c19a52 48%, #6b431c 72%, #241307);
+      border: 1px solid #2d1a0a;
+      box-shadow: inset 3px 0 4px rgba(242, 211, 134, 0.18), 5px 9px 10px rgba(0, 0, 0, 0.75);
+      clip-path: polygon(24% 0, 79% 2%, 68% 21%, 92% 39%, 70% 57%, 82% 76%, 58% 100%, 18% 98%, 33% 77%, 10% 58%, 35% 38%, 12% 18%);
+    }
+    .mobile-branch {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 4.5rem minmax(0, 1fr);
+      gap: 0.8rem;
+      align-items: center;
+      min-height: 7.2rem;
+    }
+    .mobile-branch::before {
+      content: '';
+      position: absolute;
+      left: 2.75rem;
+      top: 50%;
+      width: 3.6rem;
+      height: 14px;
+      background: linear-gradient(180deg, #765634, #2b1c11 72%);
+      box-shadow: 0 5px 8px rgba(0, 0, 0, 0.75), inset 0 2px rgba(236, 203, 123, 0.24);
+      transform: translateY(-50%) rotate(var(--branch-turn, -5deg));
+      transform-origin: left;
+      clip-path: polygon(0 20%, 100% 0, 94% 75%, 0 100%);
+    }
+    .mobile-branch:nth-child(even)::before { --branch-turn: 6deg; }
+    .mobile-seal {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: 4.1rem;
+      height: 4.1rem;
+      color: #b99a63;
+      font-size: 1.58rem;
+      background: radial-gradient(circle at 35% 28%, #654a2e, #1c130c 66%);
+      border: 6px double #705333;
+      border-radius: 50%;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.75), inset 0 0 12px #030201;
+    }
+    .mobile-copy {
+      position: relative;
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      gap: 0.24rem;
+      padding: 1rem 0.8rem 1rem 1.2rem;
+      border-left: 1px solid rgba(193, 150, 73, 0.2);
+      background: linear-gradient(90deg, rgba(119, 78, 29, 0.12), transparent 80%);
+    }
+    .mobile-copy small { color: #8a6c39; font-size: 0.7rem; letter-spacing: 0.2em; }
+    .mobile-copy b { color: #b7a17a; font-size: 1.12rem; font-weight: 500; letter-spacing: 0.1em; overflow-wrap: anywhere; }
+    .mobile-copy > span { color: #77644a; font-size: 0.66rem; letter-spacing: 0.1em; overflow-wrap: anywhere; }
+    .mobile-copy em { margin-top: 0.3rem; color: #827866; font-size: 0.76rem; font-style: normal; line-height: 1.7; overflow-wrap: anywhere; }
+    .mobile-root {
+      position: absolute;
+      left: 1.55rem;
+      bottom: 0;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: 3.8rem;
+      height: 3.8rem;
+      color: #d2b36f;
+      background: #171009;
+      border: 5px double #765226;
+      transform: rotate(45deg);
+    }
+    .mobile-root span { transform: rotate(-45deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .law-branch *, .mobile-branch * { transition: none !important; }
+  }
+</style>

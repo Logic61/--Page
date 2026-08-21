@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200" viewBox="0 0 1600 1200">
+  <defs>
+    <filter id="stone" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.09" numOctaves="4" seed="23" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0.22 0 0 0 0.1  0 0.15 0 0 0.07  0 0 0.08 0 0.03  0 0 0 0.55 0"/>
+    </filter>
+    <filter id="scar" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.8" result="soft"/>
+      <feOffset in="soft" dx="1.5" dy="2" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <radialGradient id="buriedGold">
+      <stop offset="0" stop-color="#9a7138" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#39220f" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="1200" fill="#0a0806"/>
+  <rect width="1600" height="1200" filter="url(#stone)" opacity="0.22"/>
+  <ellipse cx="800" cy="600" rx="620" ry="430" fill="url(#buriedGold)" opacity="0.55"/>
+  <g fill="none" stroke="#9b7139" stroke-width="7" opacity="0.045" filter="url(#scar)">
+    <path d="M72 232 H282 V112 H430 V198 H362 V150 H405 M88 282 H332 V350 H202 V310 H286"/>
+    <path d="M1188 89 H1514 V250 H1379 V172 H1456 V219 M1250 300 H1564 V392 H1465 V342 H1518"/>
+    <path d="M1090 890 H1510 V1088 H1360 V968 H1452 V1038 M1160 1140 H1480"/>
+  </g>
+  <g fill="none" stroke="#ad8145" opacity="0.035" filter="url(#scar)">
+    <circle cx="244" cy="896" r="150" stroke-width="10"/>
+    <circle cx="244" cy="896" r="96" stroke-width="5" stroke-dasharray="70 20 24 34"/>
+    <path d="M244 724 V776 M244 1016 V1068 M72 896 H124 M364 896 H416 M122 774 L159 811 M329 981 L366 1018 M366 774 L329 811 M159 981 L122 1018" stroke-width="8"/>
+    <circle cx="1315" cy="610" r="92" stroke-width="7" stroke-dasharray="90 15 28 18"/>
+    <path d="M1315 492 V525 M1315 695 V728 M1197 610 H1230 M1400 610 H1433" stroke-width="6"/>
+  </g>
+  <g fill="none" stroke="#9d7846" stroke-linecap="round" opacity="0.065">
+    <path d="M8 84 L138 154 L115 217 L191 258 L170 342 L232 391" stroke-width="3"/>
+    <path d="M1590 490 L1486 542 L1512 603 L1410 668 L1432 742 L1356 809" stroke-width="4"/>
+    <path d="M690 0 L672 96 L707 145 L679 218 L718 288" stroke-width="2.5"/>
+    <path d="M1020 1200 L1002 1097 L1040 1032 L1012 955 L1051 884" stroke-width="3"/>
+  </g>
+</svg>

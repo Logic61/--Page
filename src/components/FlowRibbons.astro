@@ -1,0 +1,252 @@
+---
+// 流带绶带背景 —— 金色流带沿页面斜向铺开，带上六类雷文 / 云雷纹交替排布，
+// 高光沿带缓缓流动。整带压低透明度、压进黑底，只作氛围不抢内容。
+import ThunderSquare from './array/patterns/thunder-square.astro';
+import ThunderHook from './array/patterns/thunder-hook.astro';
+import ThunderWave from './array/patterns/thunder-wave.astro';
+import CloudSingle from './array/patterns/cloud-single.astro';
+import CloudDouble from './array/patterns/cloud-double.astro';
+import CloudS from './array/patterns/cloud-s.astro';
+
+const P = (x, y) => ({ x, y });
+
+function cubicPoint(p0, p1, p2, p3, t) {
+  const mt = 1 - t;
+  const x = mt * mt * mt * p0.x + 3 * mt * mt * t * p1.x + 3 * mt * t * t * p2.x + t * t * t * p3.x;
+  const y = mt * mt * mt * p0.y + 3 * mt * mt * t * p1.y + 3 * mt * t * t * p2.y + t * t * t * p3.y;
+  const dx = 3 * mt * mt * (p1.x - p0.x) + 6 * mt * t * (p2.x - p1.x) + 3 * t * t * (p3.x - p2.x);
+  const dy = 3 * mt * mt * (p1.y - p0.y) + 6 * mt * t * (p2.y - p1.y) + 3 * t * t * (p3.y - p2.y);
+  return { x, y, dx, dy };
+}
+
+function sampleCurve(segs, n) {
+  const total = segs.length * n;
+  const pts = [];
+  for (let i = 0; i <= total; i++) {
+    const t = (i / total) * segs.length;
+    const seg = Math.min(segs.length - 1, Math.floor(t));
+    const s = segs[seg];
+    pts.push(cubicPoint(s[0], s[1], s[2], s[3], t - seg));
+  }
+  return pts;
+}
+
+// 六类雷文 / 云雷纹，沿带循环交替
+const MOTIF_ORDER = ['thunder-square', 'cloud-single', 'thunder-hook', 'cloud-double', 'thunder-wave', 'cloud-s'];
+
+function buildRibbon({ segs, wMax, wMin, spacing, scale, orderOffset, sway }) {
+  const pts = sampleCurve(segs, 160);
+  const n = pts.length - 1;
+  const f = (v) => v.toFixed(1);
+
+  const top = [];
+  const bottom = [];
+  const core = [];
+  for (let i = 0; i <= n; i++) {
+    const p = pts[i];
+    const t = i / n;
+    const len = Math.hypot(p.dx, p.dy) || 1;
+    const nx = -p.dy / len;
+    const ny = p.dx / len;
+    const w = wMin + (wMax - wMin) * Math.pow(Math.sin(Math.PI * t), 0.62);
+    top.push(`${f(p.x + (nx * w) / 2)} ${f(p.y + (ny * w) / 2)}`);
+    bottom.push(`${f(p.x - (nx * w) / 2)} ${f(p.y - (ny * w) / 2)}`);
+    core.push(`${f(p.x)} ${f(p.y)}`);
+  }
+  const body = `M ${top.join(' L ')} L ${bottom.reverse().join(' L ')} Z`;
+  const corePath = `M ${core.join(' L ')}`;
+
+  // 按弧长均匀放置纹样
+  const cum = new Array(pts.length);
+  cum[0] = 0;
+  for (let i = 1; i < pts.length; i++) {
+    cum[i] = cum[i - 1] + Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
+  }
+  const totalLen = cum[cum.length - 1];
+
+  const uses = [];
+  let s = spacing * 0.55;
+  let k = 0;
+  while (s < totalLen - spacing * 0.45) {
+    let i = 1;
+    while (i < pts.length && cum[i] < s) i++;
+    if (i >= pts.length) break;
+    const segLen = cum[i] - cum[i - 1] || 1;
+    const t2 = (s - cum[i - 1]) / segLen;
+    const a = pts[i - 1];
+    const b = pts[i];
+    const x = a.x + (b.x - a.x) * t2;
+    const y = a.y + (b.y - a.y) * t2;
+    const ang = (Math.atan2(b.dy, b.dx) * 180) / Math.PI;
+    const id = MOTIF_ORDER[(k + orderOffset) % MOTIF_ORDER.length];
+    uses.push(
+      `<use href="#${id}" transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${ang.toFixed(1)}) scale(${scale})"/>`
+    );
+    k += 1;
+    s += spacing;
+  }
+
+  // 高光以 75px/s 沿带流动；dash 周期 = 24 + 152 = 176
+  const cycles = Math.ceil(totalLen / 176) + 2;
+  const cyclePx = cycles * 176;
+  const dur = Math.max(9, cyclePx / 75);
+
+  return { body, core: corePath, uses: uses.join(''), cycle: -cyclePx, dur: dur.toFixed(1), sway };
+}
+
+const ribbons = [
+  buildRibbon({
+    segs: [
+      [P(-120, 840), P(180, 760), P(320, 900), P(640, 700)],
+      [P(640, 700), P(960, 500), P(1180, 300), P(1560, 120)],
+    ],
+    wMax: 46, wMin: 14, spacing: 118, scale: 0.9, orderOffset: 0, sway: 'a',
+  }),
+  buildRibbon({
+    segs: [
+      [P(1560, 860), P(1240, 790), P(1100, 920), P(800, 690)],
+      [P(800, 690), P(500, 460), P(300, 280), P(-120, 90)],
+    ],
+    wMax: 40, wMin: 12, spacing: 118, scale: 0.85, orderOffset: 3, sway: 'b',
+  }),
+  buildRibbon({
+    segs: [
+      [P(-120, 430), P(160, 320), P(420, 530), P(720, 400)],
+      [P(720, 400), P(1020, 270), P(1280, 430), P(1560, 300)],
+    ],
+    wMax: 22, wMin: 8, spacing: 150, scale: 0.6, orderOffset: 4, sway: 'c',
+  }),
+];
+---
+
+<svg class="flow-ribbons" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs>
+    <ThunderSquare />
+    <ThunderHook />
+    <ThunderWave />
+    <CloudSingle />
+    <CloudDouble />
+    <CloudS />
+    <linearGradient id="frVeil" gradientUnits="userSpaceOnUse" x1="80" y1="880" x2="1360" y2="20">
+      <stop offset="0" stop-color="#8c6a30" stop-opacity="0.05" />
+      <stop offset="0.42" stop-color="#b58a40" stop-opacity="0.16" />
+      <stop offset="0.62" stop-color="#9c7536" stop-opacity="0.13" />
+      <stop offset="1" stop-color="#6f5326" stop-opacity="0.04" />
+    </linearGradient>
+  </defs>
+
+  {
+    ribbons.map((r) => (
+      <g class={`fr-band fr-sway-${r.sway}`}>
+        <path class="fr-halo" d={r.core} />
+        <path class="fr-body" d={r.body} />
+        <path class="fr-core" d={r.core} />
+        <g class="fr-motifs" set:html={r.uses} />
+        <path
+          class="fr-sheen"
+          d={r.core}
+          style={`--fr-cycle:${r.cycle};--fr-dur:${r.dur}s;--fr-dash:24 152;`}
+        />
+      </g>
+    ))
+  }
+</svg>
+
+<style is:global>
+  /* 流带绶带：暗金铺带，六类雷文/云雷纹沿带交替，亮金只留给流动高光 */
+  .flow-ribbons {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .flow-ribbons .fr-band {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .flow-ribbons .fr-halo {
+    fill: none;
+    stroke: rgba(190, 152, 80, 0.09);
+    stroke-width: 14;
+  }
+
+  .flow-ribbons .fr-body {
+    fill: url(#frVeil);
+    stroke: rgba(214, 182, 116, 0.15);
+    stroke-width: 1;
+  }
+
+  .flow-ribbons .fr-core {
+    fill: none;
+    stroke: rgba(226, 196, 130, 0.2);
+    stroke-width: 1.4;
+  }
+
+  .flow-ribbons .fr-motifs {
+    opacity: 0.5;
+  }
+  .flow-ribbons .fr-motifs path {
+    fill: none;
+    stroke: #b08a45;
+    stroke-width: 5;
+    stroke-linejoin: round;
+  }
+  .flow-ribbons .fr-motifs circle {
+    fill: #c49a52;
+    stroke: none;
+  }
+
+  .flow-ribbons .fr-sheen {
+    fill: none;
+    stroke: #ead7a6;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-dasharray: var(--fr-dash, 24 152);
+    opacity: 0.5;
+    animation: frFlow var(--fr-dur, 22s) linear infinite;
+  }
+
+  @keyframes frFlow {
+    from { stroke-dashoffset: 0; }
+    to { stroke-dashoffset: var(--fr-cycle, -1760); }
+  }
+
+  /* 带身极缓的浮游，让整条流带像活着一样轻轻摆动 */
+  .flow-ribbons .fr-sway-a { animation: frSwayA 26s ease-in-out infinite alternate; }
+  .flow-ribbons .fr-sway-b { animation: frSwayB 34s ease-in-out infinite alternate; }
+  .flow-ribbons .fr-sway-c { animation: frSwayC 42s ease-in-out infinite alternate; }
+
+  @keyframes frSwayA {
+    from { transform: translateY(-5px); }
+    to { transform: translateY(9px); }
+  }
+  @keyframes frSwayB {
+    from { transform: translate(-9px, 5px); }
+    to { transform: translate(7px, -7px); }
+  }
+  @keyframes frSwayC {
+    from { transform: translateY(7px); }
+    to { transform: translateY(-9px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flow-ribbons .fr-sheen,
+    .flow-ribbons .fr-sway-a,
+    .flow-ribbons .fr-sway-b,
+    .flow-ribbons .fr-sway-c {
+      animation: none;
+    }
+    .flow-ribbons .fr-sheen {
+      opacity: 0.22;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .flow-ribbons {
+      opacity: 0.82;
+    }
+  }
+</style>

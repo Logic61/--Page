@@ -1,0 +1,23 @@
+﻿---
+import Base from '../../layouts/Base.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import Courses from '../../components/Courses.astro';
+import Bidu from '../../components/Bidu.astro';
+import Footer from '../../components/Footer.astro';
+
+const { title, description } = {
+  title: '课程介绍 · 学习路径与要求',
+  description: '查看课程层级与学习前要求，在充分了解后决定是否联系。',
+};
+---
+
+<Base title={title} description={description}>
+  <PageIntro
+    mark="学"
+    title="课程介绍"
+    sub="先阅读课程层级与学习要求，再判断自己是否适合继续了解。"
+  />
+  <Courses />
+  <Bidu />
+  <Footer />
+</Base>

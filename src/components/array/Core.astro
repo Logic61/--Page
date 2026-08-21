@@ -1,0 +1,43 @@
+---
+const cx = 1000;
+const cy = 1000;
+const n2 = (v) => Math.round(v * 10) / 10;
+
+// 雷文核心：四方金刚印 + 雷钩四角 + 巫字居中
+const frames = `
+  <g transform="rotate(45)">
+    <rect class="a-core-frame" x="-164" y="-164" width="328" height="328" opacity="0.7"/>
+    <rect class="a-core-frame" x="-130" y="-130" width="260" height="260" opacity="0.45"/>
+  </g>`;
+
+const hooks = [45, 135, 225, 315]
+  .map((a) => {
+    const rad = (a * Math.PI) / 180;
+    return `<use href="#thunder-hook" transform="translate(${n2(Math.cos(rad) * 128)} ${n2(Math.sin(rad) * 128)}) rotate(${n2(a)})"/>`;
+  })
+  .join('');
+
+const beads = [0, 90, 180, 270]
+  .map((a) => {
+    const rad = (a * Math.PI) / 180;
+    return `<use href="#bead-border" transform="translate(${n2(Math.cos(rad) * 116)} ${n2(Math.sin(rad) * 116)}) rotate(${n2(a)})"/>`;
+  })
+  .join('');
+
+const ring = `<circle class="a-ring" r="190" opacity="0.5"/><circle class="a-ring" r="104"/>`;
+
+const wu = `
+  <circle class="a-wu-ring" r="60"/>
+  <g class="a-core-glyph">
+    <path d="M-31 -34 H31 M-31 34 H31 M0 -34 V34"/>
+    <path d="M-25 -22 L-8 0 L-25 22 M25 -22 L8 0 L25 22"/>
+    <path d="M-12 -14 H12 V14 H-12 Z" opacity="0.72"/>
+  </g>`;
+---
+<g class="a-bright" transform="translate(${cx} ${cy})">
+  <g set:html={ring} />
+  <g set:html={frames} />
+  <g set:html={hooks} />
+  <g set:html={beads} />
+  <g set:html={wu} />
+</g>

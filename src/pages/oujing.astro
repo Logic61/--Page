@@ -1,0 +1,16 @@
+---
+import BranchLayout from '../layouts/BranchLayout.astro';
+import BranchPortal from '../components/BranchPortal.astro';
+
+const title = '偶景 · 内景观照';
+const description = '内景与幻境之辨，观照存想而不入妄境。';
+---
+
+<BranchLayout title={title} description={description} glyph="景" label="偶景" accent="#8291b7">
+  <BranchPortal
+    glyph="景"
+    title="偶景"
+    subtitle="内景 · 观照 · 守一"
+    description="内景与幻境之辨：见内景者多入妄境，修性不可误此。"
+  />
+</BranchLayout>

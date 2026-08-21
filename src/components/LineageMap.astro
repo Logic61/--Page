@@ -1,0 +1,238 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const eras = [
+  {
+    era: '上古氏族',
+    title: '巫通天地先祖',
+    text: '巫的传承古来已久。氏族时代，巫处于社会权力之巅，不单引领部落，也掌管神明、天地与先祖之间的沟通。祭祀歌舞、呼啸祝咒、天文历法与占问吉凶，皆由此逐渐发展。',
+  },
+  {
+    era: '殷商时期',
+    title: '史、祝、卜分职',
+    text: '巫承担沟通天帝与人帝的重任，传达彼此意志，由此衍生史、祝、卜三种职分。史掌天文历法、历史文献；祝主导祭祀祈福；卜负责占问吉凶。本门之祝，正源于此。',
+  },
+  {
+    era: '周代礼制',
+    title: '祝官各有所掌',
+    text: '从中央到地方，各级皆置巫祝。大祝掌祭祀祈祷，小祝掌小祭祀祝事，丧祝掌丧祭，甸祝掌田猎之祭，诅祝掌盟诅与惩戒，司祝掌庙宇祷辞。男巫、女巫则以歌舞迎神、悦神。',
+  },
+  {
+    era: '秦汉以后',
+    title: '巫道合流，诸法分传',
+    text: '世面轮转之后，显世巫祝开始巫道合流。大部分内容被后起道脉收纳，少部分融入儒家礼制，再少部分流入民间，以巫医、祝由、风水、占卜等形态流传。',
+  },
+  {
+    era: '隐传时期',
+    title: '离世隐传，守其完整',
+    text: '真正完整的巫之传承并未断绝。在重大变故之前，已有传承提前离于世间，自古隐秘，不问世事，不管轮转。隐传、密传、师寻徒传，口传心授，不记文字，不载外物。',
+  },
+  {
+    era: '传承至今',
+    title: '祝法一脉，半显于世',
+    text: '上古祝门传承祝法之道，以诵咒为主，通窍开脉，锻炼神形，令人身体康健、延年益寿，继而追求天人合一、万物一咒的咒法至高境界。',
+  },
+];
+
+const offices = [
+  ['大祝', '掌祭祀祈祷'],
+  ['小祝', '掌小祭祀祝事'],
+  ['丧祝', '掌丧祭祀祝事'],
+  ['甸祝', '掌田猎祭祀祝事'],
+  ['诅祝', '掌盟诅与惩戒祝事'],
+  ['司祝', '掌庙宇祷辞祝事'],
+  ['男巫', '祭祀多舞以悦鬼神'],
+  ['女巫', '歌舞迎神而祈祷'],
+];
+
+const branches = [
+  {
+    title: '祝祷',
+    intro: '祭祀与祈愿之祝',
+    text: '今日种种祝福多为口头形式，上古祝祷却并非如此。《世本》载巫咸为帝尧之医，能祝延人之福、愈人之病。祝祷之力与自身修为相应，精神愈精纯，祝力愈能映照现实。',
+  },
+  {
+    title: '祝由',
+    intro: '巫医传统中的祝法',
+    text: '医之古字作「毉」，其下乃巫。祝由通过祝祷疾病根因而疗愈病情，《黄帝内经》亦载其术。祝由之用与施术者修为密切相关，故同法在人，效验亦有高下。',
+  },
+  {
+    title: '祭祀体系',
+    intro: '天地、宗庙与先祖',
+    text: '祭祀大至天地，中至国家宗庙，小至世家宗祠，末至家中牌位，规格严整，不可僭越。祭祀以天地为先，天帝为死去的人皇；先祖神道则由子孙祭拜先人，重在敬仰、缅怀与血脉相承。',
+  },
+  {
+    title: '巫医体系',
+    intro: '祝延福寿，以术愈疾',
+    text: '医是巫祝的一大体系。上有为人皇治疾之大巫，下有为民疗病之民间巫医。祝由、虫草、风水与相关养生法门，皆可见巫医传承的流变，其中尤以音诀、咒音与祝由流传较广。',
+  },
+];
+---
+
+<section class="lineage-summary" aria-labelledby="lineage-position">
+  <div class="wrap">
+    <header class="lineage-heading reveal">
+      <h2 id="lineage-position" class="section-title">先定本脉位置</h2>
+      <p>古巫祝脉为上古巫祝一脉，是除存想、不死药等法门之外，又一独立、隐秘而完整的修炼体系。</p>
+    </header>
+
+    <dl class="lineage-facts reveal" data-d="2">
+      <div><dt>所属</dt><dd>上古巫祝一脉</dd></div>
+      <div><dt>核心媒介</dt><dd>诵咒与音诀</dd></div>
+      <div><dt>主要方向</dt><dd>养练神形</dd></div>
+      <div><dt>修习原则</dt><dd>循序、长期、守界</dd></div>
+    </dl>
+
+    <aside class="lineage-disclaimer reveal">
+      祝，咒也。此脉以诵咒为主，通窍开脉，锻炼神形；由养生入门，由炼形炼神而渐进，终求天人合一、万物一咒。
+    </aside>
+  </div>
+</section>
+
+<section class="lineage-course" aria-labelledby="lineage-course-title">
+  <div class="wrap lineage-course-grid">
+    <div>
+      <header class="lineage-heading reveal">
+        <h2 id="lineage-course-title" class="section-title">一条可读的历史脉络</h2>
+        <p>从巫的上古职能、史祝卜分化，读到诸法分传与祝门隐传至今。</p>
+      </header>
+
+      <ol class="era-list">
+        {eras.map((item) => (
+          <li class="reveal">
+            <p class="era-time kai">{item.era}</p>
+            <div>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <figure class="lineage-figure reveal" data-d="2">
+      <a href={`${base}/归源图.png`} target="_blank" rel="noreferrer" aria-label="在新窗口查看归源图原图">
+        <img src={`${base}/归源图.png`} alt="古巫祝脉归源示意图" loading="lazy" />
+      </a>
+      <figcaption>古巫祝脉归源示意，点击可查看原图</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="lineage-offices" aria-labelledby="lineage-offices-title">
+  <div class="wrap">
+    <header class="lineage-heading reveal">
+      <h2 id="lineage-offices-title" class="section-title">祝为祭主，各有所掌</h2>
+      <p>祝是巫中的大主祭，沟通神明与世间。上古祝官名目繁多，所掌祭事亦各有界限。</p>
+    </header>
+    <dl class="office-grid reveal" data-d="2">
+      {offices.map(([name, duty]) => <div><dt class="kai">{name}</dt><dd>{duty}</dd></div>)}
+    </dl>
+  </div>
+</section>
+
+<section class="lineage-branches" aria-labelledby="lineage-branches-title">
+  <div class="wrap">
+    <header class="lineage-heading reveal">
+      <h2 id="lineage-branches-title" class="section-title">两类方法，两大体系</h2>
+      <p>先分清方法名称，再理解它们在巫祝体系中的位置。</p>
+    </header>
+
+    <div class="branch-grid">
+      {branches.map((branch, index) => (
+        <article class="branch-item reveal" data-d={String((index % 3) + 2)}>
+          <span class="branch-index kai">{['祝', '由', '祭', '医'][index]}</span>
+          <div>
+            <h3>{branch.title}</h3>
+            <p class="branch-intro">{branch.intro}</p>
+            <p>{branch.text}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <nav class="lineage-next reveal" aria-label="继续学习">
+      <p>理解脉络后，可继续建立咒法名词与练习边界。</p>
+      <a class="btn" href={`${base}/zhoufa/zhishi`}>进入知识点</a>
+    </nav>
+  </div>
+</section>
+
+<style>
+  .lineage-summary,
+  .lineage-course,
+  .lineage-offices,
+  .lineage-branches { border-top: 1px solid var(--ink-line); }
+
+  .lineage-heading { margin-bottom: clamp(2rem, 4vw, 3rem); }
+  .lineage-heading p {
+    max-width: 44rem;
+    margin-top: 1rem;
+    color: var(--bone-dim);
+    line-height: 2;
+  }
+
+  .lineage-facts {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-block: 1px solid var(--ink-line);
+  }
+  .lineage-facts div { padding: 1.5rem 1.25rem; border-left: 1px solid var(--ink-line); }
+  .lineage-facts div:first-child { border-left: 0; }
+  .lineage-facts dt { color: var(--bone-faint); font-size: 0.76rem; letter-spacing: 0.18em; }
+  .lineage-facts dd { margin-top: 0.4rem; color: var(--heading); font-family: var(--font-kai); font-size: 1.16rem; letter-spacing: 0.16em; }
+  .lineage-disclaimer {
+    margin-top: 1.6rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--cinnabar);
+    color: var(--bone-faint);
+    font-size: 0.84rem;
+    line-height: 2;
+  }
+
+  .lineage-course-grid { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: clamp(2.5rem, 6vw, 5rem); align-items: start; }
+  .era-list { list-style: none; }
+  .era-list li { display: grid; grid-template-columns: 7.5rem 1fr; gap: 1.5rem; padding: 1.35rem 0; border-top: 1px solid var(--ink-line); }
+  .era-time { color: var(--cinnabar-bright); letter-spacing: 0.14em; }
+  .era-list h3 { color: var(--heading); font-family: var(--font-kai); font-size: 1.2rem; letter-spacing: 0.16em; }
+  .era-list li div p { margin-top: 0.45rem; color: var(--bone-dim); font-size: 0.9rem; line-height: 1.95; }
+
+  .lineage-figure { position: sticky; top: 6.5rem; }
+  .lineage-figure a { display: block; padding: 0.8rem; border: 1px solid var(--ink-line); background: var(--panel-strong); border-radius: 3px; }
+  .lineage-figure img { width: 100%; }
+  .lineage-figure figcaption { margin-top: 0.8rem; color: var(--bone-faint); font-size: 0.76rem; letter-spacing: 0.08em; text-align: center; }
+
+  .office-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink-line); border-left: 1px solid var(--ink-line); }
+  .office-grid div { min-height: 8rem; padding: 1.45rem; border-right: 1px solid var(--ink-line); border-bottom: 1px solid var(--ink-line); }
+  .office-grid dt { color: var(--heading); font-size: 1.3rem; letter-spacing: 0.2em; }
+  .office-grid dd { margin-top: 0.6rem; color: var(--bone-dim); font-size: 0.84rem; line-height: 1.8; }
+
+  .branch-grid { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink-line); }
+  .branch-item { display: grid; grid-template-columns: 3.5rem 1fr; gap: 1.25rem; padding: 2rem 1.4rem; border-bottom: 1px solid var(--ink-line); }
+  .branch-item:nth-child(odd) { border-right: 1px solid var(--ink-line); }
+  .branch-index { color: var(--cinnabar); font-size: 1.75rem; }
+  .branch-item h3 { color: var(--heading); font-family: var(--font-kai); font-size: 1.3rem; letter-spacing: 0.18em; }
+  .branch-intro { margin: 0.35rem 0 0.75rem; color: var(--bronze) !important; font-size: 0.78rem !important; letter-spacing: 0.12em; }
+  .branch-item p { color: var(--bone-dim); font-size: 0.9rem; line-height: 1.95; }
+  .lineage-next { margin-top: 2.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; }
+  .lineage-next p { color: var(--bone-dim); }
+
+  @media (max-width: 900px) {
+    .lineage-facts { grid-template-columns: 1fr 1fr; }
+    .lineage-facts div:nth-child(3) { border-left: 0; border-top: 1px solid var(--ink-line); }
+    .lineage-facts div:nth-child(4) { border-top: 1px solid var(--ink-line); }
+    .lineage-course-grid { grid-template-columns: 1fr; }
+    .lineage-figure { position: static; }
+    .office-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 680px) {
+    .lineage-facts,
+    .branch-grid { grid-template-columns: 1fr; }
+    .lineage-facts div { border-left: 0; border-top: 1px solid var(--ink-line); }
+    .lineage-facts div:first-child { border-top: 0; }
+    .branch-item:nth-child(odd) { border-right: 0; }
+    .office-grid { grid-template-columns: 1fr; }
+    .era-list li { grid-template-columns: 1fr; gap: 0.35rem; }
+    .lineage-next { align-items: flex-start; flex-direction: column; }
+  }
+</style>

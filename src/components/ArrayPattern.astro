@@ -1,0 +1,70 @@
+---
+// 云雷祭阵 —— 把整座「四方回天式」祭祀阵图铺在页面背后。
+// 结构（自外向内）：
+//   AmbientTexture  极淡雷纹地纹，给黑底以青铜质地
+//   OuterBand       窃曲大带 + 连珠界栏 + 四方缺口（带身出屏）+ 呼吸高光
+//   MiddleBand      对旋云纹带 + 勾连雷纹带
+//   InnerBand       方折雷纹带 + 回纹带
+//   Accent          东南西北四阵阵眼 + 关键亮金节点
+//   Core            雷文核心（金刚印 + 巫字居中）
+// 纹样全部取自 patterns/ 组件库，改一个纹样即可整阵重排。
+
+import OuterBand from './array/OuterBand.astro';
+import MiddleBand from './array/MiddleBand.astro';
+import InnerBand from './array/InnerBand.astro';
+import Accent from './array/Accent.astro';
+import Core from './array/Core.astro';
+
+const { ambient = 'faint' } = Astro.props;
+const ambientVariant = ambient === 'strong'
+  ? { square: 'scale(0.9)', cloud: 'scale(0.45)' }
+  : { square: 'scale(0.42)', cloud: 'scale(0.26)' };
+
+import ThunderSquare from './array/patterns/thunder-square.astro';
+import ThunderHook from './array/patterns/thunder-hook.astro';
+import ThunderWave from './array/patterns/thunder-wave.astro';
+import CloudSingle from './array/patterns/cloud-single.astro';
+import CloudDouble from './array/patterns/cloud-double.astro';
+import CloudS from './array/patterns/cloud-s.astro';
+import KuiCurve from './array/patterns/kui-curve.astro';
+import Quequ from './array/patterns/quequ.astro';
+import BeadBorder from './array/patterns/bead-border.astro';
+import BronzeCore from './array/patterns/bronze-core.astro';
+import Hui from './array/patterns/hui.astro';
+---
+
+<svg
+  class="array-bg"
+  viewBox="0 0 2000 2000"
+  preserveAspectRatio="xMidYMid slice"
+  aria-hidden="true"
+>
+  <defs>
+    <ThunderSquare />
+    <ThunderHook />
+    <ThunderWave />
+    <CloudSingle />
+    <CloudDouble />
+    <CloudS />
+    <KuiCurve />
+    <Quequ />
+    <BeadBorder />
+    <BronzeCore />
+    <Hui />
+    <!-- 细密雷纹地纹 -->
+    <pattern id="ambientTex" width="64" height="64" patternUnits="userSpaceOnUse">
+      <use href="#thunder-square" transform={`translate(32 32) ${ambientVariant.square}`} />
+      <use href="#cloud-single" transform={`translate(0 0) ${ambientVariant.cloud}`} />
+    </pattern>
+  </defs>
+
+  <rect class="a-faint" width="2000" height="2000" fill="url(#ambientTex)" />
+
+  <g class="array-structure" transform="translate(1000 1000)">
+    <OuterBand />
+    <MiddleBand />
+    <InnerBand />
+    <Accent />
+  </g>
+  <Core />
+</svg>

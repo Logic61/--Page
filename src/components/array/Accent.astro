@@ -1,0 +1,40 @@
+---
+const n2 = (v) => Math.round(v * 10) / 10;
+
+// 四阵阵眼：东/南/西/北各一枚云雷纹结，亮金点缀
+const KNOTS = [
+  { x: 400, y: 0, rot: 90 },
+  { x: -400, y: 0, rot: 270 },
+  { x: 0, y: 400, rot: 180 },
+  { x: 0, y: -400, rot: 0 },
+];
+const knots = KNOTS.map(
+  ({ x, y, rot }) => `
+  <g transform="translate(${n2(x)} ${n2(y)}) rotate(${rot})" class="a-knot">
+    <use href="#cloud-double"/>
+    <use href="#bronze-core" transform="scale(0.85)"/>
+    <circle r="3.2"/>
+  </g>`
+).join('');
+
+// 中阵四角的亮金节点（关键交叉点）
+const corners = [45, 135, 225, 315]
+  .map((a) => {
+    const rad = (a * Math.PI) / 180;
+    return `<circle class="a-dot" cx="${n2(Math.cos(rad) * 385)}" cy="${n2(Math.sin(rad) * 385)}" r="4.4"/>`;
+  })
+  .join('');
+
+// 内阵四角的暗金小点
+const innerCorners = [45, 135, 225, 315]
+  .map((a) => {
+    const rad = (a * Math.PI) / 180;
+    return `<circle class="a-dot a-dim" cx="${n2(Math.cos(rad) * 296)}" cy="${n2(Math.sin(rad) * 296)}" r="3"/>`;
+  })
+  .join('');
+---
+<g class="a-bright">
+  <g set:html={knots} />
+  <g set:html={corners} />
+</g>
+<g set:html={innerCorners} />

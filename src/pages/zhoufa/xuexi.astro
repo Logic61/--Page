@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import GuidedStudy from '../../components/GuidedStudy.astro';
+import Footer from '../../components/Footer.astro';
+
+const title = '体系化指导学习 · 上古祝门';
+const description = '按边界、脉络、概念、日常、课程和报名的顺序，完成祝法内容的体系化学习。';
+---
+
+<Base title={title} description={description}>
+  <PageIntro
+    mark="学"
+    title="体系化指导学习"
+    sub="先正心，次通脉络，再辨咒法、筑日常、知课程、守规矩，循序而进。"
+    meta="道贵师传，法贵专精"
+  />
+  <GuidedStudy />
+  <Footer />
+</Base>

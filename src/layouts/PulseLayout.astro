@@ -1,0 +1,290 @@
+---
+import '../styles/global.css';
+import ArrayPattern from '../components/ArrayPattern.astro';
+---
+
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="上古祝门四脉分支目录：根出一源，法分四脉，循脉而入。古巫祝脉传承脉图。"
+    />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+    <title>古巫祝脉 · 法门总览</title>
+  </head>
+  <body class="pulse-page">
+    <!-- 大阵背景：一座完整阵图铺在页面背后，占满且超出视口 -->
+    <ArrayPattern />
+
+    <!-- 中央金辉 + 四周暗角 -->
+    <div class="pulse-glow" aria-hidden="true"></div>
+    <div class="pulse-vignette" aria-hidden="true"></div>
+
+    <header class="pulse-nav">
+      <a class="pulse-brand kai" href={`${import.meta.env.BASE_URL}`}>古巫祝脉</a>
+      <span class="pulse-nav-title kai">法门总览</span>
+      <a class="pulse-nav-link kai" href={`${import.meta.env.BASE_URL}zhoufa`}>进入祝门</a>
+    </header>
+
+    <main class="pulse-main">
+      <slot />
+    </main>
+
+    <footer class="pulse-footer kai">四脉同源 · 各有所传</footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    /* 黑金祭阵：黑曜石底 + 三档金（暗金阵纹 / 亮金节点 / 鎏金文字） */
+    --paper: #050505;
+    --paper-light: #0b0a08;
+    --paper-dark: #050504;
+    --ink: #e7d39a;
+    --ink-light: #b99752;
+    --ink-faint: #6b5730;
+    --vermilion: #b99752;
+    --vermilion-bright: #f0d9a0;
+    --gold: #b99752;
+    --gold-bright: #e7d39a;
+    --gold-dim: #66502a;
+    --line-dim: rgba(185, 151, 82, 0.18);
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body.pulse-page {
+    min-height: 100dvh;
+    margin: 0;
+    background:
+      radial-gradient(ellipse 62% 44% at 50% 26%, rgba(185, 151, 82, 0.09), transparent 66%),
+      linear-gradient(180deg, #080807 0%, #050505 52%, #0b0a08 100%);
+    color: var(--ink);
+    font-family: var(--font-song);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    isolation: isolate;
+  }
+
+  /* ---- 云雷祭阵：巨大、低对比、黑金两档；内容层在其上 ----
+     暗金 #66502A 承担阵的主体，亮金 #B99752 只给核心 / 阵眼 / 交叉点。 */
+  .array-bg {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    display: block;
+    pointer-events: none;
+    color: #8a6b35;
+    overflow: visible;
+    filter: drop-shadow(0 0 4px rgba(185, 151, 82, 0.08));
+  }
+
+  .array-bg .a-dim { opacity: 0.76; }
+  .array-bg .a-bright { color: #c7a45a; opacity: 0.9; }
+  .array-bg .a-faint { opacity: 0.12; }
+
+  .array-bg .a-ring {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.8;
+  }
+  .array-bg .a-core-frame {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3;
+  }
+  .array-bg .a-wu-ring {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.8;
+    opacity: 0.9;
+  }
+  .array-bg .a-core-glyph path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 4.5;
+    stroke-linecap: square;
+    stroke-linejoin: miter;
+  }
+  .array-bg .a-knot circle { fill: currentColor; }
+  .array-bg .a-knot path { fill: none; stroke: currentColor; stroke-width: 2.8; }
+  .array-bg .a-dot { fill: currentColor; stroke: none; }
+
+  /* 纹样单元：描边用 currentColor，随所在层的亮暗两档自动变金 */
+  .array-bg #thunder-square path,
+  .array-bg #thunder-hook path,
+  .array-bg #thunder-wave path,
+  .array-bg #cloud-single path,
+  .array-bg #cloud-double path,
+  .array-bg #cloud-s path,
+  .array-bg #kui-curve path,
+  .array-bg #quequ path,
+  .array-bg #hui path,
+  .array-bg #bronze-core path {
+    fill: none;
+    stroke: #9c793d;
+    stroke-width: 3.4;
+  }
+  .array-bg #cloud-single circle,
+  .array-bg #cloud-double circle,
+  .array-bg #cloud-s circle,
+  .array-bg #bead-border circle,
+  .array-bg #thunder-hook circle,
+  .array-bg #quequ circle,
+  .array-bg #kui-curve circle {
+    fill: #a17d40;
+    stroke: none;
+  }
+
+  /* 窃曲缎带本体 + 沿带流动的呼吸高光 */
+  .array-bg .a-ribbon {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3.2;
+    opacity: 0.88;
+  }
+  .array-bg .a-sheen {
+    fill: none;
+    stroke: #b99752;
+    stroke-width: 3.2;
+    stroke-linecap: round;
+    stroke-dasharray: 28 84;
+    opacity: 0.34;
+    animation: aSheen 16s linear infinite;
+  }
+  @keyframes aSheen {
+    0% { stroke-dashoffset: 0; opacity: 0.22; }
+    45% { opacity: 0.55; }
+    55% { opacity: 0.55; }
+    100% { stroke-dashoffset: -560; opacity: 0.22; }
+  }
+
+  /* ---- 鎏金文字：金属渐变而非发光 ---- */
+  .metal {
+    background: linear-gradient(180deg, #fff1a8 0%, #d8b45a 25%, #a67c2f 55%, #f3d77a 75%, #8a6425 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 12px rgba(205, 160, 60, 0.18);
+  }
+
+  .pulse-glow {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 55% 40% at 50% 26%, rgba(185, 151, 82, 0.06), transparent 70%);
+  }
+
+  .pulse-vignette {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.42), transparent 18%, transparent 82%, rgba(0, 0, 0, 0.42)),
+      linear-gradient(180deg, rgba(0, 0, 0, 0.3), transparent 22%, transparent 82%, rgba(0, 0, 0, 0.38));
+    box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.42);
+  }
+
+  /* ---- 导航与页脚 ---- */
+  .pulse-nav,
+  .pulse-footer {
+    position: relative;
+    z-index: 4;
+    width: min(100% - 6rem, 82rem);
+    margin-inline: auto;
+  }
+
+  .pulse-nav {
+    min-height: 4.6rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    border-bottom: 1px solid var(--line-dim);
+  }
+
+  .pulse-brand,
+  .pulse-nav-link {
+    font-size: 0.92rem;
+    letter-spacing: 0.32em;
+  }
+  .pulse-brand {
+    background: linear-gradient(180deg, #fff1a8 0%, #d8b45a 25%, #a67c2f 55%, #f3d77a 75%, #8a6425 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .pulse-nav-link {
+    color: var(--gold-bright);
+    text-shadow: 0 0 10px rgba(185, 151, 82, 0.28);
+  }
+  .pulse-brand:hover,
+  .pulse-nav-link:hover {
+    filter: brightness(1.2);
+  }
+
+  .pulse-nav-title {
+    color: var(--ink-faint);
+    font-size: 0.72rem;
+    letter-spacing: 0.46em;
+  }
+
+  .pulse-nav-link {
+    justify-self: end;
+  }
+
+  .pulse-main {
+    position: relative;
+    z-index: 3;
+  }
+
+  .pulse-footer {
+    padding: 2rem 0 2.6rem;
+    border-top: 1px solid var(--line-dim);
+    color: var(--ink-faint);
+    text-align: center;
+    font-size: 0.74rem;
+    letter-spacing: 0.44em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .array-bg .a-sheen {
+      animation: none;
+      opacity: 0.25;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .array-bg {
+      width: 150%;
+      height: 150%;
+      left: -25%;
+      top: -25%;
+    }
+
+    .pulse-nav,
+    .pulse-footer {
+      width: min(100% - 3.2rem, 82rem);
+    }
+    .pulse-nav {
+      grid-template-columns: 1fr auto;
+    }
+    .pulse-nav-title {
+      display: none;
+    }
+    .pulse-brand,
+    .pulse-nav-link {
+      font-size: 0.82rem;
+      letter-spacing: 0.22em;
+    }
+  }
+</style>

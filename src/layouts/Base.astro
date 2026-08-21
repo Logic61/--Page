@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Atmosphere from '../components/Atmosphere.astro';
+import searchIndex from '../data/search-index.json';
 
 interface Props {
   title?: string;
@@ -13,14 +14,17 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const path = (Astro.url.pathname.replace(/\/$/, '') || '/').replace(base, '') || '/';
 
 const nav = [
-  { href: '/', label: '首页' },
-  { href: '/yuanqi', label: '认识巫祝' },
-  { href: '/zhufa', label: '祝法养生' },
-  { href: '/chuancheng', label: '传承修习' },
-  { href: '/kecheng', label: '课程准备' },
-  { href: '/wenda', label: '修习问答' },
-  { href: '/baoming', label: '报名' },
+  { href: '/four-veins', label: '总目录', aliases: [] },
+  { href: '/zhoufa/mailuo', label: '咒法脉络', aliases: ['/zhoufa/yuanqi', '/zhoufa/tixi'] },
+  { href: '/zhoufa/wenzhang', label: '文章', aliases: [] },
+  { href: '/zhoufa/zhishi', label: '知识点', aliases: ['/zhoufa/wenda', '/zhoufa/yangsheng'] },
+  { href: '/zhoufa/xuexi', label: '体系学习', aliases: ['/zhoufa/chuancheng'] },
+  { href: '/zhoufa/kecheng', label: '课程介绍', aliases: [] },
+  { href: '/zhoufa/baoming', label: '报名须知', aliases: [] },
 ];
+
+const isActive = (item: (typeof nav)[number]) =>
+    path === item.href || item.aliases.includes(path) || (item.href.length > 1 && path.startsWith(item.href + '/'));
 ---
 
 <!doctype html>
@@ -47,23 +51,24 @@ const nav = [
 
     <header class="nav" id="nav">
       <div class="nav-inner wrap">
-        <a class="brand" href={base || '/'}>
+        <a class="brand" href={`${base}/zhoufa`}>
           <span class="brand-seal"><img src={`${base}/巫字.png`} alt="巫" width="155" height="153" /></span>
           <span class="brand-name">
             <b>上古祝门</b>
-            <small>古巫祝脉 · 隐传至今</small>
+            <small>古巫祝脉</small>
           </span>
         </a>
         <nav class="nav-links" aria-label="主导航">
           {
             nav.map((n) => (
-              <a href={`${base}${n.href}`} class:list={{ active: path === n.href }}>{n.label}</a>
+              <a href={`${base}${n.href}`} class:list={{ active: isActive(n) }}>{n.label}</a>
             ))
           }
         </nav>
+        <button class="nav-search" id="searchToggle" type="button" aria-label="全局搜索" title="搜索（Ctrl+K）">搜</button>
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换明暗模式" title="切换明暗模式">
-          <svg class="ico-ico ico--moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-          <svg class="ico-ico ico--sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span class="theme-symbol theme-symbol--dark" aria-hidden="true">月</span>
+          <span class="theme-symbol theme-symbol--light" aria-hidden="true">日</span>
         </button>
         <button class="nav-burger" id="navBurger" type="button" aria-label="打开菜单" aria-expanded="false" aria-controls="mobileMenu">
           <span></span><span></span><span></span>
@@ -75,10 +80,22 @@ const nav = [
       <nav class="drawer-links" aria-label="移动端导航">
         {
           nav.map((n) => (
-            <a href={`${base}${n.href}`} class:list={{ active: path === n.href }}>{n.label}</a>
+              <a href={`${base}${n.href}`} class:list={{ active: isActive(n) }}>{n.label}</a>
           ))
         }
       </nav>
+    </div>
+
+    <div class="search-overlay" id="searchOverlay" aria-hidden="true" role="dialog" aria-label="全局搜索">
+      <div class="search-panel">
+        <div class="search-bar">
+          <input id="searchInput" type="search" placeholder="搜索知识点、文章…（Esc 关闭）" autocomplete="off" />
+          <button class="search-close" id="searchClose" type="button" aria-label="关闭搜索">×</button>
+        </div>
+        <div class="search-results" id="searchResults">
+          <p class="search-hint">输入关键词，可搜索全部知识点与《神机秘闻》文章</p>
+        </div>
+      </div>
     </div>
 
     <main id="top">
@@ -98,14 +115,6 @@ const nav = [
         const next = rootEl.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
         applyTheme(next);
       });
-
-      const navEl = document.getElementById('nav');
-      const onScroll = () => {
-        if (window.scrollY > 40) navEl?.classList.add('scrolled');
-        else navEl?.classList.remove('scrolled');
-      };
-      onScroll();
-      window.addEventListener('scroll', onScroll, { passive: true });
 
       const burger = document.getElementById('navBurger');
       const drawer = document.getElementById('mobileMenu');
@@ -131,13 +140,6 @@ const nav = [
       });
       drawer?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeDrawer));
 
-      // scroll reveal — content is never permanently hidden
-      const revealInView = () => {
-        document.querySelectorAll('.reveal:not(.in)').forEach((el) => {
-          const r = el.getBoundingClientRect();
-          if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('in');
-        });
-      };
       const revealAll = () =>
         document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
       if (!('IntersectionObserver' in window)) {
@@ -155,19 +157,145 @@ const nav = [
           { threshold: 0.1, rootMargin: '0px 0px -6% 0px' }
         );
         document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
-        // rAF-throttled scroll safety net: nothing may stay hidden after a fast scroll
-        let ticking = false;
-        const onScroll = () => {
-          if (ticking) return;
-          ticking = true;
-          requestAnimationFrame(() => {
-            revealInView();
-            ticking = false;
-          });
-        };
-        window.addEventListener('scroll', onScroll, { passive: true });
-        setTimeout(revealInView, 900);
+        setTimeout(revealAll, 1600);
       }
+    </script>
+
+    <script define:vars={{ searchIndex, base }}>
+      const st = document.getElementById('searchToggle');
+      const so = document.getElementById('searchOverlay');
+      const si = document.getElementById('searchInput');
+      const sr = document.getElementById('searchResults');
+      const sc = document.getElementById('searchClose');
+      const openSearch = () => {
+        so.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('search-open');
+        setTimeout(() => si.focus(), 30);
+      };
+      const closeSearch = () => {
+        so.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('search-open');
+        si.value = '';
+        sr.innerHTML = '<p class="search-hint">输入关键词，可搜索全部知识点与《神机秘闻》文章</p>';
+      };
+      st?.addEventListener('click', openSearch);
+      sc?.addEventListener('click', closeSearch);
+      so?.addEventListener('click', (e) => { if (e.target === so) closeSearch(); });
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openSearch(); }
+        else if (e.key === 'Escape' && so?.getAttribute('aria-hidden') === 'false') closeSearch();
+      });
+      const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      si?.addEventListener('input', () => {
+        const q = si.value.trim().toLowerCase();
+        if (!q) { sr.innerHTML = '<p class="search-hint">输入关键词，可搜索全部知识点与《神机秘闻》文章</p>'; return; }
+        const hits = searchIndex.filter((x) => (x.title + x.snippet + x.category).toLowerCase().includes(q))
+          .sort((a, b) => (b.title.toLowerCase().includes(q) ? 1 : 0) - (a.title.toLowerCase().includes(q) ? 1 : 0));
+        const kw = hits.filter((h) => h.type === 'knowledge');
+        const art = hits.filter((h) => h.type === 'article');
+        let html = '';
+        if (kw.length) {
+          html += '<h4 class="search-group-title">知识点（' + kw.length + '）</h4>';
+          html += kw.slice(0, 12).map((h) => '<a class="search-hit" href="' + base + h.url + '"><b>' + esc(h.title) + '</b><span>' + esc(h.category) + ' · ' + esc(h.snippet) + '</span></a>').join('');
+        }
+        if (art.length) {
+          html += '<h4 class="search-group-title">文章（' + art.length + '）</h4>';
+          html += art.slice(0, 6).map((h) => '<a class="search-hit" href="' + base + h.url + '"><b>' + esc(h.title) + '</b><span>' + esc(h.snippet) + '</span></a>').join('');
+        }
+        if (!html) html = '<p class="search-hint">未找到与「' + esc(q) + '」相关的内容</p>';
+        sr.innerHTML = html;
+      });
     </script>
   </body>
 </html>
+
+<style>
+  .nav-search {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    flex: none;
+    border: 1px solid var(--ink-line);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--bronze-bright);
+    font-family: var(--font-kai);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.3s var(--ease-soft), color 0.3s var(--ease-soft), transform 0.2s var(--ease-soft);
+  }
+  .nav-search:hover { border-color: var(--bronze); color: var(--cinnabar-bright); transform: translateY(-1px); }
+
+  :global(body.search-open) { overflow: hidden; }
+
+  .search-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: calc(var(--z-nav) + 3);
+    background: rgba(5, 8, 12, 0.84);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 13vh 1.2rem 2rem;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s var(--ease-soft), visibility 0.3s;
+  }
+  .search-overlay[aria-hidden='false'] { visibility: visible; opacity: 1; }
+
+  .search-panel { width: min(100%, 44rem); }
+  .search-bar { display: flex; gap: 0.6rem; }
+  .search-bar :global(input) {
+    flex: 1;
+    min-width: 0;
+    padding: 0.85em 1.1em;
+    border: 1px solid var(--ink-line);
+    border-radius: 4px;
+    background: var(--ink-3);
+    color: var(--bone);
+    font-family: var(--font-song);
+    font-size: 1.05rem;
+    outline: none;
+    transition: border-color 0.3s var(--ease-soft);
+  }
+  .search-bar :global(input:focus) { border-color: var(--bronze-dim); }
+  .search-bar :global(input::placeholder) { color: var(--bone-faint); }
+  .search-close {
+    width: 48px;
+    flex: none;
+    border: 1px solid var(--ink-line);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--bone-dim);
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: border-color 0.3s var(--ease-soft), color 0.3s var(--ease-soft);
+  }
+  .search-close:hover { border-color: var(--cinnabar); color: var(--cinnabar-bright); }
+
+  .search-results { margin-top: 1.1rem; max-height: 62vh; overflow-y: auto; padding-right: 0.3rem; }
+  .search-results :global(.search-hint) { color: var(--bone-faint); padding: 1rem 0.2rem; font-size: 0.9rem; line-height: 2; }
+  .search-results :global(.search-group-title) {
+    margin: 1.1rem 0 0.5rem;
+    color: var(--bronze-bright);
+    font-family: var(--font-kai);
+    font-size: 0.86rem;
+    letter-spacing: 0.24em;
+  }
+  .search-results :global(.search-hit) {
+    display: block;
+    padding: 0.8rem 0.95rem;
+    margin-bottom: 0.55rem;
+    border: 1px solid var(--ink-line);
+    border-left: 2px solid var(--bronze-dim);
+    border-radius: 3px;
+    background: var(--panel-soft);
+    transition: border-color 0.25s var(--ease-soft), transform 0.2s var(--ease-soft);
+  }
+  .search-results :global(.search-hit:hover) { border-color: var(--bronze-bright); transform: translateY(-1px); }
+  .search-results :global(.search-hit b) { display: block; color: var(--heading); font-size: 0.98rem; letter-spacing: 0.06em; }
+  .search-results :global(.search-hit span) { display: block; margin-top: 0.3rem; color: var(--bone-faint); font-size: 0.8rem; line-height: 1.8; }
+  .search-results :global(.search-hit:hover b) { color: var(--bronze-bright); }
+</style>
