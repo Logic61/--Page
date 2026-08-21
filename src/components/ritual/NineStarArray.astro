@@ -5,9 +5,6 @@
 //   中环（逆时针）：八十一刻度环 + 廿七雷文带 + 九瓣莲旋
 //   内环（逆转细层）：九瓣内莲 + 细九芒 + 珠环
 //   定核（不转）：双九边形 + 亮九芒星 + 太极巫字
-import HookPair from './patterns/hook-pair.astro';
-import CloudTriple from './patterns/cloud-triple.astro';
-import ThunderWave from '../array/patterns/thunder-wave.astro';
 import Taiji from './patterns/taiji.astro';
 import { ringUses } from './ritual.js';
 
@@ -108,11 +105,6 @@ const track4 = trackFor(539);
 const track5 = trackFor(436);
 
 // ---- 中环（逆时针缓转）----
-// 廿七雷文带（9×3）：对钩雷纹与三云纹交替
-const band27 = ringUses(
-  [{ id: 'hook-pair', scale: 1.15 }, { id: 'cloud-triple', scale: 1.05 }, { id: 'thunder-wave', scale: 1.0 }],
-  668, 27, { scaleCycle: [1] }
-);
 // 九瓣莲旋：九枚外鼓莲瓣首尾相衔
 const lotus9 = Array.from({ length: 9 }, (_, i) =>
   `<path class="a-poly" d="${petalPath(i * 40 + 20, 596, 700, 15)}"/>`
@@ -149,9 +141,6 @@ const core = `
   aria-hidden="true"
 >
   <defs>
-    <HookPair />
-    <CloudTriple />
-    <ThunderWave />
     <Taiji />
     <image id="ns-bolt" href={`${base}/leiwen/17-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
     <image id="lei-1" href={`${base}/leiwen/1-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
@@ -191,9 +180,6 @@ const core = `
     <g class="a-rotate-ccw">
       <g class="a-dim">
         <g set:html={lotus9} />
-      </g>
-      <g class="a-bright">
-        <g set:html={band27} />
       </g>
       <circle class="a-sheen2" r="668" />
     </g>
