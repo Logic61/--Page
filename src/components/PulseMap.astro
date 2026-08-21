@@ -1,0 +1,271 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<div class="pulse-map-root" id="pulseMapRoot" data-base={base}>
+  <header class="pulse-title">
+    <p class="pulse-kicker kai">古巫祝脉 · 法门总览</p>
+    <h1 class="kai">古巫祝脉</h1>
+    <p class="pulse-subtitle">一树同根，五脉旁出，循枝而入</p>
+  </header>
+
+  <div class="pulse-map-shell">
+    <div class="pulse-viewport">
+      <div class="pulse-canvas"></div>
+    </div>
+  </div>
+
+  <p class="pulse-hint" aria-hidden="true">悬停枝梢 · 点击进入 · 触屏双指缩放</p>
+</div>
+
+<script>
+  import { initPulseMap } from './pulse-map/main.js';
+  const rootEl = document.getElementById('pulseMapRoot');
+  if (rootEl) initPulseMap(rootEl);
+</script>
+
+<style is:global>
+  /* ===================== 卷首标题（朴素，不饰 logo） ===================== */
+  .pulse-title {
+    padding: clamp(1.6rem, 4vw, 3rem) 0 clamp(0.5rem, 1.5vw, 1rem);
+    text-align: center;
+  }
+
+  .pulse-kicker {
+    color: var(--gold-dim);
+    font-size: 0.72rem;
+    letter-spacing: 0.6em;
+    text-indent: 0.6em;
+  }
+
+  .pulse-title h1 {
+    margin-top: 0.7rem;
+    background: linear-gradient(180deg, #fff1a8 0%, #d8b45a 25%, #a67c2f 55%, #f3d77a 75%, #8a6425 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 14px rgba(205, 160, 60, 0.16);
+    font-size: clamp(2.1rem, 5.5vw, 3.6rem);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: 0.34em;
+    text-indent: 0.34em;
+  }
+
+  .pulse-subtitle {
+    margin-top: 0.7rem;
+    color: var(--ink-light);
+    font-size: 0.8rem;
+    letter-spacing: 0.4em;
+    text-indent: 0.4em;
+  }
+
+  /* ===================== 画布 ===================== */
+  .pulse-map-shell {
+    width: min(100% - 2rem, 90rem);
+    margin-inline: auto;
+  }
+
+  .pulse-viewport {
+    position: relative;
+    height: clamp(620px, 82vh, 1020px);
+    overflow: hidden;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .pulse-viewport.panning {
+    cursor: grabbing;
+  }
+
+  .pulse-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: 0 0;
+    will-change: transform;
+  }
+
+  .pulse-map {
+    display: block;
+    max-width: none;
+  }
+
+  .pulse-hint {
+    margin: 0.6rem auto 0;
+    text-align: center;
+    color: var(--ink-faint);
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+  }
+
+  /* ===================== 树：枝干 ===================== */
+  .tree-branch {
+    fill: url(#woodGrad);
+    stroke: #120b05;
+    stroke-width: 2;
+    transition: opacity 0.5s var(--ease-soft), filter 0.5s var(--ease-soft);
+  }
+
+  .tree-shadow {
+    fill: #000;
+    opacity: 0.5;
+    transform: translateY(3px);
+    transition: opacity 0.5s var(--ease-soft);
+  }
+
+  .tree-sheen {
+    fill: none;
+    stroke: url(#sheenGrad);
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    transition: opacity 0.5s var(--ease-soft), filter 0.5s var(--ease-soft);
+  }
+
+  .tree-knot {
+    fill: url(#knotGrad);
+    stroke: #3a2a12;
+    stroke-width: 1;
+    transition: opacity 0.5s var(--ease-soft);
+  }
+
+  .tree-shadow.is-dimmed,
+  .tree-sheen.is-dimmed,
+  .tree-knot.is-dimmed {
+    opacity: 0.16;
+  }
+
+  .tree-sheen.is-path {
+    filter: brightness(1.35);
+  }
+  .tree-sheen.is-current {
+    filter: brightness(1.6);
+  }
+
+  .tree-branch.is-dimmed {
+    opacity: 0.16;
+  }
+  .tree-branch.is-path {
+    stroke: rgba(240, 217, 160, 0.85);
+    stroke-width: 1.4;
+    filter: brightness(1.35) sepia(0.15);
+  }
+  .tree-branch.is-current {
+    stroke: var(--gold-bright);
+    stroke-width: 1.6;
+    filter: brightness(1.5) saturate(1.1);
+  }
+
+  /* ===================== 树：铭牌 ===================== */
+  .tree-node {
+    transition: opacity 0.5s var(--ease-soft);
+  }
+  .tree-node.is-dimmed {
+    opacity: 0.22;
+  }
+
+  .tree-link {
+    cursor: pointer;
+    outline: none;
+  }
+  .tree-link:focus-visible .tree-node {
+    opacity: 1;
+  }
+
+  .tp-stem {
+    stroke: var(--gold-dim);
+    stroke-width: 1;
+    opacity: 0.6;
+  }
+
+  .tp-plaque {
+    fill: rgba(14, 9, 3, 0.88);
+    stroke: var(--gold);
+    stroke-width: 1.3;
+    transition: stroke 0.5s var(--ease-soft);
+  }
+  .tp-tick {
+    stroke: var(--gold);
+    stroke-width: 1.6;
+    opacity: 0.8;
+  }
+
+  .tp-text {
+    fill: var(--gold-bright);
+    font-family: var(--font-kai);
+    letter-spacing: 0.12em;
+    text-indent: 0.12em;
+    paint-order: stroke;
+    stroke: #0a0705;
+    stroke-width: 2px;
+    transition: fill 0.5s var(--ease-soft);
+  }
+  .tp-major {
+    font-size: 17px;
+  }
+  .tp-leaf {
+    font-size: 13px;
+  }
+
+  .tree-node.is-current .tp-plaque {
+    stroke: var(--gold-bright);
+  }
+  .tree-node.is-current .tp-text {
+    fill: var(--gold-bright);
+  }
+  .tree-node.is-path .tp-plaque {
+    stroke: rgba(240, 217, 160, 0.85);
+  }
+
+  /* 本源：根部圆印 */
+  .op-ring {
+    fill: #0b0704;
+    stroke: var(--gold-dim);
+    stroke-width: 1.5;
+  }
+  .op-core {
+    fill: rgba(14, 10, 4, 0.6);
+    stroke: rgba(185, 151, 82, 0.5);
+    stroke-width: 1;
+  }
+  .op-glyph {
+    fill: var(--gold-bright);
+    font-family: var(--font-kai);
+    font-size: 32px;
+    text-anchor: middle;
+  }
+  .op-label {
+    fill: var(--ink-light);
+    font-family: var(--font-kai);
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+  }
+  .tree-node-origin.is-current .op-ring {
+    stroke: var(--gold-bright);
+  }
+  .tree-node-origin.is-current .op-glyph {
+    fill: var(--gold-bright);
+  }
+
+  /* ===================== 响应式 ===================== */
+  @media (max-width: 640px) {
+    .pulse-map-shell {
+      width: min(100% - 1.2rem, 90rem);
+    }
+    .pulse-viewport {
+      height: 76dvh;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tree-branch,
+    .tree-node,
+    .tp-plaque,
+    .tp-text {
+      transition: none;
+    }
+  }
+</style>

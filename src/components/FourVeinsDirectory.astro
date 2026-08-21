@@ -1,0 +1,93 @@
+---
+import ArtsTree from './ArtsTree.astro';
+---
+
+<div class="veins-directory">
+  <section class="directory-intro" aria-labelledby="directory-title">
+    <div class="wrap directory-wrap">
+      <p class="directory-kicker kai">上古祝门</p>
+      <div class="directory-heading">
+        <span class="directory-mark zhuan" aria-hidden="true">巫</span>
+        <div>
+          <h1 id="directory-title" class="kai">法脉目录</h1>
+          <p>根出一源，法分四脉。择其门而入，循其法而行。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <ArtsTree />
+</div>
+
+<style>
+  .veins-directory {
+    position: relative;
+    z-index: 1;
+  }
+
+  .directory-intro {
+    min-height: min(18rem, 24dvh);
+    display: grid;
+    align-items: end;
+    padding: clamp(3.1rem, 6vw, 4.6rem) 0 clamp(1.2rem, 2vw, 1.8rem);
+  }
+
+  .directory-wrap {
+    position: relative;
+  }
+
+  .directory-wrap::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -1.5rem;
+    width: min(42vw, 31rem);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(170, 125, 58, 0.42), transparent);
+  }
+
+  .directory-kicker {
+    color: #80673c;
+    font-size: 0.8rem;
+    letter-spacing: 0.58em;
+  }
+
+  .directory-heading {
+    display: flex;
+    align-items: end;
+    gap: clamp(1.2rem, 3.5vw, 3rem);
+    margin-top: 1.25rem;
+  }
+
+  .directory-mark {
+    color: transparent;
+    -webkit-text-stroke: 1px #806532;
+    font-size: clamp(5rem, 10vw, 8.6rem);
+    line-height: 0.76;
+    text-shadow: 2px 4px 0 rgba(0, 0, 0, 0.72), 0 0 28px rgba(171, 126, 54, 0.08);
+  }
+
+  .directory-heading h1 {
+    color: #dfcc9e;
+    font-size: clamp(2.15rem, 5vw, 4.1rem);
+    line-height: 1.15;
+    letter-spacing: 0.22em;
+    min-width: 0;
+  }
+
+  .directory-heading p {
+    margin-top: 0.85rem;
+    color: #867b68;
+    font-size: 0.86rem;
+    letter-spacing: 0.2em;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 640px) {
+    .directory-intro { min-height: 22dvh; padding-top: 2.6rem; }
+    .directory-heading { align-items: center; gap: 0.72rem; min-width: 0; }
+    .directory-mark { font-size: 4.8rem; flex: 0 0 auto; }
+    .directory-heading h1 { font-size: clamp(1.9rem, 9vw, 3rem); }
+    .directory-heading p { font-size: 0.72rem; letter-spacing: 0.1em; line-height: 1.7; }
+  }
+</style>

@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "dev": "node scripts/gen-knowledge.mjs && astro dev",
+    "build": "node scripts/gen-knowledge.mjs && astro build",
     "preview": "astro preview"
   },
   "dependencies": {

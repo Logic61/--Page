@@ -1,0 +1,16 @@
+---
+import BranchLayout from '../layouts/BranchLayout.astro';
+import BranchPortal from '../components/BranchPortal.astro';
+
+const title = '真气治病 · 外气治病';
+const description = '外气治病机理之辨：真气外发、神气加持与心理暗示。';
+---
+
+<BranchLayout title={title} description={description} glyph="气" label="真气治病" accent="#7fa387">
+  <BranchPortal
+    glyph="气"
+    title="真气治病"
+    subtitle="外气 · 神气 · 激发"
+    description="外气治病机理之辨：激发潜力、赋予精气、移除恶气。"
+  />
+</BranchLayout>

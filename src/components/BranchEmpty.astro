@@ -1,0 +1,97 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+interface Props {
+  glyph: string;
+  name: string;
+  brief: string;
+}
+
+const { glyph, name, brief } = Astro.props;
+---
+
+<section class="branch-empty">
+  <div class="wrap">
+    <div class="be-panel reveal">
+      <span class="be-seal" aria-hidden="true">{glyph}</span>
+      <div class="be-body">
+        <h2 class="be-name kai">{name}</h2>
+        <p class="be-brief">{brief}</p>
+        <p class="be-soon">此支法脉，篇幅尚待开示。</p>
+        <a class="btn be-back" href={`${base}/`}>返回法门总览</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .branch-empty {
+    padding-top: 1.5rem;
+  }
+
+  .be-panel {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    border: 1px solid var(--ink-line);
+    padding: clamp(2rem, 5vw, 3.5rem);
+    background: linear-gradient(180deg, rgba(18, 26, 34, 0.5), rgba(10, 14, 19, 0.35));
+    border-radius: 3px;
+  }
+
+  html[data-theme='light'] .be-panel {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4));
+  }
+
+  .be-seal {
+    display: grid;
+    place-items: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    flex: none;
+    font-family: var(--font-zhuan);
+    font-size: 2.4rem;
+    color: #f0e3c8;
+    background: linear-gradient(180deg, rgba(178, 58, 44, 0.92), rgba(143, 44, 34, 0.92));
+    border-radius: 4px;
+    box-shadow: inset 0 0 0 1px rgba(255, 226, 196, 0.35), inset 0 0 14px rgba(60, 8, 4, 0.5);
+    transform: rotate(-3deg);
+  }
+
+  .be-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .be-name {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    letter-spacing: 0.3em;
+    color: var(--heading);
+  }
+
+  .be-brief {
+    max-width: 42em;
+    color: var(--bone-dim);
+    line-height: 2.1;
+    font-size: 0.98rem;
+  }
+
+  .be-soon {
+    font-family: var(--font-kai);
+    letter-spacing: 0.3em;
+    font-size: 0.88rem;
+    color: var(--bronze);
+  }
+
+  .be-back {
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    padding: 0.7em 1.8em;
+  }
+
+  @media (max-width: 560px) {
+    .be-panel { flex-direction: column; gap: 1.4rem; }
+  }
+</style>

@@ -1,0 +1,48 @@
+---
+import '../styles/global.css';
+import FlowRibbons from '../components/FlowRibbons.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  glyph: string;
+  label: string;
+  accent: string;
+}
+
+const { title, description, glyph, label, accent } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <title>{title}</title>
+  </head>
+  <body class="branch-page" style={`--branch-accent: ${accent}`}>
+    <div class="branch-aura" aria-hidden="true"></div>
+    <div class="branch-ribbons" aria-hidden="true"><FlowRibbons /></div>
+    <header class="branch-nav">
+      <a class="branch-back kai" href={`${base}/four-veins`}>返回目录</a>
+      <span class="branch-nav-name kai"><b>{glyph}</b>{label}</span>
+    </header>
+    <main><slot /></main>
+  </body>
+</html>
+
+<style>
+  .branch-page { min-height: 100dvh; background: #070807; color: #d9d2c2; }
+  .branch-ribbons { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .branch-aura { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: repeating-linear-gradient(90deg, transparent 0 8rem, color-mix(in srgb, var(--branch-accent) 7%, transparent) 8rem 8.05rem), radial-gradient(ellipse 58% 55% at 50% 15%, color-mix(in srgb, var(--branch-accent) 16%, transparent), transparent 70%), #070807; }
+  .branch-nav { position: relative; z-index: 2; width: min(100% - 3rem, 72rem); height: 5.3rem; margin-inline: auto; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid color-mix(in srgb, var(--branch-accent) 25%, transparent); }
+  .branch-back, .branch-nav-name { font-size: 0.88rem; letter-spacing: 0.3em; }
+  .branch-back { color: color-mix(in srgb, var(--branch-accent) 80%, #efe3c8); transition: color 0.25s var(--ease-soft); }
+  .branch-back:hover { color: #fff3db; }
+  .branch-nav-name { color: #8e856f; }
+  .branch-nav-name b { display: inline-block; margin-right: 0.5rem; color: var(--branch-accent); font-size: 1.25rem; font-weight: 400; }
+  @media (max-width: 640px) { .branch-nav { width: min(100% - 2.2rem, 72rem); } .branch-back, .branch-nav-name { font-size: 0.8rem; letter-spacing: 0.2em; } }
+</style>

@@ -1,0 +1,20 @@
+---
+import { bandUses, perimeterPath } from './geometry.js';
+// 内阵：方折雷纹带 + 回纹带（紧贴雷核，密而不乱）
+const GAPS = [
+  { angle: 0, half: 5 },
+  { angle: -90, half: 5 },
+  { angle: 90, half: 5 },
+  { angle: 180, half: 5 },
+];
+const thunder = bandUses('thunder-square', 340, 60, 36, { offset: 0.015 });
+const hui = bandUses('hui', 250, 45, 28, { offset: 0.02 });
+const dashed = `<path class="a-ring" opacity="0.5" stroke-dasharray="2 10" d="${perimeterPath(296, 52, 0, 1)}"/>`;
+const beadRow = bandUses('bead-border', 384, 66, 36, { rotExtra: 90, gaps: GAPS });
+---
+<g class="a-dim">
+  <g set:html={dashed} />
+  <g set:html={beadRow} />
+  <g set:html={thunder} />
+  <g set:html={hui} />
+</g>

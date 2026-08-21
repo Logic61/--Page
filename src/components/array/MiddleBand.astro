@@ -1,0 +1,20 @@
+---
+import { bandUses, perimeterPath } from './geometry.js';
+// 中阵：云旋带（对旋云纹） + 勾连雷纹带
+const GAPS = [
+  { angle: 0, half: 6 },
+  { angle: -90, half: 6 },
+  { angle: 90, half: 6 },
+  { angle: 180, half: 6 },
+];
+const cloud = bandUses('cloud-double', 545, 95, 34, { offset: 0.01 });
+const hook = bandUses('thunder-hook', 452, 80, 40, { offset: 0.02 });
+const dashed = `<path class="a-ring" opacity="0.5" stroke-dasharray="2 11" d="${perimeterPath(500, 88, 0, 1)}"/>`;
+const beadRow = bandUses('bead-border', 585, 100, 40, { rotExtra: 90, gaps: GAPS });
+---
+<g class="a-dim">
+  <g set:html={dashed} />
+  <g set:html={beadRow} />
+  <g set:html={cloud} />
+  <g set:html={hook} />
+</g>
