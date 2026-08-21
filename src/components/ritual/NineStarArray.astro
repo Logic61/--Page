@@ -172,12 +172,16 @@ const core = `
   <g transform="translate(1000 1000)">
     <!-- 外环：顺时针缓转 -->
     <g class="a-rotate-cw">
+      <!-- 暗层：结构线条（雷纹线 / 圆环 / 阵眼） -->
       <g class="a-dim">
         <g set:html={ring950} />
         <g set:html={nonagramWeb} />
         <g set:html={nodes9} />
-        <g class="a-bright" set:html={bolts9} />
         <g set:html={ringOuterLei} />
+      </g>
+      <!-- 亮层：符文与中心同亮度 -->
+      <g class="a-bright">
+        <g set:html={bolts9} />
         <g set:html={leiOuter} />
       </g>
       <circle class="a-sheen" r="932" />
@@ -187,9 +191,11 @@ const core = `
     <g class="a-rotate-ccw">
       <g class="a-dim">
         <g set:html={ringMid} />
+        <g set:html={lotus9} />
+      </g>
+      <g class="a-bright">
         <g set:html={band27} />
         <g set:html={leiMid} />
-        <g set:html={lotus9} />
       </g>
       <circle class="a-sheen2" r="668" />
     </g>
@@ -199,17 +205,17 @@ const core = `
       <g class="a-dim">
         <g set:html={lotusInner9} />
         <g set:html={nonagramInner} />
-        <g set:html={leiInner} />
         <g set:html={ring430} />
         <g set:html={beads54} />
         <g set:html={ring300} />
       </g>
+      <g class="a-bright">
+        <g set:html={leiInner} />
+      </g>
     </g>
 
-    <!-- 定核：不转，镇住全阵 -->
-    <g class="a-bright">
-      <g set:html={corePoly} />
-      <g set:html={core} />
-    </g>
+    <!-- 定核：不转；雷纹线九边暗、巫字太极亮 -->
+    <g class="a-dim" set:html={corePoly} />
+    <g class="a-bright" set:html={core} />
   </g>
 </svg>
