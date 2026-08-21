@@ -3,7 +3,7 @@
 // 视觉层级：主体图 > 图上分支节点 > 标题 > 法阵 > 云雷纹 > 背景。
 // 法阵退到背景层（低透明度），圆环从图片后方穿过；图片无矩形边框，
 // 中央清晰、四周经 mask 羽化自然消散进黑色背景。
-import RitualArray from '../components/ritual/RitualArray.astro';
+import NineStarArray from '../components/ritual/NineStarArray.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -36,14 +36,12 @@ const branches = [
     <main>
       <header class="map-head">
         <p class="map-kicker kai">古巫祝脉 · 法脉总览</p>
-        <h1 class="kai">古巫祝脉</h1>
-        <p class="map-sub">点击图中文字节点，循脉而入</p>
       </header>
 
       <!-- 舞台：法阵在底层，主体图压在其上，圆环从图后方左右穿出 -->
       <div class="stage">
         <div class="array-layer" aria-hidden="true">
-          <RitualArray />
+          <NineStarArray />
         </div>
 
         <div class="map-frame">
@@ -144,24 +142,7 @@ const branches = [
     text-align: center;
   }
 
-  .map-head::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: min(92vw, 46rem);
-    height: 11.5rem;
-    background: radial-gradient(ellipse 50% 55% at 50% 50%, rgba(5, 5, 5, 0.78), rgba(5, 5, 5, 0.22) 55%, transparent 78%);
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  .map-kicker,
-  .map-head h1,
-  .map-sub { position: relative; z-index: 1; }
-
-  .map-kicker { color: var(--gold-dim); font-size: 0.72rem; letter-spacing: 0.6em; text-indent: 0.6em; }
+  .map-kicker { position: relative; z-index: 1; color: var(--gold-dim); font-size: 0.72rem; letter-spacing: 0.6em; text-indent: 0.6em; }
 
   .map-head h1 {
     margin-top: 0.7rem;
@@ -202,11 +183,11 @@ const branches = [
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: min(182%, 1520px);
+    width: min(255%, 2130px);
     aspect-ratio: 1 / 1;
     z-index: 0;
-    opacity: 0.45;
-    filter: brightness(1.25);
+    opacity: 0.82;
+    filter: brightness(1.35);
     pointer-events: none;
   }
 
@@ -321,7 +302,7 @@ const branches = [
 
   @media (max-width: 900px) {
     .map-frame { width: min(100% - 1.5rem, 62vw); }
-    .array-layer { width: min(215%, 1200px); opacity: 0.38; }
+    .array-layer { width: min(301%, 1680px); opacity: 0.74; }
   }
 
   @media (max-width: 640px) {
@@ -329,7 +310,7 @@ const branches = [
     .top-title { display: none; }
     .brand, .top-link { font-size: 0.8rem; letter-spacing: 0.2em; }
     .map-frame { width: 100%; }
-    .array-layer { width: 250%; opacity: 0.3; top: 50%; }
+    .array-layer { width: 350%; opacity: 0.62; top: 50%; }
     .map-sub { letter-spacing: 0.14em; text-indent: 0.14em; }
   }
 

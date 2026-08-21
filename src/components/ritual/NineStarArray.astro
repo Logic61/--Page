@@ -31,6 +31,46 @@ const starPath = (n, k, R, rotDeg = 0) => {
   return `M ${pts.join(' L ')} Z`;
 };
 
+// 直线 → 雷纹2号紧密排列：以 lei-2 为单元，沿折线密铺成“雷纹线”
+const gcd = (a, b) => (b ? gcd(b, a % b) : a);
+// 取出 {n/k} 星形的全部直线子段（含互不相连的三角组）
+const starPolylines = (n, k, R, rotDeg = 0) => {
+  const rot = (rotDeg * Math.PI) / 180;
+  const g = gcd(n, k);
+  const polys = [];
+  for (let s = 0; s < g; s++) {
+    const pts = [];
+    let idx = s;
+    for (let j = 0; j <= n / g; j++) {
+      const a = rot + (idx * TAU) / n;
+      pts.push([Math.cos(a) * R, Math.sin(a) * R]);
+      idx = (idx + k) % n;
+    }
+    polys.push(pts);
+  }
+  return polys;
+};
+// 沿一条折线密铺雷纹2号（每隔 spacing 放一枚，随线段切线旋转）
+const beadsAlong = (pts, spacing, sc, rotDeg = 0) => {
+  const out = [];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const [x1, y1] = pts[i];
+    const [x2, y2] = pts[i + 1];
+    const dx = x2 - x1, dy = y2 - y1;
+    const len = Math.hypot(dx, dy);
+    if (len < 1) continue;
+    const ang = (Math.atan2(dy, dx) * 180) / Math.PI + rotDeg;
+    const n = Math.max(1, Math.round(len / spacing));
+    for (let j = 0; j <= n; j++) {
+      const t = j / n;
+      out.push(`<use href="#lei-2" transform="translate(${n2(x1 + dx * t)} ${n2(y1 + dy * t)}) rotate(${n2(ang)}) scale(${n2(sc)})"/>`);
+    }
+  }
+  return out;
+};
+const beadStroke = (polys, spacing, sc, rotDeg = 0) =>
+  polys.flatMap((p) => beadsAlong(p, spacing, sc, rotDeg)).join('');
+
 // 莲瓣：以外弧鼓出的两段贝塞尔构成一枚瓣
 const petalPath = (aDeg, r1, r2, halfDeg) => {
   const a = (aDeg * Math.PI) / 180;
@@ -41,11 +81,10 @@ const petalPath = (aDeg, r1, r2, halfDeg) => {
 
 // ---- 外环（顺时针缓转）----
 const ring950 = `<circle class="a-ring" r="950"/><circle class="a-ring a-thin" r="912"/>`;
-// 三重九芒星交织：{9/2} 正位、{9/4} 偏 20°、{9/3}（三三角）略缩，层层咬合
-const nonagramWeb = `
-  <path class="a-poly" d="${starPath(9, 2, 884, 0)}"/>
-  <path class="a-poly" d="${starPath(9, 4, 884, 20)}"/>
-  <path class="a-poly a-faint" d="${starPath(9, 3, 862, 10)}"/>`;
+// 三重九芒星交织：所有直线由「雷纹2号」紧密排列密铺而成
+const nonagramWeb = beadStroke(starPolylines(9, 2, 884, 0), 30, 0.32) +
+  beadStroke(starPolylines(9, 4, 884, 20), 30, 0.32) +
+  beadStroke(starPolylines(9, 3, 862, 10), 30, 0.26);
 // 九辰节点：{9/2} 九个外尖上的阵眼
 const nodes9 = Array.from({ length: 9 }, (_, i) => {
   const a = (i * TAU) / 9;
@@ -80,14 +119,15 @@ const lotus9 = Array.from({ length: 9 }, (_, i) =>
 const lotusInner9 = Array.from({ length: 9 }, (_, i) =>
   `<path class="a-poly a-faint" d="${petalPath(i * 40, 468, 540, 13)}"/>`
 ).join('');
-const nonagramInner = `<path class="a-poly a-faint" d="${starPath(9, 6, 442, 0)}"/>`;
+const nonagramInner = beadStroke(starPolylines(9, 6, 442, 0), 22, 0.22);
 const ring430 = `<circle class="a-ring a-thin" r="414"/>`;
 const beads54 = ringUses([{ id: 'bead-border' }], 356, 54, { scaleCycle: [1] });
 const ring300 = `<circle class="a-ring" r="300"/>`;
 
 // ---- 定核（不转）----
-// 双九边形偏轴交叠 + 亮九芒星 {9/4} + 太极巫字镇心
-const corePoly = `<path class="a-poly" d="${starPath(9, 1, 236, 0)}"/><path class="a-poly" d="${starPath(9, 1, 236, 20)}"/>`;
+// 双九边形偏轴交叠（雷纹2号密铺）+ 太极巫字镇心
+const corePoly = beadStroke(starPolylines(9, 1, 236, 0), 18, 0.22) +
+  beadStroke(starPolylines(9, 1, 236, 20), 18, 0.22);
 const core = `
   <g class="a-taiji"><use href="#taiji" transform="scale(1.15)"/></g>
   <image
