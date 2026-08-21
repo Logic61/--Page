@@ -1,0 +1,150 @@
+---
+// 九星芒阵 —— 九重对称玄阵（黑金），与云雷祭阵同语系（复用 a-* 全局样式类）
+// 结构：
+//   外环（顺时针）：双主环 + 三重九芒星交织（{9/2}/{9/4}/{9/3}）+ 九辰节点 + 九枚现代⚡符
+//   中环（逆时针）：八十一刻度环 + 廿七雷文带 + 九瓣莲旋
+//   内环（逆转细层）：九瓣内莲 + 细九芒 + 珠环
+//   定核（不转）：双九边形 + 亮九芒星 + 太极巫字
+import HookPair from './patterns/hook-pair.astro';
+import CloudTriple from './patterns/cloud-triple.astro';
+import ThunderWave from '../array/patterns/thunder-wave.astro';
+import Taiji from './patterns/taiji.astro';
+import { ringUses } from './ritual.js';
+
+const n2 = (v) => Math.round(v * 10) / 10;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const TAU = Math.PI * 2;
+
+// 星形折线 {n/k}：n 角星，每步跨 k 角，折线闭合
+const starPath = (n, k, R, rotDeg = 0) => {
+  const rot = (rotDeg * Math.PI) / 180;
+  const pts = Array.from({ length: n }, (_, i) => {
+    const a = rot + (i * k * TAU) / n;
+    return `${n2(Math.cos(a) * R)} ${n2(Math.sin(a) * R)}`;
+  });
+  return `M ${pts.join(' L ')} Z`;
+};
+
+// 莲瓣：以外弧鼓出的两段贝塞尔构成一枚瓣
+const petalPath = (aDeg, r1, r2, halfDeg) => {
+  const a = (aDeg * Math.PI) / 180;
+  const h = (halfDeg * Math.PI) / 180;
+  const p = (r, ang) => `${n2(Math.cos(ang) * r)} ${n2(Math.sin(ang) * r)}`;
+  return `M ${p(r1, a - h)} Q ${p(r2, a - h / 2)} ${p(r2, a)} Q ${p(r2, a + h / 2)} ${p(r1, a + h)} Q ${p((r1 + r2) / 2, a)} ${p(r1, a - h)} Z`;
+};
+
+// ---- 外环（顺时针缓转）----
+const ring950 = `<circle class="a-ring" r="950"/><circle class="a-ring a-thin" r="912"/>`;
+// 三重九芒星交织：{9/2} 正位、{9/4} 偏 20°、{9/3}（三三角）略缩，层层咬合
+const nonagramWeb = `
+  <path class="a-poly" d="${starPath(9, 2, 884, 0)}"/>
+  <path class="a-poly" d="${starPath(9, 4, 884, 20)}"/>
+  <path class="a-poly a-faint" d="${starPath(9, 3, 862, 10)}"/>`;
+// 九辰节点：{9/2} 九个外尖上的阵眼
+const nodes9 = Array.from({ length: 9 }, (_, i) => {
+  const a = (i * TAU) / 9;
+  return `<g transform="translate(${n2(Math.cos(a) * 884)} ${n2(Math.sin(a) * 884)})"><circle class="a-node" r="11"/><circle class="a-node-ring" r="19"/></g>`;
+}).join('');
+// 九枚现代⚡符：嵌于两节点之间的中点，古阵衔今符
+const bolts9 = ringUses([{ id: 'ns-bolt', scale: 0.62 }], 800, 9, { offset: 0.5, scaleCycle: [1] });
+// 外缘细刻度：八十一道（九九之数）
+const ticks81 = Array.from({ length: 81 }, (_, i) => {
+  const a = (i * TAU) / 81;
+  const c = Math.cos(a), s = Math.sin(a);
+  const r1 = i % 9 === 0 ? 758 : 768;
+  return `M ${n2(c * r1)} ${n2(s * r1)} L ${n2(c * 782)} ${n2(s * 782)}`;
+}).join('');
+const tickRing81 = `<circle class="a-ring a-thin" r="752"/><path class="a-tick" d="${ticks81}" opacity="0.55"/>`;
+
+// ---- 中环（逆时针缓转）----
+// 廿七雷文带（9×3）：对钩雷纹与三云纹交替
+const band27 = ringUses(
+  [{ id: 'hook-pair', scale: 1.15 }, { id: 'cloud-triple', scale: 1.05 }, { id: 'thunder-wave', scale: 1.0 }],
+  668, 27, { scaleCycle: [1] }
+);
+const ringMid = `<circle class="a-ring a-thin" r="726"/><circle class="a-ring a-thin" r="610"/>`;
+// 九瓣莲旋：九枚外鼓莲瓣首尾相衔
+const lotus9 = Array.from({ length: 9 }, (_, i) =>
+  `<path class="a-poly" d="${petalPath(i * 40 + 20, 596, 700, 15)}"/>`
+).join('');
+
+// ---- 内环（逆转细层）----
+// 内莲：九枚反向小瓣 + 细九芒 {9/6}（即倒写三三角）
+const lotusInner9 = Array.from({ length: 9 }, (_, i) =>
+  `<path class="a-poly a-faint" d="${petalPath(i * 40, 468, 540, 13)}"/>`
+).join('');
+const nonagramInner = `<path class="a-poly a-faint" d="${starPath(9, 6, 442, 0)}"/>`;
+const ring430 = `<circle class="a-ring a-thin" r="414"/>`;
+const beads54 = ringUses([{ id: 'bead-border' }], 356, 54, { scaleCycle: [1] });
+const ring300 = `<circle class="a-ring" r="300"/>`;
+
+// ---- 定核（不转）----
+// 双九边形偏轴交叠 + 亮九芒星 {9/4} + 太极巫字镇心
+const corePoly = `<path class="a-poly" d="${starPath(9, 1, 236, 0)}"/><path class="a-poly" d="${starPath(9, 1, 236, 20)}"/>`;
+const coreStar = `<path d="${starPath(9, 4, 168, 10)}" fill="none" stroke="#cfa95e" stroke-width="4" opacity="0.9"/>`;
+const core = `
+  <g class="a-taiji"><use href="#taiji" transform="scale(1.15)"/></g>
+  <image
+    class="a-wu-img"
+    href="${base}/巫字-gold.png"
+    x="-70" y="-70" width="140" height="140"
+    preserveAspectRatio="xMidYMid meet"
+  />`;
+---
+
+<svg
+  class="array-bg"
+  viewBox="0 0 2000 2000"
+  preserveAspectRatio="xMidYMid meet"
+  aria-hidden="true"
+>
+  <defs>
+    <HookPair />
+    <CloudTriple />
+    <ThunderWave />
+    <Taiji />
+    <image id="ns-bolt" href={`${base}/leiwen/17-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+  </defs>
+
+  <g transform="translate(1000 1000)">
+    <!-- 外环：顺时针缓转 -->
+    <g class="a-rotate-cw">
+      <g class="a-dim">
+        <g set:html={ring950} />
+        <g set:html={nonagramWeb} />
+        <g set:html={nodes9} />
+        <g class="a-bright" set:html={bolts9} />
+        <g set:html={tickRing81} />
+      </g>
+      <circle class="a-sheen" r="932" />
+    </g>
+
+    <!-- 中环：逆时针缓转 -->
+    <g class="a-rotate-ccw">
+      <g class="a-dim">
+        <g set:html={ringMid} />
+        <g set:html={band27} />
+        <g set:html={lotus9} />
+      </g>
+      <circle class="a-sheen2" r="668" />
+    </g>
+
+    <!-- 内环：逆转细层 -->
+    <g class="a-rotate-cw">
+      <g class="a-dim">
+        <g set:html={lotusInner9} />
+        <g set:html={nonagramInner} />
+        <g set:html={ring430} />
+        <g set:html={beads54} />
+        <g set:html={ring300} />
+      </g>
+    </g>
+
+    <!-- 定核：不转，镇住全阵 -->
+    <g class="a-bright">
+      <g set:html={corePoly} />
+      <g set:html={coreStar} />
+      <g set:html={core} />
+    </g>
+  </g>
+</svg>
