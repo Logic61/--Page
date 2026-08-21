@@ -15,6 +15,12 @@ const n2 = (v) => Math.round(v * 10) / 10;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const TAU = Math.PI * 2;
 
+// 巫/雷纹 17 张截图符号（含 17 号现代⚡）：按 1-2-…-17-1-2-… 连续循环排列
+const LEI = Array.from({ length: 17 }, (_, i) => `lei-${i + 1}`);
+// 符文圈：1-17 连续环绕；数量取 17 倍数保证无缝衔接
+const leiRing = (r, n, s, offset) =>
+  ringUses(LEI.map((id) => ({ id, scale: s })), r, n, { offset, scaleCycle: [1] });
+
 // 星形折线 {n/k}：n 角星，每步跨 k 角，折线闭合
 const starPath = (n, k, R, rotDeg = 0) => {
   const rot = (rotDeg * Math.PI) / 180;
@@ -47,14 +53,15 @@ const nodes9 = Array.from({ length: 9 }, (_, i) => {
 }).join('');
 // 九枚现代⚡符：嵌于两节点之间的中点，古阵衔今符
 const bolts9 = ringUses([{ id: 'ns-bolt', scale: 0.62 }], 800, 9, { offset: 0.5, scaleCycle: [1] });
-// 外缘细刻度：八十一道（九九之数）
-const ticks81 = Array.from({ length: 81 }, (_, i) => {
-  const a = (i * TAU) / 81;
-  const c = Math.cos(a), s = Math.sin(a);
-  const r1 = i % 9 === 0 ? 758 : 768;
-  return `M ${n2(c * r1)} ${n2(s * r1)} L ${n2(c * 782)} ${n2(s * 782)}`;
-}).join('');
-const tickRing81 = `<circle class="a-ring a-thin" r="752"/><path class="a-tick" d="${ticks81}" opacity="0.55"/>`;
+// 外缘符文环：以 1-17 雷纹连续环绕（取代短横刻度），数量取 17 倍数无缝衔接
+const leiOuter = leiRing(820, 51, 0.7, 0.5);
+const ringOuterLei = `<circle class="a-ring a-thin" r="784"/><circle class="a-ring a-thin" r="856"/>`;
+
+// 中缘符文环
+const leiMid = leiRing(640, 51, 0.6, 0.5);
+
+// 内缘符文环
+const leiInner = leiRing(470, 34, 0.52, 0.5);
 
 // ---- 中环（逆时针缓转）----
 // 廿七雷文带（9×3）：对钩雷纹与三云纹交替
@@ -104,6 +111,23 @@ const core = `
     <ThunderWave />
     <Taiji />
     <image id="ns-bolt" href={`${base}/leiwen/17-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-1" href={`${base}/leiwen/1-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-2" href={`${base}/leiwen/2-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-3" href={`${base}/leiwen/3-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-4" href={`${base}/leiwen/4-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-5" href={`${base}/leiwen/5-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-6" href={`${base}/leiwen/6-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-7" href={`${base}/leiwen/7-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-8" href={`${base}/leiwen/8-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-9" href={`${base}/leiwen/9-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-10" href={`${base}/leiwen/10-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-11" href={`${base}/leiwen/11-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-12" href={`${base}/leiwen/12-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-13" href={`${base}/leiwen/13-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-14" href={`${base}/leiwen/14-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-15" href={`${base}/leiwen/15-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-16" href={`${base}/leiwen/16-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-17" href={`${base}/leiwen/17-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
   </defs>
 
   <g transform="translate(1000 1000)">
@@ -114,7 +138,8 @@ const core = `
         <g set:html={nonagramWeb} />
         <g set:html={nodes9} />
         <g class="a-bright" set:html={bolts9} />
-        <g set:html={tickRing81} />
+        <g set:html={ringOuterLei} />
+        <g set:html={leiOuter} />
       </g>
       <circle class="a-sheen" r="932" />
     </g>
@@ -124,6 +149,7 @@ const core = `
       <g class="a-dim">
         <g set:html={ringMid} />
         <g set:html={band27} />
+        <g set:html={leiMid} />
         <g set:html={lotus9} />
       </g>
       <circle class="a-sheen2" r="668" />
@@ -134,6 +160,7 @@ const core = `
       <g class="a-dim">
         <g set:html={lotusInner9} />
         <g set:html={nonagramInner} />
+        <g set:html={leiInner} />
         <g set:html={ring430} />
         <g set:html={beads54} />
         <g set:html={ring300} />
