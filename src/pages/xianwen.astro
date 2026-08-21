@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Footer from '../components/Footer.astro';
+
+const title = '闲文 · 上古祝门';
+const description = '闲文分支目录页（临时）：闲言散语，正在整理，即将开放。';
+---
+
+<Base title={title} description={description}>
+  <PageIntro
+    mark="闲"
+    title="闲文"
+    sub="闲言散语，不成体系，聊备一格。此枝内容正在整理誊录，暂未开放。"
+    meta="临时页面 · 内容筹备中"
+  />
+  <section class="temp-note">
+    <div class="wrap">
+      <div class="temp-card reveal">
+        <p class="temp-line kai">闲话不闲，散墨有痕。</p>
+        <p class="temp-line kai">此处篇章尚在拣选，来日安放，再供消遣。</p>
+        <a class="btn" href="/four-veins">返回分支图</a>
+      </div>
+    </div>
+  </section>
+  <Footer />
+</Base>
+
+<style>
+  .temp-note { padding: clamp(3rem, 8vw, 6rem) 0 clamp(4rem, 10vw, 8rem); }
+  .temp-card {
+    max-width: 34rem;
+    margin-inline: auto;
+    padding: clamp(1.8rem, 4vw, 3rem);
+    text-align: center;
+    border: 1px solid var(--line, rgba(150, 120, 60, 0.35));
+    border-radius: 4px;
+  }
+  .temp-line {
+    color: var(--ink, inherit);
+    font-size: 1.05rem;
+    letter-spacing: 0.18em;
+    line-height: 2.1;
+  }
+  .btn {
+    display: inline-block;
+    margin-top: 1.6rem;
+    padding: 0.55em 1.6em;
+    color: inherit;
+    text-decoration: none;
+    letter-spacing: 0.22em;
+    border: 1px solid currentColor;
+    border-radius: 2px;
+    opacity: 0.85;
+    transition: opacity 0.25s;
+  }
+  .btn:hover { opacity: 1; }
+</style>

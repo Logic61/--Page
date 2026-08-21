@@ -1,16 +1,17 @@
 ---
-// 法脉总览：挂载《分支图》，五个发光节点上叠透明热区，点击跳转对应法脉。
-// 背景阵纹：仅引入云雷祭阵 v2（道家阵法），不改动树/图片/热区等其他设计。
+// 法脉总览：主体是《分支图》本身——它就是本页的目录地图。
+// 视觉层级：主体图 > 图上分支节点 > 标题 > 法阵 > 云雷纹 > 背景。
+// 法阵退到背景层（低透明度），圆环从图片后方穿过；图片无矩形边框，
+// 中央清晰、四周经 mask 羽化自然消散进黑色背景。
 import RitualArray from '../components/ritual/RitualArray.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const branches = [
-  { name: '咒法', route: '/zhoufa', x: 32, y: 34, w: 22, h: 14 },
-  { name: '偶景', route: '/oujing', x: 76, y: 30, w: 22, h: 14 },
-  { name: '真气治病', route: '/zhenqi', x: 78, y: 41, w: 23, h: 14 },
-  { name: '鏖战法', route: '/aozhan', x: 29, y: 56, w: 22, h: 14 },
-  { name: '驻颜术', route: '/zhuyanshu', x: 81, y: 60, w: 23, h: 14 },
+  { name: '法门', route: '/famen', x: 27, y: 38, w: 20, h: 8 },
+  { name: '修炼常识', route: '/zhoufa/zhishi', x: 79, y: 30, w: 24, h: 8 },
+  { name: '秘闻', route: '/zhoufa/wenzhang', x: 19.5, y: 56, w: 18, h: 8 },
+  { name: '闲文', route: '/xianwen', x: 80, y: 64, w: 18, h: 8 },
 ];
 ---
 
@@ -19,14 +20,11 @@ const branches = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="上古祝门四脉分支目录：根出一源，法分五脉，循脉而入。古巫祝脉传承脉图。" />
+    <meta name="description" content="古巫祝脉分支目录：一树同源，法分法门、修炼常识、秘闻、闲文诸枝，循脉而入。传承脉图。" />
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
     <title>古巫祝脉 · 法门总览</title>
   </head>
   <body>
-    <!-- 云雷祭阵 v2：黑金道家阵法铺在整页背后，veil 叠在其上收暗角 -->
-    <RitualArray />
-
     <div class="veil" aria-hidden="true"></div>
 
     <header class="top">
@@ -38,49 +36,34 @@ const branches = [
     <main>
       <header class="map-head">
         <p class="map-kicker kai">古巫祝脉 · 法脉总览</p>
-        <h1 class="kai">法脉分支</h1>
-        <p class="map-sub">点击分支节点，以进入对应法脉详情页面</p>
+        <h1 class="kai">古巫祝脉</h1>
+        <p class="map-sub">点击图中文字节点，循脉而入</p>
       </header>
 
-      <div class="map-frame">
-        <img class="map-img" src={`${base}/分支图.jpg`} alt="古巫祝脉五脉分支图" loading="eager" />
-        {branches.map((b) => (
-          <a
-            class="map-hotspot"
-            href={`${base}${b.route}`}
-            aria-label={`进入${b.name}`}
-            data-name={b.name}
-            style={`left:${b.x}%; top:${b.y}%; width:${b.w}%; --hs-h:${b.h}%;`}
-          >
-            <span class="hotspot-ring" aria-hidden="true"></span>
-          </a>
-        ))}
+      <!-- 舞台：法阵在底层，主体图压在其上，圆环从图后方左右穿出 -->
+      <div class="stage">
+        <div class="array-layer" aria-hidden="true">
+          <RitualArray />
+        </div>
+
+        <div class="map-frame">
+          <img class="map-img" src={`${base}/分支图-new.png`} alt="古巫祝脉分支图：法门、修炼常识、秘闻、闲文" loading="eager" />
+          {branches.map((b) => (
+            <a
+              class="map-hotspot"
+              href={`${base}${b.route}`}
+              aria-label={`进入${b.name}`}
+              data-name={b.name}
+              style={`left:${b.x}%; top:${b.y}%; width:${b.w}%; --hs-h:${b.h}%;`}
+            >
+              <span class="hotspot-ring" aria-hidden="true"></span>
+            </a>
+          ))}
+        </div>
       </div>
     </main>
 
-    <footer class="foot kai">五脉同源 · 各有所传</footer>
-
-    <script>
-      (function () {
-        var svg = document.querySelector('.array-bg');
-        if (!svg) return;
-        var fit = function () {
-          var img = document.querySelector('.map-img');
-          var imgTop = img ? img.getBoundingClientRect().top : window.innerHeight * 0.2;
-          var yTop = Math.min(Math.max(imgTop * 0.72, 250), 380);
-          var D = Math.min(window.innerWidth * 0.62, window.innerHeight * 0.92); /* 放大后的阵径 */
-          var R = D / 2;
-          svg.style.width = D + 'px';
-          svg.style.height = D + 'px';
-          svg.style.marginLeft = (-R) + 'px';
-          svg.style.top = (yTop - R) + 'px';
-        };
-        fit();
-        window.addEventListener('resize', fit);
-        window.addEventListener('load', fit);
-        setTimeout(fit, 400);
-      })();
-    </script>
+    <footer class="foot kai">诸枝同源 · 各有所传</footer>
   </body>
 </html>
 
@@ -95,14 +78,21 @@ const branches = [
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
+  /* 法阵层远宽于视口：横向直接裁剪，不产生滚动区域 */
+  html, body {
+    overflow-x: hidden;
+    overflow-x: clip;
+  }
+
   body {
     min-height: 100dvh;
     padding-top: clamp(2rem, 5vw, 4.5rem);
-    background: radial-gradient(ellipse 60% 40% at 50% 22%, rgba(185, 151, 82, 0.08), transparent 70%), #050505;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 30%, rgba(185, 151, 82, 0.08), transparent 70%),
+      #050505;
     color: var(--ink);
     font-family: "Songti SC", "STSong", "SimSun", "Noto Serif SC", serif;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
   }
 
   .kai { font-family: "Kaiti SC", "STKaiti", "KaiTi", serif; }
@@ -110,16 +100,16 @@ const branches = [
   .veil {
     position: fixed;
     inset: 0;
-    z-index: 0;
+    z-index: 4;
     pointer-events: none;
     background:
-      radial-gradient(ellipse 52% 40% at 50% 30%, rgba(185, 151, 82, 0.07), transparent 70%),
-      linear-gradient(90deg, rgba(0,0,0,.5), transparent 16%, transparent 84%, rgba(0,0,0,.5));
+      radial-gradient(ellipse 52% 40% at 50% 34%, rgba(185, 151, 82, 0.05), transparent 70%),
+      linear-gradient(90deg, rgba(0,0,0,.55), transparent 18%, transparent 82%, rgba(0,0,0,.55));
   }
 
   .top {
     position: relative;
-    z-index: 2;
+    z-index: 6;
     width: min(100% - 3rem, 44rem);
     min-height: 4.2rem;
     margin-inline: auto;
@@ -143,13 +133,14 @@ const branches = [
   main {
     position: relative;
     z-index: 2;
-    padding-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
   }
 
+  /* ---- 标题：压在主体图上方，视觉层级低于图 ---- */
   .map-head {
     position: relative;
-    z-index: 0;
-    padding: clamp(2.6rem, 6vw, 4.6rem) 0 clamp(1rem, 2.2vw, 1.8rem);
+    z-index: 3;
+    padding: clamp(1.8rem, 4vw, 3.2rem) 0 clamp(0.6rem, 1.5vw, 1.2rem);
     text-align: center;
   }
 
@@ -178,7 +169,7 @@ const branches = [
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-size: clamp(1.9rem, 4.4vw, 2.9rem);
     font-weight: 500;
     line-height: 1.1;
     letter-spacing: 0.34em;
@@ -186,36 +177,77 @@ const branches = [
   }
 
   .map-sub {
-    margin-top: 0.75rem;
+    margin-top: 0.7rem;
     background: linear-gradient(180deg, #f5e6b0 0%, #d9b969 28%, #a67c2f 55%, #e8cd82 78%, #9a7330 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     letter-spacing: 0.24em;
     text-indent: 0.24em;
     text-shadow: 0 0 14px rgba(205, 160, 60, 0.16);
   }
 
-  /* ---- 图 + 透明热区 ---- */
-  .map-frame {
+  /* ---- 舞台：法阵层 + 主体图 ---- */
+  .stage {
     position: relative;
-    width: min(100% - 1.5rem, 640px);
-    margin-inline: auto;
-    margin-top: clamp(7rem, 18vw, 12rem);
+    display: flex;
+    justify-content: center;
+    padding-bottom: clamp(1rem, 3vw, 2.5rem);
   }
 
+  /* 法阵退到背景层：圆环直径大于图宽，从图后方左右两侧穿出；中心与主体图中心对齐 */
+  .array-layer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(182%, 1520px);
+    aspect-ratio: 1 / 1;
+    z-index: 0;
+    opacity: 0.45;
+    filter: brightness(1.25);
+    pointer-events: none;
+  }
+
+  .map-frame {
+    position: relative;
+    z-index: 2;
+    /* 新图为竖幅（1052×1494），收窄容器控制整页高度 */
+    width: min(100% - 1.5rem, 50vw, 600px);
+  }
+
+  /* 金色光晕垫在图后，让图与法阵衔接处有过渡 */
+  .map-frame::before {
+    content: "";
+    position: absolute;
+    inset: -12%;
+    background: radial-gradient(ellipse 52% 48% at 50% 44%, rgba(185, 151, 82, 0.13), transparent 72%);
+    filter: blur(6px);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* 主体图：无矩形边框。中央约 70% 清晰，四周羽化消散进黑背景 */
   .map-img {
+    position: relative;
+    z-index: 1;
     display: block;
     width: 100%;
     height: auto;
-    border: 1px solid rgba(185, 151, 82, 0.24);
-    box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.35),
-      0 26px 70px rgba(0, 0, 0, 0.62),
-      0 0 90px rgba(0, 0, 0, 0.55);
+    filter: saturate(0.94) contrast(1.05) brightness(0.97);
+    /* 边框淡化融入背景：四周羽化。横向留足余量，避免压住两侧文字节点 */
+    -webkit-mask-image:
+      linear-gradient(90deg, transparent 0%, #000 9%, #000 91%, transparent 100%),
+      linear-gradient(180deg, transparent 0%, #000 7%, #000 92%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(90deg, transparent 0%, #000 9%, #000 91%, transparent 100%),
+      linear-gradient(180deg, transparent 0%, #000 7%, #000 92%, transparent 100%);
+    mask-composite: intersect;
   }
 
+  /* ---- 图上透明热区：真正的交互节点 ---- */
   .map-hotspot {
     position: absolute;
     height: var(--hs-h, 10%);
@@ -228,18 +260,27 @@ const branches = [
 
   .hotspot-ring {
     position: absolute;
-    inset: 10%;
-    border: 1px solid transparent;
+    inset: 6%;
+    border: 1px solid rgba(231, 211, 154, 0.28);
     border-radius: 50%;
-    transition: border-color 0.25s, box-shadow 0.25s, background 0.25s, transform 0.25s;
+    opacity: 0.45;
+    animation: hsBreath 3.6s ease-in-out infinite;
+    transition: border-color 0.25s, box-shadow 0.25s, background 0.25s, transform 0.25s, opacity 0.25s;
+  }
+
+  @keyframes hsBreath {
+    0%, 100% { box-shadow: 0 0 6px rgba(231, 211, 154, 0.08), inset 0 0 8px rgba(231, 211, 154, 0.05); }
+    50% { box-shadow: 0 0 16px rgba(231, 211, 154, 0.22), inset 0 0 14px rgba(231, 211, 154, 0.12); }
   }
 
   .map-hotspot:hover .hotspot-ring,
   .map-hotspot:focus-visible .hotspot-ring {
+    animation: none;
+    opacity: 1;
     border-color: rgba(240, 217, 160, 0.9);
     background: rgba(231, 211, 154, 0.1);
-    box-shadow: 0 0 22px rgba(231, 211, 154, 0.4), inset 0 0 16px rgba(231, 211, 154, 0.22);
-    transform: scale(1.06);
+    box-shadow: 0 0 26px rgba(231, 211, 154, 0.45), inset 0 0 18px rgba(231, 211, 154, 0.25);
+    transform: scale(1.07);
   }
 
   /* hover 显示分支名小签 */
@@ -267,7 +308,7 @@ const branches = [
 
   .foot {
     position: relative;
-    z-index: 2;
+    z-index: 6;
     width: min(100% - 3rem, 44rem);
     margin-inline: auto;
     padding: 1.3rem 0 2rem;
@@ -278,36 +319,44 @@ const branches = [
     letter-spacing: 0.42em;
   }
 
+  @media (max-width: 900px) {
+    .map-frame { width: min(100% - 1.5rem, 62vw); }
+    .array-layer { width: min(215%, 1200px); opacity: 0.38; }
+  }
+
   @media (max-width: 640px) {
     .top { width: min(100% - 2.2rem, 44rem); grid-template-columns: 1fr auto; }
     .top-title { display: none; }
     .brand, .top-link { font-size: 0.8rem; letter-spacing: 0.2em; }
     .map-frame { width: 100%; }
+    .array-layer { width: 250%; opacity: 0.3; top: 50%; }
     .map-sub { letter-spacing: 0.14em; text-indent: 0.14em; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hotspot-ring { animation: none; }
   }
 </style>
 
 <style is:global>
-  /* ---- 云雷祭阵背景（仅阵纹样式，页面其余设计保持原样） ----
+  /* ---- 云雷祭阵背景：作为主体图的容器/圣化层，整体低亮度 ----
      暗金 #66502A 承担阵的主体，亮金 #B99752 只给核心 / 阵眼 / 交叉点。 */
   .array-bg {
-    position: fixed;
-    left: 50%;
-    top: 0;
-    width: 540px;
-    height: 540px;
-    margin-left: -270px;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     z-index: 0;
     display: block;
     pointer-events: none;
-    color: #a37f3f;
+    color: #8a6c36;
     overflow: visible;
-    filter: drop-shadow(0 0 6px rgba(185, 151, 82, 0.18));
+    filter: drop-shadow(0 0 5px rgba(185, 151, 82, 0.12));
   }
 
-  .array-bg .a-dim { opacity: 1; }
-  .array-bg .a-bright { color: #e0be72; opacity: 1; }
-  .array-bg .a-faint { opacity: 0.45; }
+  .array-bg .a-dim { opacity: 0.85; }
+  .array-bg .a-bright { color: #cfa95e; opacity: 0.9; }
+  .array-bg .a-faint { opacity: 0.35; }
 
   .array-bg .a-guide {
     fill: none;
@@ -349,7 +398,7 @@ const branches = [
     opacity: 1;
   }
   .array-bg .a-wu-img {
-    filter: drop-shadow(0 0 10px rgba(224, 190, 114, 0.4));
+    filter: drop-shadow(0 0 10px rgba(224, 190, 114, 0.35));
   }
   .array-bg .a-knot circle { fill: currentColor; }
   .array-bg .a-knot path { fill: none; stroke: currentColor; stroke-width: 6; }
@@ -385,38 +434,38 @@ const branches = [
   .array-bg .a-tri { opacity: 0.95; }
   .array-bg .a-taiji { opacity: 0.5; }
   .array-bg .a-star { opacity: 0.9; }
-  .array-bg .a-node { fill: #c49a52; }
-  .array-bg .a-node-ring { fill: none; stroke: #b08a45; stroke-width: 4; opacity: 0.8; }
+  .array-bg .a-node { fill: #a8853f; }
+  .array-bg .a-node-ring { fill: none; stroke: #96733a; stroke-width: 4; opacity: 0.8; }
 
   /* 圆环呼吸高光：沿符文带流动的金色光晕 */
   .array-bg .a-sheen {
     fill: none;
-    stroke: #e6c983;
+    stroke: #d8ba74;
     stroke-width: 9;
     stroke-linecap: round;
     stroke-dasharray: 40 100;
-    opacity: 0.55;
+    opacity: 0.4;
     animation: aSheen 20s linear infinite;
   }
   .array-bg .a-sheen2 {
     fill: none;
-    stroke: #d8b36a;
+    stroke: #c9a55e;
     stroke-width: 7;
     stroke-linecap: round;
     stroke-dasharray: 24 84;
-    opacity: 0.45;
+    opacity: 0.32;
     animation: aSheen2 26s linear infinite;
   }
   @keyframes aSheen {
-    0% { stroke-dashoffset: 0; opacity: 0.4; }
-    45% { opacity: 0.8; }
-    55% { opacity: 0.8; }
-    100% { stroke-dashoffset: -620; opacity: 0.4; }
+    0% { stroke-dashoffset: 0; opacity: 0.28; }
+    45% { opacity: 0.55; }
+    55% { opacity: 0.55; }
+    100% { stroke-dashoffset: -620; opacity: 0.28; }
   }
   @keyframes aSheen2 {
-    0% { stroke-dashoffset: 0; opacity: 0.3; }
-    50% { opacity: 0.65; }
-    100% { stroke-dashoffset: -460; opacity: 0.3; }
+    0% { stroke-dashoffset: 0; opacity: 0.2; }
+    50% { opacity: 0.45; }
+    100% { stroke-dashoffset: -460; opacity: 0.2; }
   }
 
   /* ---- 全阵缓转：外阵顺转 / 内阵逆转，核心与阵眼定住 ---- */
@@ -442,5 +491,4 @@ const branches = [
     .array-bg .a-rotate-cw,
     .array-bg .a-rotate-ccw { animation: none; }
   }
-
 </style>
