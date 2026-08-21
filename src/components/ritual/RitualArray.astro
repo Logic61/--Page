@@ -79,10 +79,10 @@ const MOTIFS_TINY = [
   { id: 'thunder-wave', scale: 0.95 },
 ];
 
-// 巫/雷纹 6 张截图符号：按 1-2-3-4-5-6 轮番交替
-const LEI6 = ['lei-1', 'lei-2', 'lei-3', 'lei-4', 'lei-5', 'lei-6'];
+// 巫/雷纹 17 张截图符号（含 17 号现代⚡）：按 1-2-…-17-1-2-… 连续循环排列
+const LEI16 = Array.from({ length: 17 }, (_, i) => `lei-${i + 1}`);
 const leiRing = (r, n, s, offset, gaps = []) =>
-  ringUses(LEI6.map((id) => ({ id, scale: s })), r, n, { offset, scaleCycle: [1], gaps });
+  ringUses(LEI16.map((id) => ({ id, scale: s })), r, n, { offset, scaleCycle: [1], gaps });
 const trigramRing = [0, 45, 90, 135, 180, 225, 270, 315]
   .map((a, i) => {
     const rad = (a * Math.PI) / 180;
@@ -95,9 +95,18 @@ const trigramRing = [0, 45, 90, 135, 180, 225, 270, 315]
 const outerEdge = `<circle class="a-ring" r="1000"/>`;
 const ring780 = `<circle class="a-ring" r="780"/>`;
 
-// 符文圈（外）：123456 连续环绕，不留空
-const band3 = leiRing(890, 48, 0.8, 0.5);
+// 符文圈（外）：1-17 连续环绕，不留空；数量取 17 的倍数保证无缝衔接
+const band3 = leiRing(890, 51, 0.8, 0.5);
 const edge3 = `<circle class="a-ring a-thin" r="860"/><circle class="a-ring a-thin" r="920"/>`;
+
+// 外延两圈（更大）：同样嵌入 巫/雷纹 17 图循环，与既有符文带同构对齐
+// 三条符文带半径等距（890 / 1170 / 1450，相差 280），带间空隙一致（均为 220）
+// 圈内符文数取 17 的倍数，保证 1→17 循环在环上无缝衔接
+const band4 = leiRing(1170, 68, 0.85, 0.5);
+const edge4 = `<circle class="a-ring a-thin" r="1140"/><circle class="a-ring a-thin" r="1200"/>`;
+const band5 = leiRing(1450, 85, 0.95, 0.5);
+const edge5 = `<circle class="a-ring a-thin" r="1420"/><circle class="a-ring a-thin" r="1480"/>`;
+const ringOutermost = `<circle class="a-ring" r="1560"/>`;
 
 // 十二辰位节点环
 const ring640 = `<circle class="a-ring" r="640"/>` + Array.from({ length: 12 }, (_, i) => {
@@ -179,6 +188,17 @@ const knots = KNOTS.map(
     <image id="lei-4" href={`${base}/leiwen/4-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
     <image id="lei-5" href={`${base}/leiwen/5-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
     <image id="lei-6" href={`${base}/leiwen/6-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-7" href={`${base}/leiwen/7-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-8" href={`${base}/leiwen/8-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-9" href={`${base}/leiwen/9-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-10" href={`${base}/leiwen/10-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-11" href={`${base}/leiwen/11-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-12" href={`${base}/leiwen/12-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-13" href={`${base}/leiwen/13-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-14" href={`${base}/leiwen/14-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-15" href={`${base}/leiwen/15-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-16" href={`${base}/leiwen/16-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+    <image id="lei-17" href={`${base}/leiwen/17-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
     <!-- 地纹：四种雷云纹混铺 -->
     <pattern id="ambientTex" width="96" height="96" patternUnits="userSpaceOnUse">
       <use href="#thunder-square" transform="translate(24 24) scale(0.8)" />
@@ -198,6 +218,18 @@ const knots = KNOTS.map(
         <g set:html={band3} />
         <g set:html={ring780} />
         <g set:html={ring640} />
+        <!-- 外延两圈：更大半径的雷文符文带 -->
+        <g set:html={edge5} />
+        <g set:html={band5} />
+        <g set:html={ringOutermost} />
+      </g>
+    </g>
+
+    <!-- 第二大圈（r=1210 雷文带）：逆时针，与相邻的内外两圈反向 -->
+    <g class="a-rotate-ccw">
+      <g class="a-dim">
+        <g set:html={edge4} />
+        <g set:html={band4} />
       </g>
     </g>
 
