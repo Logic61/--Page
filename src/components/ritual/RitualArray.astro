@@ -108,6 +108,31 @@ const band5 = leiRing(1450, 85, 0.95, 0.5);
 const edge5 = `<circle class="a-ring a-thin" r="1420"/><circle class="a-ring a-thin" r="1480"/>`;
 const ringOutermost = `<circle class="a-ring" r="1560"/>`;
 
+// ---- 增补层（纯新增，不改动以上任何既有圆环）----
+// ① 带间填纹：两条空隙带各嵌一圈细珠与微型雷钩/云纹交替，填补空隙又不抢符文带
+const gapFillA = ringUses(
+  [{ id: 'bead-border', scale: 0.42 }, { id: 'thunder-hook', scale: 0.6 }],
+  1030, 68, { scaleCycle: [1] }
+);
+const gapFillB = ringUses(
+  [{ id: 'bead-border', scale: 0.46 }, { id: 'cloud-s', scale: 0.66 }],
+  1310, 85, { scaleCycle: [1] }
+);
+
+// ② 九辰辐线：每 40° 一条细辐线贯穿两条空隙带（920→1130 / 1210→1420），暗纹若隐
+const spokes9 = Array.from({ length: 9 }, (_, i) => {
+  const a = ((i * 40 + 20) * Math.PI) / 180;
+  const c = Math.cos(a), s = Math.sin(a);
+  const seg = (r1, r2) =>
+    `M ${n2(c * r1)} ${n2(s * r1)} L ${n2(c * r2)} ${n2(s * r2)}`;
+  return `<path d="${seg(932, 1128)} ${seg(1212, 1408)}" fill="none" stroke="currentColor" stroke-width="2.5" opacity="0.4"/>`;
+}).join('');
+
+// ③ 最外缘增补：72 刻度环 + 十二重 faint 折多边形 + 收边细圆（均在 r=1560 主环之外）
+const tickOuter = ringTicks(1600, 72, 14);
+const poly12Outer = `<path class="a-poly a-faint" d="${polygonPath(12, 1645, 15)}"/>`;
+const ring1680 = `<circle class="a-ring a-thin" r="1690"/>`;
+
 // 十二辰位节点环
 const ring640 = `<circle class="a-ring" r="640"/>` + Array.from({ length: 12 }, (_, i) => {
   const a = (i * 30 * Math.PI) / 180;
@@ -222,6 +247,12 @@ const knots = KNOTS.map(
         <g set:html={edge5} />
         <g set:html={band5} />
         <g set:html={ringOutermost} />
+        <!-- 增补：带间填纹 + 九辰辐线 + 最外缘刻度/折多边形/收边 -->
+        <g set:html={gapFillA} />
+        <g set:html={spokes9} />
+        <g set:html={tickOuter} />
+        <g set:html={poly12Outer} />
+        <g set:html={ring1680} />
       </g>
     </g>
 
@@ -230,6 +261,8 @@ const knots = KNOTS.map(
       <g class="a-dim">
         <g set:html={edge4} />
         <g set:html={band4} />
+        <!-- 增补：外空隙填纹随本圈逆转，与内空隙填纹形成反向视差 -->
+        <g set:html={gapFillB} />
       </g>
     </g>
 
