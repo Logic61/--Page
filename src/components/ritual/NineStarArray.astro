@@ -92,15 +92,20 @@ const nodes9 = Array.from({ length: 9 }, (_, i) => {
 }).join('');
 // 九枚现代⚡符：嵌于两节点之间的中点，古阵衔今符
 const bolts9 = ringUses([{ id: 'ns-bolt', scale: 0.62 }], 800, 9, { offset: 0.5, scaleCycle: [1] });
-// 外缘符文环：以 1-17 雷纹连续环绕（取代短横刻度），数量取 17 倍数无缝衔接
-const leiOuter = leiRing(820, 51, 0.7, 0.5);
-const ringOuterLei = `<circle class="a-ring a-thin" r="784"/><circle class="a-ring a-thin" r="856"/>`;
-
-// 中缘符文环
-const leiMid = leiRing(640, 51, 0.6, 0.5);
-
-// 内缘符文环
-const leiInner = leiRing(470, 34, 0.52, 0.5);
+// 五道符文环：以 1-17 雷纹连续环绕，半径重排并收紧，数量取 17 倍数无缝衔接
+const lei1 = leiRing(848, 68, 0.72, 0.5);
+const lei2 = leiRing(745, 51, 0.64, 0.5);
+const lei3 = leiRing(642, 51, 0.6, 0.5);
+const lei4 = leiRing(539, 34, 0.54, 0.5);
+const lei5 = leiRing(436, 34, 0.5, 0.5);
+// 每道符文环两侧的轨道线：比一般线条稍亮、比符文弱（a-track）
+const trackFor = (r) =>
+  `<circle class="a-track a-ring a-thin" r="${n2(r - 25)}"/><circle class="a-track a-ring a-thin" r="${n2(r + 25)}"/>`;
+const track1 = trackFor(848);
+const track2 = trackFor(745);
+const track3 = trackFor(642);
+const track4 = trackFor(539);
+const track5 = trackFor(436);
 
 // ---- 中环（逆时针缓转）----
 // 廿七雷文带（9×3）：对钩雷纹与三云纹交替
@@ -108,7 +113,6 @@ const band27 = ringUses(
   [{ id: 'hook-pair', scale: 1.15 }, { id: 'cloud-triple', scale: 1.05 }, { id: 'thunder-wave', scale: 1.0 }],
   668, 27, { scaleCycle: [1] }
 );
-const ringMid = `<circle class="a-ring a-thin" r="726"/><circle class="a-ring a-thin" r="610"/>`;
 // 九瓣莲旋：九枚外鼓莲瓣首尾相衔
 const lotus9 = Array.from({ length: 9 }, (_, i) =>
   `<path class="a-poly" d="${petalPath(i * 40 + 20, 596, 700, 15)}"/>`
@@ -177,12 +181,16 @@ const core = `
         <g set:html={ring950} />
         <g set:html={nonagramWeb} />
         <g set:html={nodes9} />
-        <g set:html={ringOuterLei} />
       </g>
-      <!-- 亮层：符文与中心同亮度 -->
+      <!-- 亮层：符文与中心同亮度；轨道线随环同行 -->
+      <g class="a-track" set:html={track1} />
       <g class="a-bright">
         <g set:html={bolts9} />
-        <g set:html={leiOuter} />
+        <g set:html={lei1} />
+      </g>
+      <g class="a-track" set:html={track2} />
+      <g class="a-bright">
+        <g set:html={lei2} />
       </g>
       <circle class="a-sheen" r="932" />
     </g>
@@ -190,12 +198,16 @@ const core = `
     <!-- 中环：逆时针缓转 -->
     <g class="a-rotate-ccw">
       <g class="a-dim">
-        <g set:html={ringMid} />
         <g set:html={lotus9} />
       </g>
+      <g class="a-track" set:html={track3} />
       <g class="a-bright">
         <g set:html={band27} />
-        <g set:html={leiMid} />
+        <g set:html={lei3} />
+      </g>
+      <g class="a-track" set:html={track4} />
+      <g class="a-bright">
+        <g set:html={lei4} />
       </g>
       <circle class="a-sheen2" r="668" />
     </g>
@@ -209,8 +221,9 @@ const core = `
         <g set:html={beads54} />
         <g set:html={ring300} />
       </g>
+      <g class="a-track" set:html={track5} />
       <g class="a-bright">
-        <g set:html={leiInner} />
+        <g set:html={lei5} />
       </g>
     </g>
 

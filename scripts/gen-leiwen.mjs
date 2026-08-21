@@ -15,8 +15,8 @@ const MARGIN = 0.94; // 内容占画布比例
 const start = Number(process.argv[2] ?? 1);
 const end = Number(process.argv[3] ?? 16);
 
-// 与现有金色一致（取自原 6-gold.png 不透明像素均值）
-const GOLD = { r: 228, g: 184, b: 102 };
+// 鎏金：高红、低绿，明亮暖金
+const GOLD = { r: 242, g: 197, b: 110 };
 
 const otsu = (hist, total) => {
   let sum = 0;
