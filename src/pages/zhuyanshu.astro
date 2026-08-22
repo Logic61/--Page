@@ -84,8 +84,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     z-index: -1;
     pointer-events: none;
     background:
-      repeating-linear-gradient(90deg, transparent 0 7rem, rgba(185, 151, 82, 0.05) 7rem 7.06rem),
-      repeating-linear-gradient(0deg, transparent 0 7rem, rgba(185, 151, 82, 0.035) 7rem 7.06rem);
+      radial-gradient(ellipse 60% 42% at 50% 28%, rgba(185, 151, 82, 0.12), transparent 70%),
+      radial-gradient(ellipse 42% 30% at 8% 88%, rgba(185, 151, 82, 0.07), transparent 72%),
+      radial-gradient(ellipse 40% 28% at 92% 14%, rgba(185, 151, 82, 0.06), transparent 72%);
   }
 
   .top {
