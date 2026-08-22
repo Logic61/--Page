@@ -1,17 +1,23 @@
 ---
 // 法脉总览：主体是《分支图》本身——它就是本页的目录地图。
-// 视觉层级：主体图 > 图上分支节点 > 标题 > 法阵 > 云雷纹 > 背景。
-// 法阵退到背景层（低透明度），圆环从图片后方穿过；图片无矩形边框，
-// 中央清晰、四周经 mask 羽化自然消散进黑色背景。
+// 视觉层级（背光式，采纳「法阵 = 树的背光」意见）：
+//   底图(树, z1) → 大法阵(z2, 在树之上) → 头光(z3) → 树辉光(z4/z5, screen) → 热区(z6)。
+// 关键取舍：
+//   · 法阵始终位于树的图层之上，法阵线允许压过树身——不做“树挡住法阵”；
+//   · 主次关系靠明暗与虚实质感而不是遮挡：法阵作暗金光背、整体退后，
+//     树靠 screen 辉光提亮，成为画面里唯一的亮主体；
+//   · 大法阵 = 全身的舟形光背；树冠上方再叠一圈明亮「头光」（佛陀脑后圆光），
+//     两圈光背都是树的衬托，而非把树圈住的牢笼。
 import NineStarArray from '../components/ritual/NineStarArray.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
+// 分支图-3 的四个枝梢位置（无文字标签，热区对准枝梢节点）
 const branches = [
-  { name: '法门', route: '/famen', x: 27, y: 38, w: 20, h: 8 },
-  { name: '修炼常识', route: '/zhoufa/zhishi', x: 79, y: 30, w: 24, h: 8 },
-  { name: '秘闻', route: '/zhoufa/wenzhang', x: 19.5, y: 56, w: 18, h: 8 },
-  { name: '闲文', route: '/xianwen', x: 80, y: 64, w: 18, h: 8 },
+  { name: '法门', route: '/famen', x: 28, y: 42, w: 18, h: 7 },
+  { name: '修炼常识', route: '/zhoufa/zhishi', x: 73, y: 41, w: 22, h: 7 },
+  { name: '秘闻', route: '/zhoufa/wenzhang', x: 20, y: 64, w: 18, h: 8 },
+  { name: '闲文', route: '/xianwen', x: 73, y: 63, w: 18, h: 8 },
 ];
 ---
 
@@ -29,23 +35,136 @@ const branches = [
 
     <header class="top">
       <a class="brand kai" href={`${base}/`}>古巫祝脉</a>
-      <span class="top-title kai">法门总览</span>
       <a class="top-link kai" href={`${base}/zhoufa`}>进入祝门</a>
     </header>
 
     <main>
-      <header class="map-head">
-        <p class="map-kicker kai">古巫祝脉 · 法脉总览</p>
-      </header>
-
-      <!-- 舞台：法阵在底层，主体图压在其上，圆环从图后方左右穿出 -->
+      <!-- 舞台：主体图在底层，法阵压在其上，圆环盖过图面左右展开 -->
       <div class="stage">
-        <div class="array-layer" aria-hidden="true">
-          <NineStarArray />
-        </div>
+        <!-- 法阵 → 树融合层：金线由外向内消隐（不到海报边缘即化入黑），金尘粒子弥散在树与法阵之间 -->
+        <svg class="vein-lines" viewBox="-700 -700 1400 1400" aria-hidden="true">
+          <defs>
+            <linearGradient id="rayR" gradientUnits="userSpaceOnUse" x1="340" y1="0" x2="560" y2="0">
+              <stop offset="0" stop-color="#fce18c" stop-opacity="0" />
+              <stop offset="0.72" stop-color="#fce18c" stop-opacity="0.16" />
+              <stop offset="1" stop-color="#fce18c" stop-opacity="0.42" />
+            </linearGradient>
+            <linearGradient id="rayL" gradientUnits="userSpaceOnUse" x1="-340" y1="0" x2="-560" y2="0">
+              <stop offset="0" stop-color="#fce18c" stop-opacity="0" />
+              <stop offset="0.72" stop-color="#fce18c" stop-opacity="0.16" />
+              <stop offset="1" stop-color="#fce18c" stop-opacity="0.42" />
+            </linearGradient>
+            <linearGradient id="rayB" gradientUnits="userSpaceOnUse" x1="0" y1="340" x2="0" y2="560">
+              <stop offset="0" stop-color="#fce18c" stop-opacity="0" />
+              <stop offset="0.72" stop-color="#fce18c" stop-opacity="0.16" />
+              <stop offset="1" stop-color="#fce18c" stop-opacity="0.42" />
+            </linearGradient>
+            <linearGradient id="rayT" gradientUnits="userSpaceOnUse" x1="0" y1="-340" x2="0" y2="-560">
+              <stop offset="0" stop-color="#fce18c" stop-opacity="0" />
+              <stop offset="0.72" stop-color="#fce18c" stop-opacity="0.16" />
+              <stop offset="1" stop-color="#fce18c" stop-opacity="0.42" />
+            </linearGradient>
+            <linearGradient id="rayNE" gradientUnits="userSpaceOnUse" x1="240.4" y1="-240.4" x2="396" y2="-396">
+              <stop offset="0" stop-color="#fce18c" stop-opacity="0" />
+              <stop offset="0.72" stop-color="#fce18c" stop-opacity="0.14" />
+              <stop offset="1" stop-color="#fce18c" stop-opacity="0.34" />
+            </linearGradient>
+            <linearGradient id="raySE" gradientUnits="userSpaceOnUse" x1="240.4" y1="240.4" x2="396" y2="396">
+              <stop offset="0" stop-color="#fce18c" stop-opacity="0" />
+              <stop offset="0.72" stop-color="#fce18c" stop-opacity="0.14" />
+              <stop offset="1" stop-color="#fce18c" stop-opacity="0.34" />
+            </linearGradient>
+            <linearGradient id="raySW" gradientUnits="userSpaceOnUse" x1="-240.4" y1="240.4" x2="-396" y2="396">
+              <stop offset="0" stop-color="#fce18c" stop-opacity="0" />
+              <stop offset="0.72" stop-color="#fce18c" stop-opacity="0.14" />
+              <stop offset="1" stop-color="#fce18c" stop-opacity="0.34" />
+            </linearGradient>
+            <linearGradient id="rayNW" gradientUnits="userSpaceOnUse" x1="-240.4" y1="-240.4" x2="-396" y2="-396">
+              <stop offset="0" stop-color="#fce18c" stop-opacity="0" />
+              <stop offset="0.72" stop-color="#fce18c" stop-opacity="0.14" />
+              <stop offset="1" stop-color="#fce18c" stop-opacity="0.34" />
+            </linearGradient>
+          </defs>
+          <g fill="none" stroke-width="1.4" stroke-linecap="round">
+            <line x1="340" y1="0" x2="560" y2="0" stroke="url(#rayR)" />
+            <line x1="-340" y1="0" x2="-560" y2="0" stroke="url(#rayL)" />
+            <line x1="0" y1="340" x2="0" y2="560" stroke="url(#rayB)" />
+            <line x1="0" y1="-340" x2="0" y2="-560" stroke="url(#rayT)" />
+            <line x1="240.4" y1="-240.4" x2="396" y2="-396" stroke="url(#rayNE)" />
+            <line x1="240.4" y1="240.4" x2="396" y2="396" stroke="url(#raySE)" />
+            <line x1="-240.4" y1="240.4" x2="-396" y2="396" stroke="url(#raySW)" />
+            <line x1="-240.4" y1="-240.4" x2="-396" y2="-396" stroke="url(#rayNW)" />
+          </g>
+          <!-- 金尘：弥散在树与法阵之间的细碎粒子 -->
+          <g fill="#fce18c">
+            <circle cx="327" cy="-46" r="1.6" opacity="0.5" />
+            <circle cx="347" cy="14" r="1.2" opacity="0.4" />
+            <circle cx="377" cy="-26" r="2.1" opacity="0.35" />
+            <circle cx="317" cy="44" r="1.3" opacity="0.45" />
+            <circle cx="-362" cy="14" r="1.7" opacity="0.5" />
+            <circle cx="-332" cy="-46" r="1.2" opacity="0.4" />
+            <circle cx="-372" cy="74" r="2.2" opacity="0.3" />
+            <circle cx="-322" cy="34" r="1.4" opacity="0.45" />
+            <circle cx="-52" cy="-446" r="1.8" opacity="0.45" />
+            <circle cx="27" cy="-466" r="1.2" opacity="0.35" />
+            <circle cx="-102" cy="-436" r="2.4" opacity="0.28" />
+            <circle cx="-62" cy="444" r="1.9" opacity="0.45" />
+            <circle cx="17" cy="464" r="1.3" opacity="0.35" />
+            <circle cx="87" cy="444" r="2.3" opacity="0.3" />
+            <circle cx="-372" cy="464" r="1.5" opacity="0.4" />
+            <circle cx="-352" cy="434" r="1.1" opacity="0.5" />
+            <circle cx="327" cy="-446" r="1.6" opacity="0.45" />
+            <circle cx="367" cy="-466" r="1.2" opacity="0.35" />
+            <circle cx="-372" cy="-446" r="2.0" opacity="0.3" />
+            <circle cx="347" cy="444" r="1.5" opacity="0.4" />
+            <circle cx="367" cy="464" r="1.1" opacity="0.5" />
+            <circle cx="327" cy="434" r="1.9" opacity="0.32" />
+            <circle cx="480" cy="-80" r="1.4" opacity="0.4" />
+            <circle cx="-480" cy="100" r="1.6" opacity="0.35" />
+            <circle cx="60" cy="520" r="1.3" opacity="0.4" />
+            <circle cx="-60" cy="-520" r="1.5" opacity="0.38" />
+            <!-- 贴近海报边缘的柔金尘：连接主体与法阵 -->
+            <circle cx="352" cy="-92" r="2.6" opacity="0.2" />
+            <circle cx="346" cy="118" r="3" opacity="0.16" />
+            <circle cx="-350" cy="104" r="2.8" opacity="0.18" />
+            <circle cx="-344" cy="-128" r="2.4" opacity="0.2" />
+            <circle cx="64" cy="-352" r="2.7" opacity="0.18" />
+            <circle cx="-88" cy="356" r="2.5" opacity="0.2" />
+            <circle cx="262" cy="-258" r="2.2" opacity="0.18" />
+            <circle cx="-268" cy="246" r="2.5" opacity="0.16" />
+            <!-- 小亮星：海报羽化边上的残痕金点 -->
+            <circle cx="338" cy="42" r="1" opacity="0.6" />
+            <circle cx="-336" cy="-66" r="0.9" opacity="0.55" />
+            <circle cx="22" cy="-340" r="1" opacity="0.5" />
+            <circle cx="-38" cy="342" r="1.1" opacity="0.55" />
+            <circle cx="240" cy="242" r="0.9" opacity="0.45" />
+            <circle cx="-236" cy="-238" r="1" opacity="0.45" />
+          </g>
+        </svg>
 
         <div class="map-frame">
-          <img class="map-img" src={`${base}/分支图-new.png`} alt="古巫祝脉分支图：法门、修炼常识、秘闻、闲文" loading="eager" />
+          <!-- 背光式层级：底图(树) → 大法阵 → 头光 → 树辉光 → 热区。
+               法阵在树的图层之上、可压过树身，但视觉上退成承托树的光背 -->
+          <img class="map-img" src={`${base}/分支图-3.png`} alt="古巫祝脉分支图：法门、修炼常识、秘闻、闲文" loading="eager" />
+          <!-- 法阵锚定在海报框内，中心对准图中甲骨文「巫」字（约 50% 高） -->
+          <div class="array-layer" aria-hidden="true">
+            <NineStarArray />
+          </div>
+          <!-- 头光（佛陀脑后圆光）：树冠后方一圈明亮的金色圆光 + 慢转放射纹，
+               它和大法阵一起构成树的“光背”，树本身不被任何图层挡住 -->
+          <div class="tree-halo" aria-hidden="true"></div>
+          <!-- 树辉光层：同一张贴图按树体剪影蒙版以 screen 叠回，
+               只把树/节点提亮、不遮挡法阵线（法阵仍在树的图层之上） -->
+          <img
+            class="map-img-lift"
+            src={`${base}/分支图-3.png`}
+            alt=""
+            aria-hidden="true"
+            loading="eager"
+            style={`--tree-mask: url('${base}/分支图-3-mask.png')`}
+          />
+          <!-- 树的辉光：模糊 screen 副本，沿树体亮部晕出一圈金光 -->
+          <img class="map-img-shine" src={`${base}/分支图-3.png`} alt="" aria-hidden="true" loading="eager" />
           {branches.map((b) => (
             <a
               class="map-hotspot"
@@ -62,14 +181,37 @@ const branches = [
     </main>
 
     <footer class="foot kai">诸枝同源 · 各有所传</footer>
+
+    <script is:inline>
+      // 中低端设备兜底：首屏采样帧率，低于阈值则冻结旋转/流光动画。
+      // 注意：必须等 load（雷纹/巫字图解码完毕）后再测量，否则图片解码
+      // 占住主线程会误判低帧率，导致法阵一进页就被冻住不转。
+      (function () {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        function measure() {
+          var frames = 0, start = performance.now(), sum = 0, last = start;
+          function tick(t) {
+            var dt = t - last; last = t; sum += dt; frames++;
+            if (t - start < 3000) { requestAnimationFrame(tick); return; }
+            var fps = 1000 / (sum / frames);
+            if (fps < 15) document.documentElement.classList.add('low-perf');
+          }
+          requestAnimationFrame(tick);
+        }
+        if (document.readyState === 'complete') measure();
+        else window.addEventListener('load', measure, { once: true });
+      })();
+    </script>
   </body>
 </html>
 
 <style>
   :root {
-    --gold: #b99752;
-    --gold-bright: #e7d39a;
-    --gold-dim: #66502a;
+    --gold: #d19b2b;
+    --gold-bright: #fce18c;
+    --gold-line: #fce18c;
+    --gold-hi: #ffe08a;
+    --gold-dim: #9a7020;
     --ink: #d9d2c2;
     --ink-faint: #6b5730;
   }
@@ -77,6 +219,7 @@ const branches = [
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   /* 法阵层远宽于视口：横向直接裁剪，不产生滚动区域 */
+  html { zoom: 1.5; }
   html, body {
     overflow-x: hidden;
     overflow-x: clip;
@@ -86,7 +229,7 @@ const branches = [
     min-height: 100dvh;
     padding-top: clamp(2rem, 5vw, 4.5rem);
     background:
-      radial-gradient(ellipse 60% 40% at 50% 30%, rgba(185, 151, 82, 0.08), transparent 70%),
+      radial-gradient(ellipse 72% 56% at 50% 45%, rgba(189, 148, 64, 0.1), transparent 72%),
       #050505;
     color: var(--ink);
     font-family: "Songti SC", "STSong", "SimSun", "Noto Serif SC", serif;
@@ -101,31 +244,29 @@ const branches = [
     z-index: 4;
     pointer-events: none;
     background:
-      radial-gradient(ellipse 52% 40% at 50% 34%, rgba(185, 151, 82, 0.05), transparent 70%),
-      linear-gradient(90deg, rgba(0,0,0,.55), transparent 18%, transparent 82%, rgba(0,0,0,.55));
+      radial-gradient(ellipse 60% 48% at 50% 46%, rgba(189, 148, 64, 0.06), transparent 72%),
+      linear-gradient(90deg, rgba(0,0,0,.38), transparent 12%, transparent 88%, rgba(0,0,0,.38));
   }
 
   .top {
     position: relative;
     z-index: 6;
-    width: min(100% - 3rem, 44rem);
-    min-height: 4.2rem;
-    margin-inline: auto;
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    width: 100%;
+    padding: 1.1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(185, 151, 82, 0.18);
+    border-bottom: 1px solid rgba(201, 165, 94, 0.26);
   }
 
   .brand, .top-link {
-    color: #d4b877;
+    color: #d9b96a;
     font-size: 0.9rem;
     letter-spacing: 0.32em;
     text-decoration: none;
     transition: color 0.25s;
   }
-  .brand:hover, .top-link:hover { color: #f0e3c8; }
-  .top-title { color: #817253; font-size: 0.7rem; letter-spacing: 0.44em; }
+  .brand:hover, .top-link:hover { color: #f6e9bd; }
   .top-link { justify-self: end; }
 
   main {
@@ -134,79 +275,128 @@ const branches = [
     padding-bottom: 1.5rem;
   }
 
-  /* ---- 标题：压在主体图上方，视觉层级低于图 ---- */
-  .map-head {
-    position: relative;
-    z-index: 3;
-    padding: clamp(1.8rem, 4vw, 3.2rem) 0 clamp(0.6rem, 1.5vw, 1.2rem);
-    text-align: center;
-  }
-
-  .map-kicker { position: relative; z-index: 1; color: var(--gold-dim); font-size: 0.72rem; letter-spacing: 0.6em; text-indent: 0.6em; }
-
-  .map-head h1 {
-    margin-top: 0.7rem;
-    background: linear-gradient(180deg, #fff1a8 0%, #d8b45a 25%, #a67c2f 55%, #f3d77a 75%, #8a6425 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-size: clamp(1.9rem, 4.4vw, 2.9rem);
-    font-weight: 500;
-    line-height: 1.1;
-    letter-spacing: 0.34em;
-    text-indent: 0.34em;
-  }
-
-  .map-sub {
-    margin-top: 0.7rem;
-    background: linear-gradient(180deg, #f5e6b0 0%, #d9b969 28%, #a67c2f 55%, #e8cd82 78%, #9a7330 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-size: 0.8rem;
-    letter-spacing: 0.24em;
-    text-indent: 0.24em;
-    text-shadow: 0 0 14px rgba(205, 160, 60, 0.16);
-  }
-
-  /* ---- 舞台：法阵层 + 主体图 ---- */
+  /* ---- 舞台：法阵层 + 主体图。整体下移使法阵顶露出，且法阵与海报中心保持对齐（transform 平移不破坏两者同心） ---- */
   .stage {
     position: relative;
     display: flex;
     justify-content: center;
     padding-bottom: clamp(1rem, 3vw, 2.5rem);
+    transform: translateY(clamp(3rem, 12vh, 8rem));
   }
 
-  /* 法阵退到背景层：圆环直径大于图宽，从图后方左右两侧穿出；中心与主体图中心对齐 */
+  /* 法阵 → 树融合层：径向金线由外向内消隐于海报边缘之前，金尘弥散，焊接法阵与主体 */
+  .vein-lines {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 1400px;
+    height: 1400px;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.85;
+  }
+  .vein-lines line {
+    stroke-linecap: round;
+  }
+
+  /* 大法阵（身光/舟形光背）：位于树图层之上，法阵线允许压过树身；
+     作暗金光背、整体退后一步。中央巫字盘保留为「背光核心」、只降约四成亮度，
+     让树冠上方的头光与树体辉光领衔。 */
   .array-layer {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: min(255%, 2130px);
+    width: min(165%, 1340px);
     aspect-ratio: 1 / 1;
-    z-index: 0;
-    opacity: 0.82;
-    filter: brightness(1.35);
+    z-index: 2;
+    opacity: 0.92;
+    -webkit-mask-image: radial-gradient(circle closest-side at 50% 50%, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.62) 20%, #000 36%, #000 100%);
+    mask-image: radial-gradient(circle closest-side at 50% 50%, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.62) 20%, #000 36%, #000 100%);
     pointer-events: none;
+  }
+
+  /* 头光（佛陀脑后圆光）：树冠后方一圈明亮的金色圆光。
+     比法阵更亮、更简洁，是“树被承托”的视觉锚点；
+     大法阵则作为全身的舟形光背铺在更外层。 */
+  .tree-halo {
+    position: absolute;
+    left: 50%;
+    top: 27%;
+    width: 48%;
+    aspect-ratio: 1 / 1.04;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    pointer-events: none;
+    border-radius: 50%;
+    background:
+      radial-gradient(ellipse closest-side at 50% 50%,
+        rgba(255, 246, 202, 0.30),
+        rgba(244, 196, 82, 0.16) 42%,
+        rgba(164, 122, 44, 0.07) 70%,
+        transparent 96%);
+  }
+  /* 头光边缘：一圈柔和的金线 + 向外扩散的暖光，像圆光的“轮廓” */
+  .tree-halo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 226, 150, 0.34);
+    box-shadow:
+      0 0 46px rgba(244, 196, 82, 0.34),
+      inset 0 0 30px rgba(244, 196, 82, 0.14);
+  }
+  /* 头光放射纹：极淡的金色射线，缓慢旋转 */
+  .tree-halo::before {
+    content: "";
+    position: absolute;
+    inset: -10%;
+    border-radius: 50%;
+    background: repeating-conic-gradient(
+      from 0deg,
+      rgba(252, 225, 140, 0.06) 0deg 1.1deg,
+      transparent 1.1deg 7deg
+    );
+    -webkit-mask-image: radial-gradient(circle closest-side at 50% 50%, #000 0%, #000 60%, transparent 94%);
+    mask-image: radial-gradient(circle closest-side at 50% 50%, #000 0%, #000 60%, transparent 94%);
+    animation: haloSpin 90s linear infinite;
+  }
+  @keyframes haloSpin {
+    to { transform: rotate(360deg); }
   }
 
   .map-frame {
     position: relative;
     z-index: 2;
     /* 新图为竖幅（1052×1494），收窄容器控制整页高度 */
-    width: min(100% - 1.5rem, 50vw, 600px);
+    width: min(100% - 1.5rem, 70vw, 860px);
   }
 
   /* 金色光晕垫在图后，让图与法阵衔接处有过渡 */
   .map-frame::before {
     content: "";
     position: absolute;
-    inset: -12%;
-    background: radial-gradient(ellipse 52% 48% at 50% 44%, rgba(185, 151, 82, 0.13), transparent 72%);
-    filter: blur(6px);
+    inset: -30%;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(214, 158, 45, 0.18), rgba(160, 116, 36, 0.06) 55%, transparent 78%);
+    filter: blur(10px);
     z-index: 0;
     pointer-events: none;
+  }
+
+  /* 主体边缘金尘/烟雾：一圈贴着海报轮廓的金色薄雾，把羽化边焊进法阵 */
+  .map-frame::after {
+    content: "";
+    position: absolute;
+    inset: -4%;
+    z-index: 2;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse closest-side at 50% 50%, transparent 58%, rgba(214, 158, 45, 0.09) 76%, rgba(120, 88, 30, 0.05) 88%, transparent 99%);
+    filter: blur(16px);
+    mix-blend-mode: screen;
   }
 
   /* 主体图：无矩形边框。中央约 70% 清晰，四周羽化消散进黑背景 */
@@ -216,15 +406,62 @@ const branches = [
     display: block;
     width: 100%;
     height: auto;
-    filter: saturate(0.94) contrast(1.05) brightness(0.97);
+    /* 底图（树）在法阵之下，但用更亮更饱和的调色确立“主体”地位 */
+    filter: sepia(0.28) hue-rotate(8deg) saturate(1.5) brightness(1.03) contrast(1.05);
     /* 边框淡化融入背景：四周羽化。横向留足余量，避免压住两侧文字节点 */
     -webkit-mask-image:
-      linear-gradient(90deg, transparent 0%, #000 9%, #000 91%, transparent 100%),
-      linear-gradient(180deg, transparent 0%, #000 7%, #000 92%, transparent 100%);
+      linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%),
+      linear-gradient(180deg, transparent 0%, #000 11%, #000 88%, transparent 100%);
     -webkit-mask-composite: source-in;
     mask-image:
-      linear-gradient(90deg, transparent 0%, #000 9%, #000 91%, transparent 100%),
-      linear-gradient(180deg, transparent 0%, #000 7%, #000 92%, transparent 100%);
+      linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%),
+      linear-gradient(180deg, transparent 0%, #000 11%, #000 88%, transparent 100%);
+    mask-composite: intersect;
+  }
+
+  /* 树辉光层：同一贴图按树体剪影蒙版以 screen 叠回。
+     只把树与分支节点“点亮”，不遮挡法阵线——法阵仍在树的图层之上；
+     画面里最亮的是树，法阵自然退成衬在后面的光背。 */
+  .map-img-lift {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+    z-index: 4;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: 0.55;
+    /* 比底图再亮半档：树体压过法阵的亮度，成为主体 */
+    filter: sepia(0.24) hue-rotate(8deg) saturate(1.5) brightness(1.06) contrast(1.08);
+    -webkit-mask-image: var(--tree-mask);
+    mask-image: var(--tree-mask);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+
+  /* 树的辉光：模糊 screen 副本，沿树体亮部晕出柔和金光（高光层） */
+  .map-img-shine {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 5;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: 0.3;
+    filter: sepia(0.2) saturate(1.4) brightness(1.15) blur(9px);
+    -webkit-mask-image:
+      linear-gradient(90deg, transparent 0%, #000 18%, #000 82%, transparent 100%),
+      linear-gradient(180deg, transparent 0%, #000 13%, #000 86%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(90deg, transparent 0%, #000 18%, #000 82%, transparent 100%),
+      linear-gradient(180deg, transparent 0%, #000 13%, #000 86%, transparent 100%);
     mask-composite: intersect;
   }
 
@@ -234,7 +471,7 @@ const branches = [
     height: var(--hs-h, 10%);
     transform: translate(-50%, -50%);
     border-radius: 14px;
-    z-index: 3;
+    z-index: 6;
     outline: none;
     cursor: pointer;
   }
@@ -242,7 +479,7 @@ const branches = [
   .hotspot-ring {
     position: absolute;
     inset: 6%;
-    border: 1px solid rgba(231, 211, 154, 0.28);
+    border: 1px solid rgba(236, 215, 154, 0.32);
     border-radius: 50%;
     opacity: 0.45;
     animation: hsBreath 3.6s ease-in-out infinite;
@@ -275,14 +512,14 @@ const branches = [
     white-space: nowrap;
     color: #f0e3c8;
     background: rgba(10, 7, 3, 0.88);
-    border: 1px solid rgba(185, 151, 82, 0.5);
+    border: 1px solid rgba(189, 148, 64, 0.5);
     font-family: "Kaiti SC", "STKaiti", "KaiTi", serif;
     font-size: 0.78rem;
     letter-spacing: 0.22em;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s;
-    z-index: 4;
+    z-index: 7;
   }
   .map-hotspot:hover::after,
   .map-hotspot:focus-visible::after { opacity: 1; }
@@ -293,29 +530,28 @@ const branches = [
     width: min(100% - 3rem, 44rem);
     margin-inline: auto;
     padding: 1.3rem 0 2rem;
-    border-top: 1px solid rgba(212, 184, 119, 0.12);
-    color: #766746;
+    border-top: 1px solid rgba(217, 185, 106, 0.16);
+    color: #8a6a33;
     text-align: center;
     font-size: 0.72rem;
     letter-spacing: 0.42em;
   }
 
   @media (max-width: 900px) {
-    .map-frame { width: min(100% - 1.5rem, 62vw); }
-    .array-layer { width: min(301%, 1680px); opacity: 0.74; }
+    .map-frame { width: min(100% - 1.5rem, 82vw); }
+    .array-layer { width: min(185%, 1120px); opacity: 0.82; }
   }
 
   @media (max-width: 640px) {
-    .top { width: min(100% - 2.2rem, 44rem); grid-template-columns: 1fr auto; }
-    .top-title { display: none; }
+    .top { padding: 0.9rem 1.1rem; }
     .brand, .top-link { font-size: 0.8rem; letter-spacing: 0.2em; }
-    .map-frame { width: 100%; }
-    .array-layer { width: 350%; opacity: 0.62; top: 50%; }
-    .map-sub { letter-spacing: 0.14em; text-indent: 0.14em; }
+    .map-frame { width: min(100%, 80vh); }
+    .array-layer { width: 285%; opacity: 0.7; top: 50%; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .hotspot-ring { animation: none; }
+    .tree-halo::before { animation: none; }
   }
 </style>
 
@@ -330,22 +566,21 @@ const branches = [
     z-index: 0;
     display: block;
     pointer-events: none;
-    color: #b9903f;
+    color: #fce18c;
     overflow: visible;
-    filter: drop-shadow(0 0 5px rgba(185, 151, 82, 0.12));
   }
 
-  .array-bg .a-dim { opacity: 0.4; }
-  .array-bg .a-track { opacity: 0.78; }
-  .array-bg .a-bright { color: #cfa95e; opacity: 1; filter: brightness(1.5); }
-  .array-bg .a-faint { opacity: 0.35; }
+  .array-bg .a-dim { opacity: 0.36; }
+  .array-bg .a-track { opacity: 0.85; }
+  .array-bg .a-bright { color: #fce18c; opacity: 1; filter: sepia(0.5) saturate(1.05) brightness(1.03); }
+  .array-bg .a-faint { opacity: 1; }
 
   .array-bg .a-guide {
     fill: none;
     stroke: currentColor;
     stroke-width: 5;
     stroke-dasharray: 3 10;
-    opacity: 0.55;
+    opacity: 0.45;
   }
   .array-bg .a-ring {
     fill: none;
@@ -354,19 +589,19 @@ const branches = [
   }
   .array-bg .a-ring.a-thin {
     stroke-width: 3;
-    opacity: 0.75;
+    opacity: 1;
   }
   .array-bg .a-tick {
     fill: none;
     stroke: currentColor;
     stroke-width: 5;
-    opacity: 0.85;
+    opacity: 0.6;
   }
   .array-bg .a-poly {
     fill: none;
     stroke: currentColor;
     stroke-width: 6;
-    opacity: 0.85;
+    opacity: 0.6;
   }
   .array-bg .a-core-frame {
     fill: none;
@@ -382,9 +617,9 @@ const branches = [
   .array-bg .a-wu-img {
     filter: drop-shadow(0 0 10px rgba(224, 190, 114, 0.35));
   }
-  .array-bg .a-knot circle { fill: currentColor; }
-  .array-bg .a-knot path { fill: none; stroke: currentColor; stroke-width: 6; }
-  .array-bg .a-dot { fill: currentColor; stroke: none; }
+  .array-bg .a-knot circle { fill: currentColor; opacity: 0.6; }
+  .array-bg .a-knot path { fill: none; stroke: currentColor; stroke-width: 6; opacity: 0.6; }
+  .array-bg .a-dot { fill: currentColor; stroke: none; opacity: 0.6; }
 
   /* 纹样单元（雷纹/云纹/回纹/窃曲…）：统一走 currentColor，两层各自成金 */
   .array-bg #thunder-square path,
@@ -401,6 +636,29 @@ const branches = [
     stroke: currentColor;
     stroke-width: 3.6;
   }
+  /* 雷纹线条：比符文环暗一档 */
+  .array-bg #thunder-square path,
+  .array-bg #thunder-hook path,
+  .array-bg #thunder-wave path,
+  .array-bg #thunder-hook circle {
+    opacity: 0.45;
+  }
+  /* 其余纹样单元（云纹/窃曲/回纹/铜芯）：同样压暗，让符文环主导 */
+  .array-bg #cloud-single path,
+  .array-bg #cloud-double path,
+  .array-bg #cloud-s path,
+  .array-bg #kui-curve path,
+  .array-bg #quequ path,
+  .array-bg #hui path,
+  .array-bg #bronze-core path,
+  .array-bg #cloud-single circle,
+  .array-bg #cloud-double circle,
+  .array-bg #cloud-s circle,
+  .array-bg #bead-border circle,
+  .array-bg #quequ circle,
+  .array-bg #kui-curve circle {
+    opacity: 0.5;
+  }
   .array-bg #cloud-single circle,
   .array-bg #cloud-double circle,
   .array-bg #cloud-s circle,
@@ -413,16 +671,16 @@ const branches = [
   }
 
   /* 八卦爻 / 太极 / 北斗 / 辰位 */
-  .array-bg .a-tri { opacity: 0.95; }
+  .array-bg .a-tri { opacity: 0.65; }
   .array-bg .a-taiji { opacity: 0.5; }
-  .array-bg .a-star { opacity: 0.9; }
-  .array-bg .a-node { fill: #c79a4a; }
-  .array-bg .a-node-ring { fill: none; stroke: #b08736; stroke-width: 4; opacity: 0.8; }
+  .array-bg .a-star { opacity: 0.7; }
+  .array-bg .a-node { fill: #fce18c; opacity: 0.7; }
+  .array-bg .a-node-ring { fill: none; stroke: #fce18c; stroke-width: 4; opacity: 0.65; }
 
   /* 圆环呼吸高光：沿符文带流动的金色光晕 */
   .array-bg .a-sheen {
     fill: none;
-    stroke: #d8ba74;
+    stroke: #ffd24f;
     stroke-width: 9;
     stroke-linecap: round;
     stroke-dasharray: 40 100;
@@ -431,7 +689,7 @@ const branches = [
   }
   .array-bg .a-sheen2 {
     fill: none;
-    stroke: #c9a55e;
+    stroke: #fce18c;
     stroke-width: 7;
     stroke-linecap: round;
     stroke-dasharray: 24 84;
@@ -455,9 +713,11 @@ const branches = [
   .array-bg .a-rotate-ccw {
     transform-box: fill-box;
     transform-origin: 50% 50%;
+    will-change: transform;
+    backface-visibility: hidden;
   }
-  .array-bg .a-rotate-cw { animation: aSpinCw 200s linear infinite; }
-  .array-bg .a-rotate-ccw { animation: aSpinCcw 260s linear infinite; }
+  .array-bg .a-rotate-cw { animation: aSpinCw 120s linear infinite; }
+  .array-bg .a-rotate-ccw { animation: aSpinCcw 150s linear infinite; }
   @keyframes aSpinCw {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
@@ -473,4 +733,10 @@ const branches = [
     .array-bg .a-rotate-cw,
     .array-bg .a-rotate-ccw { animation: none; }
   }
+
+  /* 中低端设备自适应兜底：实测帧率不足时冻结旋转与流光，保流畅 */
+  /* 低端兜底只冻结流光/背光旋转（装饰性、逐帧重绘），法阵旋转为纯 transform 保持运行 */
+  .low-perf .a-sheen,
+  .low-perf .a-sheen2,
+  .low-perf .tree-halo::before { animation: none; }
 </style>

@@ -1,7 +1,8 @@
 ---
 // 九星芒阵 —— 九重对称玄阵（黑金），与云雷祭阵同语系（复用 a-* 全局样式类）
 // 结构：
-//   外环（顺时针）：双主环 + 三重九芒星交织（{9/2}/{9/4}/{9/3}）+ 九辰节点 + 九枚现代⚡符
+//   外环（顺时针）：双主环 + 三重九芒星交织（{9/2}/{9/4}/{9/3}）+ 九辰节点
+//   外圈符文带：最外一道符文环（顺时针），盖过双主环之外
 //   中环（逆时针）：八十一刻度环 + 廿七雷文带 + 九瓣莲旋
 //   内环（逆转细层）：九瓣内莲 + 细九芒 + 珠环
 //   定核（不转）：双九边形 + 亮九芒星 + 太极巫字
@@ -87,22 +88,18 @@ const nodes9 = Array.from({ length: 9 }, (_, i) => {
   const a = (i * TAU) / 9;
   return `<g transform="translate(${n2(Math.cos(a) * 884)} ${n2(Math.sin(a) * 884)})"><circle class="a-node" r="11"/><circle class="a-node-ring" r="19"/></g>`;
 }).join('');
-// 九枚现代⚡符：嵌于两节点之间的中点，古阵衔今符
-const bolts9 = ringUses([{ id: 'ns-bolt', scale: 0.62 }], 800, 9, { offset: 0.5, scaleCycle: [1] });
-// 五道符文环：以 1-17 雷纹连续环绕，半径重排并收紧，数量取 17 倍数无缝衔接
-const lei1 = leiRing(848, 68, 0.72, 0.5);
-const lei2 = leiRing(745, 51, 0.64, 0.5);
-const lei3 = leiRing(642, 51, 0.6, 0.5);
-const lei4 = leiRing(539, 34, 0.54, 0.5);
-const lei5 = leiRing(436, 34, 0.5, 0.5);
+// 四道符文环：以 1-17 雷纹连续环绕，半径重排并收紧，数量取 17 倍数无缝衔接
+const lei0 = leiRing(976, 68, 0.72, 0.5);
+const lei1 = leiRing(848, 51, 0.64, 0.5);
+const lei2 = leiRing(745, 51, 0.6, 0.5);
+const lei3 = leiRing(642, 34, 0.54, 0.5);
 // 每道符文环两侧的轨道线：比一般线条稍亮、比符文弱（a-track）
 const trackFor = (r) =>
   `<circle class="a-track a-ring a-thin" r="${n2(r - 25)}"/><circle class="a-track a-ring a-thin" r="${n2(r + 25)}"/>`;
+const track0 = trackFor(976);
 const track1 = trackFor(848);
 const track2 = trackFor(745);
 const track3 = trackFor(642);
-const track4 = trackFor(539);
-const track5 = trackFor(436);
 
 // ---- 中环（逆时针缓转）----
 // 九瓣莲旋：九枚外鼓莲瓣首尾相衔
@@ -118,7 +115,8 @@ const lotusInner9 = Array.from({ length: 9 }, (_, i) =>
 const nonagramInner = beadStroke(starPolylines(9, 6, 442, 0), 22, 0.22);
 const ring430 = `<circle class="a-ring a-thin" r="414"/>`;
 const beads54 = ringUses([{ id: 'bead-border' }], 356, 54, { scaleCycle: [1] });
-const ring300 = `<circle class="a-ring" r="300"/>`;
+// 最内环：与雷纹线同工艺——以雷纹2号沿正六十边形密铺成环
+const ring300 = beadStroke(starPolylines(60, 1, 300, 0), 26, 0.2);
 
 // ---- 定核（不转）----
 // 双九边形偏轴交叠（雷纹2号密铺）+ 太极巫字镇心
@@ -142,7 +140,6 @@ const core = `
 >
   <defs>
     <Taiji />
-    <image id="ns-bolt" href={`${base}/leiwen/17-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
     <image id="lei-1" href={`${base}/leiwen/1-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
     <image id="lei-2" href={`${base}/leiwen/2-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
     <image id="lei-3" href={`${base}/leiwen/3-gold.png`} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
@@ -170,9 +167,6 @@ const core = `
         <g set:html={nonagramWeb} />
         <g set:html={nodes9} />
       </g>
-      <g class="a-bright">
-        <g set:html={bolts9} />
-      </g>
       <circle class="a-sheen" r="932" />
     </g>
 
@@ -195,26 +189,22 @@ const core = `
       </g>
     </g>
 
-    <!-- 五道符文环：相邻两两顺逆交替（cw / ccw / cw / ccw / cw），轨道随环同行 -->
+    <!-- 四道符文环：相邻两两顺逆交替（cw / ccw / cw / ccw），轨道随环同行 -->
     <g class="a-rotate-cw">
+      <g class="a-track" set:html={track0} />
+      <g class="a-bright" set:html={lei0} />
+    </g>
+    <g class="a-rotate-ccw">
       <g class="a-track" set:html={track1} />
       <g class="a-bright" set:html={lei1} />
     </g>
-    <g class="a-rotate-ccw">
+    <g class="a-rotate-cw">
       <g class="a-track" set:html={track2} />
       <g class="a-bright" set:html={lei2} />
     </g>
-    <g class="a-rotate-cw">
+    <g class="a-rotate-ccw">
       <g class="a-track" set:html={track3} />
       <g class="a-bright" set:html={lei3} />
-    </g>
-    <g class="a-rotate-ccw">
-      <g class="a-track" set:html={track4} />
-      <g class="a-bright" set:html={lei4} />
-    </g>
-    <g class="a-rotate-cw">
-      <g class="a-track" set:html={track5} />
-      <g class="a-bright" set:html={lei5} />
     </g>
 
     <!-- 定核：不转；雷纹线九边暗、巫字太极亮 -->
