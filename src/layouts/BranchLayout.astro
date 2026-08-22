@@ -37,7 +37,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 <style>
   .branch-page { min-height: 100dvh; background: #070807; color: #d9d2c2; }
   .branch-ribbons { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-  .branch-aura { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: repeating-linear-gradient(90deg, transparent 0 8rem, color-mix(in srgb, var(--branch-accent) 7%, transparent) 8rem 8.05rem), radial-gradient(ellipse 58% 55% at 50% 15%, color-mix(in srgb, var(--branch-accent) 16%, transparent), transparent 70%), #070807; }
+  .branch-aura { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(ellipse 72% 46% at 50% -6%, color-mix(in srgb, var(--branch-accent) 14%, transparent), transparent 66%), radial-gradient(ellipse 46% 34% at 10% 92%, color-mix(in srgb, var(--branch-accent) 8%, transparent), transparent 72%), radial-gradient(ellipse 42% 30% at 92% 22%, color-mix(in srgb, var(--branch-accent) 7%, transparent), transparent 72%), #070807; }
   .branch-nav { position: relative; z-index: 2; width: min(100% - 3rem, 72rem); height: 5.3rem; margin-inline: auto; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid color-mix(in srgb, var(--branch-accent) 25%, transparent); }
   .branch-back, .branch-nav-name { font-size: 0.88rem; letter-spacing: 0.3em; }
   .branch-back { color: color-mix(in srgb, var(--branch-accent) 80%, #efe3c8); transition: color 0.25s var(--ease-soft); }

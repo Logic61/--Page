@@ -4,55 +4,187 @@ import PageIntro from '../components/PageIntro.astro';
 import Footer from '../components/Footer.astro';
 
 const title = '法门 · 上古祝门';
-const description = '法门分支目录页（临时）：诸法之门，正在整理，即将开放。';
+const description = '法门分支目录：咒法、偶景、鏖战、驻颜、真气治病，五门各承一脉，循门而入。';
+
+const gates = [
+  {
+    glyph: '咒',
+    name: '咒法',
+    subtitle: '通窍 · 开脉 · 合一',
+    desc: '上古祝门之根本。以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。',
+    route: '/zhoufa',
+    accent: '#b89a5e',
+  },
+  {
+    glyph: '景',
+    name: '偶景',
+    subtitle: '内景 · 观照 · 守一',
+    desc: '内景与幻境之辨：见内景者多入妄境，修性不可误此，观照存想而不入妄。',
+    route: '/oujing',
+    accent: '#8291b7',
+  },
+  {
+    glyph: '战',
+    name: '鏖战',
+    subtitle: '丹基 · 房中 · 养生',
+    desc: '源自人元丹法筑基，交而不泄，养生配套，非邪法，养身以续其道。',
+    route: '/aozhan',
+    accent: '#b8785e',
+  },
+  {
+    glyph: '颜',
+    name: '驻颜',
+    subtitle: '驻容 · 养容 · 生发',
+    desc: '以气血温养为本，驻容颜于岁月之中，养容仪于日常之间，此支篇幅尚待人开示。',
+    route: '/zhuyanshu',
+    accent: '#b99752',
+  },
+  {
+    glyph: '气',
+    name: '真气治病',
+    subtitle: '外气 · 神气 · 激发',
+    desc: '外气治病机理之辨：激发潜力、赋予精气、移除恶气，真气外发而愈人疾。',
+    route: '/zhenqi',
+    accent: '#7fa387',
+  },
+];
 ---
 
 <Base title={title} description={description}>
   <PageIntro
     mark="法"
     title="法门"
-    sub="诸法之门，循门而入。此枝内容正在整理誊录，暂未开放。"
-    meta="临时页面 · 内容筹备中"
+    sub="诸法之门，循门而入。上古祝门之法，分作五支，各承一脉，门门有径，径径通幽。"
+    meta="分支目录 · 五门"
   />
-  <section class="temp-note">
+
+  <section class="gates">
     <div class="wrap">
-      <div class="temp-card reveal">
-        <p class="temp-line kai">法未择人，人自择法。</p>
-        <p class="temp-line kai">此间诸门正在修缮，他日开门，再迎有缘。</p>
-        <a class="btn" href="/four-veins">返回分支图</a>
+      <div class="gate-grid">
+        {
+          gates.map((g, i) => (
+            <a
+              class="gate reveal"
+              href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${g.route}`}
+              style={`--c:${g.accent};`}
+              data-d={i + 1}
+              aria-label={`进入${g.name}`}
+            >
+              <span class="gate-glyph zhuan" aria-hidden="true">{g.glyph}</span>
+              <div class="gate-body">
+                <h2 class="gate-name kai">{g.name}</h2>
+                <p class="gate-sub">{g.subtitle}</p>
+                <p class="gate-desc">{g.desc}</p>
+              </div>
+              <span class="gate-enter kai" aria-hidden="true">入 ›</span>
+            </a>
+          ))
+        }
       </div>
+
+      <p class="gate-foot kai">法未择人，人自择法 · 五门同源，各有所传</p>
     </div>
   </section>
+
   <Footer />
 </Base>
 
 <style>
-  .temp-note { padding: clamp(3rem, 8vw, 6rem) 0 clamp(4rem, 10vw, 8rem); }
-  .temp-card {
-    max-width: 34rem;
-    margin-inline: auto;
-    padding: clamp(1.8rem, 4vw, 3rem);
-    text-align: center;
-    border: 1px solid var(--line, rgba(150, 120, 60, 0.35));
+  .gates { padding-top: clamp(2.5rem, 5vw, 4rem); padding-bottom: clamp(4rem, 9vw, 7rem); }
+
+  .gate-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    gap: clamp(1rem, 2vw, 1.6rem);
+  }
+
+  .gate {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(1.6rem, 3vw, 2.4rem);
+    border: 1px solid var(--ink-line);
     border-radius: 4px;
+    background: var(--panel-soft);
+    overflow: hidden;
+    isolation: isolate;
+    transition: border-color 0.4s var(--ease-soft), transform 0.35s var(--ease-soft), box-shadow 0.4s var(--ease-soft);
   }
-  .temp-line {
-    color: var(--ink, inherit);
-    font-size: 1.05rem;
-    letter-spacing: 0.18em;
-    line-height: 2.1;
+
+  .gate::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(120% 90% at 12% 8%, color-mix(in srgb, var(--c) 16%, transparent), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.45s var(--ease-soft);
   }
-  .btn {
-    display: inline-block;
+
+  .gate:hover,
+  .gate:focus-visible {
+    border-color: color-mix(in srgb, var(--c) 60%, transparent);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.4), 0 0 0 1px color-mix(in srgb, var(--c) 24%, transparent) inset;
+  }
+  .gate:hover::before,
+  .gate:focus-visible::before { opacity: 1; }
+
+  .gate-glyph {
+    align-self: flex-start;
+    font-size: clamp(3.4rem, 7vw, 4.6rem);
+    line-height: 0.78;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--c);
+    text-shadow: 0 0 26px color-mix(in srgb, var(--c) 20%, transparent);
+    margin-bottom: 1.3rem;
+    user-select: none;
+  }
+
+  .gate-body { flex: 1; }
+
+  .gate-name {
+    font-size: clamp(1.5rem, 3vw, 1.9rem);
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    color: var(--heading);
+  }
+
+  .gate-sub {
+    margin-top: 0.6rem;
+    color: var(--c);
+    font-family: var(--font-kai);
+    font-size: 0.82rem;
+    letter-spacing: 0.36em;
+  }
+
+  .gate-desc {
+    margin-top: 1.1rem;
+    color: var(--bone-dim);
+    font-size: 0.92rem;
+    line-height: 2;
+  }
+
+  .gate-enter {
     margin-top: 1.6rem;
-    padding: 0.55em 1.6em;
-    color: inherit;
-    text-decoration: none;
-    letter-spacing: 0.22em;
-    border: 1px solid currentColor;
-    border-radius: 2px;
-    opacity: 0.85;
-    transition: opacity 0.25s;
+    align-self: flex-end;
+    color: color-mix(in srgb, var(--c) 82%, var(--bronze-bright));
+    font-size: 0.92rem;
+    letter-spacing: 0.24em;
+    transition: transform 0.35s var(--ease-soft), color 0.35s var(--ease-soft);
   }
-  .btn:hover { opacity: 1; }
+  .gate:hover .gate-enter,
+  .gate:focus-visible .gate-enter { transform: translateX(6px); color: var(--bronze-bright); }
+
+  .gate-foot {
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    text-align: center;
+    color: var(--bone-faint);
+    font-size: 0.82rem;
+    letter-spacing: 0.4em;
+  }
+
+  @media (max-width: 560px) {
+    .gate-grid { grid-template-columns: 1fr; }
+  }
 </style>
