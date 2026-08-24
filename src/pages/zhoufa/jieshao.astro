@@ -1,0 +1,80 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import Footer from '../../components/Footer.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const blocks = [
+  { label: "渊源", title: "祝者，巫之大主祭也", paras: [
+    "上古祝门，以祝立名。祝，即是咒。巫史同源，祝由其一支脉；本门所承，为上古祝法之根本一脉，隐传至今，半显于世。",
+    "咒非宗教专利，更非影视玄谈。它是一门关于声音、气息与精神关系的古老锻炼之法：以特定的音声振动身窍，以持续的诵习收摄心神。",
+  ]},
+  { label: "所修", title: "以诵咒通窍开脉", paras: [
+    "音成于口，气随声走。声振则窍开，窍开则脉通，脉通则神形俱炼。自音诀入门，循序及于原始咒、战斗咒、通神咒与混合咒，次第而进，不躐等，不躐级。",
+    "功课至朴：日日诵习，念念分明。不求功感速效，功到自然成。",
+  ]},
+  { label: "所求", title: "天人合一，万物一咒", paras: [
+    "先求神形康健、日常安稳，再言深造。此门不以神通炫世，不谈怪力乱神；所谓合一，是声、气、意久炼之后的浑然一体，是水到渠成的境界，不是买来的噱头。",
+  ]},
+  { label: "宜何人", paras: [
+    "能安顿好工作生活、耐得住日复一日诵习之人。修炼不是一时兴起：有恒心者得之，猎奇者失之。",
+  ]},
+];
+---
+
+<Base title="咒法 · 法门介绍" description="咒法门介绍：以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。循门而入，先识其门，再问其径。">
+  <PageIntro
+    mark="咒"
+    title="咒法"
+    sub="祝门根本，通窍开脉。五门之首，先识其门，再问其径。"
+    meta="修行理论内容，未经科学证实，切勿迷信"
+  />
+
+  <section class="gate-intro-page">
+    <div class="wrap">
+      <section class="lead reveal in">
+        <p>咒法为上古祝门之根本。以诵咒通窍开脉，锻炼神形，于音声中炼气，于持诵中炼心，最终追求天人合一、万物一咒的境界。</p>
+      </section>
+
+      <div class="blocks">
+        {blocks.map((b) => (
+          <section class="block reveal">
+            <p class="label kai">{b.label}</p>
+            {b.title && <h2 class="kai">{b.title}</h2>}
+            {b.paras.map((p) => <p>{p}</p>)}
+          </section>
+        ))}
+      </div>
+
+      <aside class="note reveal">
+        <span class="note-mark" aria-hidden="true"></span>
+        <p>本门不搞宗教崇拜，不涉鬼神附体之术。所传皆为锻炼神形之法，未经科学证实，切勿迷信。</p>
+      </aside>
+
+      <nav class="actions kai reveal" aria-label="下一步">
+        <a class="btn btn--primary" href={`${base}/zhoufa/baoming`}>愿者自来 · 报名须知</a>
+        <a class="btn" href={`${base}/famen`}>返回法门</a>
+      </nav>
+    </div>
+  </section>
+
+  <Footer />
+</Base>
+
+<style>
+  .gate-intro-page { border-top: 1px solid var(--ink-line); padding-bottom: clamp(4rem, 9vw, 7rem); }
+  .lead { max-width: 46em; margin: clamp(2.4rem, 5vw, 3.6rem) 0 0 auto; }
+  .lead p { color: var(--bone-dim); font-size: clamp(1.02rem, 1.6vw, 1.15rem); line-height: 2.25; }
+  .blocks { max-width: 46em; margin: clamp(2.4rem, 5vw, 3.4rem) 0 0 auto; display: flex; flex-direction: column; gap: clamp(1.8rem, 3.5vw, 2.6rem); }
+  .block { padding-top: 1.4rem; border-top: 1px dashed var(--ink-line); }
+  .label { color: var(--bronze-bright); font-size: 0.76rem; letter-spacing: 0.5em; }
+  .block h2 { margin-top: 0.7rem; color: var(--heading); font-size: clamp(1.15rem, 2vw, 1.45rem); letter-spacing: 0.18em; }
+  .block p { margin-top: 0.75rem; color: var(--bone-dim); font-size: 0.95rem; line-height: 2.15; text-indent: 2em; }
+  .block p:first-of-type { margin-top: 1rem; }
+  .note { display: flex; gap: 1rem; max-width: 46em; margin: clamp(2.2rem, 4.5vw, 3.4rem) 0 0 auto; padding: 1.05rem 1.3rem; border: 1px solid var(--ink-line); border-left: 3px solid var(--cinnabar); background: var(--panel-soft); border-radius: 2px; }
+  .note-mark { width: 0.48rem; height: 0.48rem; flex: none; margin-top: 0.65rem; border: 1px solid var(--cinnabar); transform: rotate(45deg); display: none; }
+  .note p { color: var(--bone-dim); font-size: 0.88rem; line-height: 2; }
+  .actions { display: flex; flex-wrap: wrap; gap: 1rem; max-width: 46em; margin: clamp(2.4rem, 5vw, 3.6rem) 0 0 auto; }
+  @media (max-width: 600px) { .actions .btn { flex: 1 1 100%; text-align: center; } }
+</style>

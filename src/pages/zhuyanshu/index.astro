@@ -1,6 +1,6 @@
 ---
 // 驻颜术 —— 独立临时页：自包含布局与样式，不依赖任何其它页面组件。
-import FlowRibbons from '../components/FlowRibbons.astro';
+import FlowRibbons from '../../components/FlowRibbons.astro';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
@@ -39,6 +39,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         <span class="soon-mark" aria-hidden="true"></span>
         <p>此支法脉，篇幅尚待开示。</p>
       </aside>
+
+      <nav class="portal-links kai" aria-label="驻颜术入口">
+        <a href={`${base}/zhuyanshu/jieshao`}>法门介绍</a>
+        <a class="is-primary" href={`${base}/zhuyanshu/baoming`}>报名须知</a>
+      </nav>
     </main>
 
     <footer class="foot">五脉同源 · 各有所传</footer>
@@ -191,6 +196,33 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     margin-top: 0.5rem;
     border: 1px solid var(--gold);
     transform: rotate(45deg);
+  }
+
+  .portal-links {
+    display: flex;
+    gap: 1rem;
+    width: min(100%, 44rem);
+    margin: clamp(2rem, 4vw, 3rem) 0 0 auto;
+  }
+  .portal-links a {
+    padding: 0.72em 1.6em;
+    border: 1px solid rgba(185, 151, 82, 0.5);
+    border-radius: 3px;
+    color: var(--gold-bright);
+    font-size: 0.9rem;
+    letter-spacing: 0.28em;
+    text-decoration: none;
+    transition: border-color 0.3s, background 0.3s, color 0.3s, transform 0.25s;
+  }
+  .portal-links a:hover {
+    border-color: var(--gold-bright);
+    background: rgba(185, 151, 82, 0.14);
+    color: #fff3db;
+    transform: translateY(-2px);
+  }
+  .portal-links a.is-primary {
+    background: linear-gradient(180deg, rgba(185, 151, 82, 0.32), rgba(185, 151, 82, 0.16));
+    color: #f0e6cf;
   }
 
   .foot {

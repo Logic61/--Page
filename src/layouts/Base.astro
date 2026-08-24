@@ -16,8 +16,8 @@ const path = (Astro.url.pathname.replace(/\/$/, '') || '/').replace(base, '') ||
 const nav = [
   { href: '/four-veins', label: '总目录', aliases: [] },
   { href: '/zhoufa/mailuo', label: '咒法脉络', aliases: ['/zhoufa/yuanqi', '/zhoufa/tixi'] },
-  { href: '/zhoufa/wenzhang', label: '文章', aliases: [] },
-  { href: '/zhoufa/zhishi', label: '知识点', aliases: ['/zhoufa/wenda', '/zhoufa/yangsheng'] },
+  { href: '/miwen', label: '秘闻', aliases: ['/zhoufa/wenzhang'] },
+  { href: '/changshi', label: '修炼常识', aliases: ['/zhoufa/zhishi', '/zhoufa/wenda', '/zhoufa/yangsheng'] },
   { href: '/zhoufa/xuexi', label: '体系学习', aliases: ['/zhoufa/chuancheng'] },
   { href: '/zhoufa/kecheng', label: '课程介绍', aliases: [] },
   { href: '/zhoufa/baoming', label: '报名须知', aliases: [] },
@@ -89,11 +89,11 @@ const isActive = (item: (typeof nav)[number]) =>
     <div class="search-overlay" id="searchOverlay" aria-hidden="true" role="dialog" aria-label="全局搜索">
       <div class="search-panel">
         <div class="search-bar">
-          <input id="searchInput" type="search" placeholder="搜索知识点、文章…（Esc 关闭）" autocomplete="off" />
+          <input id="searchInput" type="search" placeholder="搜索修炼常识、秘闻…（Esc 关闭）" autocomplete="off" />
           <button class="search-close" id="searchClose" type="button" aria-label="关闭搜索">×</button>
         </div>
         <div class="search-results" id="searchResults">
-          <p class="search-hint">输入关键词，可搜索全部知识点与《神机秘闻》文章</p>
+          <p class="search-hint">输入关键词，可搜索全部修炼常识与《神机秘闻》秘闻</p>
         </div>
       </div>
     </div>
@@ -176,7 +176,7 @@ const isActive = (item: (typeof nav)[number]) =>
         so.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('search-open');
         si.value = '';
-        sr.innerHTML = '<p class="search-hint">输入关键词，可搜索全部知识点与《神机秘闻》文章</p>';
+        sr.innerHTML = '<p class="search-hint">输入关键词，可搜索全部修炼常识与《神机秘闻》秘闻</p>';
       };
       st?.addEventListener('click', openSearch);
       sc?.addEventListener('click', closeSearch);
@@ -188,18 +188,18 @@ const isActive = (item: (typeof nav)[number]) =>
       const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       si?.addEventListener('input', () => {
         const q = si.value.trim().toLowerCase();
-        if (!q) { sr.innerHTML = '<p class="search-hint">输入关键词，可搜索全部知识点与《神机秘闻》文章</p>'; return; }
+        if (!q) { sr.innerHTML = '<p class="search-hint">输入关键词，可搜索全部修炼常识与《神机秘闻》秘闻</p>'; return; }
         const hits = searchIndex.filter((x) => (x.title + x.snippet + x.category).toLowerCase().includes(q))
           .sort((a, b) => (b.title.toLowerCase().includes(q) ? 1 : 0) - (a.title.toLowerCase().includes(q) ? 1 : 0));
         const kw = hits.filter((h) => h.type === 'knowledge');
         const art = hits.filter((h) => h.type === 'article');
         let html = '';
         if (kw.length) {
-          html += '<h4 class="search-group-title">知识点（' + kw.length + '）</h4>';
+          html += '<h4 class="search-group-title">修炼常识（' + kw.length + '）</h4>';
           html += kw.slice(0, 12).map((h) => '<a class="search-hit" href="' + base + h.url + '"><b>' + esc(h.title) + '</b><span>' + esc(h.category) + ' · ' + esc(h.snippet) + '</span></a>').join('');
         }
         if (art.length) {
-          html += '<h4 class="search-group-title">文章（' + art.length + '）</h4>';
+          html += '<h4 class="search-group-title">秘闻（' + art.length + '）</h4>';
           html += art.slice(0, 6).map((h) => '<a class="search-hit" href="' + base + h.url + '"><b>' + esc(h.title) + '</b><span>' + esc(h.snippet) + '</span></a>').join('');
         }
         if (!html) html = '<p class="search-hint">未找到与「' + esc(q) + '」相关的内容</p>';

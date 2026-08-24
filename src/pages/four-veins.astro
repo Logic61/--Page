@@ -1,18 +1,19 @@
 ---
 // 法脉总览：主体是《分支图》本身——它就是本页的目录地图。
-// 视觉层级：底图(树, z1) → 大法阵(z2, 在树之上) → 热区(z3)。
-// 法阵图层置于树之上，圆环盖过图面、中心巫字净空；
-// 图片无矩形边框，四周羽化自然消散进黑色背景。
+// 图层结构（稳定方案）：黑背景 → 完整明亮法阵(z0) → 树贴图(z1，真 alpha) → 热点(z3)。
+// 树贴图用 分支图-4.png（1024×1536，自带 alpha：树体/徽章不透明，背景透明）。
+// 法阵保持高亮度鎏金，不做压暗处理。
 import NineStarArray from '../components/ritual/NineStarArray.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-// 分支图-3 的四个枝梢位置（无文字标签，热区对准枝梢节点）
+// 分支图-4 的四个徽章位置（法门/修炼常识/秘闻/闲文，圆徽在牌匾正上方；
+// 热区对准徽章圆心，需在渲染后微调）
 const branches = [
-  { name: '法门', route: '/famen', x: 28, y: 42, w: 18, h: 7 },
-  { name: '修炼常识', route: '/zhoufa/zhishi', x: 73, y: 41, w: 22, h: 7 },
-  { name: '秘闻', route: '/zhoufa/wenzhang', x: 20, y: 64, w: 18, h: 8 },
-  { name: '闲文', route: '/xianwen', x: 73, y: 63, w: 18, h: 8 },
+  { name: '法门', route: '/famen', x: 26, y: 19, w: 18, h: 12 },
+  { name: '修炼常识', route: '/zhoufa/zhishi', x: 74, y: 19, w: 22, h: 12 },
+  { name: '秘闻', route: '/zhoufa/wenzhang', x: 23, y: 41, w: 18, h: 12 },
+  { name: '闲文', route: '/xianwen', x: 72, y: 41, w: 18, h: 12 },
 ];
 ---
 
@@ -90,6 +91,15 @@ const branches = [
             <line x1="-240.4" y1="240.4" x2="-396" y2="396" stroke="url(#raySW)" />
             <line x1="-240.4" y1="-240.4" x2="-396" y2="-396" stroke="url(#rayNW)" />
           </g>
+          <!-- 根脉牵引：沿树枝方向只在法阵外缘显形，让金线像从树梢生出 -->
+          <g class="root-weave" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M-286-92 C-354-118 -406-154 -470-212 C-514-252 -548-276 -590-286" />
+            <path d="M286-96 C352-116 410-148 472-204 C520-248 553-270 598-282" />
+            <path d="M-264 142 C-334 164 -396 204 -452 260 C-492 300 -532 322 -576 330" />
+            <path d="M264 144 C334 164 394 202 452 258 C494 298 530 320 576 330" />
+            <path d="M-88-300 C-108-360 -132-410 -166-470 C-186-504 -198-536 -202-574" />
+            <path d="M94-300 C112-360 136-410 170-468 C190-504 202-536 204-574" />
+          </g>
           <!-- 金尘：弥散在树与法阵之间的细碎粒子 -->
           <g fill="#fce18c">
             <circle cx="327" cy="-46" r="1.6" opacity="0.5" />
@@ -138,12 +148,12 @@ const branches = [
         </svg>
 
         <div class="map-frame">
-          <!-- 层级：底图为树，法阵图层置于其上（圆环绕过树身、中心巫字净空） -->
-          <img class="map-img" src={`${base}/分支图-3.png`} alt="古巫祝脉分支图：法门、修炼常识、秘闻、闲文" loading="eager" />
-          <!-- 法阵锚定在海报框内，中心对准图中甲骨文「巫」字（约 50% 高） -->
+          <!-- 法阵：完整显示，位于树的下层（z0 < z1），保持鎏金亮度不压暗 -->
           <div class="array-layer" aria-hidden="true">
-            <NineStarArray />
+            <NineStarArray structureDim={0} />
           </div>
+          <!-- 树贴图（真 alpha 版）：树体遮挡阵纹，四处节点圆盘镂空透阵 -->
+          <img class="map-img" src={`${base}/分支图-4.png`} alt="古巫祝脉分支图：法门、修炼常识、秘闻、闲文" loading="eager" />
           {branches.map((b) => (
             <a
               class="map-hotspot"
@@ -197,8 +207,6 @@ const branches = [
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* 法阵层远宽于视口：横向直接裁剪，不产生滚动区域 */
-  html { zoom: 1.5; }
   html, body {
     overflow-x: hidden;
     overflow-x: clip;
@@ -208,8 +216,8 @@ const branches = [
     min-height: 100dvh;
     padding-top: clamp(2rem, 5vw, 4.5rem);
     background:
-      radial-gradient(ellipse 72% 56% at 50% 45%, rgba(189, 148, 64, 0.1), transparent 72%),
-      #050505;
+      radial-gradient(ellipse 72% 56% at 50% 45%, rgba(189, 148, 64, 0.08), transparent 72%),
+      #030303;
     color: var(--ink);
     font-family: "Songti SC", "STSong", "SimSun", "Noto Serif SC", serif;
     -webkit-font-smoothing: antialiased;
@@ -278,9 +286,21 @@ const branches = [
   .vein-lines line {
     stroke-linecap: round;
   }
+  .vein-lines .root-weave {
+    stroke: rgba(252, 225, 140, 0.34);
+    stroke-width: 2.2;
+    stroke-dasharray: 2 14 26 11;
+    filter: drop-shadow(0 0 5px rgba(229, 174, 59, 0.5));
+    opacity: 0.7;
+    animation: rootPulse 9s ease-in-out infinite;
+  }
+  @keyframes rootPulse {
+    0%, 100% { opacity: 0.38; stroke-dashoffset: 0; }
+    50% { opacity: 0.82; stroke-dashoffset: -34; }
+  }
 
-  /* 大法阵：浮于图片上层（树图层在下）。圆环直径大于图宽，向两侧展开盖过图面；
-     中心静区保留净空，不做径向减光：每圈符文亮度一致 */
+  /* 大法阵：完整明亮的第二视觉主体——鎏金主体线条，轻微外发光，不压暗。
+     位于树的下层（z0 < 树 z1），中心不再挖静区：树体自然遮挡中心部分 */
   .array-layer {
     position: absolute;
     left: 50%;
@@ -288,28 +308,39 @@ const branches = [
     transform: translate(-50%, -50%);
     width: min(165%, 1340px);
     aspect-ratio: 1 / 1;
-    z-index: 2;
+    z-index: 0;
+    /* 整体不再压暗：压暗已移入阵内结构层 .array-body（NineStarArray），
+       符文环不受压暗，保持与中心树一致的亮度 */
     opacity: 1;
-    -webkit-mask-image: radial-gradient(circle closest-side at 50% 50%, transparent 0%, transparent 27%, #000 30%, #000 100%);
-    mask-image: radial-gradient(circle closest-side at 50% 50%, transparent 0%, transparent 27%, #000 30%, #000 100%);
+    filter: drop-shadow(0 0 4px rgba(255, 220, 120, 0.28)) drop-shadow(0 0 10px rgba(190, 140, 45, 0.2));
     pointer-events: none;
   }
 
   .map-frame {
     position: relative;
     z-index: 2;
-    /* 新图为竖幅（1052×1494），收窄容器控制整页高度 */
+    /* 新图为竖幅（1024×1536），收窄容器控制整页高度 */
     width: min(100% - 1.5rem, 70vw, 860px);
   }
 
-  /* 金色光晕垫在图后，让图与法阵衔接处有过渡 */
+  /* 法阵中心背光：从树背后透出的暗金径向光，把树主体托出法阵 */
   .map-frame::before {
     content: "";
     position: absolute;
-    inset: -30%;
+    left: 50%;
+    top: 50%;
+    width: 55%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
     background:
-      radial-gradient(circle at 50% 50%, rgba(214, 158, 45, 0.18), rgba(160, 116, 36, 0.06) 55%, transparent 78%);
-    filter: blur(10px);
+      radial-gradient(
+        circle,
+        rgba(214, 169, 67, 0.12) 0%,
+        rgba(214, 169, 67, 0.055) 35%,
+        rgba(214, 169, 67, 0.02) 58%,
+        transparent 75%
+      );
+    filter: blur(15px);
     z-index: 0;
     pointer-events: none;
   }
@@ -322,20 +353,29 @@ const branches = [
     z-index: 2;
     pointer-events: none;
     background:
+      radial-gradient(ellipse 15% 10% at 28% 42%, rgba(249, 207, 111, 0.19), transparent 74%),
+      radial-gradient(ellipse 16% 10% at 73% 41%, rgba(249, 207, 111, 0.19), transparent 74%),
+      radial-gradient(ellipse 15% 11% at 20% 64%, rgba(249, 207, 111, 0.15), transparent 74%),
+      radial-gradient(ellipse 16% 11% at 73% 63%, rgba(249, 207, 111, 0.15), transparent 74%),
       radial-gradient(ellipse closest-side at 50% 50%, transparent 58%, rgba(214, 158, 45, 0.09) 76%, rgba(120, 88, 30, 0.05) 88%, transparent 99%);
-    filter: blur(16px);
+    filter: blur(13px);
     mix-blend-mode: screen;
+    opacity: 0.9;
   }
 
-  /* 主体图（树）：位于法阵下层，四周羽化消散进黑背景 */
+  /* 主体图（树）：真 alpha 贴图，位于法阵上层（z1 > 阵 z0）。
+     树体正常遮挡阵纹；仅保留轻微轮廓高光让树从同样明亮的阵纹中稍脱离 */
   .map-img {
     position: relative;
     z-index: 1;
     display: block;
     width: 100%;
     height: auto;
-    filter: sepia(0.28) hue-rotate(8deg) saturate(1.4) brightness(0.96);
-    /* 边框淡化融入背景：四周羽化。横向留足余量，避免压住两侧文字节点 */
+    filter:
+      sepia(0.28) hue-rotate(8deg) saturate(1.4) brightness(1.05)
+      drop-shadow(0 0 2px rgba(255, 220, 120, 0.35))
+      drop-shadow(0 0 6px rgba(190, 140, 45, 0.18));
+    /* 边框淡化融入背景：四周羽化（贴图暗底已透明，此处只收残留纹理边缘） */
     -webkit-mask-image:
       linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%),
       linear-gradient(180deg, transparent 0%, #000 11%, #000 88%, transparent 100%);
@@ -360,16 +400,16 @@ const branches = [
   .hotspot-ring {
     position: absolute;
     inset: 6%;
-    border: 1px solid rgba(236, 215, 154, 0.32);
+    border: 1px solid rgba(240, 222, 170, 0.45);
     border-radius: 50%;
-    opacity: 0.45;
+    opacity: 0.55;
     animation: hsBreath 3.6s ease-in-out infinite;
     transition: border-color 0.25s, box-shadow 0.25s, background 0.25s, transform 0.25s, opacity 0.25s;
   }
 
   @keyframes hsBreath {
-    0%, 100% { box-shadow: 0 0 6px rgba(231, 211, 154, 0.08), inset 0 0 8px rgba(231, 211, 154, 0.05); }
-    50% { box-shadow: 0 0 16px rgba(231, 211, 154, 0.22), inset 0 0 14px rgba(231, 211, 154, 0.12); }
+    0%, 100% { box-shadow: 0 0 8px rgba(236, 217, 164, 0.12), inset 0 0 10px rgba(236, 217, 164, 0.08); }
+    50% { box-shadow: 0 0 20px rgba(236, 217, 164, 0.3), inset 0 0 16px rgba(236, 217, 164, 0.16); }
   }
 
   .map-hotspot:hover .hotspot-ring,
@@ -420,24 +460,26 @@ const branches = [
 
   @media (max-width: 900px) {
     .map-frame { width: min(100% - 1.5rem, 82vw); }
-    .array-layer { width: min(185%, 1120px); opacity: 0.82; }
+    .array-layer { width: min(185%, 1120px); opacity: 1; }
   }
 
   @media (max-width: 640px) {
     .top { padding: 0.9rem 1.1rem; }
     .brand, .top-link { font-size: 0.8rem; letter-spacing: 0.2em; }
     .map-frame { width: min(100%, 80vh); }
-    .array-layer { width: 285%; opacity: 0.7; top: 50%; }
+    .array-layer { width: 285%; opacity: 1; top: 50%; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hotspot-ring { animation: none; }
+    .hotspot-ring,
+    .vein-lines .root-weave { animation: none; }
   }
 </style>
 
 <style is:global>
-  /* ---- 云雷祭阵背景：作为主体图的容器/圣化层，整体低亮度 ----
-     暗金 #66502A 承担阵的主体，亮金 #B99752 只给核心 / 阵眼 / 交叉点。 */
+  /* ---- 云雷祭阵背景：树金 #efcc57 分层 ----
+     符文环 + 其两侧轨道：全亮（与树同亮度）；
+     结构层线条 / 雷纹线：压暗，让符文带主导。 */
   .array-bg {
     position: absolute;
     inset: 0;
@@ -446,13 +488,18 @@ const branches = [
     z-index: 0;
     display: block;
     pointer-events: none;
-    color: #fce18c;
+    color: #efcc57; /* = 树亮金 rgb(239,204,87)，法阵全线电流色与树一致 */
     overflow: visible;
   }
 
-  .array-bg .a-dim { opacity: 0.36; }
-  .array-bg .a-track { opacity: 0.85; }
-  .array-bg .a-bright { color: #fce18c; opacity: 1; filter: sepia(0.5) saturate(1.05) brightness(1.03); }
+  /* 亮度分层：符文环与其两侧轨道保持全亮（树金 #efcc57 / rgb(239,204,87)）；
+     其余结构线条（主环/九芒/莲旋/阵眼/定核）压暗一档 */
+  .array-bg .a-dim { opacity: 0.5; }
+  .array-bg .a-track { opacity: 1; }
+  .array-bg .a-bright { color: #efcc57; opacity: 0.55; filter: sepia(0.28) hue-rotate(8deg) saturate(1.4) brightness(1.05); }
+  /* 符文环：与中心树 .map-img 完全相同的滤镜链；符文 PNG 源色即树亮部均值 #deb463，
+     同源色 + 同滤镜 → 渲染色与树亮金像素级一致（≈ #e4cc78） */
+  .array-bg .a-rune { color: #fce18c; opacity: 1; filter: sepia(0.28) hue-rotate(8deg) saturate(1.4) brightness(1.05); }
   .array-bg .a-faint { opacity: 1; }
 
   .array-bg .a-guide {
@@ -475,13 +522,13 @@ const branches = [
     fill: none;
     stroke: currentColor;
     stroke-width: 5;
-    opacity: 0.6;
+    opacity: 1;
   }
   .array-bg .a-poly {
     fill: none;
     stroke: currentColor;
     stroke-width: 6;
-    opacity: 0.6;
+    opacity: 1;
   }
   .array-bg .a-core-frame {
     fill: none;
@@ -497,9 +544,9 @@ const branches = [
   .array-bg .a-wu-img {
     filter: drop-shadow(0 0 10px rgba(224, 190, 114, 0.35));
   }
-  .array-bg .a-knot circle { fill: currentColor; opacity: 0.6; }
-  .array-bg .a-knot path { fill: none; stroke: currentColor; stroke-width: 6; opacity: 0.6; }
-  .array-bg .a-dot { fill: currentColor; stroke: none; opacity: 0.6; }
+  .array-bg .a-knot circle { fill: currentColor; opacity: 1; }
+  .array-bg .a-knot path { fill: none; stroke: currentColor; stroke-width: 6; opacity: 1; }
+  .array-bg .a-dot { fill: currentColor; stroke: none; opacity: 1; }
 
   /* 纹样单元（雷纹/云纹/回纹/窃曲…）：统一走 currentColor，两层各自成金 */
   .array-bg #thunder-square path,
@@ -551,11 +598,11 @@ const branches = [
   }
 
   /* 八卦爻 / 太极 / 北斗 / 辰位 */
-  .array-bg .a-tri { opacity: 0.65; }
-  .array-bg .a-taiji { opacity: 0.5; }
-  .array-bg .a-star { opacity: 0.7; }
-  .array-bg .a-node { fill: #fce18c; opacity: 0.7; }
-  .array-bg .a-node-ring { fill: none; stroke: #fce18c; stroke-width: 4; opacity: 0.65; }
+  .array-bg .a-tri { opacity: 1; }
+  .array-bg .a-taiji { opacity: 1; }
+  .array-bg .a-star { opacity: 1; }
+  .array-bg .a-node { fill: #efcc57; opacity: 1; }
+  .array-bg .a-node-ring { fill: none; stroke: #efcc57; stroke-width: 4; opacity: 1; }
 
   /* 圆环呼吸高光：沿符文带流动的金色光晕 */
   .array-bg .a-sheen {

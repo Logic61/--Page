@@ -1,0 +1,56 @@
+---
+import BranchLayout from '../../layouts/BranchLayout.astro';
+import GateIntro from '../../components/GateIntro.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const title = '真气治病 · 法门介绍';
+const lead = "外气治病，古称布气，医道同源之时已有其说。真气外发而愈人疾，历代皆有传习——但此道的真相，比传说朴素得多。";
+
+const blocks = [
+  {
+    "label": "渊源",
+    "title": "布气古法，医道同源",
+    "paras": [
+      "以外气济人，先秦已有端倪，历代医家、道门皆有能者。然此事自古就被神化包裹，或吹为起死回生，或贬为江湖骗术，两头皆失其真。",
+      "本门所传，剥去神话外衣，只讲机理与实功。"
+    ]
+  },
+  {
+    "label": "所辨",
+    "title": "外气治病机理有三",
+    "paras": [
+      "其一激发潜力：受者自身本具康复之能，外气如引线，点燃而已；其二赋予精气：以己之有余，补人之不足，如借薪助火；其三移除恶气：导其病气外出，如开窗散浊。",
+      "三者皆是助力，而非神迹。灯油本是受者自己的，引线点不着无油之灯。"
+    ]
+  },
+  {
+    "label": "所修",
+    "title": "先自有源，而后济人",
+    "paras": [
+      "外发之气，必以自家筑基功底为源。自身真气充盈，而后可言外发；自身无源，何以济人，徒耗己身。",
+      "故此门功课，九分在自练，一分在施为。"
+    ]
+  },
+  {
+    "label": "宜何人",
+    "paras": [
+      "已有筑基功底、心术端正、不借此敛财惑众者。无功底而欲速成者、欲以此行骗牟利者，皆非此门所收。"
+    ]
+  }
+];
+
+const description = '真气治病法门介绍：外气治病机理之辨——激发潜力、赋予精气、移除恶气。循门而入，先识其门，再问其径。';
+---
+
+<BranchLayout title={title} description={description} glyph="气" label="真气治病" accent="#7fa387">
+  <GateIntro
+    glyph="气"
+    name="真气治病"
+    subtitle="外气 · 神气 · 激发"
+    lead={lead}
+    blocks={blocks}
+    note="有病仍须就医，此道不代医、不拒医。凡宣称包治百病者，皆非此门所为。修行理论未经科学证实，切勿迷信。"
+    baomingHref={base + '/zhenqi/baoming'}
+  />
+</BranchLayout>

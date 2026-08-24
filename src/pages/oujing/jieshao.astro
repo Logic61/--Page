@@ -1,0 +1,56 @@
+---
+import BranchLayout from '../../layouts/BranchLayout.astro';
+import GateIntro from '../../components/GateIntro.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const title = '偶景 · 法门介绍';
+const lead = "内景之说，古已有之。存想观照，本为修性之一路，然歧途亦最多——见内景者，十有八九误入妄境而不自知。偶景一门，所授正是分辨与守持之功。";
+
+const blocks = [
+  {
+    "label": "渊源",
+    "title": "巫祝余脉，修性支流",
+    "paras": [
+      "存想观照之法，源出上古巫祝静修一脉，后为道家修性者所承。所谓内景，即闭目返观时身中气象的自映；所谓幻境，即心念编织的罗网。二者形貌相近，去向天壤。",
+      "历代修士于此处跌倒者众：见光影便以为得见神真，闻异音便以为天师传法，一步步把自己喂给了妄境。偶景之门，先教人认路，再教人行走。"
+    ]
+  },
+  {
+    "label": "所辨",
+    "title": "内景非幻境，幻境非通神",
+    "paras": [
+      "内景是身中气血神意的映照，随修炼进程自然显现，不迎不来；幻境是欲望与恐惧的造物，专拣心头所好所惧演给你看。",
+      "妄境最悦人，也最误人。凡使你狂喜、使你自大、催你速成的景象，十之八九是妄；凡平淡无奇、须下苦功方寸寸推进的路，反而近真。"
+    ]
+  },
+  {
+    "label": "所修",
+    "title": "观照存想，守一不入妄",
+    "paras": [
+      "此门功课，重在观照存想而不入妄：守一不移，见景不迷。景来任其来，景去任其去，只作壁上观，不当戏中人。",
+      "久久纯熟，方能于万象纷纭中认得那点真消息，养己心性，不为境转。"
+    ]
+  },
+  {
+    "label": "宜何人",
+    "paras": [
+      "心性沉稳、不好玄谈、能自觉从幻象中抽身之人。好奇心重、盼神通盼感应者，请先在咒法门中打磨心性，再来叩此门。"
+    ]
+  }
+];
+
+const description = '偶景法门介绍：内景与幻境之辨，观照存想而不入妄。循门而入，先识其门，再问其径。';
+---
+
+<BranchLayout title={title} description={description} glyph="景" label="偶景" accent="#8291b7">
+  <GateIntro
+    glyph="景"
+    name="偶景"
+    subtitle="内景 · 观照 · 守一"
+    lead={lead}
+    blocks={blocks}
+    note="此门重辨析而轻神异。凡以见神见怪为务、以境界诱人者，皆非此门正路。修行理论未经科学证实，切勿迷信。"
+    baomingHref={base + '/oujing/baoming'}
+  />
+</BranchLayout>

@@ -15,8 +15,11 @@ const MARGIN = 0.94; // 内容占画布比例
 const start = Number(process.argv[2] ?? 1);
 const end = Number(process.argv[3] ?? 16);
 
-// 鎏金：高红、低绿，明亮暖金
-const GOLD = { r: 242, g: 197, b: 110 };
+// 鎏金：与 four-veins 中心树贴图（分支图-3-alpha.png）亮部（luma 前 10%）像素均值一致 #deb463；
+// 页面端 .a-rune 采用与树 .map-img 完全相同的滤镜链
+// （sepia(0.28) hue-rotate(8deg) saturate(1.4) brightness(1.05)），
+// 同源色 + 同滤镜 → 符文渲染色与树亮金像素级一致（渲染后 ≈ #e4cc78）。
+const GOLD = { r: 222, g: 180, b: 99 };
 
 const otsu = (hist, total) => {
   let sum = 0;

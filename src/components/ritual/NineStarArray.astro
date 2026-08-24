@@ -3,11 +3,18 @@
 // 结构：
 //   外环（顺时针）：双主环 + 三重九芒星交织（{9/2}/{9/4}/{9/3}）+ 九辰节点
 //   外圈符文带：最外一道符文环（顺时针），盖过双主环之外
+//   符文环共六道（976/848/745/642/562/392），相邻两两顺逆交替
+//   压暗结构（array-body opacity .75）只包住结构层与轨道线；
+//   六道符文环走 .a-rune（与中心树同滤镜链、同源色），亮度颜色与树像素级一致
 //   中环（逆时针）：八十一刻度环 + 廿七雷文带 + 九瓣莲旋
 //   内环（逆转细层）：九瓣内莲 + 细九芒 + 珠环
 //   定核（不转）：双九边形 + 亮九芒星 + 太极巫字
 import Taiji from './patterns/taiji.astro';
 import { ringUses } from './ritual.js';
+
+// structureDim：结构层（array-body）整体压暗系数；0 = 不压暗（jiuxing 等页保持旧观感）。
+// four-veins 传 0：法阵亮度由页内 CSS 分层控制（符文/轨道全亮、结构压暗）。
+const { structureDim = 0 } = Astro.props;
 
 const n2 = (v) => Math.round(v * 10) / 10;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -93,6 +100,9 @@ const lei0 = leiRing(976, 68, 0.72, 0.5);
 const lei1 = leiRing(848, 51, 0.64, 0.5);
 const lei2 = leiRing(745, 51, 0.6, 0.5);
 const lei3 = leiRing(642, 34, 0.54, 0.5);
+// 内侧再加两道符文环：一道在莲旋与内莲之间，一道在珠环与细九芒之间
+const lei4 = leiRing(562, 34, 0.46, 0.5);
+const lei5 = leiRing(392, 34, 0.4, 0.5);
 // 每道符文环两侧的轨道线：比一般线条稍亮、比符文弱（a-track）
 const trackFor = (r) =>
   `<circle class="a-track a-ring a-thin" r="${n2(r - 25)}"/><circle class="a-track a-ring a-thin" r="${n2(r + 25)}"/>`;
@@ -100,6 +110,8 @@ const track0 = trackFor(976);
 const track1 = trackFor(848);
 const track2 = trackFor(745);
 const track3 = trackFor(642);
+const track4 = trackFor(562);
+const track5 = trackFor(392);
 
 // ---- 中环（逆时针缓转）----
 // 九瓣莲旋：九枚外鼓莲瓣首尾相衔
@@ -160,55 +172,58 @@ const core = `
   </defs>
 
   <g transform="translate(1000 1000)">
-    <!-- 外环：顺时针缓转（结构层） -->
-    <g class="a-rotate-cw">
-      <g class="a-dim">
-        <g set:html={ring950} />
-        <g set:html={nonagramWeb} />
-        <g set:html={nodes9} />
+    <!-- 结构层：原 .array-layer 的整体 opacity 0.75 压暗移入此处，结构观感与旧版完全一致 -->
+    <g class="array-body" {...(structureDim > 0 ? { opacity: structureDim } : {})}>
+      <!-- 外环：顺时针缓转（结构层） -->
+      <g class="a-rotate-cw">
+        <g class="a-dim">
+          <g set:html={ring950} />
+          <g set:html={nonagramWeb} />
+          <g set:html={nodes9} />
+        </g>
+        <circle class="a-sheen" r="932" />
       </g>
-      <circle class="a-sheen" r="932" />
-    </g>
 
-    <!-- 中环：逆时针缓转（结构层） -->
-    <g class="a-rotate-ccw">
-      <g class="a-dim">
-        <g set:html={lotus9} />
+      <!-- 中环：逆时针缓转（结构层） -->
+      <g class="a-rotate-ccw">
+        <g class="a-dim">
+          <g set:html={lotus9} />
+        </g>
+        <circle class="a-sheen2" r="668" />
       </g>
-      <circle class="a-sheen2" r="668" />
-    </g>
 
-    <!-- 内环：逆转细层（结构层） -->
-    <g class="a-rotate-cw">
-      <g class="a-dim">
-        <g set:html={lotusInner9} />
-        <g set:html={nonagramInner} />
-        <g set:html={ring430} />
-        <g set:html={beads54} />
-        <g set:html={ring300} />
+      <!-- 内环：逆转细层（结构层） -->
+      <g class="a-rotate-cw">
+        <g class="a-dim">
+          <g set:html={lotusInner9} />
+          <g set:html={nonagramInner} />
+          <g set:html={ring430} />
+          <g set:html={beads54} />
+          <g set:html={ring300} />
+        </g>
       </g>
+
+      <!-- 六道符文环的轨道线：留在压暗层内随各自环向转动（.a-track 不透明度已补偿） -->
+      <g class="a-rotate-cw"><g class="a-track" set:html={track0} /></g>
+      <g class="a-rotate-ccw"><g class="a-track" set:html={track1} /></g>
+      <g class="a-rotate-cw"><g class="a-track" set:html={track2} /></g>
+      <g class="a-rotate-ccw"><g class="a-track" set:html={track3} /></g>
+      <g class="a-rotate-cw"><g class="a-track" set:html={track4} /></g>
+      <g class="a-rotate-ccw"><g class="a-track" set:html={track5} /></g>
+
+      <!-- 定核：不转；雷纹线九边暗、巫字太极亮 -->
+      <g class="a-dim" set:html={corePoly} />
+      <g class="a-bright" set:html={core} />
     </g>
 
-    <!-- 四道符文环：相邻两两顺逆交替（cw / ccw / cw / ccw），轨道随环同行 -->
-    <g class="a-rotate-cw">
-      <g class="a-track" set:html={track0} />
-      <g class="a-bright" set:html={lei0} />
-    </g>
-    <g class="a-rotate-ccw">
-      <g class="a-track" set:html={track1} />
-      <g class="a-bright" set:html={lei1} />
-    </g>
-    <g class="a-rotate-cw">
-      <g class="a-track" set:html={track2} />
-      <g class="a-bright" set:html={lei2} />
-    </g>
-    <g class="a-rotate-ccw">
-      <g class="a-track" set:html={track3} />
-      <g class="a-bright" set:html={lei3} />
-    </g>
-
-    <!-- 定核：不转；雷纹线九边暗、巫字太极亮 -->
-    <g class="a-dim" set:html={corePoly} />
-    <g class="a-bright" set:html={core} />
+    <!-- 六道符文环：相邻两两顺逆交替（cw / ccw 交替）。
+         不参与整体压暗，走 .a-rune（与中心树同滤镜链、同源色），
+         渲染色与树亮金一致 ≈ rgb(240,224,176)）。 -->
+    <g class="a-rotate-cw"><g class="a-bright a-rune" set:html={lei0} /></g>
+    <g class="a-rotate-ccw"><g class="a-bright a-rune" set:html={lei1} /></g>
+    <g class="a-rotate-cw"><g class="a-bright a-rune" set:html={lei2} /></g>
+    <g class="a-rotate-ccw"><g class="a-bright a-rune" set:html={lei3} /></g>
+    <g class="a-rotate-cw"><g class="a-bright a-rune" set:html={lei4} /></g>
+    <g class="a-rotate-ccw"><g class="a-bright a-rune" set:html={lei5} /></g>
   </g>
 </svg>

@@ -1,0 +1,87 @@
+---
+interface Block {
+  label: string;
+  title?: string;
+  paras: string[];
+}
+
+interface Props {
+  glyph: string;
+  name: string;
+  subtitle: string;
+  lead: string;
+  blocks: Block[];
+  note?: string;
+  baomingHref: string;
+  famenHref?: string;
+}
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const { glyph, name, subtitle, lead, blocks, note, baomingHref, famenHref = base + '/famen' } = Astro.props;
+---
+
+<article class="gate-intro">
+  <div class="gi-wrap">
+    <header class="gi-hero reveal in">
+      <span class="gi-glyph zhuan" aria-hidden="true">{glyph}</span>
+      <p class="gi-kicker kai">法门介绍</p>
+      <h1 class="kai">{name}</h1>
+      <p class="gi-subtitle">{subtitle}</p>
+    </header>
+
+    <section class="gi-lead" aria-label="门中提要">
+      <p>{lead}</p>
+    </section>
+
+    <div class="gi-blocks">
+      {
+        blocks.map((b) => (
+          <section class="gi-block">
+            <p class="gi-label kai">{b.label}</p>
+            {b.title && <h2 class="kai">{b.title}</h2>}
+            {b.paras.map((p) => <p>{p}</p>)}
+          </section>
+        ))
+      }
+    </div>
+
+    {
+      note && (
+        <aside class="gi-note">
+          <span class="gi-note-mark" aria-hidden="true"></span>
+          <p>{note}</p>
+        </aside>
+      )
+    }
+
+    <nav class="gi-actions kai" aria-label="下一步">
+      <a class="gi-btn is-primary" href={baomingHref}>愿者自来 · 报名须知</a>
+      <a class="gi-btn" href={famenHref}>返回法门</a>
+    </nav>
+  </div>
+</article>
+
+<style>
+  .gate-intro { position: relative; z-index: 1; padding: clamp(4rem, 9vw, 8rem) 0 clamp(5rem, 10vw, 9rem); }
+  .gi-wrap { width: min(100% - 3rem, 72rem); margin-inline: auto; }
+  .gi-hero { display: grid; grid-template-columns: auto 1fr; column-gap: clamp(1.4rem, 4vw, 3.5rem); align-items: end; padding-bottom: clamp(2.6rem, 5vw, 4.5rem); border-bottom: 1px solid color-mix(in srgb, var(--branch-accent) 35%, transparent); }
+  .gi-glyph { grid-row: 1 / span 3; color: transparent; -webkit-text-stroke: 1px var(--branch-accent); font-size: clamp(6rem, 15vw, 11rem); line-height: 0.72; text-shadow: 0 0 34px color-mix(in srgb, var(--branch-accent) 22%, transparent); user-select: none; }
+  .gi-kicker { color: var(--branch-accent); font-size: 0.78rem; letter-spacing: 0.54em; }
+  .gi-hero h1 { margin-top: 0.5rem; color: #eee5d3; font-size: clamp(2.4rem, 6vw, 4.8rem); line-height: 1.2; letter-spacing: 0.28em; }
+  .gi-subtitle { margin-top: 0.9rem; color: #938a76; font-size: 0.9rem; letter-spacing: 0.3em; }
+  .gi-lead { width: min(100%, 48rem); margin: clamp(3rem, 6vw, 5.5rem) 0 0 auto; }
+  .gi-lead p { color: #c1b8a7; font-size: clamp(1rem, 1.5vw, 1.12rem); line-height: 2.25; }
+  .gi-blocks { width: min(100%, 48rem); margin: clamp(2.6rem, 5vw, 4rem) 0 0 auto; display: flex; flex-direction: column; gap: clamp(1.8rem, 3.5vw, 2.6rem); }
+  .gi-block { padding-top: 1.4rem; border-top: 1px dashed color-mix(in srgb, var(--branch-accent) 22%, transparent); }
+  .gi-label { color: var(--branch-accent); font-size: 0.76rem; letter-spacing: 0.5em; }
+  .gi-block h2 { margin-top: 0.7rem; color: #e7ddc7; font-size: clamp(1.15rem, 2vw, 1.45rem); letter-spacing: 0.18em; }
+  .gi-block p { margin-top: 0.75rem; color: #b3aa99; font-size: 0.95rem; line-height: 2.15; text-indent: 2em; }
+  .gi-block p:first-of-type { margin-top: 1rem; }
+  .gi-note { display: flex; gap: 1rem; width: min(100%, 48rem); margin: clamp(2.4rem, 5vw, 4rem) 0 0 auto; padding-top: 1.2rem; border-top: 1px solid color-mix(in srgb, var(--branch-accent) 25%, transparent); color: #847b68; font-size: 0.88rem; line-height: 2; }
+  .gi-note-mark { width: 0.48rem; height: 0.48rem; flex: none; margin-top: 0.65rem; border: 1px solid var(--branch-accent); transform: rotate(45deg); }
+  .gi-actions { display: flex; flex-wrap: wrap; gap: 1rem; width: min(100%, 48rem); margin: clamp(2.6rem, 5vw, 4rem) 0 0 auto; }
+  .gi-btn { padding: 0.78em 1.8em; border: 1px solid color-mix(in srgb, var(--branch-accent) 55%, transparent); border-radius: 3px; color: color-mix(in srgb, var(--branch-accent) 78%, #efe3c8); font-size: 0.92rem; letter-spacing: 0.26em; text-decoration: none; transition: border-color 0.3s var(--ease-soft), background 0.3s var(--ease-soft), color 0.3s var(--ease-soft), transform 0.25s var(--ease-soft); }
+  .gi-btn:hover { border-color: var(--branch-accent); background: color-mix(in srgb, var(--branch-accent) 14%, transparent); color: #fff3db; transform: translateY(-2px); }
+  .gi-btn.is-primary { background: linear-gradient(180deg, color-mix(in srgb, var(--branch-accent) 32%, transparent), color-mix(in srgb, var(--branch-accent) 16%, transparent)); color: #f0e6cf; border-color: color-mix(in srgb, var(--branch-accent) 70%, transparent); }
+  @media (max-width: 640px) { .gi-wrap { width: min(100% - 2.2rem, 72rem); } .gi-hero { column-gap: 1rem; } .gi-glyph { font-size: 5.6rem; } .gi-subtitle { letter-spacing: 0.17em; } .gi-actions .gi-btn { flex: 1 1 100%; text-align: center; } }
+</style>
