@@ -1,0 +1,55 @@
+---
+import BranchLayout from '../../layouts/BranchLayout.astro';
+import GateIntro from '../../components/GateIntro.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const title = '鏖战之法 · 法门介绍';
+const lead = "鏖战之法，源自人元丹法筑基一脉，古称阴阳筑基之道。历来口传心授，文字少载，故世人多误会其为邪淫之术——实则恰相反：此道贵在节制与养护。";
+
+const blocks = [
+  {
+    "label": "渊源",
+    "title": "人元筑基，口传一脉",
+    "paras": [
+      "人元丹法，借人之精气补己之亏损，为丹道筑基的一条路径。其法不立文字，历来择人而授，故典籍所载语焉不详，市井所传多以讹传讹。",
+      "本门所承，为其筑基一段：以房中之术固精养身，佐以配套养生功法，使根本日壮，以续修道之年寿。"
+    ]
+  },
+  {
+    "label": "所修",
+    "title": "交而不泄，养生为配",
+    "paras": [
+      "核心功关交而不泄，练的是收纵自如的功夫；配合饮食、作息、导引诸般养护，使亏者渐盈、弱者渐强。",
+      "此功强身为本，快感为末。贪图后者而弃前者，是买椟还珠，且必受其害。"
+    ]
+  },
+  {
+    "label": "所正",
+    "title": "非邪法，更非纵欲之术",
+    "paras": [
+      "此道以补养为务，以续道为期。凡借此猎艳纵欲、损耗他人者，早已背离师训，为本门所严禁。"
+    ]
+  },
+  {
+    "label": "宜何人",
+    "paras": [
+      "成年、家室和睦、生活规律、能守戒慎之人。年少血气未定者、生活糜烂者、欲借此助淫者，皆不相宜，请勿问津。"
+    ]
+  }
+];
+
+const description = '鏖战之法法门介绍：源自人元丹法筑基，交而不泄，养生配套，非邪法。循门而入，先识其门，再问其径。';
+---
+
+<BranchLayout title={title} description={description} glyph="战" label="鏖战" accent="#b8785e">
+  <GateIntro
+    glyph="战"
+    name="鏖战之法"
+    subtitle="丹基 · 房中 · 养生"
+    lead={lead}
+    blocks={blocks}
+    note="报名之前请三思：此门功夫关乎身命，学之不慎反受其害。愿者来，不强迫，不强求。"
+    baomingHref={base + '/aozhan/baoming'}
+  />
+</BranchLayout>

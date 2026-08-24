@@ -4,9 +4,11 @@ interface Props {
   title: string;
   subtitle: string;
   description: string;
+  introHref?: string;
+  baomingHref?: string;
 }
 
-const { glyph, title, subtitle, description } = Astro.props;
+const { glyph, title, subtitle, description, introHref, baomingHref } = Astro.props;
 ---
 
 <article class="branch-portal">
@@ -25,6 +27,14 @@ const { glyph, title, subtitle, description } = Astro.props;
       <span class="portal-note-mark" aria-hidden="true"></span>
       <p>此支内容尚在整理，后续篇章将在此展开。</p>
     </section>
+    {
+      (introHref || baomingHref) && (
+        <nav class="portal-actions kai" aria-label={title + "入口"}>
+          {introHref && <a class="portal-link" href={introHref}>门中介绍</a>}
+          {baomingHref && <a class="portal-link is-primary" href={baomingHref}>报名须知</a>}
+        </nav>
+      )
+    }
   </div>
 </article>
 
@@ -39,6 +49,10 @@ const { glyph, title, subtitle, description } = Astro.props;
   .portal-reading { width: min(100%, 48rem); margin: clamp(3.5rem, 8vw, 7rem) 0 0 auto; }
   .portal-reading > p:last-child { margin-top: 1.2rem; color: #c1b8a7; font-size: clamp(1rem, 1.5vw, 1.12rem); line-height: 2.25; }
   .portal-note { display: flex; gap: 1rem; width: min(100%, 48rem); margin: clamp(3rem, 6vw, 5rem) 0 0 auto; padding-top: 1.2rem; border-top: 1px solid color-mix(in srgb, var(--branch-accent) 25%, transparent); color: #847b68; font-size: 0.9rem; line-height: 2; }
+ .portal-actions { display: flex; flex-wrap: wrap; gap: 1rem; width: min(100%, 48rem); margin: clamp(2.4rem, 5vw, 4rem) 0 0 auto; }
+ .portal-link { padding: 0.72em 1.6em; border: 1px solid color-mix(in srgb, var(--branch-accent) 55%, transparent); border-radius: 3px; color: color-mix(in srgb, var(--branch-accent) 78%, #efe3c8); font-size: 0.9rem; letter-spacing: 0.28em; text-decoration: none; transition: border-color 0.3s var(--ease-soft), background 0.3s var(--ease-soft), color 0.3s var(--ease-soft), transform 0.25s var(--ease-soft); }
+ .portal-link:hover { border-color: var(--branch-accent); background: color-mix(in srgb, var(--branch-accent) 14%, transparent); color: #fff3db; transform: translateY(-2px); }
+ .portal-link.is-primary { background: linear-gradient(180deg, color-mix(in srgb, var(--branch-accent) 30%, transparent), color-mix(in srgb, var(--branch-accent) 16%, transparent)); color: #f0e6cf; }
   .portal-note-mark { width: 0.48rem; height: 0.48rem; flex: none; margin-top: 0.7rem; border: 1px solid var(--branch-accent); transform: rotate(45deg); }
   @media (max-width: 640px) { .branch-wrap { width: min(100% - 2.2rem, 72rem); } .portal-hero { column-gap: 1rem; } .portal-glyph { font-size: 6.3rem; } .portal-subtitle { letter-spacing: 0.17em; } }
 </style>

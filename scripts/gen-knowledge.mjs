@@ -151,7 +151,7 @@ const knowledge = { notice: noticeLines.join('\n'), preface: prefaceLines, categ
 writeFileSync(join(outData, 'knowledge.json'), JSON.stringify(knowledge, null, 2), 'utf8');
 
 const index = [];
-for (const it of allItems) index.push({ type: 'knowledge', id: it.id, title: it.title, snippet: it.excerpt, category: CATS.find(c => c.id === it.category)?.name || '', url: '/zhoufa/zhishi#k-' + it.id });
+for (const it of allItems) index.push({ type: 'knowledge', id: it.id, title: it.title, snippet: it.excerpt, category: CATS.find(c => c.id === it.category)?.name || '', url: '/changshi#k-' + it.id });
 for (const f of readdirSync(join(root, '巫')).filter(f => f.endsWith('.md')).sort()) {
   const md = readFileSync(join(root, '巫', f), 'utf8');
   const fm = md.match(/^---\n([\s\S]*?)\n---/);
@@ -159,7 +159,7 @@ for (const f of readdirSync(join(root, '巫')).filter(f => f.endsWith('.md')).so
   const get = (k) => { const m = fm[1].match(new RegExp('^' + k + ':\s*(.+)$', 'm')); return m ? m[1].trim() : ''; };
   const slug = get('slug');
   if (!slug) continue;
-  index.push({ type: 'article', id: slug, title: '《' + (get('title') || f) + '》', snippet: get('summary'), category: '神机秘闻', url: '/zhoufa/wenzhang/' + slug });
+  index.push({ type: 'article', id: slug, title: '《' + (get('title') || f) + '》', snippet: get('summary'), category: '神机秘闻', url: '/miwen/' + slug });
 }
 writeFileSync(join(outData, 'search-index.json'), JSON.stringify(index, null, 2), 'utf8');
 

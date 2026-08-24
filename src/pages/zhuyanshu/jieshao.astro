@@ -1,0 +1,53 @@
+---
+import BranchLayout from '../../layouts/BranchLayout.astro';
+import GateIntro from '../../components/GateIntro.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const title = '驻颜术 · 法门介绍';
+const lead = "驻颜一脉，以气血为根本。气血足则容光焕发，气血衰则形枯发白——此理至朴，此功至平，唯贵坚持。";
+
+const blocks = [
+  {
+    "label": "渊源",
+    "title": "气血为本，温养为法",
+    "paras": [
+      "驻颜之术，不出于玄奇，而出于平常。面色是气血的镜子：气旺血足，则华彩自见于外；气滞血亏，则枯槁自形于色。故驻颜必先养气血，舍本逐末的涂抹遮盖，皆非此门所为。"
+    ]
+  },
+  {
+    "label": "所修",
+    "title": "温养气血，功在日常",
+    "paras": [
+      "此门以温养为总纲：内以食息起居调其源，外以导引按跷行其滞，使气血周流不歇，容颜自驻于岁月之中，须发生养于日常之间。",
+      "功法平缓，见效亦缓。求七日换骨、一月倾城者，此处无有。"
+    ]
+  },
+  {
+    "label": "所求",
+    "paras": [
+      "容颜驻而气血和，形神俱养。美是副产品，健康才是根基。"
+    ]
+  },
+  {
+    "label": "宜何人",
+    "paras": [
+      "注重仪容、肯在日用平常处下功夫、能持之以恒者。三分功法，七分坚持，眼高手低者难得其门。"
+    ]
+  }
+];
+
+const description = '驻颜术法门介绍：以气血温养为本，驻容颜于岁月之中。循门而入，先识其门，再问其径。';
+---
+
+<BranchLayout title={title} description={description} glyph="颜" label="驻颜" accent="#b99752">
+  <GateIntro
+    glyph="颜"
+    name="驻颜术"
+    subtitle="驻容 · 养容 · 生发"
+    lead={lead}
+    blocks={blocks}
+    note="此支篇幅尚待人开示，内容尚在整理。有意者可先关注公众号留意后续篇章。"
+    baomingHref={base + '/zhuyanshu/baoming'}
+  />
+</BranchLayout>

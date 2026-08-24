@@ -1,6 +1,8 @@
 ---
-import BranchLayout from '../layouts/BranchLayout.astro';
-import BranchPortal from '../components/BranchPortal.astro';
+import BranchLayout from '../../layouts/BranchLayout.astro';
+import BranchPortal from '../../components/BranchPortal.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const title = '鏖战之法 · 丹基房中';
 const description = '源自人元丹法筑基，交而不泄，养生配套。';
@@ -11,6 +13,8 @@ const description = '源自人元丹法筑基，交而不泄，养生配套。';
     glyph="战"
     title="鏖战之法"
     subtitle="丹基 · 房中 · 养生"
-    description="源自人元丹法筑基，交而不泄，养生配套，非邪法。"
+    description="源自人元丹法筑基，交而不泄，养生配套。"
+    introHref={base + '/aozhan/jieshao'}
+    baomingHref={base + '/aozhan/baoming'}
   />
 </BranchLayout>
