@@ -1,0 +1,191 @@
+---
+// 金色环带背景 —— 取代 FlowRibbons
+// 三套断点几何同时在文档里，用 CSS display 切换（无 JS、无运行期测量）。
+// 配色只用首页金色语言（#efcc57 / #fce18c / #c9a85a），不混入 --branch-accent。
+//
+// 端点淡入淡出策略：所有圆弧改成 <path A ...> 弧线（不画整圆），端点用 geomFade(θ) 算 per-element 透明度，
+// 完全摆脱 mask / transform-box 坐标空间冲突。槽位 / 刻度按 θ 算 fade。
+import { CFG_A, CFG_W, CFG_M, slots, ticks, echoBeads } from './gold-band/geometry';
+import { arcPath, geomFade } from './gold-band/arc';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// 雷纹取集（跳过 11、17、3、1、6；6 太噪换 4）
+const RUNES = [5, 7, 9, 12, 13, 15, 16, 4, 10, 14, 2, 8];
+
+function buildBand(cfg) {
+  const sl = slots(cfg, RUNES);
+  const tk = ticks(cfg);
+  // 所有弧线直接画在 cfg.r 上（不同 layer 用 stroke-width 区分厚度，不再用 transform 缩放）
+  const basePath = arcPath(cfg, cfg.genFrom, cfg.genTo);
+  const lipPath   = arcPath({ ...cfg, r: cfg.lipR   }, cfg.genFrom, cfg.genTo);
+  const bouncePath= arcPath({ ...cfg, r: cfg.bounceR}, cfg.genFrom, cfg.genTo);
+  const railInPath= arcPath({ ...cfg, r: cfg.inRail.r}, cfg.genFrom, cfg.genTo);
+  const railOutPath=arcPath({ ...cfg, r: cfg.outRail.r}, cfg.genFrom, cfg.genTo);
+  const railHairPath=arcPath({...cfg, r: cfg.outHair.r}, cfg.genFrom, cfg.genTo);
+  const dashedPath= cfg.dashedR ? arcPath({ ...cfg, r: cfg.dashedR }, cfg.genFrom, cfg.genTo) : '';
+  const sheenPath = arcPath(cfg, cfg.genFrom, cfg.genTo);
+
+  // 通道四层：同心半径的弧线 stroke
+  const channel =
+    `<path class="gb-channel" d="${basePath}" stroke-width="${cfg.band}"/>` +
+    `<path class="gb-groove"  d="${basePath}" stroke-width="${cfg.dark}"/>` +
+    `<path class="gb-lip"     d="${lipPath}"   stroke-width="${cfg.lipW}"/>` +
+    `<path class="gb-bounce"  d="${bouncePath}" stroke-width="${cfg.bounceW}"/>`;
+
+  // 槽位（雷纹 + 菱形结点），按 θ 距 enter/exit 算 per-rune fade
+  const glyphs = sl.map((s) => {
+    const fade = geomFade(s, cfg);
+    const cls = s.kind === 'node' ? 'gb-node' : 'gb-rune';
+    const op = (s.kind === 'node' ? 0.75 : 0.95) * fade;
+    if (s.kind === 'node') {
+      return `<path class="${cls}" d="M0,-6.5 L4.6,0 L0,6.5 L-4.6,0 Z" transform="translate(${s.x} ${s.y}) rotate(${s.rotDeg})" style="animation-delay:${s.delay}s;opacity:${op.toFixed(3)}"/>`;
+    }
+    return `<use class="${cls}" href="#gb-lei-${RUNES[s.runeIdx]}" transform="translate(${s.x} ${s.y}) rotate(${s.rotDeg}) scale(${cfg.runeScale})" style="animation-delay:${s.delay}s;opacity:${op.toFixed(3)}"/>`;
+  }).join('');
+
+  // 轨道（外轨 + 发丝 + 内轨）
+  const rails =
+    `<path class="gb-rail-out"  d="${railOutPath}"  stroke-width="${cfg.outRail.w}"/>` +
+    `<path class="gb-rail-hair" d="${railHairPath}" stroke-width="${cfg.outHair.w}"/>` +
+    `<path class="gb-rail-in"   d="${railInPath}"   stroke-width="${cfg.inRail.w}"/>`;
+
+  // 外沿刻度（径向短划），按 θ 距 enter/exit 算 fade
+  const ticksSvg = tk.map((t) => {
+    const deg = Math.atan2(t.y2 - cfg.cy, t.x2 - cfg.cx) * 180 / Math.PI;
+    const fade = geomFade({ deg }, cfg);
+    const op = (t.major ? 0.60 : 0.40) * fade;
+    return `<line class="gb-tick${t.major ? ' is-major' : ''}" x1="${t.x1}" y1="${t.y1}" x2="${t.x2}" y2="${t.y2}" style="opacity:${op.toFixed(3)}${t.major ? ';stroke-width:1.4' : ''}"/>`;
+  }).join('');
+
+  // 内沿虚线圈（窄屏无）
+  const dashed = cfg.dashedR ? `<path class="gb-dashed" d="${dashedPath}" fill="none" stroke-dasharray="${cfg.dashed}"/>` : '';
+
+  // 流光（path + pathLength）
+  const sheen = `<path class="gb-sheen" d="${sheenPath}" pathLength="1000" fill="none"/>`;
+
+  return `
+    <g class="gb-band">
+      ${channel}
+      <g class="gb-glyphs">${glyphs}</g>
+      <g class="gb-rails" filter="url(#gb-glow)">${rails}</g>
+      ${dashed}
+      <g class="gb-ticks">${ticksSvg}</g>
+      ${sheen}
+    </g>`;
+}
+
+// 回声环已移除：单独的「回声弧」总是会跑到画外/穿过正文，留之无益；
+// 主页九星芒阵已有双环视差，分支页单环带足够。echo 几何与 echoBeads 保留在 geometry.js 以备后用。
+function buildEcho(cfg) {
+  return '';
+}
+
+const defs = `
+    <filter id="gb-glow" x="-5%" y="-5%" width="110%" height="110%">
+      <feGaussianBlur stdDeviation="1.3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>`;
+
+const sprite = RUNES.map((n) =>
+  `<image id="gb-lei-${n}" href="${base}/leiwen/${n}-gold.png" x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet"/>`
+).join('');
+---
+
+<svg class="gb-defs" aria-hidden="true" width="0" height="0">
+  <defs>
+    <Fragment set:html={sprite} />
+    <Fragment set:html={defs} />
+  </defs>
+</svg>
+
+<svg class="gb-svg is-a" viewBox="0 0 1440 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+  <Fragment set:html={buildBand(CFG_A)} />
+  <Fragment set:html={buildEcho(CFG_A)} />
+</svg>
+
+<svg class="gb-svg is-w" viewBox="0 0 1920 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+  <Fragment set:html={buildBand(CFG_W)} />
+  <Fragment set:html={buildEcho(CFG_W)} />
+</svg>
+
+<svg class="gb-svg is-m" viewBox="0 0 414 896" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+  <Fragment set:html={buildBand(CFG_M)} />
+</svg>
+
+<style is:global>
+  .gb-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: none; pointer-events: none; }
+  @media (min-width: 641px) and (max-width: 1599px) { .gb-svg.is-a { display: block; } }
+  @media (min-width: 1600px) { .gb-svg.is-w { display: block; } }
+  @media (max-width: 640px)  { .gb-svg.is-m { display: block; } }
+
+  /* 通道 —— 在 #070807 背景上要明显高于背景亮度才能读出"凹槽" */
+  .gb-svg .gb-channel { fill: none; stroke: #9c7a3a; stroke-width: inherit; opacity: 1; }
+  .gb-svg .gb-groove  { fill: none; stroke: #3d2a0c; stroke-width: inherit; opacity: 1; }
+  .gb-svg .gb-lip     { fill: none; stroke: #000000; stroke-width: inherit; opacity: 0.85; }
+  .gb-svg .gb-bounce  { fill: none; stroke: #d6a64a; stroke-width: inherit; opacity: 0.65; }
+
+  /* 轨道 */
+  .gb-svg .gb-rail-out  { fill: none; stroke: #fce18c; opacity: 1; }
+  .gb-svg .gb-rail-hair { fill: none; stroke: #fff6d8; opacity: 0.55; }
+  .gb-svg .gb-rail-in   { fill: none; stroke: #c9a85a; opacity: 0.86; }
+
+  /* 刻度 / 虚线圈 / 珠 */
+  .gb-svg .gb-tick { stroke: #efcc57; stroke-width: 1; stroke-linecap: butt; }
+  .gb-svg .gb-dashed { stroke: #c9a85a; opacity: 0.32; stroke-width: 1; stroke-dasharray: 2 12; }
+  .gb-svg .gb-dot { fill: #efcc57; opacity: 0.40; }
+
+  /* 符文（浅浮雕） */
+  .gb-svg .gb-rune {
+    color: #fce18c;
+    filter: sepia(0.4) hue-rotate(0deg) saturate(1) brightness(0.72)
+      drop-shadow(0 1px 0 rgba(0, 0, 0, 0.92))
+      drop-shadow(0 -0.5px 0 rgba(255, 236, 178, 0.18));
+    animation: gbBreath 9s ease-in-out infinite;
+  }
+
+  /* 菱形结点 */
+  .gb-svg .gb-node { fill: #efcc57; stroke: #fce18c; stroke-width: 0.6; stroke-opacity: 0.9; animation: gbBreathNode 11s ease-in-out infinite; }
+
+  /* 掠光 */
+  .gb-svg .gb-sheen {
+    fill: none;
+    stroke: #ffe28a;
+    stroke-width: 7;
+    stroke-linecap: round;
+    opacity: 0.5;
+    stroke-dasharray: 2 998;
+    animation: gbSheen 300s linear infinite;
+  }
+  @keyframes gbSheen { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -1000; } }
+
+  /* 极慢摆动 —— SVG-native rotate，避免 fill-box 中心偏移
+     SVG 圆弧圆心在 viewBox (-800, 2000) 外，绕 viewBox 中心 (720, 500) 旋转 ±0.55°，
+     切向位移 R · sin(0.55°) ≈ 2400 · 0.0096 = 23 px，远小于端点淡出宽度 */
+  .gb-svg .gb-band {
+    transform-origin: 720px 500px;
+    animation: gbDrift 200s ease-in-out infinite;
+  }
+  .gb-svg .gb-echo {
+    transform-origin: 720px 500px;
+    animation: gbDriftR 260s ease-in-out infinite;
+  }
+  .gb-svg .gb-echo {
+    transform-origin: 720px 500px;
+    animation: gbDriftR 260s ease-in-out infinite;
+  }
+  @keyframes gbDrift  { 0% { transform: rotate(-0.55deg); } 50% { transform: rotate(0.55deg); } 100% { transform: rotate(-0.55deg); } }
+  @keyframes gbDriftR { 0% { transform: rotate(0.9deg); }   50% { transform: rotate(-0.9deg); } 100% { transform: rotate(0.9deg); } }
+
+  @keyframes gbBreath     { 0%, 100% { opacity: 0.86; } 50% { opacity: 1.00; } }
+  @keyframes gbBreathNode { 0%, 100% { opacity: 0.62; } 50% { opacity: 0.86; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gb-svg .gb-band,
+    .gb-svg .gb-echo,
+    .gb-svg .gb-rune,
+    .gb-svg .gb-node,
+    .gb-svg .gb-sheen { animation: none !important; transform: none !important; }
+    .gb-svg .gb-sheen { stroke-dashoffset: -940; opacity: 0.22; }
+  }
+</style>

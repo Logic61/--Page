@@ -1,6 +1,6 @@
 ---
 // 驻颜术 —— 独立临时页：自包含布局与样式，不依赖任何其它页面组件。
-import FlowRibbons from '../../components/FlowRibbons.astro';
+import GoldBand from '../../components/GoldBand.astro';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
@@ -14,11 +14,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <title>驻颜术 · 上古祝门</title>
   </head>
   <body>
-    <div class="ribbons" aria-hidden="true"><FlowRibbons /></div>
+    <div class="ribbons" aria-hidden="true"><GoldBand /></div>
     <div class="aura" aria-hidden="true"></div>
 
     <header class="top">
-      <a class="back" href={`${base}/four-veins`}>← 返回法脉总览</a>
+      <a class="back" href={`${base}/`}>← 返回法脉总览</a>
       <span class="top-name">上古祝门 · 五脉之一</span>
     </header>
 
@@ -78,7 +78,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   .ribbons {
     position: fixed;
     inset: 0;
-    z-index: -1;
+    z-index: 0;
     pointer-events: none;
     overflow: hidden;
   }
@@ -95,6 +95,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   }
 
   .top {
+    position: relative;
+    z-index: 2;
     width: min(100% - 3rem, 72rem);
     min-height: 4.8rem;
     margin-inline: auto;
@@ -114,6 +116,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   .top-name { color: var(--ink-faint); }
 
   main {
+    position: relative;
+    z-index: 1;
     flex: 1;
     width: min(100% - 3rem, 52rem);
     margin-inline: auto;
@@ -226,6 +230,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   }
 
   .foot {
+    position: relative;
+    z-index: 1;
     padding: 1.6rem 0 2.2rem;
     border-top: 1px solid rgba(185, 151, 82, 0.12);
     color: var(--ink-faint);
