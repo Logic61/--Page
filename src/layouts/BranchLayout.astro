@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import FlowRibbons from '../components/FlowRibbons.astro';
+import GoldBand from '../components/GoldBand.astro';
 
 interface Props {
   title: string;
@@ -25,9 +25,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   </head>
   <body class="branch-page" style={`--branch-accent: ${accent}`}>
     <div class="branch-aura" aria-hidden="true"></div>
-    <div class="branch-ribbons" aria-hidden="true"><FlowRibbons /></div>
+    <div class="branch-bands" aria-hidden="true"><GoldBand /></div>
     <header class="branch-nav">
-      <a class="branch-back kai" href={`${base}/four-veins`}>返回目录</a>
+      <a class="branch-back kai" href={`${base}/`}>返回目录</a>
       <span class="branch-nav-name kai"><b>{glyph}</b>{label}</span>
     </header>
     <main><slot /></main>
@@ -35,10 +35,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 </html>
 
 <style>
-  .branch-page { min-height: 100dvh; background: #070807; color: #d9d2c2; }
-  .branch-ribbons { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .branch-page { min-height: 100dvh; background: #070807; color: #d9d2c2; position: relative; }
+  .branch-bands { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
   .branch-aura { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(ellipse 72% 46% at 50% -6%, color-mix(in srgb, var(--branch-accent) 14%, transparent), transparent 66%), radial-gradient(ellipse 46% 34% at 10% 92%, color-mix(in srgb, var(--branch-accent) 8%, transparent), transparent 72%), radial-gradient(ellipse 42% 30% at 92% 22%, color-mix(in srgb, var(--branch-accent) 7%, transparent), transparent 72%), #070807; }
   .branch-nav { position: relative; z-index: 2; width: min(100% - 3rem, 72rem); height: 5.3rem; margin-inline: auto; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid color-mix(in srgb, var(--branch-accent) 25%, transparent); }
+  main { position: relative; z-index: 1; }
   .branch-back, .branch-nav-name { font-size: 0.88rem; letter-spacing: 0.3em; }
   .branch-back { color: color-mix(in srgb, var(--branch-accent) 80%, #efe3c8); transition: color 0.25s var(--ease-soft); }
   .branch-back:hover { color: #fff3db; }
