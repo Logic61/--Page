@@ -1,7 +1,8 @@
 ---
 // 金色环带背景 —— 取代 FlowRibbons
-// 形状：椭圆（rx ≠ ry），圆心在画面外，右上小弧
-// 流动：每枚符文用 SMIL animateMotion 沿 base path 循环移动（不是另一个亮线动）
+// 位置：左下角（之前是右上）
+// 视觉：两条线（外轨 + 内轨）+ 之间的"微微泛金"通道 + 在轨道间流动的符文
+// 流动：每枚符文用 SMIL animateMotion 沿 base path 循环
 import { CFG_A, CFG_W, CFG_M, ticks } from './gold-band/geometry';
 import { arcPath, geomFade } from './gold-band/arc';
 
@@ -12,29 +13,28 @@ function buildBand(cfg, key) {
   const tk = ticks(cfg);
   const basePath = arcPath(cfg, cfg.genFrom, cfg.genTo);
 
-  // 同心椭圆弧（沿法线方向偏移不同距离）
-  const lipPath     = arcPath({ ...cfg, r: cfg.lipR }, cfg.genFrom, cfg.genTo);
+  // 同心椭圆弧：off = 在法线方向偏移距离（band 上下边 → 轨道线 → 通道芯）
+  // 视觉栈（从外到内）：bounce → outHair → outRail → channel → groove → inRail → lip
+  // channel 微微泛金（两侧轨道线之间），groove 暗芯（给 channel 一点纵深）
   const bouncePath  = arcPath({ ...cfg, r: cfg.bounceR }, cfg.genFrom, cfg.genTo);
-  const railOutPath = arcPath({ ...cfg, r: cfg.outRail.off }, cfg.genFrom, cfg.genTo);
-  const railHairPath= arcPath({ ...cfg, r: cfg.outHair.off }, cfg.genFrom, cfg.genTo);
-  const railInPath  = arcPath({ ...cfg, r: cfg.inRail.off }, cfg.genFrom, cfg.genTo);
-  const dashedPath  = cfg.dashed ? arcPath({ ...cfg, r: cfg.dashedR }, cfg.genFrom, cfg.genTo) : '';
-  const sheenPath   = basePath;
+  const outHairPath = arcPath({ ...cfg, r: cfg.outHair.off }, cfg.genFrom, cfg.genTo);
+  const outRailPath = arcPath({ ...cfg, r: cfg.outRail.off }, cfg.genFrom, cfg.genTo);
+  const inRailPath  = arcPath({ ...cfg, r: cfg.inRail.off }, cfg.genFrom, cfg.genTo);
+  const lipPath     = arcPath({ ...cfg, r: cfg.lipR }, cfg.genFrom, cfg.genTo);
 
-  const flowDur = cfg.flowDur;          // 整个 path 走一圈的秒数
+  const flowDur = cfg.flowDur;
   const N = cfg.slotCount;
-  const stagger = flowDur / N;          // 每枚符文错开的秒数
+  const stagger = flowDur / N;
 
-  // 通道四层（同心 stroke，fill:none）
+  // 通道：暗芯（更窄）+ 泛金层（band 宽度）→ 形成"凹槽里的淡金"
+  // 暗芯先画（窄），泛金层后画（宽）→ 暗芯叠在泛金层中
   const channel =
-    `<path class="gb-channel" d="${basePath}" stroke-width="${cfg.band}"/>` +
     `<path class="gb-groove"  d="${basePath}" stroke-width="${cfg.dark}"/>` +
-    `<path class="gb-lip"     d="${lipPath}"   stroke-width="${cfg.lipW}"/>` +
+    `<path class="gb-channel" d="${basePath}" stroke-width="${cfg.band}"/>` +
+    `<path class="gb-lip"     d="${lipPath}"    stroke-width="${cfg.lipW}"/>` +
     `<path class="gb-bounce"  d="${bouncePath}" stroke-width="${cfg.bounceW}"/>`;
 
-  // 沿轨道流动的符文：每枚包在 <g transform="scale(s)"> 里，
-  //   内部 <animateMotion> 沿 base path 移动并自动切线对齐
-  //   begin = -k·stagger（负值让动画"已进行了 k 步"——页面打开时均匀分布）
+  // 沿轨道流动的符文
   const glyphs = Array.from({ length: N }, (_, k) => {
     const begin = (-k * stagger).toFixed(2) + 's';
     const runeId = RUNES[k % RUNES.length];
@@ -46,24 +46,21 @@ function buildBand(cfg, key) {
     </g>`;
   }).join('');
 
-  // 轨道（外轨 + 发丝 + 内轨）
+  // 两条边线（最显著的特征）
   const rails =
-    `<path class="gb-rail-out"  d="${railOutPath}"  stroke-width="${cfg.outRail.w}"/>` +
-    `<path class="gb-rail-hair" d="${railHairPath}" stroke-width="${cfg.outHair.w}"/>` +
-    `<path class="gb-rail-in"   d="${railInPath}"   stroke-width="${cfg.inRail.w}"/>`;
+    `<path class="gb-rail-hair" d="${outHairPath}" stroke-width="${cfg.outHair.w}"/>` +
+    `<path class="gb-rail-out"  d="${outRailPath}" stroke-width="${cfg.outRail.w}"/>` +
+    `<path class="gb-rail-in"   d="${inRailPath}"  stroke-width="${cfg.inRail.w}"/>`;
 
-  // 外沿刻度（按 tickFrom..tickTo 在椭圆上取点，几何淡入淡出）
+  // 刻度（按 tickFrom..tickTo 在椭圆上取点，几何淡入淡出）
   const ticksSvg = tk.map((t) => {
     const fade = geomFade({ deg: t.deg }, cfg);
-    const op = (t.major ? 0.60 : 0.40) * fade;
-    return `<line class="gb-tick${t.major ? ' is-major' : ''}" x1="${t.x1}" y1="${t.y1}" x2="${t.x2}" y2="${t.y2}" style="opacity:${op.toFixed(3)}${t.major ? ';stroke-width:1.4' : ''}"/>`;
+    const op = (t.major ? 0.65 : 0.45) * fade;
+    return `<line class="gb-tick${t.major ? ' is-major' : ''}" x1="${t.x1}" y1="${t.y1}" x2="${t.x2}" y2="${t.y2}" style="opacity:${op.toFixed(3)}${t.major ? ';stroke-width:1.6' : ''}"/>`;
   }).join('');
 
-  // 内沿虚线圈
-  const dashed = cfg.dashed ? `<path class="gb-dashed" d="${dashedPath}" fill="none" stroke-dasharray="${cfg.dashed}"/>` : '';
-
-  // 掠光（稀有事件，单点沿弧扫过一次）
-  const sheen = `<path class="gb-sheen" d="${sheenPath}" pathLength="1000" fill="none"/>`;
+  // 掠光（稀有事件）
+  const sheen = `<path class="gb-sheen" d="${basePath}" pathLength="1000" fill="none"/>`;
 
   return `
     <defs><path id="gb-arc-${key}" d="${basePath}"/></defs>
@@ -71,7 +68,6 @@ function buildBand(cfg, key) {
       ${channel}
       <g class="gb-glyphs">${glyphs}</g>
       <g class="gb-rails" filter="url(#gb-glow)">${rails}</g>
-      ${dashed}
       <g class="gb-ticks">${ticksSvg}</g>
       ${sheen}
     </g>`;
@@ -113,20 +109,19 @@ const sprite = RUNES.map((n) =>
   @media (min-width: 1600px) { .gb-svg.is-w { display: block; } }
   @media (max-width: 640px)  { .gb-svg.is-m { display: block; } }
 
-  /* 通道 */
-  .gb-svg .gb-channel { fill: none; stroke: #9c7a3a; stroke-width: inherit; opacity: 1; }
-  .gb-svg .gb-groove  { fill: none; stroke: #2a1e0c; stroke-width: inherit; opacity: 1; }
-  .gb-svg .gb-lip     { fill: none; stroke: #000000; stroke-width: inherit; opacity: 0.85; }
-  .gb-svg .gb-bounce  { fill: none; stroke: #d6a64a; stroke-width: inherit; opacity: 0.65; }
+  /* 通道：微微的淡淡泛金（dark.groove 是更窄的暗芯，叠在 channel 中间给点纵深） */
+  .gb-svg .gb-channel { fill: none; stroke: #d6a64a; stroke-width: inherit; opacity: 0.32; }
+  .gb-svg .gb-groove  { fill: none; stroke: #1a130a; stroke-width: inherit; opacity: 0.55; }
+  .gb-svg .gb-lip     { fill: none; stroke: #000000; stroke-width: inherit; opacity: 0.7; }
+  .gb-svg .gb-bounce  { fill: none; stroke: #fce18c; stroke-width: inherit; opacity: 0.4; }
 
-  /* 轨道 */
+  /* 两条边线（最显著） */
   .gb-svg .gb-rail-out  { fill: none; stroke: #fce18c; opacity: 1; }
   .gb-svg .gb-rail-hair { fill: none; stroke: #fff6d8; opacity: 0.55; }
-  .gb-svg .gb-rail-in   { fill: none; stroke: #c9a85a; opacity: 0.86; }
+  .gb-svg .gb-rail-in   { fill: none; stroke: #c9a85a; opacity: 0.95; }
 
-  /* 刻度 / 虚线圈 */
+  /* 刻度 */
   .gb-svg .gb-tick { stroke: #efcc57; stroke-width: 1; stroke-linecap: butt; }
-  .gb-svg .gb-dashed { stroke: #c9a85a; opacity: 0.32; stroke-width: 1; stroke-dasharray: 2 12; fill: none; }
 
   /* 符文（浅浮雕） */
   .gb-svg .gb-rune {
