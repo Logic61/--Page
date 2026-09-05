@@ -82,7 +82,9 @@ async function convert(n) {
     for (let x = 0; x < w; x++) {
       const s = fgScore(data[y * w + x]);
       let a = (s + soft) / (2 * soft);
-      a = Math.max(0, Math.min(1, (a - 0.4) / 0.45));
+      // 阈值底抬到 0.12：防止笔画内部偏暗的像素被切到 0 形成「黑洞」
+      // （闪电这种笔画粗短的素材容易在内部留 a≈0 的区域）
+      a = Math.max(0.12, Math.min(1, (a - 0.4) / 0.45));
       const v = Math.round(a * 255);
       alpha[y * w + x] = v;
       if (v > 40) {
