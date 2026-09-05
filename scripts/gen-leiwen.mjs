@@ -39,12 +39,14 @@ const otsu = (hist, total) => {
 };
 
 async function convert(n) {
-  // 1) 原图灰度原始像素（不垫底、不缩放，保证极性判断真实）；源图支持 png/jpg
+  // 1) 原图灰度原始像素；先做轻度高斯模糊抹掉扫描/打印/低分辨率源里的颗粒噪点，
+  //    让 Otsu 阈值能把"同一个笔画"的灰阶聚合到一起（避免稀疏小图被切成零散点阵）
   let srcPath = path.join(SRC, `${n}.png`);
   try { await sharp(srcPath).metadata(); }
   catch { srcPath = path.join(SRC, `${n}.jpg`); }
   const { data, info } = await sharp(srcPath)
     .grayscale()
+    .blur(1.8)
     .raw()
     .toBuffer({ resolveWithObject: true });
   const w = info.width, h = info.height, total = w * h;
