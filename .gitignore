@@ -3,3 +3,11 @@ dist/
 .astro/
 *.log
 .DS_Store
+
+# Windows reserved name — created accidentally by shell redirection
+nul
+
+# Tooling / debug output (not part of the site)
+.dsh-vision-router/
+.qa/
+
