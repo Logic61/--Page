@@ -97,6 +97,19 @@ async function convert(n) {
   }
   if (maxX < 0) throw new Error('未检测到前景');
 
+  // 4b) 笔画内部黑洞填充：5x5 邻域均值高的像素，若本地 < 60 抬到与邻域一致
+  // （避免闪电这类短粗素材内部留 a≈0 的飞地）
+  for (let y = 2; y < h - 2; y++) {
+    for (let x = 2; x < w - 2; x++) {
+      const i = y * w + x;
+      if (alpha[i] >= 60) continue;
+      let s = 0;
+      for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) s += alpha[i + dy * w + dx];
+      const mean = s / 25;
+      if (mean >= 75) alpha[i] = Math.max(alpha[i], Math.min(255, Math.round(mean * 0.9)));
+    }
+  }
+
   // 5) 裁剪内容 → 金色 RGBA
   const cw = maxX - minX + 1, ch = maxY - minY + 1;
   const crop = Buffer.alloc(cw * ch * 4);
