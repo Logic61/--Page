@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 
 const title = '闲文 · 上古祝门';
 const description = '闲文分支目录页（临时）：闲言散语，正在整理，即将开放。';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <Base title={title} description={description}>
@@ -19,7 +20,7 @@ const description = '闲文分支目录页（临时）：闲言散语，正在�
       <div class="temp-card reveal">
         <p class="temp-line kai">闲话不闲，散墨有痕。</p>
         <p class="temp-line kai">此处篇章尚在拣选，来日安放，再供消遣。</p>
-        <a class="btn" href="/">返回分支图</a>
+        <a class="btn" href={`${base}/`}>返回分支图</a>
       </div>
     </div>
   </section>
