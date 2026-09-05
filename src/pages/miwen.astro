@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import PageIntro from '../components/PageIntro.astro';
 import Footer from '../components/Footer.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -21,110 +20,388 @@ const articles = Object.entries(modules)
 const warning = '本文在写作过程中，引来大量鬼神干涉，不欲这些真相公之于众。也因此部分文字中沾染了鬼神气息，经复制到 TXT 格式过滤之后，基本已消除。但仍不能保证大家在阅读的时候，不会引来鬼神关注。所以请大家在浏览本文时，不要沉浸其中，不要尝试某些内容，并保持情绪稳定。部分内容须内群可见。为避免过度刺激导致大家信仰崩塌以身殉道，同时要给信教的朋友留面子，公众版相较内群版删减大量内容，以□代替，请大家见谅。';
 ---
 
-<Base title="秘闻 · 上古祝门" description="《神机秘闻》系列十一篇：信仰、法界、轮回、神道、附体、下种、劝善、逃名、法术、符箓与法器的真相。">
-  <PageIntro
-    mark="秘"
-    title="秘闻"
-    sub="《神机秘闻》系列秘闻，共十一篇。秘闻栏可见标题与简介，点击进入阅读全文。"
-    meta="文章内容纯属虚构，如有雷同，纯属雷同！"
-  />
+<Base title="秘闻 · 上古祝门" description="《神机秘闻》系列十一篇：信仰、法界、轮回、神道、附体、下种、劝善、逃名、法术、符箓与法器的真相。" hideNav={true}>
+  <div class="miwen-scope">
 
-  <section class="blog" aria-labelledby="blog-list-title">
-    <div class="wrap">
+    <a class="miwen-back" href={base + '/'}>
+      <span class="miwen-back-arrow" aria-hidden="true">←</span>
+      <span class="miwen-back-text kai">返回总目录</span>
+    </a>
 
-      <div class="blog-notice reveal">
-        <b class="kai">虚构声明</b>
-        <p>《神机秘闻》系列文章内容纯属虚构，如有雷同，纯属雷同。请读者理性看待，切勿迷信。</p>
+    <section class="miwen-hero" aria-labelledby="miwen-hero-title">
+      <div class="miwen-grain" aria-hidden="true"></div>
+      <div class="miwen-vignette" aria-hidden="true"></div>
+
+      <div class="wrap miwen-hero-wrap">
+        <div class="miwen-mark-block reveal">
+          <span class="miwen-mark-frame" aria-hidden="true"></span>
+          <span class="miwen-mark kai">秘</span>
+        </div>
+
+        <div class="miwen-hero-text reveal" data-d="2">
+          <p class="miwen-eyebrow kai">神 机 秘 闻 · 共 十 一 篇</p>
+          <h1 id="miwen-hero-title" class="miwen-title kai">秘闻</h1>
+          <div class="miwen-rule" aria-hidden="true"></div>
+          <p class="miwen-sub">《神机秘闻》系列秘闻，秘闻栏可见标题与简介，点击进入阅读全文。</p>
+          <p class="miwen-meta kai">文章内容纯属虚构，如有雷同，纯属雷同。</p>
+        </div>
       </div>
+    </section>
 
-      <aside class="blog-warning reveal" data-d="2">
-        <b class="kai">警告</b>
-        <p>{warning}</p>
-      </aside>
+    <section class="miwen-list" aria-labelledby="miwen-list-title">
+      <div class="wrap">
 
-      <h2 id="blog-list-title" class="blog-list-title kai reveal">秘闻目录</h2>
+        <div class="miwen-notice reveal">
+          <b class="kai">虚构声明</b>
+          <p>《神机秘闻》系列文章内容纯属虚构，如有雷同，纯属雷同。请读者理性看待，切勿迷信。</p>
+        </div>
 
-      <nav class="post-list" aria-label="秘闻列表">
-        {
-          articles.map((a, i) => (
-            <a class="post-card reveal" data-d={String((i % 3) + 2)} href={base + '/miwen/' + a.slug}>
-              <span class="post-num kai">{nums[i]}</span>
-              <div class="post-body">
-                <h3 class="kai">{a.title}</h3>
-                <p class="post-summary">{a.summary}</p>
-                <p class="post-meta">
-                  <span>第 {a.order} 篇</span>
-                  <span class="post-read">阅读全文 →</span>
-                </p>
-              </div>
-            </a>
-          ))
-        }
-      </nav>
+        <aside class="miwen-warning reveal" data-d="2">
+          <b class="kai">警告</b>
+          <p>{warning}</p>
+        </aside>
 
-      <p class="blog-trailer kai reveal">本合集陆续作于 2013-2025</p>
+        <header class="miwen-list-head reveal" data-d="3">
+          <h2 id="miwen-list-title" class="kai">秘闻目录</h2>
+          <span class="miwen-list-rule" aria-hidden="true"></span>
+        </header>
 
-    </div>
-  </section>
+        <nav class="post-list" aria-label="秘闻列表">
+          {
+            articles.map((a, i) => (
+              <a class="post-card reveal" data-d={String((i % 3) + 2)} href={base + '/miwen/' + a.slug}>
+                <span class="post-num kai">{nums[i]}</span>
+                <div class="post-body">
+                  <h3 class="kai">{a.title}</h3>
+                  <p class="post-summary">{a.summary}</p>
+                  <p class="post-meta">
+                    <span>第 {a.order} 篇</span>
+                    <span class="post-read">阅读全文</span>
+                  </p>
+                </div>
+              </a>
+            ))
+          }
+        </nav>
 
-  <Footer />
+        <p class="miwen-trailer kai reveal">本合集陆续作于 2013-2025</p>
+
+      </div>
+    </section>
+
+    <Footer />
+  </div>
 </Base>
 
 <style>
-  .blog { border-top: 1px solid var(--ink-line); }
+  /* ============================================================
+     秘闻 · 玄金之页
+     Pure black + gold. Scope all tokens here so nav/footer stay
+     on the global ink/bronze theme.
+     ============================================================ */
 
-  .blog-notice {
+  /* Scope selectors deliberately use `html[data-theme]` so the
+     .miwen-scope tokens win over the global `html[data-theme='light']`
+     override in src/styles/global.css, so miwen stays gold+black
+     regardless of the saved user theme. */
+  html[data-theme] .miwen-scope {
+    /* Pure warm black + antique gold tokens */
+    --ink: #050402;
+    --ink-2: #0a0805;
+    --ink-3: #110d07;
+    --ink-line: rgba(201, 169, 97, 0.14);
+    --bone: #d8be7a;
+    --bone-dim: #9c8654;
+    --bone-faint: #5e4f30;
+
+    --heading: #ecd28a;
+    --gold: #c9a961;
+    --gold-bright: #ecc879;
+    --gold-deep: #8a6f2e;
+    --gold-glow: rgba(236, 200, 121, 0.45);
+    --gold-line: rgba(201, 169, 97, 0.22);
+    --gold-line-strong: rgba(201, 169, 97, 0.5);
+
+    --panel-soft: rgba(201, 169, 97, 0.04);
+    --panel-mid: linear-gradient(180deg, rgba(20, 16, 8, 0.7), rgba(5, 4, 2, 0.85));
+
+    background: var(--ink);
+    color: var(--bone);
+    position: relative;
+  }
+
+  /* ============================================================
+     Back link + Hero
+     ============================================================ */
+
+  /* Back link, fixed top-left, replaces the global nav on this page */
+  .miwen-back {
+    position: fixed;
+    top: 1.4rem;
+    left: 1.4rem;
+    z-index: 50;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.95rem;
+    border: 1px solid var(--gold-line);
+    border-radius: 2px;
+    background: rgba(5, 4, 2, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--gold-bright);
+    font-family: var(--font-kai);
+    font-size: 0.84rem;
+    letter-spacing: 0.28em;
+    transition:
+      border-color 0.3s var(--ease-soft),
+      color 0.3s var(--ease-soft),
+      transform 0.25s var(--ease-soft),
+      background 0.3s var(--ease-soft);
+  }
+  .miwen-back:hover {
+    border-color: var(--gold);
+    color: #fff0c4;
+    background: rgba(201, 169, 97, 0.08);
+    transform: translateX(-2px);
+  }
+  .miwen-back-arrow {
+    display: inline-block;
+    color: var(--gold);
+    transition: transform 0.3s var(--ease-soft), color 0.3s var(--ease-soft);
+  }
+  .miwen-back:hover .miwen-back-arrow {
+    transform: translateX(-3px);
+    color: var(--gold-bright);
+  }
+
+  @media (max-width: 560px) {
+    .miwen-back {
+      top: 0.9rem;
+      left: 0.9rem;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+    }
+  }
+
+  .miwen-hero {
+    position: relative;
+    padding: clamp(5rem, 9vw, 7rem) 0 clamp(4rem, 8vw, 6.5rem);
+    overflow: hidden;
+    isolation: isolate;
+    border-bottom: 1px solid var(--gold-line);
+  }
+
+  /* Subtle gold dust / noise, fixed pseudo so it doesn't repaint on scroll */
+  .miwen-grain {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    background-image:
+      radial-gradient(circle at 18% 32%, rgba(236, 200, 121, 0.10) 0%, transparent 38%),
+      radial-gradient(circle at 78% 22%, rgba(201, 169, 97, 0.07) 0%, transparent 42%),
+      radial-gradient(circle at 62% 78%, rgba(201, 169, 97, 0.05) 0%, transparent 50%);
+    mix-blend-mode: screen;
+  }
+
+  /* Vignette deepens the edges so the centre mark reads as the focal point */
+  .miwen-vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 80% at 50% 50%, transparent 35%, rgba(0, 0, 0, 0.65) 100%);
+  }
+
+  .miwen-hero-wrap {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+
+  /* Hero mark block: large 秘 character with thin gold frame behind it */
+  .miwen-mark-block {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: clamp(8rem, 16vw, 12rem);
+    height: clamp(8rem, 16vw, 12rem);
+    flex: none;
+  }
+
+  .miwen-mark-frame {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--gold-line-strong);
+    transform: rotate(45deg);
+  }
+
+  .miwen-mark-frame::before,
+  .miwen-mark-frame::after {
+    content: '';
+    position: absolute;
+    background: var(--gold);
+  }
+
+  .miwen-mark-frame::before {
+    top: -1px;
+    left: -1px;
+    width: 1.2rem;
+    height: 1px;
+  }
+
+  .miwen-mark-frame::after {
+    bottom: -1px;
+    right: -1px;
+    width: 1.2rem;
+    height: 1px;
+  }
+
+  .miwen-mark {
+    font-family: var(--font-zhuan);
+    font-size: clamp(4rem, 9vw, 6.5rem);
+    line-height: 1;
+    color: transparent;
+    background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 45%, var(--gold-deep) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 0 0 28px var(--gold-glow);
+    user-select: none;
+  }
+
+  /* Hero text */
+  .miwen-hero-text {
+    min-width: 0;
+  }
+
+  .miwen-eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.42em;
+    color: var(--gold);
+    margin: 0;
+  }
+
+  .miwen-title {
+    margin: 1rem 0 0;
+    font-weight: 600;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    letter-spacing: 0.32em;
+    line-height: 1.15;
+    color: var(--heading);
+  }
+
+  .miwen-rule {
+    height: 1px;
+    width: 4.5rem;
+    margin: 1.6rem 0 0;
+    background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+  }
+
+  .miwen-sub {
+    margin: 1.4rem 0 0;
+    max-width: 38em;
+    color: var(--bone-dim);
+    font-size: 1rem;
+    line-height: 2.2;
+  }
+
+  .miwen-meta {
+    margin: 1.2rem 0 0;
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    color: var(--bone-faint);
+  }
+
+  /* ============================================================
+     List section
+     ============================================================ */
+
+  .miwen-list {
+    padding-block: clamp(3rem, 6vw, 5rem);
+  }
+
+  /* Fictional-declaration strip: neutral, soft */
+  .miwen-notice {
     display: flex;
     align-items: flex-start;
     gap: 1.1rem;
     padding: 1.1rem 1.4rem;
-    border: 1px solid var(--ink-line);
-    border-left: 3px solid var(--bronze-dim);
+    border: 1px solid var(--gold-line);
+    border-left: 2px solid var(--gold);
     background: var(--panel-soft);
     border-radius: 2px;
   }
-  .blog-notice b {
+  .miwen-notice b {
     flex: none;
-    color: var(--bronze-bright);
+    color: var(--gold-bright);
     font-size: 0.86rem;
-    letter-spacing: 0.3em;
+    letter-spacing: 0.32em;
     padding-top: 0.15em;
   }
-  .blog-notice p { color: var(--bone-dim); font-size: 0.9rem; line-height: 2; }
+  .miwen-notice p {
+    color: var(--bone-dim);
+    font-size: 0.9rem;
+    line-height: 2;
+  }
 
-  .blog-warning {
+  /* Warning: keep cautionary tone via deep amber-gold instead of red */
+  .miwen-warning {
     display: flex;
     align-items: flex-start;
     gap: 1.1rem;
     margin-top: 1.4rem;
     padding: 1.1rem 1.4rem;
-    border: 1px solid var(--ink-line);
-    border-left: 3px solid var(--cinnabar);
-    background: var(--panel-soft);
+    border: 1px solid var(--gold-line-strong);
+    border-left: 3px solid var(--gold-deep);
+    background: linear-gradient(180deg, rgba(138, 111, 46, 0.08), rgba(5, 4, 2, 0.4));
     border-radius: 2px;
   }
-  .blog-warning b {
+  .miwen-warning b {
     flex: none;
-    color: #f2dfc4;
-    background: var(--cinnabar);
+    color: #f4e7c1;
+    background: var(--gold-deep);
     padding: 0.28em 0.55em;
     font-size: 0.82rem;
-    letter-spacing: 0.3em;
+    letter-spacing: 0.32em;
     border-radius: 2px;
     transform: translateY(0.2em);
   }
-  .blog-warning p { color: var(--bone-dim); font-size: 0.9rem; line-height: 2; }
-
-  .blog-list-title {
-    margin: clamp(2.4rem, 5vw, 3.4rem) 0 0;
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    letter-spacing: 0.28em;
-    color: var(--heading);
+  .miwen-warning p {
+    color: var(--bone-dim);
+    font-size: 0.9rem;
+    line-height: 2;
   }
 
+  /* List header */
+  .miwen-list-head {
+    margin: clamp(2.4rem, 5vw, 3.4rem) 0 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+  }
+  .miwen-list-head h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    letter-spacing: 0.3em;
+    color: var(--heading);
+    margin: 0;
+    flex: none;
+  }
+  .miwen-list-rule {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold-line-strong), transparent);
+  }
+
+  /* Article cards */
   .post-list {
-    margin-top: 1.2rem;
-    border-top: 1px solid var(--ink-line);
+    border-top: 1px solid var(--gold-line);
   }
 
   .post-card {
@@ -132,31 +409,66 @@ const warning = '本文在写作过程中，引来大量鬼神干涉，不欲这
     grid-template-columns: 4rem 1fr;
     gap: 1.4rem;
     padding: 1.8rem 1.2rem;
-    border-bottom: 1px solid var(--ink-line);
-    transition: background 0.35s var(--ease-soft), padding-left 0.35s var(--ease-soft);
+    border-bottom: 1px solid var(--gold-line);
+    transition:
+      background 0.4s var(--ease-soft),
+      padding-left 0.4s var(--ease-soft),
+      border-color 0.4s var(--ease-soft);
+    position: relative;
   }
+
+  /* Hairline that brightens on hover, hugging the left edge */
+  .post-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: transparent;
+    transition: background 0.4s var(--ease-soft);
+  }
+
   .post-card:hover {
     background: var(--panel-soft);
-    padding-left: 1.6rem;
+    padding-left: 1.8rem;
+    border-bottom-color: var(--gold-line-strong);
   }
+  .post-card:hover::before {
+    background: linear-gradient(180deg, transparent, var(--gold) 30%, var(--gold) 70%, transparent);
+  }
+
   .post-num {
-    color: var(--cinnabar);
+    color: var(--gold);
     font-size: 1.7rem;
     letter-spacing: 0.1em;
     line-height: 1.4;
     padding-top: 0.1em;
+    transition: color 0.4s var(--ease-soft), text-shadow 0.4s var(--ease-soft);
   }
+  .post-card:hover .post-num {
+    color: var(--gold-bright);
+    text-shadow: 0 0 18px var(--gold-glow);
+  }
+
   .post-body h3 {
     color: var(--heading);
     font-size: clamp(1.25rem, 2.6vw, 1.55rem);
     letter-spacing: 0.2em;
+    margin: 0;
+    transition: color 0.4s var(--ease-soft);
   }
+  .post-card:hover .post-body h3 {
+    color: var(--gold-bright);
+  }
+
   .post-summary {
     margin-top: 0.55rem;
     color: var(--bone-dim);
     font-size: 0.9rem;
     line-height: 2;
   }
+
   .post-meta {
     margin-top: 0.8rem;
     display: flex;
@@ -166,23 +478,84 @@ const warning = '本文在写作过程中，引来大量鬼神干涉，不欲这
     letter-spacing: 0.22em;
     color: var(--bone-faint);
   }
-  .post-read {
-    color: var(--bronze-bright);
-    transition: letter-spacing 0.3s var(--ease-soft);
-  }
-  .post-card:hover .post-read { letter-spacing: 0.3em; }
 
-  .blog-trailer {
+  .post-read {
+    color: var(--gold);
+    transition: letter-spacing 0.3s var(--ease-soft), color 0.3s var(--ease-soft);
+    position: relative;
+    padding-left: 1.2em;
+  }
+  .post-read::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--gold-deep);
+    transition: left 0.3s var(--ease-soft), color 0.3s var(--ease-soft);
+  }
+  .post-card:hover .post-read {
+    letter-spacing: 0.3em;
+    color: var(--gold-bright);
+  }
+  .post-card:hover .post-read::before {
+    left: 0.2em;
+    color: var(--gold-bright);
+  }
+
+  .miwen-trailer {
     margin-top: 2.2rem;
     text-align: center;
     color: var(--bone-faint);
     font-size: 0.84rem;
-    letter-spacing: 0.24em;
+    letter-spacing: 0.28em;
+  }
+
+  /* ============================================================
+     Mobile collapse
+     ============================================================ */
+
+  @media (max-width: 720px) {
+    .miwen-hero { padding: 5rem 0 3rem; }
+    .miwen-hero-wrap {
+      grid-template-columns: 1fr;
+      gap: 1.6rem;
+      justify-items: center;
+      text-align: center;
+    }
+    .miwen-mark-block {
+      width: 7rem;
+      height: 7rem;
+    }
+    .miwen-rule {
+      margin-inline: auto;
+    }
   }
 
   @media (max-width: 560px) {
-    .post-card { grid-template-columns: 3rem 1fr; gap: 1rem; padding: 1.4rem 0.6rem; }
+    .post-card {
+      grid-template-columns: 3rem 1fr;
+      gap: 1rem;
+      padding: 1.4rem 0.6rem;
+    }
     .post-num { font-size: 1.4rem; }
-    .blog-notice, .blog-warning { flex-direction: column; gap: 0.5rem; }
+    .post-card:hover { padding-left: 0.8rem; }
+    .miwen-notice, .miwen-warning { flex-direction: column; gap: 0.5rem; }
+    .miwen-list-head { gap: 1rem; }
+  }
+
+  /* ============================================================
+     Reduced motion: disable grain animation, hover transforms
+     ============================================================ */
+
+  @media (prefers-reduced-motion: reduce) {
+    .miwen-grain { opacity: 0.35; }
+    .post-card,
+    .post-num,
+    .post-body h3,
+    .post-read,
+    .post-read::before {
+      transition: none;
+    }
   }
 </style>
+</content>
+</invoke>

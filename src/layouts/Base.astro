@@ -6,9 +6,10 @@ import searchIndex from '../data/search-index.json';
 interface Props {
   title?: string;
   description?: string;
+  hideNav?: boolean;
 }
 
-const { title = '上古祝门 · 古巫祝脉', description = '古巫祝脉，上古祝门，传承祝法之道。祝，咒也。以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。' } = Astro.props;
+const { title = '上古祝门 · 古巫祝脉', description = '古巫祝脉，上古祝门，传承祝法之道。祝，咒也。以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。', hideNav = false } = Astro.props;
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const path = (Astro.url.pathname.replace(/\/$/, '') || '/').replace(base, '') || '/';
@@ -49,54 +50,60 @@ const isActive = (item: (typeof nav)[number]) =>
   <body>
     <Atmosphere />
 
-    <header class="nav" id="nav">
-      <div class="nav-inner wrap">
-        <a class="brand" href={`${base}/`}>
-          <span class="brand-seal"><img src={`${base}/巫字.png`} alt="巫" width="155" height="153" /></span>
-          <span class="brand-name">
-            <b>上古祝门</b>
-            <small>古巫祝脉</small>
-          </span>
-        </a>
-        <nav class="nav-links" aria-label="主导航">
+    {!hideNav && (
+      <header class="nav" id="nav">
+        <div class="nav-inner wrap">
+          <a class="brand" href={`${base}/`}>
+            <span class="brand-seal"><img src={`${base}/巫字.png`} alt="巫" width="155" height="153" /></span>
+            <span class="brand-name">
+              <b>上古祝门</b>
+              <small>古巫祝脉</small>
+            </span>
+          </a>
+          <nav class="nav-links" aria-label="主导航">
+            {
+              nav.map((n) => (
+                <a href={`${base}${n.href}`} class:list={{ active: isActive(n) }}>{n.label}</a>
+              ))
+            }
+          </nav>
+          <button class="nav-search" id="searchToggle" type="button" aria-label="全局搜索" title="搜索（Ctrl+K）">搜</button>
+          <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换明暗模式" title="切换明暗模式">
+            <span class="theme-symbol theme-symbol--dark" aria-hidden="true">月</span>
+            <span class="theme-symbol theme-symbol--light" aria-hidden="true">日</span>
+          </button>
+          <button class="nav-burger" id="navBurger" type="button" aria-label="打开菜单" aria-expanded="false" aria-controls="mobileMenu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </header>
+    )}
+
+    {!hideNav && (
+      <div class="drawer" id="mobileMenu" aria-hidden="true">
+        <nav class="drawer-links" aria-label="移动端导航">
           {
             nav.map((n) => (
-              <a href={`${base}${n.href}`} class:list={{ active: isActive(n) }}>{n.label}</a>
+                <a href={`${base}${n.href}`} class:list={{ active: isActive(n) }}>{n.label}</a>
             ))
           }
         </nav>
-        <button class="nav-search" id="searchToggle" type="button" aria-label="全局搜索" title="搜索（Ctrl+K）">搜</button>
-        <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换明暗模式" title="切换明暗模式">
-          <span class="theme-symbol theme-symbol--dark" aria-hidden="true">月</span>
-          <span class="theme-symbol theme-symbol--light" aria-hidden="true">日</span>
-        </button>
-        <button class="nav-burger" id="navBurger" type="button" aria-label="打开菜单" aria-expanded="false" aria-controls="mobileMenu">
-          <span></span><span></span><span></span>
-        </button>
       </div>
-    </header>
+    )}
 
-    <div class="drawer" id="mobileMenu" aria-hidden="true">
-      <nav class="drawer-links" aria-label="移动端导航">
-        {
-          nav.map((n) => (
-              <a href={`${base}${n.href}`} class:list={{ active: isActive(n) }}>{n.label}</a>
-          ))
-        }
-      </nav>
-    </div>
-
-    <div class="search-overlay" id="searchOverlay" aria-hidden="true" role="dialog" aria-label="全局搜索">
-      <div class="search-panel">
-        <div class="search-bar">
-          <input id="searchInput" type="search" placeholder="搜索修炼常识、秘闻…（Esc 关闭）" autocomplete="off" />
-          <button class="search-close" id="searchClose" type="button" aria-label="关闭搜索">×</button>
-        </div>
-        <div class="search-results" id="searchResults">
-          <p class="search-hint">输入关键词，可搜索全部修炼常识与《神机秘闻》秘闻</p>
+    {!hideNav && (
+      <div class="search-overlay" id="searchOverlay" aria-hidden="true" role="dialog" aria-label="全局搜索">
+        <div class="search-panel">
+          <div class="search-bar">
+            <input id="searchInput" type="search" placeholder="搜索修炼常识、秘闻…（Esc 关闭）" autocomplete="off" />
+            <button class="search-close" id="searchClose" type="button" aria-label="关闭搜索">×</button>
+          </div>
+          <div class="search-results" id="searchResults">
+            <p class="search-hint">输入关键词，可搜索全部修炼常识与《神机秘闻》秘闻</p>
+          </div>
         </div>
       </div>
-    </div>
+    )}
 
     <main id="top">
       <slot />
