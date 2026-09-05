@@ -118,6 +118,8 @@ const warning = '本文在写作过程中，引来大量鬼神干涉，不欲这
     --gold: #c9a961;
     --gold-bright: #ecc879;
     --gold-deep: #8a6f2e;
+    /* brightest highlight stop, used for liquid-gold gradient text */
+    --gold-edge: #fff4cc;
     --gold-glow: rgba(236, 200, 121, 0.45);
     --gold-line: rgba(201, 169, 97, 0.22);
     --gold-line-strong: rgba(201, 169, 97, 0.5);
@@ -269,11 +271,27 @@ const warning = '本文在写作过程中，引来大量鬼神干涉，不欲这
     font-size: clamp(4rem, 9vw, 6.5rem);
     line-height: 1;
     color: transparent;
-    background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 45%, var(--gold-deep) 100%);
+    /* 鎏金 (liquid gold) gradient: edge highlight → bright → gold → deep → bright → edge.
+       background-size > 100% so background-position can pan across the gradient
+       and simulate flowing metal. */
+    background: linear-gradient(135deg,
+      var(--gold-edge) 0%,
+      var(--gold-bright) 18%,
+      var(--gold) 35%,
+      var(--gold-deep) 52%,
+      var(--gold) 68%,
+      var(--gold-bright) 85%,
+      var(--gold-edge) 100%);
+    background-size: 220% 220%;
     -webkit-background-clip: text;
     background-clip: text;
+    animation: miwen-font-flow 9s ease-in-out infinite;
     text-shadow: 0 0 28px var(--gold-glow);
     user-select: none;
+  }
+  @keyframes miwen-font-flow {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
   }
 
   /* Hero text */
@@ -294,7 +312,25 @@ const warning = '本文在写作过程中，引来大量鬼神干涉，不欲这
     font-size: clamp(2.4rem, 6vw, 4rem);
     letter-spacing: 0.32em;
     line-height: 1.15;
-    color: var(--heading);
+    /* Same liquid-gold gradient as the hero mark, applied to the title text.
+       background-position panned vertically so the bright highlight travels
+       down through the strokes, reading like running gilt. */
+    color: transparent;
+    background: linear-gradient(180deg,
+      var(--gold-edge) 0%,
+      var(--gold-bright) 22%,
+      var(--gold) 50%,
+      var(--gold-deep) 80%,
+      var(--gold) 100%);
+    background-size: 100% 220%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: miwen-title-flow 12s ease-in-out infinite;
+    text-shadow: 0 0 22px var(--gold-glow);
+  }
+  @keyframes miwen-title-flow {
+    0%, 100% { background-position: 0% 0%; }
+    50%      { background-position: 0% 100%; }
   }
 
   .miwen-rule {
@@ -548,13 +584,13 @@ const warning = '本文在写作过程中，引来大量鬼神干涉，不欲这
 
   @media (prefers-reduced-motion: reduce) {
     .miwen-grain { opacity: 0.35; }
+    .miwen-mark,
+    .miwen-title { animation: none; }
     .post-card,
     .post-num,
     .post-body h3,
     .post-read,
-    .post-read::before {
-      transition: none;
-    }
+    .post-read::before { transition: none; }
   }
 </style>
 </content>
