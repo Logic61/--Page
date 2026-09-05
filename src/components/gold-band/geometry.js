@@ -21,32 +21,41 @@ const tangentDeg = (rx, ry, deg) => {
   return n2((Math.atan2(dy, dx) * 180) / Math.PI);
 };
 
-// === Desktop 1440×900：左下角小弧
-//    椭圆 cx=200, cy=900, rx=400, ry=300
-//    弧进入 (600, 900) → 出 (0, 640)，可见跨度 ≈ 127°（从底到左）
-//    band=36，rail off=±26，w=4 → 通道半宽 18，铁轨内边 24，留 4px 暗间隙
-//    通道再略宽些可拉大铁轨 → band=44, off=±30, w=4.5（暗间隙 4px）
-//    符文 0.30 → 30px → 明确在 ±22 通道内
+// === Desktop 1440×900：拉长的弧（横跨整个底部）
+//    椭圆 cx=720, cy=900, rx=900, ry=300
+//    y=900 弦：x∈[-180, 1620]，覆盖整个 1440 视口
+//    180° 弧：左侧 (-180, 900) → 顶部 (720, 600) → 右侧 (1620, 900) → 沿底部回到 (-180, 900)
+//    可见：底部 y=900 整条 + 两侧向上 + 顶部
+//    band=44, off=±30, w=4.5（暗间隙 4px）
 const A = {
   viewW: 1440, viewH: 900,
-  cx: 200, cy: 900, rx: 400, ry: 300,
+  cx: 720, cy: 900, rx: 900, ry: 300,
   band: 44, dark: 24, lipW: 5, bounceW: 1.4,
   outRail: { off: 30, w: 4.5, color: '#fce18c' },
   outHair: { off: 34, w: 1.0, color: '#fff6d8', opacity: 0.6 },
   inRail:  { off: -30, w: 4.5, color: '#fce18c' },
-  genFrom: -127, genTo: 0,
-  enter: [600, 900], exit: [0, 640],
-  slotCount: 10,
+  // 180° 弧：左侧 → 顶部 → 右侧（顺时针；genFrom=180→genTo=0 跨 180°）
+  // 但 sweep=1（SVG 顺时针）从 θ=180 到 θ=0 是下半圆，
+  // 想要上半圆可见需 sweep=0 或 genFrom=0→genTo=180
+  // 这里用 genFrom=180, genTo=360: 从左(-180)顺时针到顶部到右(0)再到底到左(-180)
+  // 实际：sweep=1 + 180° 跨 → 短弧 = 下半圆（过底部）
+  // 要让"拉长弧"可见在上半部分，需用 sweep=0 或 走长边
+  // 简化：保持 sweep=1，路径跨 180° = 短弧 = 下半圆 + 部分左右
+  // 既然短弧 = 底半圆, 它正好覆盖底部 + 两侧下段 = 我们想要的"沿底部扫的弧"
+  // genFrom=180, genTo=0, sweep=1: 路径 M(左,900) A ... (右,900) = 半圆跨底部
+  genFrom: 180, genTo: 0,
+  enter: [-180, 900], exit: [1620, 900],
+  slotCount: 14,
   runeScale: 0.30,
-  tickFrom: -120, tickTo: -5, tickStep: 6.0,
+  tickFrom: 175, tickTo: 5, tickStep: 5.0,
   dashedR: 0, dashed: '',
   sheenDur: '300s', sheenDash: '2 998', sheenW: 7,
   flowDur: 24,
 };
 
-// === Wide 1920×1000：左下角
+// === Wide 1920×1000：拉长弧
 //    椭圆 cx=300, cy=1000, rx=500, ry=400
-//    band=52, off=±34, w=5（暗间隙 4px）
+//    genFrom=180, genTo=0 → 180° 弧（从左侧到右侧，沿底部）
 const W = {
   viewW: 1920, viewH: 1000,
   cx: 300, cy: 1000, rx: 500, ry: 400,
@@ -54,19 +63,19 @@ const W = {
   outRail: { off: 34, w: 5.0, color: '#fce18c' },
   outHair: { off: 38, w: 1.0, color: '#fff6d8', opacity: 0.6 },
   inRail:  { off: -34, w: 5.0, color: '#fce18c' },
-  genFrom: -130, genTo: 0,
-  enter: [800, 1000], exit: [0, 680],
-  slotCount: 10,
+  genFrom: 180, genTo: 0,
+  enter: [-200, 1000], exit: [800, 1000],
+  slotCount: 14,
   runeScale: 0.30,
-  tickFrom: -125, tickTo: -5, tickStep: 6.0,
+  tickFrom: 175, tickTo: 5, tickStep: 5.0,
   dashedR: 0, dashed: '',
   sheenDur: '320s', sheenDash: '2 998', sheenW: 6,
   flowDur: 26,
 };
 
-// === Mobile 414×896：左下角
+// === Mobile 414×896：拉长弧
 //    椭圆 cx=100, cy=900, rx=250, ry=300
-//    band=36, off=±24, w=3.5（暗间隙 4px）
+//    移动屏幕窄（414），180° 弧超出范围。保留 200° 弧覆盖底部
 const M = {
   viewW: 414, viewH: 896,
   cx: 100, cy: 900, rx: 250, ry: 300,
@@ -74,11 +83,11 @@ const M = {
   outRail: { off: 24, w: 3.5, color: '#fce18c' },
   outHair: { off: 27, w: 0.7, color: '#fff6d8', opacity: 0.6 },
   inRail:  { off: -24, w: 3.5, color: '#fce18c' },
-  genFrom: -130, genTo: 0,
-  enter: [350, 900], exit: [0, 625],
-  slotCount: 5,
+  genFrom: 200, genTo: -20,
+  enter: [-150, 900], exit: [350, 900],
+  slotCount: 10,
   runeScale: 0.26,
-  tickFrom: -125, tickTo: -5, tickStep: 8.0,
+  tickFrom: 195, tickTo: -15, tickStep: 7.0,
   dashedR: 0, dashed: '',
   sheenDur: '240s', sheenDash: '1.6 998.4', sheenW: 5,
   flowDur: 24,
