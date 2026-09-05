@@ -168,7 +168,7 @@ const branches = [
               {b.name === '法门' && (
                 <img
                   class="hotspot-rune"
-                  src={`${base}/leiwen/1-gold.png`}
+                  src={`${base}/leiwen/13-gold.png`}
                   alt=""
                   aria-hidden="true"
                 />
@@ -463,10 +463,10 @@ const branches = [
      z-index 1（在树 z=1 之下、热点 ring 之下）*/
   .hotspot-rune {
     position: absolute;
-    left: 50%;
-    top: 50%;
+    left: 51.5%;
+    top: -85%;
     transform: translate(-50%, -50%);
-    width: 58%;
+    width: 28%;
     aspect-ratio: 1 / 1;
     object-fit: contain;
     pointer-events: none;
@@ -501,6 +501,9 @@ const branches = [
     .map-frame { width: min(100%, 80vh); }
     /* 移动端法阵：只比树略大（约 1.08× 树宽），不再 285% 撑满 */
     .array-layer { width: 86.4vh; opacity: 1; top: 50%; }
+    /* 移动端法阵不再转圈（耗电 + 移动端树本就比较小，旋转易眩） */
+    .array-bg .a-rotate-cw,
+    .array-bg .a-rotate-ccw { animation: none !important; }
   }
 
   @media (prefers-reduced-motion: reduce) {
