@@ -14,7 +14,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const path = (Astro.url.pathname.replace(/\/$/, '') || '/').replace(base, '') || '/';
 
 const nav = [
-  { href: '/four-veins', label: '总目录', aliases: [] },
+  { href: '/', label: '总目录', aliases: ['/four-veins'] },
   { href: '/zhoufa/mailuo', label: '咒法脉络', aliases: ['/zhoufa/yuanqi', '/zhoufa/tixi'] },
   { href: '/miwen', label: '秘闻', aliases: ['/zhoufa/wenzhang'] },
   { href: '/changshi', label: '修炼常识', aliases: ['/zhoufa/zhishi', '/zhoufa/wenda', '/zhoufa/yangsheng'] },
@@ -51,7 +51,7 @@ const isActive = (item: (typeof nav)[number]) =>
 
     <header class="nav" id="nav">
       <div class="nav-inner wrap">
-        <a class="brand" href={`${base}/zhoufa`}>
+        <a class="brand" href={`${base}/`}>
           <span class="brand-seal"><img src={`${base}/巫字.png`} alt="巫" width="155" height="153" /></span>
           <span class="brand-name">
             <b>上古祝门</b>
