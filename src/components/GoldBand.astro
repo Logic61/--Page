@@ -4,7 +4,7 @@
 // 视觉：两条线（外轨 + 内轨）+ 之间的"微微泛金"通道 + 在轨道间流动的符文
 // 流动：每枚符文用 SMIL animateMotion 沿 base path 循环
 import { CFG_A, CFG_W, CFG_M, ticks } from './gold-band/geometry';
-import { arcPath, geomFade } from './gold-band/arc';
+import { arcPath, arcAt, geomFade } from './gold-band/arc';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const RUNES = [5, 7, 9, 12, 13, 15, 16, 4, 10, 14, 2, 8];
@@ -13,14 +13,14 @@ function buildBand(cfg, key) {
   const tk = ticks(cfg);
   const basePath = arcPath(cfg, cfg.genFrom, cfg.genTo);
 
-  // 同心椭圆弧：off = 在法线方向偏移距离（band 上下边 → 轨道线 → 通道芯）
-  // 视觉栈（从外到内）：bounce → outHair → outRail → channel → groove → inRail → lip
-  // channel 微微泛金（两侧轨道线之间），groove 暗芯（给 channel 一点纵深）
-  const bouncePath  = arcPath({ ...cfg, r: cfg.bounceR }, cfg.genFrom, cfg.genTo);
-  const outHairPath = arcPath({ ...cfg, r: cfg.outHair.off }, cfg.genFrom, cfg.genTo);
-  const outRailPath = arcPath({ ...cfg, r: cfg.outRail.off }, cfg.genFrom, cfg.genTo);
-  const inRailPath  = arcPath({ ...cfg, r: cfg.inRail.off }, cfg.genFrom, cfg.genTo);
-  const lipPath     = arcPath({ ...cfg, r: cfg.lipR }, cfg.genFrom, cfg.genTo);
+  // 同心椭圆弧：arcAt(off) 在法线方向偏移（与 ticks() 同约定）
+  // 视觉栈（从外到内）：
+  //   outHair（外细高光）→ outRail（外铁轨）→ channel（通道：微微泛金）→ groove（暗芯）→ inRail（内铁轨）
+  // 两条铁轨必须用 arcAt 偏移到通道外侧，才能 "夹" 住通道
+  const outHairPath = arcAt(cfg, cfg.genFrom, cfg.genTo, cfg.outHair.off);
+  const outRailPath = arcAt(cfg, cfg.genFrom, cfg.genTo, cfg.outRail.off);
+  const bouncePath  = arcAt(cfg, cfg.genFrom, cfg.genTo, 0);
+  const inRailPath  = arcAt(cfg, cfg.genFrom, cfg.genTo, cfg.inRail.off);
 
   const flowDur = cfg.flowDur;
   const N = cfg.slotCount;

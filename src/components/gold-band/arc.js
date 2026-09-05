@@ -7,16 +7,23 @@
 const n2 = (v) => Math.round(v * 10) / 10;
 
 export function arcPath(cfg, fromDeg, toDeg) {
+  return arcAt(cfg, fromDeg, toDeg, 0);
+}
+
+// 画半径向外偏移 off 的同心椭圆弧。
+// 与 ticks() 同约定：rx 加 off，ry 加 off·(ry/rx) → 偏移方向在椭圆法线上（视觉上是「垂直」通道）。
+// 这才能让两条铁轨真的画在通道外侧，而不是和通道同路径叠加。
+export function arcAt(cfg, fromDeg, toDeg, off = 0) {
+  const rx = cfg.rx + off;
+  const ry = cfg.ry + off * (cfg.ry / cfg.rx);
   const t0 = (fromDeg * Math.PI) / 180;
   const t1 = (toDeg * Math.PI) / 180;
-  const x0 = n2(cfg.cx + cfg.rx * Math.cos(t0));
-  const y0 = n2(cfg.cy + cfg.ry * Math.sin(t0));
-  const x1 = n2(cfg.cx + cfg.rx * Math.cos(t1));
-  const y1 = n2(cfg.cy + cfg.ry * Math.sin(t1));
-  // 弧度差 < 180° → largeArc=0
+  const x0 = n2(cfg.cx + rx * Math.cos(t0));
+  const y0 = n2(cfg.cy + ry * Math.sin(t0));
+  const x1 = n2(cfg.cx + rx * Math.cos(t1));
+  const y1 = n2(cfg.cy + ry * Math.sin(t1));
   const largeArc = Math.abs(toDeg - fromDeg) > 180 ? 1 : 0;
-  // SVG y-down，θ 递增 = 顺时针屏幕；sweep=1
-  return `M ${x0} ${y0} A ${cfg.rx} ${cfg.ry} 0 ${largeArc} 1 ${x1} ${y1}`;
+  return `M ${x0} ${y0} A ${rx} ${ry} 0 ${largeArc} 1 ${x1} ${y1}`;
 }
 
 export function geomFade(item, cfg) {
