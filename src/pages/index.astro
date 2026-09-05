@@ -501,16 +501,16 @@ const branches = [
     .map-frame { width: min(100%, 80vh); }
     /* 移动端法阵：只比树略大（约 1.08× 树宽），不再 285% 撑满 */
     .array-layer { width: 86.4vh; opacity: 1; top: 50%; }
-    /* 移动端资源紧张：法阵直接静态（停止所有旋转/光晕/脉冲动画，节省 GPU 资源） */
-    .array-bg .a-rotate-cw,
-    .array-bg .a-rotate-ccw,
-    .array-bg .a-sheen,
-    .array-bg .a-sheen2,
-    .root-weave,
-    .hotspot-ring { animation: none !important; }
-    /* 确保旋转轨道停在当前帧，不留 transform 开销 */
-    .array-bg .a-rotate-cw,
-    .array-bg .a-rotate-ccw { transform: none !important; }
+    /* 移动端资源紧张：法阵直接静态（停止所有旋转/光晕/脉冲动画，节省 GPU 资源）
+       用 :global() 跨组件选择器，确保 .a-rotate-* 等子组件内类被命中 */
+    :global(.array-bg .a-rotate-cw),
+    :global(.array-bg .a-rotate-ccw),
+    :global(.array-bg .a-sheen),
+    :global(.array-bg .a-sheen2),
+    :global(.root-weave),
+    :global(.hotspot-ring) { animation: none !important; }
+    :global(.array-bg .a-rotate-cw),
+    :global(.array-bg .a-rotate-ccw) { transform: none !important; }
   }
 
   @media (prefers-reduced-motion: reduce) {
