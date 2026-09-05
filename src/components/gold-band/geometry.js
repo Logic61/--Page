@@ -24,17 +24,20 @@ const tangentDeg = (rx, ry, deg) => {
 // === Desktop 1440×900：左下角小弧
 //    椭圆 cx=200, cy=900, rx=400, ry=300
 //    弧进入 (600, 900) → 出 (0, 640)，可见跨度 ≈ 127°（从底到左）
+//    band=36，rail off=±26，w=4 → 通道半宽 18，铁轨内边 24，留 4px 暗间隙
+//    通道再略宽些可拉大铁轨 → band=44, off=±30, w=4.5（暗间隙 4px）
+//    符文 0.30 → 30px → 明确在 ±22 通道内
 const A = {
   viewW: 1440, viewH: 900,
   cx: 200, cy: 900, rx: 400, ry: 300,
-  band: 40, dark: 22, lipW: 5, bounceW: 2,
-  outRail: { off: 30, w: 6.0, color: '#fce18c' },
-  outHair: { off: 33, w: 1.0, color: '#fff6d8', opacity: 0.6 },
-  inRail:  { off: -30, w: 6.0, color: '#fce18c' },
+  band: 44, dark: 24, lipW: 5, bounceW: 1.4,
+  outRail: { off: 30, w: 4.5, color: '#fce18c' },
+  outHair: { off: 34, w: 1.0, color: '#fff6d8', opacity: 0.6 },
+  inRail:  { off: -30, w: 4.5, color: '#fce18c' },
   genFrom: -127, genTo: 0,
   enter: [600, 900], exit: [0, 640],
   slotCount: 10,
-  runeScale: 0.34,
+  runeScale: 0.30,
   tickFrom: -120, tickTo: -5, tickStep: 6.0,
   dashedR: 0, dashed: '',
   sheenDur: '300s', sheenDash: '2 998', sheenW: 7,
@@ -43,18 +46,18 @@ const A = {
 
 // === Wide 1920×1000：左下角
 //    椭圆 cx=300, cy=1000, rx=500, ry=400
-//    弧进入 (800, 1000) → 出 (0, 680)，可见跨度 ≈ 127°
+//    band=52, off=±34, w=5（暗间隙 4px）
 const W = {
   viewW: 1920, viewH: 1000,
   cx: 300, cy: 1000, rx: 500, ry: 400,
-  band: 40, dark: 22, lipW: 5, bounceW: 2,
-  outRail: { off: 30, w: 6.0, color: '#fce18c' },
-  outHair: { off: 33, w: 1.0, color: '#fff6d8', opacity: 0.6 },
-  inRail:  { off: -30, w: 6.0, color: '#fce18c' },
+  band: 52, dark: 28, lipW: 5, bounceW: 1.6,
+  outRail: { off: 34, w: 5.0, color: '#fce18c' },
+  outHair: { off: 38, w: 1.0, color: '#fff6d8', opacity: 0.6 },
+  inRail:  { off: -34, w: 5.0, color: '#fce18c' },
   genFrom: -130, genTo: 0,
   enter: [800, 1000], exit: [0, 680],
   slotCount: 10,
-  runeScale: 0.34,
+  runeScale: 0.30,
   tickFrom: -125, tickTo: -5, tickStep: 6.0,
   dashedR: 0, dashed: '',
   sheenDur: '320s', sheenDash: '2 998', sheenW: 6,
@@ -63,18 +66,18 @@ const W = {
 
 // === Mobile 414×896：左下角
 //    椭圆 cx=100, cy=900, rx=250, ry=300
-//    弧进入 (350, 900) → 出 (0, 625)，可见跨度 ≈ 127°
+//    band=36, off=±24, w=3.5（暗间隙 4px）
 const M = {
   viewW: 414, viewH: 896,
   cx: 100, cy: 900, rx: 250, ry: 300,
-  band: 34, dark: 19, lipW: 5, bounceW: 2,
-  outRail: { off: 25, w: 4.5, color: '#fce18c' },
+  band: 36, dark: 20, lipW: 5, bounceW: 1.2,
+  outRail: { off: 24, w: 3.5, color: '#fce18c' },
   outHair: { off: 27, w: 0.7, color: '#fff6d8', opacity: 0.6 },
-  inRail:  { off: -25, w: 4.5, color: '#fce18c' },
+  inRail:  { off: -24, w: 3.5, color: '#fce18c' },
   genFrom: -130, genTo: 0,
   enter: [350, 900], exit: [0, 625],
   slotCount: 5,
-  runeScale: 0.30,
+  runeScale: 0.26,
   tickFrom: -125, tickTo: -5, tickStep: 8.0,
   dashedR: 0, dashed: '',
   sheenDur: '240s', sheenDash: '1.6 998.4', sheenW: 5,
