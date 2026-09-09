@@ -32,20 +32,27 @@ export async function getStaticPaths() {
 const { mod, order, title, summary, prev, next } = Astro.props;
 const { Content } = mod;
 const num = nums[order - 1] || String(order);
+
+// 每篇可自带整页背景（frontmatter：bg / bgPos / bgDim），缺省沿用「金树灵光」
+const bg = mod.frontmatter.bg || '/bg/jinshu-lingguang.webp';
+const bgPos = mod.frontmatter.bgPos || '50% 50%';
+const bgDim = Number(mod.frontmatter.bgDim || 0);
 ---
 
 <Base title={title + ' · 秘闻 · 上古祝门'} description={summary} hideNav={true}>
-  <div class="miwen-scope">
+  <div class:list={['miwen-scope', { 'bg-bright': bgDim > 0 }]}>
 
-    {/* 整页背景：用户提供的「金树灵光」图（public/bg/jinshu-lingguang.webp）。
-        视口固定、cover 铺满，滚动时背景不动；画面中央留黑，
-        左侧为发光金树、右侧为云海仙岛，正文压在中间的柔光遮罩上。 */}
+    {/* 整页背景：默认「金树灵光」，单篇可用 frontmatter 的 bg 覆盖
+        （如神道篇、附体篇各有专属画面）。视口固定、cover 铺满，
+        滚动时背景不动；正文压在中间的柔光遮罩上。
+        bgDim > 0 时再叠一层整体压暗，用于画面较亮的背景。 */}
     <div
       class="post-bg"
       aria-hidden="true"
-      style={`background-image:url('${base}/bg/jinshu-lingguang.webp')`}
+      style={`background-image:url('${base}${bg}');background-position:${bgPos}`}
     ></div>
     <div class="post-scrim" aria-hidden="true"></div>
+    {bgDim > 0 && <div class="post-dim" style={`--dim:${bgDim}`} aria-hidden="true"></div>}
 
     {/* 顶部栏：玄金令牌，五个板块（首页 / 法门 / 秘闻 / 修炼常识 / 闲文） */}
     <GoldNav />
@@ -168,14 +175,35 @@ const num = nums[order - 1] || String(order);
     z-index: 0;
     pointer-events: none;
     background:
+      linear-gradient(90deg,
+        rgba(10, 6, 4, 0) 10%,
+        rgba(10, 6, 4, 0.26) 32%,
+        rgba(10, 6, 4, 0.26) 68%,
+        rgba(10, 6, 4, 0) 90%),
       radial-gradient(ellipse 42% 66% at 50% 50%,
-        rgba(10, 6, 4, 0.9) 0%,
-        rgba(10, 6, 4, 0.78) 56%,
-        rgba(10, 6, 4, 0.34) 100%),
+        rgba(10, 6, 4, 0.8) 0%,
+        rgba(10, 6, 4, 0.64) 56%,
+        rgba(10, 6, 4, 0.24) 100%),
       linear-gradient(180deg,
-        rgba(10, 6, 4, 0.52) 0%,
-        rgba(10, 6, 4, 0.3) 42%,
-        rgba(10, 6, 4, 0.46) 100%);
+        rgba(10, 6, 4, 0.42) 0%,
+        rgba(10, 6, 4, 0.2) 42%,
+        rgba(10, 6, 4, 0.34) 100%);
+  }
+
+  /* 亮背景额外压暗层（frontmatter bgDim）：顶部标题区压得最重，中部保留一点光感 */
+  .post-dim {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: var(--dim, 0);
+    background: linear-gradient(
+      180deg,
+      rgba(10, 6, 4, 0.86) 0%,
+      rgba(10, 6, 4, 0.6) 22%,
+      rgba(10, 6, 4, 0.4) 50%,
+      rgba(10, 6, 4, 0.5) 100%
+    );
   }
 
   /* Article */
@@ -204,6 +232,45 @@ const num = nums[order - 1] || String(order);
   .post > .wrap {
     position: relative;
     z-index: 1;
+  }
+
+  /* 亮背景文章：正文列遮罩再收一档——中间压得更实（文字所在），
+     边缘保持原来的通透，让插画在栏外仍看得见 */
+  .bg-bright .post-scrim {
+    background:
+      /* 居中竖带：正文列再压一层，两侧渐隐，不切出硬边 */
+      linear-gradient(90deg,
+        rgba(10, 6, 4, 0) 10%,
+        rgba(10, 6, 4, 0.24) 32%,
+        rgba(10, 6, 4, 0.24) 68%,
+        rgba(10, 6, 4, 0) 90%),
+      radial-gradient(ellipse 44% 68% at 50% 50%,
+        rgba(10, 6, 4, 0.84) 0%,
+        rgba(10, 6, 4, 0.7) 58%,
+        rgba(10, 6, 4, 0.3) 100%),
+      linear-gradient(180deg,
+        rgba(10, 6, 4, 0.44) 0%,
+        rgba(10, 6, 4, 0.24) 42%,
+        rgba(10, 6, 4, 0.38) 100%);
+  }
+
+  /* 正文提亮一档并加暗色描边光晕：遮罩调亮后，靠文字自身把可读性补回来 */
+  .post-summary,
+  .prose :global(p),
+  .prose :global(li),
+  .prose :global(blockquote) {
+    color: #e6d2a8;
+    /* 紧贴暗影保字口干净，再叠一层很短的微晕，
+       把字与背景里的金色纹样拉开（晕再大就会发虚） */
+    text-shadow:
+      0 1px 2px rgba(5, 3, 2, 0.95),
+      0 0 5px rgba(5, 3, 2, 0.5);
+  }
+  .prose :global(strong),
+  .prose :global(b) {
+    text-shadow:
+      0 1px 2px rgba(5, 3, 2, 0.9),
+      0 0 5px rgba(5, 3, 2, 0.45);
   }
 
   /* Header */
@@ -447,11 +514,25 @@ const num = nums[order - 1] || String(order);
   @media (max-width: 980px) {
     /* 窄屏 cover 只露中间一条，遮罩整体加深保证可读 */
     .post-scrim {
-      background: linear-gradient(180deg,
-        rgba(10, 6, 4, 0.64) 0%,
-        rgba(10, 6, 4, 0.52) 46%,
-        rgba(10, 6, 4, 0.68) 100%);
+      background:
+        linear-gradient(90deg,
+          rgba(10, 6, 4, 0) 0%,
+          rgba(10, 6, 4, 0.38) 3%,
+          rgba(10, 6, 4, 0.38) 97%,
+          rgba(10, 6, 4, 0) 100%),
+        linear-gradient(180deg,
+          rgba(10, 6, 4, 0.56) 0%,
+          rgba(10, 6, 4, 0.44) 46%,
+          rgba(10, 6, 4, 0.6) 100%);
     }
+    /* 亮背景文章在窄屏上裁切更碎，遮罩再压深一档 */
+    .bg-bright .post-scrim {
+      background: linear-gradient(180deg,
+        rgba(10, 6, 4, 0.74) 0%,
+        rgba(10, 6, 4, 0.64) 46%,
+        rgba(10, 6, 4, 0.78) 100%);
+    }
+
   }
 
   @media (max-width: 720px) {
