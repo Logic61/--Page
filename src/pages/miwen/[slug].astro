@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import Footer from '../../components/Footer.astro';
+import GoldNav from '../../components/GoldNav.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const nums = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一'];
@@ -37,10 +37,18 @@ const num = nums[order - 1] || String(order);
 <Base title={title + ' · 秘闻 · 上古祝门'} description={summary} hideNav={true}>
   <div class="miwen-scope">
 
-    <a class="miwen-back" href={base + '/'}>
-      <span class="miwen-back-arrow" aria-hidden="true">←</span>
-      <span class="miwen-back-text kai">返回总目录</span>
-    </a>
+    {/* 整页背景：用户提供的「金树灵光」图（public/bg/jinshu-lingguang.webp）。
+        视口固定、cover 铺满，滚动时背景不动；画面中央留黑，
+        左侧为发光金树、右侧为云海仙岛，正文压在中间的柔光遮罩上。 */}
+    <div
+      class="post-bg"
+      aria-hidden="true"
+      style={`background-image:url('${base}/bg/jinshu-lingguang.webp')`}
+    ></div>
+    <div class="post-scrim" aria-hidden="true"></div>
+
+    {/* 顶部栏：玄金令牌，五个板块（首页 / 法门 / 秘闻 / 修炼常识 / 闲文） */}
+    <GoldNav />
 
     <article class="post" aria-labelledby="post-title">
       <div class="post-grain" aria-hidden="true"></div>
@@ -89,7 +97,6 @@ const num = nums[order - 1] || String(order);
       </div>
     </article>
 
-    <Footer />
   </div>
 </Base>
 
@@ -102,38 +109,81 @@ const num = nums[order - 1] || String(order);
   /* Scope selectors deliberately use `html[data-theme]` so the
      .miwen-scope tokens win over the global `html[data-theme='light']`
      override in src/styles/global.css, so article pages stay gold+black
-     regardless of the saved user theme. */
+     regardless of the saved user theme.
+
+     Tokens match the 鎏金黑金 chat-bubble palette: warm near-black
+     ground, bright warm-gold type, and bold gilt borders that read
+     clearly against the dark ground. */
   html[data-theme] .miwen-scope {
-    --ink: #050402;
-    --ink-2: #0a0805;
-    --ink-3: #110d07;
-    --ink-line: rgba(201, 169, 97, 0.14);
-    --bone: #d8be7a;
-    --bone-dim: #9c8654;
-    --bone-faint: #5e4f30;
+    --ink: #0a0604;
+    --ink-2: #100b07;
+    --ink-3: #18120b;
+    --ink-line: rgba(248, 220, 160, 0.2);
+    --bone: #f0d68e;
+    --bone-dim: #c4a878;
+    --bone-faint: #7a6840;
 
-    --heading: #ecd28a;
-    --gold: #c9a961;
-    --gold-bright: #ecc879;
-    --gold-deep: #8a6f2e;
+    --heading: #f8dfa0;
+    --gold: #dfb878;
+    --gold-bright: #f8dca0;
+    --gold-deep: #a88440;
     /* brightest highlight stop, used for liquid-gold gradient text */
-    --gold-edge: #fff4cc;
-    --gold-glow: rgba(236, 200, 121, 0.45);
-    --gold-line: rgba(201, 169, 97, 0.22);
-    --gold-line-strong: rgba(201, 169, 97, 0.5);
+    --gold-edge: #fff8d8;
+    --gold-glow: rgba(248, 220, 160, 0.6);
+    --gold-line: rgba(248, 220, 160, 0.42);
+    --gold-line-strong: rgba(248, 220, 160, 0.72);
 
-    --panel-soft: rgba(201, 169, 97, 0.04);
+    --panel-soft: rgba(248, 220, 160, 0.08);
 
     background: var(--ink);
     color: var(--bone);
     position: relative;
   }
 
+  /* ============================================================
+     两侧固定山海长卷 + 底部海水纹
+     Two minimal 山海简图 hanging scrolls pinned to the viewport
+     sides fill the article gutters (left: mountains, right: sea
+     and crescent moon). They never move while the article
+     scrolls; each fades inward so the reading column stays clear.
+     A fixed sea hem of two fine waves closes the bottom of the
+     screen. Stroke-only, wide open space.
+     ============================================================ */
+
+  /* 整页背景图（视口固定，滚动不动） */
+  .post-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+  }
+
+  /* 正文列柔光遮罩：长文阅读时把中间压暗，两侧保留图的光感 */
+  .post-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 42% 66% at 50% 50%,
+        rgba(10, 6, 4, 0.9) 0%,
+        rgba(10, 6, 4, 0.78) 56%,
+        rgba(10, 6, 4, 0.34) 100%),
+      linear-gradient(180deg,
+        rgba(10, 6, 4, 0.52) 0%,
+        rgba(10, 6, 4, 0.3) 42%,
+        rgba(10, 6, 4, 0.46) 100%);
+  }
+
   /* Article */
   .post {
     position: relative;
+    z-index: 1; /* ride above the fixed scrolls */
     padding-bottom: clamp(2rem, 4vw, 3rem);
-    border-top: 1px solid var(--gold-line);
+    /* 顶栏下缘即本页上边界，无需再叠一条金线 */
     overflow: hidden;
     isolation: isolate;
   }
@@ -160,58 +210,8 @@ const num = nums[order - 1] || String(order);
   .post-head {
     max-width: 46em;
     margin-inline: auto;
-    padding-top: clamp(3.5rem, 7vw, 5.5rem);
-  }
-
-  /* Back link, fixed top-left, replaces the global nav on this page */
-  .miwen-back {
-    position: fixed;
-    top: 1.4rem;
-    left: 1.4rem;
-    z-index: 50;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.5rem 0.95rem;
-    border: 1px solid var(--gold-line);
-    border-radius: 2px;
-    background: rgba(5, 4, 2, 0.55);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    color: var(--gold-bright);
-    font-family: var(--font-kai);
-    font-size: 0.84rem;
-    letter-spacing: 0.28em;
-    transition:
-      border-color 0.3s var(--ease-soft),
-      color 0.3s var(--ease-soft),
-      transform 0.25s var(--ease-soft),
-      background 0.3s var(--ease-soft);
-  }
-  .miwen-back:hover {
-    border-color: var(--gold);
-    color: #fff0c4;
-    background: rgba(201, 169, 97, 0.08);
-    transform: translateX(-2px);
-  }
-  .miwen-back-arrow {
-    display: inline-block;
-    color: var(--gold);
-    transition: transform 0.3s var(--ease-soft), color 0.3s var(--ease-soft);
-  }
-  .miwen-back:hover .miwen-back-arrow {
-    transform: translateX(-3px);
-    color: var(--gold-bright);
-  }
-
-  @media (max-width: 560px) {
-    .miwen-back {
-      top: 0.9rem;
-      left: 0.9rem;
-      padding: 0.4rem 0.75rem;
-      font-size: 0.78rem;
-      letter-spacing: 0.22em;
-    }
+    /* 顶部栏已在文档流中占位，正文起首只留适度空行 */
+    padding-top: clamp(2.8rem, 5.5vw, 4.2rem);
   }
 
   .post-series {
@@ -444,6 +444,16 @@ const num = nums[order - 1] || String(order);
   }
 
   /* Mobile collapse */
+  @media (max-width: 980px) {
+    /* 窄屏 cover 只露中间一条，遮罩整体加深保证可读 */
+    .post-scrim {
+      background: linear-gradient(180deg,
+        rgba(10, 6, 4, 0.64) 0%,
+        rgba(10, 6, 4, 0.52) 46%,
+        rgba(10, 6, 4, 0.68) 100%);
+    }
+  }
+
   @media (max-width: 720px) {
     .post-nav { grid-template-columns: 1fr; }
     .post-back { justify-self: start; }
@@ -456,10 +466,6 @@ const num = nums[order - 1] || String(order);
     .post-head h1 { animation: none; }
     .post-pager,
     .pager-title,
-    .prose :global(a),
-    .miwen-back,
-    .miwen-back-arrow { transition: none; }
+    .prose :global(a) { transition: none; }
   }
 </style>
-</content>
-</invoke>

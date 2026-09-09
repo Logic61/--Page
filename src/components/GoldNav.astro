@@ -1,0 +1,770 @@
+---
+// ============================================================
+// 顶部栏 · 玄金令牌（暗黑金）
+// 用于 /miwen、/changshi 及其下属页面，以及 /zhoufa 各页
+// （经 Base 的 navVariant="gold" 接入）。组件自带一套暖黑 + 鎏金令牌，
+// 不依赖页面主题（data-theme），也不依赖页内的 scope 变量；
+// 在跟随明暗切换的页面上，可用 showSearch / showTheme 保留搜索与主题开关。
+//
+// 五个板块：首页 · 法门 · 秘闻 · 修炼常识 · 闲文
+// 当前板块由路径自动判定，也可用 active 显式指定。
+// ============================================================
+
+interface Props {
+  active?: 'home' | 'famen' | 'miwen' | 'changshi' | 'xianwen';
+  /** 是否在栏内提供全局搜索入口（需宿主布局同时渲染搜索浮层） */
+  showSearch?: boolean;
+  /** 是否在栏内提供明暗切换（页内固定玄金时不必开启） */
+  showTheme?: boolean;
+}
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = (Astro.url.pathname.replace(/\/$/, '') || '/').replace(base, '') || '/';
+
+const items = [
+  { key: 'home', href: '/', label: '首页', glyph: '始' },
+  { key: 'famen', href: '/famen', label: '法门', glyph: '法' },
+  { key: 'miwen', href: '/miwen', label: '秘闻', glyph: '秘' },
+  { key: 'changshi', href: '/changshi', label: '修炼常识', glyph: '常' },
+  { key: 'xianwen', href: '/xianwen', label: '闲文', glyph: '闲' },
+];
+
+const numerals = ['一', '二', '三', '四', '五'];
+
+const guessed =
+  path === '/'
+    ? 'home'
+    : path.startsWith('/famen')
+      ? 'famen'
+      : path.startsWith('/miwen')
+        ? 'miwen'
+        : path.startsWith('/changshi')
+          ? 'changshi'
+          : path.startsWith('/xianwen')
+            ? 'xianwen'
+            : '';
+
+const { showSearch = false, showTheme = false } = Astro.props;
+const activeKey = Astro.props.active || guessed;
+---
+
+<header class="gnav" id="gnav">
+  <div class="gnav-inner wrap">
+    <a class="gnav-brand" href={`${base}/`} aria-label="古巫祝脉 · 首页">
+      <span class="gnav-seal" aria-hidden="true">
+        <span class="gnav-seal-plate">
+          <img
+            class="gnav-seal-img"
+            src={`${base}/巫/巫字.png`}
+            alt=""
+            width="155"
+            height="153"
+            loading="eager"
+            decoding="async"
+          />
+        </span>
+      </span>
+      <span class="gnav-wordmark">
+        <b class="kai">古巫祝脉</b>
+        <small>上古祝门</small>
+      </span>
+    </a>
+
+    <nav class="gnav-links" aria-label="板块导航">
+      {
+        items.map((it) => (
+          <a
+            class:list={['gnav-link', { 'is-active': it.key === activeKey }]}
+            href={`${base}${it.href}`}
+            aria-current={it.key === activeKey ? 'page' : undefined}
+          >
+            <span class="gnav-link-label kai">{it.label}</span>
+          </a>
+        ))
+      }
+    </nav>
+
+    <span class="gnav-orn" aria-hidden="true">
+      <i class="gnav-orn-line"></i>
+      <i class="gnav-orn-dot"></i>
+      <i class="gnav-orn-diamond"></i>
+    </span>
+
+    <span class="gnav-tools">
+      {
+        showSearch && (
+          <button class="gnav-icon" id="searchToggle" type="button" aria-label="全局搜索" title="搜索（Ctrl+K）">
+            搜
+          </button>
+        )
+      }
+      {
+        showTheme && (
+          <button class="gnav-icon" id="themeToggle" type="button" aria-label="切换明暗模式" title="切换明暗模式">
+            <span class="theme-symbol theme-symbol--dark" aria-hidden="true">月</span>
+            <span class="theme-symbol theme-symbol--light" aria-hidden="true">日</span>
+          </button>
+        )
+      }
+      <button
+        class="gnav-burger"
+        id="gnavBurger"
+        type="button"
+        aria-label="打开板块导航"
+        aria-expanded="false"
+        aria-controls="gnavDrawer"
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </span>
+  </div>
+</header>
+
+<div class="gnav-scrim" id="gnavScrim" aria-hidden="true"></div>
+
+<div class="gnav-drawer" id="gnavDrawer" aria-hidden="true">
+  <nav class="gnav-drawer-links" aria-label="板块导航（移动端）">
+    {
+      items.map((it, i) => (
+        <a
+          class:list={['gnav-drawer-link', { 'is-active': it.key === activeKey }]}
+          href={`${base}${it.href}`}
+          aria-current={it.key === activeKey ? 'page' : undefined}
+        >
+          <span class="gnav-drawer-idx zhuan" aria-hidden="true">{numerals[i]}</span>
+          <span class="gnav-drawer-label kai">{it.label}</span>
+          <span class="gnav-drawer-glyph zhuan" aria-hidden="true">{it.glyph}</span>
+        </a>
+      ))
+    }
+  </nav>
+  <p class="gnav-drawer-foot kai">古巫祝脉 · 上古祝门</p>
+</div>
+
+<script>
+  const nav = document.getElementById('gnav');
+  const burger = document.getElementById('gnavBurger');
+  const drawer = document.getElementById('gnavDrawer');
+  const scrim = document.getElementById('gnavScrim');
+
+  const closeDrawer = () => {
+    drawer?.setAttribute('aria-hidden', 'true');
+    scrim?.setAttribute('aria-hidden', 'true');
+    burger?.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('gnav-open');
+  };
+
+  const openDrawer = () => {
+    drawer?.setAttribute('aria-hidden', 'false');
+    scrim?.setAttribute('aria-hidden', 'false');
+    burger?.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('gnav-open');
+  };
+
+  burger?.addEventListener('click', () => {
+    if (drawer?.getAttribute('aria-hidden') === 'false') closeDrawer();
+    else openDrawer();
+  });
+  scrim?.addEventListener('click', closeDrawer);
+  drawer?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeDrawer));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer?.getAttribute('aria-hidden') === 'false') closeDrawer();
+  });
+
+  const desktop = window.matchMedia('(min-width: 721px)');
+  const syncViewport = (e) => {
+    if (e.matches) closeDrawer();
+  };
+  desktop.addEventListener('change', syncViewport);
+
+  const onScroll = () => nav?.classList.toggle('is-scrolled', window.scrollY > 6);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>
+
+<style>
+  /* 顶栏高度作为全局变量，页面据此避让（本组件为 sticky，占位由自身完成） */
+  :global(html) {
+    --gnav-h: 72px;
+  }
+
+  .gnav {
+    /* 玄金令牌（与 /miwen、/changshi 页内令牌同源） */
+    --gn-ink: #0a0604;
+    --gn-gold: #dfb878;
+    --gn-gold-bright: #f8dca0;
+    --gn-gold-deep: #a88440;
+    --gn-gold-edge: #fff8d8;
+    --gn-bone-dim: rgba(240, 214, 142, 0.74);
+    --gn-bone-faint: rgba(240, 214, 142, 0.42);
+    --gn-line: rgba(248, 220, 160, 0.26);
+    --gn-line-strong: rgba(248, 220, 160, 0.58);
+
+    position: sticky;
+    top: 0;
+    z-index: 70;
+    background: linear-gradient(180deg, rgba(20, 13, 8, 0.93) 0%, rgba(9, 6, 3, 0.96) 100%);
+    backdrop-filter: blur(10px) saturate(1.15);
+    -webkit-backdrop-filter: blur(10px) saturate(1.15);
+    border-bottom: 1px solid var(--gn-line);
+    box-shadow: inset 0 1px 0 rgba(248, 220, 160, 0.06);
+    transition:
+      background 0.5s var(--ease-soft),
+      border-color 0.5s var(--ease-soft),
+      box-shadow 0.5s var(--ease-soft);
+  }
+
+  /* 下缘第二道金线：两端消隐，滚动时略亮，像铜器上的双弦纹 */
+  .gnav::after {
+    content: '';
+    position: absolute;
+    left: 7%;
+    right: 7%;
+    bottom: -4px;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(248, 220, 160, 0.3) 20%,
+      rgba(248, 220, 160, 0.3) 80%,
+      transparent
+    );
+    opacity: 0.75;
+    transition: opacity 0.5s var(--ease-soft);
+  }
+
+  .gnav.is-scrolled {
+    background: linear-gradient(180deg, rgba(18, 12, 7, 0.97) 0%, rgba(7, 4, 2, 0.98) 100%);
+    border-bottom-color: var(--gn-line-strong);
+    box-shadow:
+      inset 0 1px 0 rgba(248, 220, 160, 0.08),
+      0 18px 46px rgba(0, 0, 0, 0.55);
+  }
+  .gnav.is-scrolled::after {
+    opacity: 1;
+  }
+
+  .gnav-inner {
+    height: var(--gnav-h);
+    display: flex;
+    align-items: center;
+    gap: clamp(0.9rem, 2vw, 1.8rem);
+  }
+
+  /* ---------- 品牌：印 · 名 ---------- */
+
+  .gnav-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    flex: none;
+  }
+
+  /* 金印：印面为鎏金渐变，印文用 /巫/巫字.png（白底黑字）
+     以 multiply 混色压进印面——白底吃成金色、笔画沉为深铜，即传统钤印效果 */
+  .gnav-seal {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    flex: none;
+    border: 1px solid var(--gn-line-strong);
+    border-radius: 2px;
+    isolation: isolate;
+    /* 暗底印面 + 极淡金晕：托住发光的金色印文 */
+    background:
+      radial-gradient(circle at 50% 30%, rgba(223, 184, 120, 0.2), rgba(10, 6, 4, 0) 74%),
+      linear-gradient(180deg, rgba(32, 21, 11, 0.92), rgba(8, 5, 3, 0.96));
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.35);
+    transition:
+      border-color 0.4s var(--ease-soft),
+      box-shadow 0.4s var(--ease-soft),
+      filter 0.4s var(--ease-soft);
+  }
+
+  /* 对角两枚角线，呼应首屏「秘」「常」印框的角饰 */
+  .gnav-seal::before,
+  .gnav-seal::after {
+    content: '';
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    opacity: 0.75;
+    transition:
+      width 0.45s var(--ease-soft),
+      height 0.45s var(--ease-soft),
+      opacity 0.45s var(--ease-soft);
+  }
+  .gnav-seal::before {
+    top: -1px;
+    left: -1px;
+    border-top: 1px solid var(--gn-gold);
+    border-left: 1px solid var(--gn-gold);
+  }
+  .gnav-seal::after {
+    right: -1px;
+    bottom: -1px;
+    border-right: 1px solid var(--gn-gold);
+    border-bottom: 1px solid var(--gn-gold);
+  }
+
+  /* 透明裁切层：把原图四周留白裁掉一点，让「巫」字在印面里更大更利落 */
+  .gnav-seal-plate {
+    position: absolute;
+    inset: 1px;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+  }
+
+  /* 原图是「白底黑字」：反相后背景转黑、笔画转亮，再染成暖金，
+     以 screen 叠到暗印面上——黑背景等于透明，只留金色笔画。
+     这样既用上 /巫/巫字 原图，笔画又是「亮底压暗底」，小尺寸下更清晰。 */
+  .gnav-seal-img {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    /* 用 transform 放大（不参与布局，由裁切层裁掉外溢），
+       避免百分比宽高被全局 img 规则或网格尺寸拉成非等比 */
+    transform: scale(1.12);
+    mix-blend-mode: screen;
+    filter: invert(1) sepia(1) saturate(2.4) hue-rotate(-10deg) brightness(1.04);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .gnav-wordmark {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+  .gnav-wordmark b {
+    font-family: var(--font-kai);
+    font-weight: 600;
+    font-size: 1.04rem;
+    letter-spacing: 0.34em;
+    color: var(--gn-gold-bright);
+    text-shadow: 0 0 16px rgba(248, 220, 160, 0.2);
+    transition:
+      color 0.4s var(--ease-soft),
+      text-shadow 0.4s var(--ease-soft);
+  }
+  .gnav-wordmark small {
+    margin-top: 0.3rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.46em;
+    color: rgba(240, 214, 142, 0.52);
+  }
+
+  .gnav-brand:hover .gnav-seal {
+    border-color: var(--gn-gold);
+    filter: brightness(1.07);
+    box-shadow:
+      0 0 22px rgba(248, 220, 160, 0.16),
+      inset 0 0 18px rgba(248, 220, 160, 0.07);
+  }
+  .gnav-brand:hover .gnav-seal::before,
+  .gnav-brand:hover .gnav-seal::after {
+    width: 13px;
+    height: 13px;
+    opacity: 1;
+  }
+  .gnav-brand:hover .gnav-wordmark b {
+    color: var(--gn-gold-edge);
+    text-shadow: 0 0 24px rgba(248, 220, 160, 0.4);
+  }
+
+  /* ---------- 板块链接 ---------- */
+
+  .gnav-links {
+    display: flex;
+    align-items: stretch;
+    gap: clamp(0.9rem, 2.1vw, 2rem);
+    margin-left: auto;
+    height: 100%;
+  }
+
+  .gnav-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 0.1rem;
+    font-family: var(--font-kai);
+    font-size: 0.98rem;
+    letter-spacing: 0.24em;
+    white-space: nowrap;
+    color: var(--gn-bone-dim);
+    transition:
+      color 0.35s var(--ease-soft),
+      text-shadow 0.35s var(--ease-soft);
+  }
+
+  /* 竖细分隔：如简牍之界 */
+  .gnav-link + .gnav-link::before {
+    content: '';
+    position: absolute;
+    left: calc(-0.5 * clamp(0.9rem, 2.1vw, 2rem));
+    top: 50%;
+    width: 1px;
+    height: 13px;
+    margin-top: -6.5px;
+    background: linear-gradient(180deg, transparent, rgba(248, 220, 160, 0.24), transparent);
+  }
+
+  .gnav-link-label {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* 中心向外展开的金线 */
+  .gnav-link::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    bottom: 1.05rem;
+    height: 1px;
+    opacity: 0;
+    background: linear-gradient(90deg, transparent, var(--gn-gold-bright), transparent);
+    transition:
+      left 0.5s var(--ease-soft),
+      right 0.5s var(--ease-soft),
+      opacity 0.4s var(--ease-soft);
+  }
+
+  .gnav-link:hover {
+    color: var(--gn-gold-edge);
+    text-shadow: 0 0 16px rgba(248, 220, 160, 0.36);
+  }
+  .gnav-link:hover::after {
+    left: 0;
+    right: 0;
+    opacity: 0.85;
+  }
+
+  .gnav-link.is-active {
+    color: var(--gn-gold-edge);
+    text-shadow: 0 0 18px rgba(248, 220, 160, 0.42);
+  }
+  .gnav-link.is-active::after {
+    left: 8%;
+    right: 8%;
+    opacity: 0.6;
+  }
+
+  /* 当前板块：金线上嵌一枚菱形 */
+  .gnav-link.is-active .gnav-link-label::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -0.4rem;
+    width: 4px;
+    height: 4px;
+    margin-left: -2px;
+    transform: rotate(45deg);
+    background: var(--gn-gold-bright);
+    box-shadow: 0 0 10px rgba(248, 220, 160, 0.8);
+  }
+
+  /* ---------- 右端纹饰 ---------- */
+
+  .gnav-orn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex: none;
+    opacity: 0.8;
+  }
+  .gnav-orn-line {
+    width: clamp(1.6rem, 5vw, 4.5rem);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(248, 220, 160, 0.38));
+  }
+  .gnav-orn-dot {
+    width: 3px;
+    height: 3px;
+    transform: rotate(45deg);
+    background: var(--gn-gold);
+  }
+  .gnav-orn-diamond {
+    width: 8px;
+    height: 8px;
+    transform: rotate(45deg);
+    border: 1px solid var(--gn-line-strong);
+  }
+
+  /* ---------- 栏内工具：搜索 / 明暗 / 菜单 ---------- */
+
+  .gnav-tools {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex: none;
+  }
+
+  .gnav-icon {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    flex: none;
+    border: 1px solid rgba(248, 220, 160, 0.34);
+    border-radius: 2px;
+    background: transparent;
+    color: var(--gn-gold-bright);
+    font-family: var(--font-kai);
+    font-size: 0.9rem;
+    line-height: 1;
+    cursor: pointer;
+    transition:
+      border-color 0.3s var(--ease-soft),
+      color 0.3s var(--ease-soft),
+      background 0.3s var(--ease-soft),
+      transform 0.2s var(--ease-soft);
+  }
+  .gnav-icon:hover {
+    border-color: var(--gn-line-strong);
+    color: var(--gn-gold-edge);
+    background: rgba(248, 220, 160, 0.08);
+    transform: translateY(-1px);
+  }
+  .gnav-icon:active {
+    transform: translateY(0);
+    background: rgba(248, 220, 160, 0.14);
+  }
+
+  /* ---------- 移动端开关 ---------- */
+
+  .gnav-burger {
+    display: none;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border: 1px solid rgba(248, 220, 160, 0.38);
+    border-radius: 2px;
+    background: transparent;
+    cursor: pointer;
+    transition:
+      border-color 0.35s var(--ease-soft),
+      background 0.35s var(--ease-soft);
+  }
+  .gnav-burger span {
+    display: block;
+    width: 17px;
+    height: 1px;
+    background: var(--gn-gold-bright);
+    transition:
+      transform 0.4s var(--ease-soft),
+      opacity 0.3s var(--ease-soft);
+  }
+  .gnav-burger:hover {
+    border-color: var(--gn-line-strong);
+    background: rgba(248, 220, 160, 0.06);
+  }
+  .gnav-burger[aria-expanded='true'] span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+  .gnav-burger[aria-expanded='true'] span:nth-child(2) {
+    opacity: 0;
+  }
+  .gnav-burger[aria-expanded='true'] span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  /* ---------- 移动端抽屉 ---------- */
+
+  :global(body.gnav-open) {
+    overflow: hidden;
+  }
+
+  .gnav-scrim {
+    position: fixed;
+    inset: var(--gnav-h) 0 0 0;
+    z-index: 68;
+    background: rgba(4, 3, 2, 0.6);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.4s var(--ease-soft),
+      visibility 0.4s;
+  }
+  .gnav-scrim[aria-hidden='false'] {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .gnav-drawer {
+    position: fixed;
+    top: var(--gnav-h);
+    left: 0;
+    right: 0;
+    z-index: 69;
+    max-height: calc(100dvh - var(--gnav-h));
+    overflow-y: auto;
+    padding: 0.6rem 1.35rem 1.5rem;
+    background: linear-gradient(180deg, rgba(15, 10, 5, 0.985) 0%, rgba(7, 4, 2, 0.99) 100%);
+    border-bottom: 1px solid var(--gn-line-strong);
+    box-shadow: 0 26px 60px rgba(0, 0, 0, 0.62);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition:
+      opacity 0.4s var(--ease-soft),
+      transform 0.5s var(--ease-soft),
+      visibility 0.4s;
+  }
+  .gnav-drawer[aria-hidden='false'] {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .gnav-drawer-links {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gnav-drawer-link {
+    display: grid;
+    grid-template-columns: 2.4rem 1fr auto;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 1rem 0.4rem;
+    border-bottom: 1px solid rgba(248, 220, 160, 0.13);
+    transition:
+      background 0.35s var(--ease-soft),
+      padding-left 0.35s var(--ease-soft);
+  }
+  .gnav-drawer-link:first-child {
+    border-top: 1px solid rgba(248, 220, 160, 0.13);
+  }
+  .gnav-drawer-link:hover {
+    background: linear-gradient(90deg, rgba(248, 220, 160, 0.07), rgba(248, 220, 160, 0) 72%);
+    padding-left: 0.75rem;
+  }
+  .gnav-drawer-link:active {
+    background: rgba(248, 220, 160, 0.12);
+  }
+  .gnav-drawer-idx {
+    font-family: var(--font-zhuan);
+    font-size: 0.92rem;
+    color: rgba(248, 220, 160, 0.46);
+  }
+  .gnav-drawer-label {
+    font-family: var(--font-kai);
+    font-size: 1.16rem;
+    letter-spacing: 0.3em;
+    color: var(--gn-bone-dim);
+    transition: color 0.35s var(--ease-soft);
+  }
+  .gnav-drawer-glyph {
+    font-family: var(--font-zhuan);
+    font-size: 1.3rem;
+    line-height: 1;
+    color: transparent;
+    background: linear-gradient(160deg, var(--gn-gold-bright), var(--gn-gold-deep));
+    -webkit-background-clip: text;
+    background-clip: text;
+    opacity: 0.4;
+    transition: opacity 0.35s var(--ease-soft);
+  }
+  .gnav-drawer-link.is-active {
+    background: linear-gradient(90deg, rgba(248, 220, 160, 0.09), rgba(248, 220, 160, 0) 72%);
+  }
+  .gnav-drawer-link.is-active .gnav-drawer-idx {
+    color: var(--gn-gold-bright);
+  }
+  .gnav-drawer-link.is-active .gnav-drawer-label {
+    color: var(--gn-gold-edge);
+  }
+  .gnav-drawer-link.is-active .gnav-drawer-glyph {
+    opacity: 1;
+  }
+
+  .gnav-drawer-foot {
+    margin-top: 1.2rem;
+    text-align: center;
+    font-family: var(--font-kai);
+    font-size: 0.72rem;
+    letter-spacing: 0.42em;
+    color: rgba(248, 220, 160, 0.32);
+  }
+
+  /* ---------- 焦点可见 ---------- */
+
+  .gnav a:focus-visible,
+  .gnav button:focus-visible {
+    outline: 1px solid var(--gn-gold-bright);
+    outline-offset: 3px;
+  }
+
+  /* ---------- 窄屏 ---------- */
+
+  @media (max-width: 720px) {
+    :global(html) {
+      --gnav-h: 62px;
+    }
+    .gnav-links,
+    .gnav-orn {
+      display: none;
+    }
+    .gnav-tools {
+      margin-left: auto;
+    }
+    .gnav-burger {
+      display: flex;
+    }
+    .gnav-icon {
+      width: 36px;
+      height: 36px;
+    }
+    .gnav-inner {
+      gap: 0.7rem;
+    }
+    .gnav-seal {
+      width: 38px;
+      height: 38px;
+    }
+    .gnav-wordmark b {
+      font-size: 0.95rem;
+      letter-spacing: 0.28em;
+    }
+    .gnav-wordmark small {
+      font-size: 0.5rem;
+      letter-spacing: 0.38em;
+    }
+    .gnav::after {
+      left: 4%;
+      right: 4%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gnav,
+    .gnav::after,
+    .gnav-seal,
+    .gnav-seal::before,
+    .gnav-seal::after,
+    .gnav-link,
+    .gnav-link::after,
+    .gnav-burger,
+    .gnav-burger span,
+    .gnav-drawer,
+    .gnav-scrim,
+    .gnav-drawer-link,
+    .gnav-drawer-label,
+    .gnav-drawer-glyph {
+      transition: none;
+    }
+  }
+</style>
