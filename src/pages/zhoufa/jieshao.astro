@@ -1,7 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageIntro from '../../components/PageIntro.astro';
-import Footer from '../../components/Footer.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -23,7 +22,7 @@ const blocks = [
 ];
 ---
 
-<Base title="咒法 · 法门介绍" description="咒法门介绍：以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。循门而入，先识其门，再问其径。">
+<Base title="咒法 · 法门介绍" description="咒法门介绍：以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。循门而入，先识其门，再问其径。" navVariant="gold">
   <PageIntro
     mark="咒"
     title="咒法"
@@ -59,7 +58,6 @@ const blocks = [
     </div>
   </section>
 
-  <Footer />
 </Base>
 
 <style>

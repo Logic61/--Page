@@ -423,6 +423,24 @@ html[data-theme='light'] .drawer {
   .wrap { width: min(100% - 2.2rem, var(--maxw)); }
 }
 
+/* ---------- 玄金顶栏下的首屏避让 ----------
+   GoldNav 为 sticky 且占据文档流，页首不再需要为 fixed 导航预留高度，
+   否则会多出约一个栏高的空白。 */
+
+main.nav-gold > .page-intro {
+  padding-top: 4.6rem;
+}
+
+main.nav-gold > .hero {
+  min-height: calc(100dvh - var(--gnav-h));
+}
+
+@media (max-width: 1000px) {
+  main.nav-gold > .page-intro {
+    padding-top: 2.6rem;
+  }
+}
+
 /* ---------- page intro (sub-pages) ---------- */
 
 .page-intro {

@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 1000" width="3000" height="1000" fill="none" stroke="#dfb878" stroke-width="1.05" stroke-linecap="round" stroke-linejoin="round">
+  <!-- 描金山水 · v10 清爽 磅礴 (clean + sweeping)
+       大气 comes from peak heights and silhouette weight.
+       清爽 comes from restraint — fewer elements, more
+       breathing room around each one. Composition:
+
+         · ONE towering central peak (the focal mass, x=1500)
+         · TWO flanking peaks (asymmetric, x=600 and x=2400)
+         · THREE ridge layers (far / mid / front) for depth
+         · ONE massive sun upper-right
+         · THREE birds in a single group
+         · ONE sailboat on the water for scale
+         · ONE pine tree on a near cliff, left side
+         · Simple undulating water (3 lines)
+         · No temples, no bridges, no pagodas — let the
+           mountains themselves carry the 磅礴
+
+       Strokes stay clean and confident. -->
+
+  <defs>
+    <radialGradient id="sunCore" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#fff6d0" stop-opacity="0.55"/>
+      <stop offset="0.55" stop-color="#f6d9a0" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#f6d9a0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="sunHalo" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#f6d9a0" stop-opacity="0.32"/>
+      <stop offset="0.55" stop-color="#dfb878" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#dfb878" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- ===== Sun, upper-right ===== -->
+  <circle cx="2350" cy="260" r="200" fill="url(#sunHalo)" stroke="none"/>
+  <circle cx="2350" cy="260" r="130" fill="url(#sunCore)" stroke="none"/>
+  <circle cx="2350" cy="260" r="108" stroke-width="0.7" opacity="0.18"/>
+  <circle cx="2350" cy="260" r="80"  stroke-width="0.9" opacity="0.45"/>
+  <circle cx="2350" cy="260" r="54"  stroke-width="1.3" opacity="0.85"/>
+
+  <!-- ===== Sky: — just 3 birds in one group, off to the upper-left ===== -->
+  <g stroke-width="0.85" opacity="0.8">
+    <path d="M 480 240 q 5 -6 10 0 q 5 -6 10 0"/>
+    <path d="M 560 270 q 4 -5 8 0 q 4 -5 8 0"/>
+    <path d="M 640 250 q 4 -5 8 0 q 4 -5 8 0" opacity="0.7"/>
+  </g>
+
+  <!-- ===== Ridge A — far, faint silhouette of 4 peaks ===== -->
+  <g opacity="0.38" stroke-width="0.9">
+    <path d="M -20 460
+             C  120 440, 240 460, 360 446
+             C  480 320,  600 360,  720 446
+             C  860 462, 1000 446, 1140 458
+             C 1320 280, 1480 320, 1620 458
+             C 1760 446, 1900 462, 2040 452
+             C 2200 360, 2360 400, 2520 452
+             C 2680 462, 2840 446, 3020 452"/>
+    <path d="M 360 460 C 460 446, 560 460, 660 446" stroke-width="0.7" opacity="0.55"/>
+    <path d="M 1340 460 C 1440 446, 1540 460, 1640 446" stroke-width="0.7" opacity="0.55"/>
+    <path d="M 2280 460 C 2380 446, 2480 460, 2580 446" stroke-width="0.7" opacity="0.55"/>
+  </g>
+
+  <!-- ===== Ridge B — mid, the main silhouettes rise here ===== -->
+  <g opacity="0.78" stroke-width="1.2">
+    <!-- Sweeping silhouette: 3 prominent peaks + 2 supporting ones -->
+    <path d="M -20 620
+             C  140 580, 280 610, 420 588
+             C  540 480, 660 600, 820 596
+             C 1000 612, 1180 580, 1340 596
+             C 1380 380, 1460 240, 1500 140
+             C 1540 240, 1620 380, 1660 596
+             C 1820 612, 2000 580, 2160 596
+             C 2300 460, 2440 580, 2620 596
+             C 2780 612, 2900 588, 3020 596"/>
+
+    <!-- 2 inner contour lines on the central peak only (the focal mass) -->
+    <path d="M 1420 400 C 1460 320, 1500 240, 1500 160" stroke-width="0.75" opacity="0.55"/>
+    <path d="M 1580 400 C 1540 320, 1500 240, 1500 160" stroke-width="0.75" opacity="0.55"/>
+
+    <!-- Light contour on the right flanking peak -->
+    <path d="M 2400 480 C 2440 540, 2480 580, 2520 596" stroke-width="0.7" opacity="0.5"/>
+
+    <!-- Light contour on the left flanking peak -->
+    <path d="M 660 500 C 700 560, 740 590, 780 600" stroke-width="0.7" opacity="0.5"/>
+  </g>
+
+  <!-- ===== Ridge C — front, closer mountains, sweeping lower ===== -->
+  <g opacity="0.92" stroke-width="1.35">
+    <path d="M -20 820
+             C  180  780, 360  800, 540  780
+             C  720  760, 900  800, 1080 780
+             C 1260  760, 1440 800, 1620 780
+             C 1800  760, 1980 800, 2160 780
+             C 2340  760, 2520 800, 2700 780
+             C 2880  770, 3000 800, 3020 800"/>
+    <path d="M 280 808 C 420 778, 560 808, 700 786" stroke-width="0.85" opacity="0.65"/>
+    <path d="M 1340 808 C 1480 778, 1620 808, 1760 786" stroke-width="0.85" opacity="0.65"/>
+    <path d="M 2420 808 C 2560 778, 2700 808, 2840 786" stroke-width="0.85" opacity="0.65"/>
+  </g>
+
+  <!-- ===== Mist band: ONE only, between the mid and front ridges ===== -->
+  <g stroke-width="0.85" opacity="0.5">
+    <path d="M 80 740 C 200 734, 320 734, 440 740"/>
+    <path d="M 760 760 C 880 754, 1000 754, 1120 760"/>
+    <path d="M 1480 740 C 1600 734, 1720 734, 1840 740"/>
+    <path d="M 2120 760 C 2240 754, 2360 754, 2480 760"/>
+    <path d="M 2760 740 C 2860 734, 2960 734, 3020 740"/>
+  </g>
+
+  <!-- ===== ONE pine tree on a near cliff, left side ===== -->
+  <g transform="translate(420,720)">
+    <!-- Curving trunk -->
+    <path d="M 0 200
+             C 12 160, -4 120, 12 80
+             C 20 50, 6 28, 16 0" stroke-width="1.7"/>
+    <!-- Pine needle fans -->
+    <path d="M 16 0
+             C -16 -5, -38 -12, -54 -24
+             C -38 -16, -8 -12, 16 -5"/>
+    <path d="M 16 0
+             C 38 -5, 60 -12, 78 -24
+             C 60 -16, 30 -12, 16 -5"/>
+    <path d="M 12 50
+             C -20 38, -42 26, -60 8
+             C -42 26, -14 38, 12 44"/>
+    <path d="M 12 50
+             C 38 38, 60 26, 78 8
+             C 60 26, 32 38, 12 44"/>
+    <path d="M 8 100
+             C -14 90, -28 80, -42 70
+             C -28 80, -12 90, 8 94"/>
+  </g>
+
+  <!-- ===== ONE sailboat in the foreground water, off-centre ===== -->
+  <g transform="translate(1080,920)">
+    <path d="M -68 0
+             C -46 18, 46 18, 68 0" stroke-width="1.5"/>
+    <path d="M -56 -3 C -30  0, 30  0, 56 -3" stroke-width="0.85" opacity="0.7"/>
+    <line x1="0" y1="-3" x2="0" y2="-80" stroke-width="1.1"/>
+    <path d="M 0 -80
+             C 34 -80, 48 -50, 48 -18
+             C 48 -4, 26 4, 0 4
+             Z" stroke-width="1.2"/>
+    <path d="M 0 -62 C 18 -62, 32 -46, 32 -26" stroke-width="0.8" opacity="0.6"/>
+    <path d="M 0 -44 C 14 -44, 24 -32, 24 -16" stroke-width="0.75" opacity="0.55"/>
+    <path d="M 0 -28 C 8 -28, 16 -22, 16 -12" stroke-width="0.7" opacity="0.5"/>
+  </g>
+
+  <!-- ===== Water: just 3 sweeping undulating curves, calm ===== -->
+  <g stroke-width="0.9">
+    <path d="M -20 920
+             C 280 912, 600 926, 920 918
+             C 1240 910, 1560 926, 1880 918
+             C 2200 910, 2520 926, 2840 918
+             C 2960 914, 3000 918, 3020 918" opacity="0.7"/>
+    <path d="M -20 950
+             C 320 944, 680 954, 1040 948
+             C 1400 942, 1760 954, 2120 948
+             C 2480 942, 2840 948, 3020 948" opacity="0.5"/>
+    <path d="M -20 980
+             C 380 974, 800 982, 1220 976
+             C 1640 970, 2060 982, 2480 976
+             C 2840 970, 3000 976, 3020 976" opacity="0.32"/>
+
+    <!-- Minimal ripple accents around the boat -->
+    <path d="M 1000 952 C 1018 950, 1036 950, 1054 952" opacity="0.6"/>
+    <path d="M 1140 956 C 1158 954, 1176 954, 1194 956" opacity="0.55"/>
+    <path d="M 1060 980 C 1076 978, 1092 978, 1108 980" opacity="0.4"/>
+  </g>
+</svg>

@@ -1,15 +1,22 @@
 ---
 import '../styles/global.css';
 import Atmosphere from '../components/Atmosphere.astro';
+import GoldNav from '../components/GoldNav.astro';
 import searchIndex from '../data/search-index.json';
 
 interface Props {
   title?: string;
   description?: string;
   hideNav?: boolean;
+  /** 'gold' 时改用玄金顶栏（GoldNav），并保留搜索与明暗切换 */
+  navVariant?: 'default' | 'gold';
 }
 
-const { title = '上古祝门 · 古巫祝脉', description = '古巫祝脉，上古祝门，传承祝法之道。祝，咒也。以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。', hideNav = false } = Astro.props;
+const { title = '上古祝门 · 古巫祝脉', description = '古巫祝脉，上古祝门，传承祝法之道。祝，咒也。以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。', hideNav = false, navVariant = 'default' } = Astro.props;
+
+const goldNav = navVariant === 'gold';
+const showDefaultNav = !hideNav && !goldNav;
+const showSearch = !hideNav || goldNav;
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const path = (Astro.url.pathname.replace(/\/$/, '') || '/').replace(base, '') || '/';
@@ -50,7 +57,9 @@ const isActive = (item: (typeof nav)[number]) =>
   <body>
     <Atmosphere />
 
-    {!hideNav && (
+    {goldNav && <GoldNav showSearch showTheme />}
+
+    {showDefaultNav && (
       <header class="nav" id="nav">
         <div class="nav-inner wrap">
           <a class="brand" href={`${base}/`}>
@@ -79,7 +88,7 @@ const isActive = (item: (typeof nav)[number]) =>
       </header>
     )}
 
-    {!hideNav && (
+    {showDefaultNav && (
       <div class="drawer" id="mobileMenu" aria-hidden="true">
         <nav class="drawer-links" aria-label="移动端导航">
           {
@@ -91,8 +100,14 @@ const isActive = (item: (typeof nav)[number]) =>
       </div>
     )}
 
-    {!hideNav && (
-      <div class="search-overlay" id="searchOverlay" aria-hidden="true" role="dialog" aria-label="全局搜索">
+    {showSearch && (
+      <div
+        class:list={['search-overlay', { 'is-gold': goldNav }]}
+        id="searchOverlay"
+        aria-hidden="true"
+        role="dialog"
+        aria-label="全局搜索"
+      >
         <div class="search-panel">
           <div class="search-bar">
             <input id="searchInput" type="search" placeholder="搜索修炼常识、秘闻…（Esc 关闭）" autocomplete="off" />
@@ -105,7 +120,7 @@ const isActive = (item: (typeof nav)[number]) =>
       </div>
     )}
 
-    <main id="top">
+    <main id="top" class:list={{ 'nav-gold': goldNav }}>
       <slot />
     </main>
 
@@ -251,6 +266,8 @@ const isActive = (item: (typeof nav)[number]) =>
     transition: opacity 0.3s var(--ease-soft), visibility 0.3s;
   }
   .search-overlay[aria-hidden='false'] { visibility: visible; opacity: 1; }
+  /* 玄金顶栏层级更高，搜索浮层须压在其上 */
+  .search-overlay.is-gold { z-index: 80; }
 
   .search-panel { width: min(100%, 44rem); }
   .search-bar { display: flex; gap: 0.6rem; }

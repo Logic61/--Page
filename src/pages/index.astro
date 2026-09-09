@@ -1,7 +1,9 @@
 ---
 // 法脉总览（首页）：主体是《分支图》本身——它就是首页的目录地图。
 // 图层结构（稳定方案）：黑背景 → 完整明亮法阵(z0) → 树贴图(z1，真 alpha) → 热点(z3)。
-// 树贴图用 分支图-final.png（1366×2049，自带 alpha：树体/牌匾不透明，背景透明）。
+// 树贴图用 分支图-final-gold.png（1366×2049，由 分支图-final.png 经 scripts/recolor-tree-to-gold.mjs 重新着色：
+// 保留 alpha 与 luma 梯度，每像素按亮度等比映射到 #fce18c，与法阵符文环同源色，
+// 再叠同 filter 链时渲染色像素级一致 → 树与法阵浑然一体）。
 // 法阵保持高亮度鎏金，不做压暗处理。
 import NineStarArray from '../components/ritual/NineStarArray.astro';
 
@@ -154,8 +156,9 @@ const branches = [
           <div class="array-layer" aria-hidden="true">
             <NineStarArray structureDim={0} />
           </div>
-          <!-- 树贴图（真 alpha 版）：树体遮挡阵纹，四处节点圆盘镂空透阵 -->
-          <img class="map-img" src={`${base}/分支图-final.png`} alt="古巫祝脉分支图：法门、修炼常识、秘闻、闲文" loading="eager" />
+          <!-- 树贴图（真 alpha 版）：树体遮挡阵纹，四处节点圆盘镂空透阵。
+               PNG 源色为 #fce18c 等比缩放后的金梯度，与 .a-rune 源色同 → 叠同 filter 后像素级一致 -->
+          <img class="map-img" src={`${base}/分支图-final-gold.png`} alt="古巫祝脉分支图：法门、修炼常识、秘闻、闲文" loading="eager" />
           {branches.map((b) => (
             <a
               class="map-hotspot"
@@ -374,9 +377,9 @@ const branches = [
   }
 
   /* 主体图（树）：真 alpha 贴图，位于法阵上层（z1 > 阵 z0）。
-     与法阵严格同 filter 链：sepia(0.4) 把树源图里偏冷黄的高光压成琥珀棕，
-     saturate 1.0 不再放大黄度；hue-rotate(0deg) 维持天然暖色调；
-     brightness 0.88 比法阵 0.82 略高保留主体性。 */
+     与法阵符文环 .a-rune 严格同 filter 链（sepia + hue-rotate + saturate + brightness 一致），
+     且取消独立的 contrast 加成——让树金与阵金渲染色完全重合，
+     树与法阵浑然一体，不再以亮度差切出主体性边界。 */
   .map-img {
     position: relative;
     z-index: 1;
@@ -384,7 +387,7 @@ const branches = [
     width: 100%;
     height: auto;
     filter:
-      sepia(0.4) hue-rotate(0deg) saturate(1.0) brightness(0.88) contrast(1.05)
+      sepia(0.4) hue-rotate(0deg) saturate(1.0) brightness(0.82)
       drop-shadow(0 0 2px rgba(255, 220, 120, 0.3))
       drop-shadow(0 0 6px rgba(190, 140, 45, 0.16));
     /* 边框淡化融入背景：四周羽化（贴图暗底已透明，此处只收残留纹理边缘） */
@@ -541,11 +544,15 @@ const branches = [
     overflow: visible;
   }
 
-  /* 亮度分层：符文环与其两侧轨道保持全亮（树金 #efcc57 / rgb(239,204,87)）；
-     其余结构线条（主环/九芒/莲旋/阵眼/定核）压暗一档 */
-  .array-bg .a-dim { opacity: 0.5; }
+  /* 亮度分层：与树的满金梯度对齐，让法阵与树浑然一体。
+     旧版 .a-dim 0.5 + .a-bright 0.55/brightness 0.78 让结构层只剩 ~20% 亮度，
+     与满色树比金感不足，视觉上树跳出法阵。现统一抬亮：
+       - 结构层 .a-dim 0.5 → 0.85（保留最末一档暗度区分，但不再黑压压）
+       - .a-bright opacity 0.55 → 0.95，brightness 0.78 → 0.88（贴近树亮金）
+       - .a-rune 保持满亮（与树亮部像素级一致） */
+  .array-bg .a-dim { opacity: 0.85; }
   .array-bg .a-track { opacity: 1; }
-  .array-bg .a-bright { color: #efcc57; opacity: 0.55; filter: sepia(0.4) hue-rotate(0deg) saturate(1.0) brightness(0.78); }
+  .array-bg .a-bright { color: #efcc57; opacity: 0.95; filter: sepia(0.4) hue-rotate(0deg) saturate(1.0) brightness(0.88); }
   /* 符文环：与中心树 .map-img 严格同 filter 链（sepia + hue-rotate + saturate 一致），
      源色 #fce18c 经同 filter 后渲染色与树亮金完全重合在琥珀色（hue≈42-46°），
      树与法阵为同一片金。 */
@@ -557,7 +564,7 @@ const branches = [
     stroke: currentColor;
     stroke-width: 5;
     stroke-dasharray: 3 10;
-    opacity: 0.45;
+    opacity: 0.75;
   }
   .array-bg .a-ring {
     fill: none;
@@ -613,14 +620,14 @@ const branches = [
     stroke: currentColor;
     stroke-width: 3.6;
   }
-  /* 雷纹线条：比符文环暗一档 */
+  /* 雷纹线条：比符文环暗一档（与树亮金主调统一，仍保留暗金纹理） */
   .array-bg #thunder-square path,
   .array-bg #thunder-hook path,
   .array-bg #thunder-wave path,
   .array-bg #thunder-hook circle {
-    opacity: 0.45;
+    opacity: 0.7;
   }
-  /* 其余纹样单元（云纹/窃曲/回纹/铜芯）：同样压暗，让符文环主导 */
+  /* 其余纹样单元（云纹/窃曲/回纹/铜芯）：同上调亮，与树暗金同色族 */
   .array-bg #cloud-single path,
   .array-bg #cloud-double path,
   .array-bg #cloud-s path,
@@ -634,7 +641,7 @@ const branches = [
   .array-bg #bead-border circle,
   .array-bg #quequ circle,
   .array-bg #kui-curve circle {
-    opacity: 0.5;
+    opacity: 0.75;
   }
   .array-bg #cloud-single circle,
   .array-bg #cloud-double circle,

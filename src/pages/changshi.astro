@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import Footer from '../components/Footer.astro';
+import GoldNav from '../components/GoldNav.astro';
 import knowledge from '../data/knowledge.json';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -17,10 +17,17 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
 <Base title="修炼常识 · 上古祝门" description="按修炼基础、师承传承、修行境界、祝法养生、宗教神道等类别整理的上古祝门问答与修炼常识，支持全文检索。" hideNav={true}>
   <div class="changshi-scope">
 
-    <a class="changshi-back" href={base + '/'}>
-      <span class="changshi-back-arrow" aria-hidden="true">←</span>
-      <span class="changshi-back-text kai">返回总目录</span>
-    </a>
+    {/* 整页背景：用户提供的「山河金影」图（public/bg/shanhe-gold.webp）。
+        原图顶部带站点导航栏，已裁掉（y 0-71），只保留山河星月水影画面。
+        视口固定、cover 铺满，页面滚动时背景不动。 */}
+    <div
+      class="changshi-pattern"
+      aria-hidden="true"
+      style={`background-image:url('${base}/bg/shanhe-gold.webp')`}
+    ></div>
+
+    {/* 顶部栏：玄金令牌，五个板块（首页 / 法门 / 秘闻 / 修炼常识 / 闲文） */}
+    <GoldNav />
 
     <section class="changshi-hero" aria-labelledby="changshi-hero-title">
       <div class="changshi-grain" aria-hidden="true"></div>
@@ -110,7 +117,6 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
       </div>
     </section>
 
-    <Footer />
   </div>
 </Base>
 
@@ -120,28 +126,31 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
      Same black + gold tokens as miwen, scoped here. Uses
      `html[data-theme]` prefix so the override beats the global
      `html[data-theme='light']` rule in src/styles/global.css.
-     ============================================================ */
+
+     Tokens match the 鎏金黑金 chat-bubble palette: warm near-black
+     ground, bright warm-gold type, and bold gilt borders that read
+     clearly against the dark ground. */
 
   html[data-theme] .changshi-scope {
-    --ink: #050402;
-    --ink-2: #0a0805;
-    --ink-3: #110d07;
-    --ink-line: rgba(201, 169, 97, 0.14);
-    --bone: #d8be7a;
-    --bone-dim: #9c8654;
-    --bone-faint: #5e4f30;
+    --ink: #0a0604;
+    --ink-2: #100b07;
+    --ink-3: #18120b;
+    --ink-line: rgba(248, 220, 160, 0.2);
+    --bone: #f0d68e;
+    --bone-dim: #c4a878;
+    --bone-faint: #7a6840;
 
-    --heading: #ecd28a;
-    --gold: #c9a961;
-    --gold-bright: #ecc879;
-    --gold-deep: #8a6f2e;
+    --heading: #f8dfa0;
+    --gold: #dfb878;
+    --gold-bright: #f8dca0;
+    --gold-deep: #a88440;
     /* brightest highlight stop, used for liquid-gold gradient text */
-    --gold-edge: #fff4cc;
-    --gold-glow: rgba(236, 200, 121, 0.45);
-    --gold-line: rgba(201, 169, 97, 0.22);
-    --gold-line-strong: rgba(201, 169, 97, 0.5);
+    --gold-edge: #fff8d8;
+    --gold-glow: rgba(248, 220, 160, 0.6);
+    --gold-line: rgba(248, 220, 160, 0.42);
+    --gold-line-strong: rgba(248, 220, 160, 0.72);
 
-    --panel-soft: rgba(201, 169, 97, 0.04);
+    --panel-soft: rgba(248, 220, 160, 0.08);
 
     background: var(--ink);
     color: var(--bone);
@@ -149,52 +158,35 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
   }
 
   /* ============================================================
-     Back link + Hero
+     整页背景 — 用户提供的「山河金影」图
+     public/bg/shanhe-gold.webp（原图顶部导航栏已裁掉）
+     视口固定、cover 铺满、不重复；页面滚动时背景不动。
+     画面中央留黑，正文与标题压在上面；左右为金线山影与亭台。
      ============================================================ */
-
-  .changshi-back {
+  .changshi-pattern {
     position: fixed;
-    top: 1.4rem;
-    left: 1.4rem;
-    z-index: 50;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.5rem 0.95rem;
-    border: 1px solid var(--gold-line);
-    border-radius: 2px;
-    background: rgba(5, 4, 2, 0.55);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    color: var(--gold-bright);
-    font-family: var(--font-kai);
-    font-size: 0.84rem;
-    letter-spacing: 0.28em;
-    transition:
-      border-color 0.3s var(--ease-soft),
-      color 0.3s var(--ease-soft),
-      transform 0.25s var(--ease-soft),
-      background 0.3s var(--ease-soft);
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
   }
-  .changshi-back:hover {
-    border-color: var(--gold);
-    color: #fff0c4;
-    background: rgba(201, 169, 97, 0.08);
-    transform: translateX(-2px);
+  @media (max-width: 640px) {
+    /* 窄屏 cover 只露中间一条，居中取景最透气（两侧山影会被裁掉） */
+    .changshi-pattern {
+      background-position: 50% 50%;
+    }
   }
-  .changshi-back-arrow {
-    display: inline-block;
-    color: var(--gold);
-    transition: transform 0.3s var(--ease-soft), color 0.3s var(--ease-soft);
-  }
-  .changshi-back:hover .changshi-back-arrow {
-    transform: translateX(-3px);
-    color: var(--gold-bright);
-  }
+
+  /* ============================================================
+     Hero
+     ============================================================ */
 
   .changshi-hero {
     position: relative;
-    padding: clamp(5rem, 9vw, 7rem) 0 clamp(3rem, 6vw, 5rem);
+    /* 顶部栏已在文档流中占位，首屏只需留出呼吸感 */
+    padding: clamp(2.6rem, 5vw, 4rem) 0 clamp(3rem, 6vw, 5rem);
     overflow: hidden;
     isolation: isolate;
     border-bottom: 1px solid var(--gold-line);
@@ -341,7 +333,18 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
      Knowledge base section
      ============================================================ */
 
-  .kb { padding-block: clamp(2.5rem, 5vw, 4rem); }
+  .kb {
+    position: relative;
+    z-index: 1; /* ride above the fixed panorama */
+    padding-block: clamp(2.5rem, 5vw, 4rem);
+    /* settle the content on solid ground so the fixed backdrop
+       stays atmospheric but never fights the reading。
+       数值与「秘闻」页 .miwen-list 保持一致。 */
+    background: linear-gradient(180deg,
+      rgba(10, 6, 4, 0) 0%,
+      rgba(10, 6, 4, 0.6) 9rem,
+      rgba(10, 6, 4, 0.72) 100%);
+  }
 
   /* Notice: amber-gold instead of cinnabar */
   .kb-notice {
@@ -539,7 +542,7 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
      ============================================================ */
 
   @media (max-width: 720px) {
-    .changshi-hero { padding: 5rem 0 2.5rem; }
+    .changshi-hero { padding: 2.2rem 0 2.5rem; }
     .changshi-hero-wrap {
       grid-template-columns: 1fr;
       gap: 1.6rem;
@@ -551,22 +554,14 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
       height: 7rem;
     }
     .changshi-rule { margin-inline: auto; }
+    /* The fixed panorama stays on mobile too; it is masked to the
+       viewport edges and sits below the content. */
   }
 
   @media (max-width: 600px) {
     .k-q { grid-template-columns: 1fr auto; gap: 0.6rem; padding: 0.9rem 0.4rem; }
     .k-a { padding-left: 0.4rem; }
     .kb-notice { flex-direction: column; gap: 0.5rem; }
-  }
-
-  @media (max-width: 560px) {
-    .changshi-back {
-      top: 0.9rem;
-      left: 0.9rem;
-      padding: 0.4rem 0.75rem;
-      font-size: 0.78rem;
-      letter-spacing: 0.22em;
-    }
   }
 
   /* ============================================================
@@ -580,9 +575,7 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
     .k-tab,
     .k-q,
     .k-q-body b,
-    .k-chevron,
-    .changshi-back,
-    .changshi-back-arrow { transition: none; }
+    .k-chevron { transition: none; }
   }
 </style>
 
@@ -643,5 +636,3 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
   openHash();
   apply();
 </script>
-</content>
-</invoke>
