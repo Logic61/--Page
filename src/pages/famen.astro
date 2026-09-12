@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import PageIntro from '../components/PageIntro.astro';
+import GoldNav from '../components/GoldNav.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -61,48 +61,303 @@ const gates = [
 ];
 ---
 
-<Base title={title} description={description}>
-  <PageIntro
-    mark="法"
-    title="法门"
-    sub="诸法之门，循门而入。上古祝门之法，分作五支，各承一脉，门门有径，径径通幽。"
-    meta="分支目录 · 五门"
-  />
+<Base title={title} description={description} hideNav={true}>
+  <div class="famen-scope">
 
-  <section class="gates">
-    <div class="wrap">
-      <div class="gate-grid">
-        {
-          gates.map((g, i) => (
-            <article class="gate reveal" style={`--c:${g.accent};`} data-d={i + 1}>
-              <a class="gate-cover" href={`${base}${g.route}`} aria-label={`进入${g.name}`}></a>
-              <span class="gate-glyph zhuan" aria-hidden="true">{g.glyph}</span>
-              <div class="gate-body">
-                <h2 class="gate-name kai">{g.name}</h2>
-                <p class="gate-sub">{g.subtitle}</p>
-                <p class="gate-desc">{g.desc}</p>
-              </div>
-              <div class="gate-foot-row">
-                <span class="gate-enter kai" aria-hidden="true">入 ›</span>
-                <nav class="gate-links kai" aria-label={`${g.name}入口`}>
-                  <a href={`${base}${g.intro}`}>介绍</a>
-                  <span class="sep" aria-hidden="true">·</span>
-                  <a href={`${base}${g.baoming}`}>报名</a>
-                </nav>
-              </div>
-            </article>
-          ))
-        }
+    {/* 整页背景：与「修炼常识」同源的「山河金影」图（public/bg/shanhe-gold.webp）。
+        原图顶部带站点导航栏，已裁掉（y 0-71），只保留山河星月水影画面。
+        视口固定、cover 铺满，页面滚动时背景不动。 */}
+    <div
+      class="famen-pattern"
+      aria-hidden="true"
+      style={`background-image:url('${base}/bg/shanhe-gold.webp')`}
+    ></div>
+
+    {/* 顶部栏：玄金令牌，五个板块（首页 / 法门 / 秘闻 / 修炼常识 / 闲文） */}
+    <GoldNav />
+
+    <section class="famen-hero" aria-labelledby="famen-hero-title">
+      <div class="famen-grain" aria-hidden="true"></div>
+      <div class="famen-vignette" aria-hidden="true"></div>
+
+      <div class="wrap famen-hero-wrap">
+        <div class="famen-mark-block reveal">
+          <span class="famen-mark-frame" aria-hidden="true"></span>
+          <span class="famen-mark zhuan">法</span>
+        </div>
+
+        <div class="famen-hero-text reveal" data-d="2">
+          <p class="famen-eyebrow kai">法 门 · 五 门 各 承 一 脉</p>
+          <h1 id="famen-hero-title" class="famen-title kai">法门</h1>
+          <div class="famen-rule" aria-hidden="true"></div>
+          <p class="famen-sub">诸法之门，循门而入。上古祝门之法，分作五支，各承一脉，门门有径，径径通幽。</p>
+          <p class="famen-meta kai">分支目录 · 五门</p>
+        </div>
       </div>
+    </section>
 
-      <p class="gate-foot kai">法未择人，人自择法 · 五门同源，各有所传</p>
-    </div>
-  </section>
+    <section class="gates" aria-labelledby="gates-title">
+      <div class="wrap">
+        <h2 id="gates-title" class="visually-hidden">五门目录</h2>
 
+        <div class="gate-grid">
+          {
+            gates.map((g, i) => (
+              <article class="gate reveal" style={`--c:${g.accent};`} data-d={i + 1}>
+                <a class="gate-cover" href={`${base}${g.route}`} aria-label={`进入${g.name}`}></a>
+                <span class="gate-glyph zhuan" aria-hidden="true">{g.glyph}</span>
+                <div class="gate-body">
+                  <h3 class="gate-name kai">{g.name}</h3>
+                  <p class="gate-sub">{g.subtitle}</p>
+                  <p class="gate-desc">{g.desc}</p>
+                </div>
+                <div class="gate-foot-row">
+                  <span class="gate-enter kai" aria-hidden="true">入 ›</span>
+                  <nav class="gate-links kai" aria-label={`${g.name}入口`}>
+                    <a href={`${base}${g.intro}`}>介绍</a>
+                    <span class="sep" aria-hidden="true">·</span>
+                    <a href={`${base}${g.baoming}`}>报名</a>
+                  </nav>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+
+        <p class="gate-foot kai">法未择人，人自择法 · 五门同源，各有所传</p>
+      </div>
+    </section>
+
+  </div>
 </Base>
 
 <style>
-  .gates { padding-top: clamp(2.5rem, 5vw, 4rem); padding-bottom: clamp(4rem, 9vw, 7rem); }
+  /* ============================================================
+     法门 · 玄金之页
+     与「修炼常识」同源：同一套黑金令牌（tokens）、同一张
+     「山河金影」底图、同一套首屏（印框 + 鎏金标题 + 金线）。
+     门卡沿用旧版结构，配色改压在同一套金线上。
+     用 `html[data-theme]` 前缀，确保盖过 global.css 里的浅色主题。
+     ============================================================ */
+
+  html[data-theme] .famen-scope {
+    --ink: #0a0604;
+    --ink-2: #100b07;
+    --ink-3: #18120b;
+    --ink-line: rgba(248, 220, 160, 0.2);
+    --bone: #f0d68e;
+    --bone-dim: #c4a878;
+    --bone-faint: #7a6840;
+
+    --heading: #f8dfa0;
+    --gold: #dfb878;
+    --gold-bright: #f8dca0;
+    --gold-deep: #a88440;
+    /* brightest highlight stop, used for liquid-gold gradient text */
+    --gold-edge: #fff8d8;
+    --gold-glow: rgba(248, 220, 160, 0.6);
+    --gold-line: rgba(248, 220, 160, 0.42);
+    --gold-line-strong: rgba(248, 220, 160, 0.72);
+
+    --panel-soft: rgba(248, 220, 160, 0.08);
+    /* 门卡混色用的亮金/暗金（旧版引用了这两个名字） */
+    --bronze-bright: var(--gold-bright);
+    --bronze-dim: var(--gold-deep);
+
+    background: var(--ink);
+    color: var(--bone);
+    position: relative;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* ============================================================
+     整页背景 — 「山河金影」（与修炼常识页同一张图）
+     视口固定、cover 铺满、不重复；页面滚动时背景不动。
+     ============================================================ */
+  .famen-pattern {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+  }
+
+  /* ============================================================
+     Hero（与修炼常识首屏同构）
+     ============================================================ */
+
+  .famen-hero {
+    position: relative;
+    padding: clamp(2.6rem, 5vw, 4rem) 0 clamp(3rem, 6vw, 5rem);
+    overflow: hidden;
+    isolation: isolate;
+    border-bottom: 1px solid var(--gold-line);
+  }
+  .famen-grain {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.45;
+    background-image:
+      radial-gradient(circle at 22% 28%, rgba(236, 200, 121, 0.08) 0%, transparent 38%),
+      radial-gradient(circle at 82% 18%, rgba(201, 169, 97, 0.06) 0%, transparent 42%),
+      radial-gradient(circle at 58% 82%, rgba(201, 169, 97, 0.04) 0%, transparent 50%);
+    mix-blend-mode: screen;
+  }
+  .famen-vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 80% at 50% 50%, transparent 35%, rgba(0, 0, 0, 0.65) 100%);
+  }
+  .famen-hero-wrap {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+
+  .famen-mark-block {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: clamp(8rem, 16vw, 12rem);
+    height: clamp(8rem, 16vw, 12rem);
+    flex: none;
+  }
+  .famen-mark-frame {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--gold-line-strong);
+    transform: rotate(45deg);
+  }
+  .famen-mark-frame::before,
+  .famen-mark-frame::after {
+    content: '';
+    position: absolute;
+    background: var(--gold);
+  }
+  .famen-mark-frame::before {
+    top: -1px;
+    left: -1px;
+    width: 1.2rem;
+    height: 1px;
+  }
+  .famen-mark-frame::after {
+    bottom: -1px;
+    right: -1px;
+    width: 1.2rem;
+    height: 1px;
+  }
+  .famen-mark {
+    font-family: var(--font-zhuan);
+    font-size: clamp(4rem, 9vw, 6.5rem);
+    line-height: 1;
+    color: transparent;
+    /* 鎏金 (liquid gold) gradient fill, animated */
+    background: linear-gradient(135deg,
+      var(--gold-edge) 0%,
+      var(--gold-bright) 18%,
+      var(--gold) 35%,
+      var(--gold-deep) 52%,
+      var(--gold) 68%,
+      var(--gold-bright) 85%,
+      var(--gold-edge) 100%);
+    background-size: 220% 220%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: famen-font-flow 9s ease-in-out infinite;
+    text-shadow: 0 0 28px var(--gold-glow);
+    user-select: none;
+  }
+  @keyframes famen-font-flow {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+
+  .famen-hero-text { min-width: 0; }
+  .famen-eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.42em;
+    color: var(--gold);
+    margin: 0;
+  }
+  .famen-title {
+    margin: 1rem 0 0;
+    font-weight: 600;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    letter-spacing: 0.32em;
+    line-height: 1.15;
+    /* Liquid-gold gradient applied to the title text */
+    color: transparent;
+    background: linear-gradient(180deg,
+      var(--gold-edge) 0%,
+      var(--gold-bright) 22%,
+      var(--gold) 50%,
+      var(--gold-deep) 80%,
+      var(--gold) 100%);
+    background-size: 100% 220%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: famen-title-flow 12s ease-in-out infinite;
+    text-shadow: 0 0 22px var(--gold-glow);
+  }
+  @keyframes famen-title-flow {
+    0%, 100% { background-position: 0% 0%; }
+    50%      { background-position: 0% 100%; }
+  }
+  .famen-rule {
+    height: 1px;
+    width: 4.5rem;
+    margin: 1.6rem 0 0;
+    background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+  }
+  .famen-sub {
+    margin: 1.4rem 0 0;
+    max-width: 38em;
+    color: var(--bone-dim);
+    font-size: 1rem;
+    line-height: 2.2;
+  }
+  .famen-meta {
+    margin: 1.2rem 0 0;
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    color: var(--bone-faint);
+  }
+
+  /* ============================================================
+     五门门卡
+     ============================================================ */
+
+  .gates {
+    position: relative;
+    z-index: 1; /* ride above the fixed panorama */
+    padding-block: clamp(2.5rem, 5vw, 4rem);
+    /* 让正文落在实处，固定底图只作气氛 */
+    background: linear-gradient(180deg,
+      rgba(10, 6, 4, 0) 0%,
+      rgba(10, 6, 4, 0.6) 9rem,
+      rgba(10, 6, 4, 0.72) 100%);
+  }
 
   .gate-grid {
     display: grid;
@@ -115,7 +370,7 @@ const gates = [
     display: flex;
     flex-direction: column;
     padding: clamp(1.6rem, 3vw, 2.4rem);
-    border: 1px solid var(--ink-line);
+    border: 1px solid var(--gold-line);
     border-radius: 4px;
     background: var(--panel-soft);
     overflow: hidden;
@@ -135,9 +390,9 @@ const gates = [
 
   .gate:hover,
   .gate:focus-visible {
-    border-color: color-mix(in srgb, var(--c) 60%, transparent);
+    border-color: color-mix(in srgb, var(--c) 62%, transparent);
     transform: translateY(-4px);
-    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.4), 0 0 0 1px color-mix(in srgb, var(--c) 24%, transparent) inset;
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.5), 0 0 0 1px color-mix(in srgb, var(--c) 26%, transparent) inset;
   }
   .gate:hover::before,
   .gate:focus-visible::before { opacity: 1; }
@@ -147,8 +402,8 @@ const gates = [
     font-size: clamp(3.4rem, 7vw, 4.6rem);
     line-height: 0.78;
     color: transparent;
-    -webkit-text-stroke: 1px var(--c);
-    text-shadow: 0 0 26px color-mix(in srgb, var(--c) 20%, transparent);
+    -webkit-text-stroke: 1px color-mix(in srgb, var(--c) 88%, var(--gold-bright));
+    text-shadow: 0 0 26px color-mix(in srgb, var(--c) 26%, transparent);
     margin-bottom: 1.3rem;
     user-select: none;
   }
@@ -160,11 +415,12 @@ const gates = [
     font-weight: 600;
     letter-spacing: 0.24em;
     color: var(--heading);
+    text-shadow: 0 0 18px rgba(248, 220, 160, 0.16);
   }
 
   .gate-sub {
     margin-top: 0.6rem;
-    color: var(--c);
+    color: color-mix(in srgb, var(--c) 74%, var(--gold-bright));
     font-family: var(--font-kai);
     font-size: 0.82rem;
     letter-spacing: 0.36em;
@@ -202,27 +458,27 @@ const gates = [
     padding: 0.32em 0.85em;
     border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
     border-radius: 999px;
-    color: color-mix(in srgb, var(--c) 82%, var(--bronze-bright));
+    color: color-mix(in srgb, var(--c) 70%, var(--gold-bright));
     font-size: 0.84rem;
     letter-spacing: 0.22em;
     text-decoration: none;
     transition: border-color 0.3s var(--ease-soft), background 0.3s var(--ease-soft), color 0.3s var(--ease-soft);
   }
   .gate-links a:hover {
-    border-color: var(--c);
-    background: color-mix(in srgb, var(--c) 16%, transparent);
-    color: var(--bronze-bright);
+    border-color: color-mix(in srgb, var(--c) 85%, transparent);
+    background: color-mix(in srgb, var(--c) 18%, transparent);
+    color: var(--gold-edge);
   }
   .gate-links .sep { color: var(--bone-faint); }
 
   .gate-enter {
-    color: color-mix(in srgb, var(--c) 82%, var(--bronze-bright));
+    color: color-mix(in srgb, var(--c) 70%, var(--gold-bright));
     font-size: 0.92rem;
     letter-spacing: 0.24em;
     transition: transform 0.35s var(--ease-soft), color 0.35s var(--ease-soft);
   }
   .gate:hover .gate-enter,
-  .gate:focus-within .gate-enter { transform: translateX(6px); color: var(--bronze-bright); }
+  .gate:focus-within .gate-enter { transform: translateX(6px); color: var(--gold-edge); }
 
   .gate-foot {
     margin-top: clamp(3rem, 6vw, 4.5rem);
@@ -232,7 +488,35 @@ const gates = [
     letter-spacing: 0.4em;
   }
 
+  /* ============================================================
+     Mobile / reduced motion
+     ============================================================ */
+
+  @media (max-width: 720px) {
+    .famen-hero { padding: 2.2rem 0 2.5rem; }
+    .famen-hero-wrap {
+      grid-template-columns: 1fr;
+      gap: 1.6rem;
+      justify-items: center;
+      text-align: center;
+    }
+    .famen-mark-block {
+      width: 7rem;
+      height: 7rem;
+    }
+    .famen-rule { margin-inline: auto; }
+  }
+
   @media (max-width: 560px) {
     .gate-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .famen-grain { opacity: 0.32; }
+    .famen-mark,
+    .famen-title { animation: none; }
+    .gate,
+    .gate-enter,
+    .gate-links a { transition: none; }
   }
 </style>

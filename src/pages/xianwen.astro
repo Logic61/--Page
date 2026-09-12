@@ -1,57 +1,354 @@
 ---
 import Base from '../layouts/Base.astro';
-import PageIntro from '../components/PageIntro.astro';
+import GoldNav from '../components/GoldNav.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const title = '闲文 · 上古祝门';
-const description = '闲文分支目录页（临时）：闲言散语，正在整理，即将开放。';
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const description = '闲文分支目录页：闲言散语，不成体系，聊备一格。此枝内容正在整理誊录，暂未开放。';
 ---
 
-<Base title={title} description={description}>
-  <PageIntro
-    mark="闲"
-    title="闲文"
-    sub="闲言散语，不成体系，聊备一格。此枝内容正在整理誊录，暂未开放。"
-    meta="临时页面 · 内容筹备中"
-  />
-  <section class="temp-note">
-    <div class="wrap">
-      <div class="temp-card reveal">
-        <p class="temp-line kai">闲话不闲，散墨有痕。</p>
-        <p class="temp-line kai">此处篇章尚在拣选，来日安放，再供消遣。</p>
-        <a class="btn" href={`${base}/`}>返回分支图</a>
+<Base title={title} description={description} hideNav={true}>
+  <div class="xianwen-scope">
+
+    {/* 整页背景：与「修炼常识」同源的「山河金影」图（public/bg/shanhe-gold.webp）。
+        原图顶部带站点导航栏，已裁掉（y 0-71），只保留山河星月水影画面。
+        视口固定、cover 铺满，页面滚动时背景不动。 */}
+    <div
+      class="xianwen-pattern"
+      aria-hidden="true"
+      style={`background-image:url('${base}/bg/shanhe-gold.webp')`}
+    ></div>
+
+    {/* 顶部栏：玄金令牌，五个板块（首页 / 法门 / 秘闻 / 修炼常识 / 闲文） */}
+    <GoldNav />
+
+    <section class="xianwen-hero" aria-labelledby="xianwen-hero-title">
+      <div class="xianwen-grain" aria-hidden="true"></div>
+      <div class="xianwen-vignette" aria-hidden="true"></div>
+
+      <div class="wrap xianwen-hero-wrap">
+        <div class="xianwen-mark-block reveal">
+          <span class="xianwen-mark-frame" aria-hidden="true"></span>
+          <span class="xianwen-mark zhuan">闲</span>
+        </div>
+
+        <div class="xianwen-hero-text reveal" data-d="2">
+          <p class="xianwen-eyebrow kai">闲 文 · 散 墨 有 痕</p>
+          <h1 id="xianwen-hero-title" class="xianwen-title kai">闲文</h1>
+          <div class="xianwen-rule" aria-hidden="true"></div>
+          <p class="xianwen-sub">闲言散语，不成体系，聊备一格。此枝篇章尚在拣选整理，来日安放，再供消遣。</p>
+          <p class="xianwen-meta kai">内容正在整理誊录 · 暂未开放</p>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <section class="xianwen-hold" aria-labelledby="xianwen-hold-title">
+      <div class="wrap">
+        <div class="xianwen-card reveal">
+          <h2 id="xianwen-hold-title" class="xianwen-hold-title kai">闲话不闲 · 散墨有痕</h2>
+          <p class="xianwen-line kai">此处篇章尚在拣选，来日安放，再供消遣。</p>
+          <p class="xianwen-line kai">闲文暂不列目，先留一方空地，候字来填。</p>
+          <a class="xianwen-btn kai" href={`${base}/`}>返回分支图</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
 </Base>
 
 <style>
-  .temp-note { padding: clamp(3rem, 8vw, 6rem) 0 clamp(4rem, 10vw, 8rem); }
-  .temp-card {
+  /* ============================================================
+     闲文 · 玄金之页
+     与「修炼常识」同源：同一套黑金令牌（tokens）、同一张
+     「山河金影」底图、同一套首屏（印框 + 鎏金标题 + 金线）。
+     用 `html[data-theme]` 前缀，确保盖过 global.css 里的浅色主题。
+     ============================================================ */
+
+  html[data-theme] .xianwen-scope {
+    --ink: #0a0604;
+    --ink-2: #100b07;
+    --ink-3: #18120b;
+    --ink-line: rgba(248, 220, 160, 0.2);
+    --bone: #f0d68e;
+    --bone-dim: #c4a878;
+    --bone-faint: #7a6840;
+
+    --heading: #f8dfa0;
+    --gold: #dfb878;
+    --gold-bright: #f8dca0;
+    --gold-deep: #a88440;
+    /* brightest highlight stop, used for liquid-gold gradient text */
+    --gold-edge: #fff8d8;
+    --gold-glow: rgba(248, 220, 160, 0.6);
+    --gold-line: rgba(248, 220, 160, 0.42);
+    --gold-line-strong: rgba(248, 220, 160, 0.72);
+
+    --panel-soft: rgba(248, 220, 160, 0.08);
+
+    background: var(--ink);
+    color: var(--bone);
+    position: relative;
+  }
+
+  /* ============================================================
+     整页背景 — 「山河金影」（与修炼常识页同一张图）
+     视口固定、cover 铺满、不重复；页面滚动时背景不动。
+     ============================================================ */
+  .xianwen-pattern {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+  }
+  @media (max-width: 640px) {
+    /* 窄屏 cover 只露中间一条，居中取景最透气（两侧山影会被裁掉） */
+    .xianwen-pattern {
+      background-position: 50% 50%;
+    }
+  }
+
+  /* ============================================================
+     Hero（与修炼常识首屏同构）
+     ============================================================ */
+
+  .xianwen-hero {
+    position: relative;
+    padding: clamp(2.6rem, 5vw, 4rem) 0 clamp(3rem, 6vw, 5rem);
+    overflow: hidden;
+    isolation: isolate;
+    border-bottom: 1px solid var(--gold-line);
+  }
+  .xianwen-grain {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.45;
+    background-image:
+      radial-gradient(circle at 22% 28%, rgba(236, 200, 121, 0.08) 0%, transparent 38%),
+      radial-gradient(circle at 82% 18%, rgba(201, 169, 97, 0.06) 0%, transparent 42%),
+      radial-gradient(circle at 58% 82%, rgba(201, 169, 97, 0.04) 0%, transparent 50%);
+    mix-blend-mode: screen;
+  }
+  .xianwen-vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 80% at 50% 50%, transparent 35%, rgba(0, 0, 0, 0.65) 100%);
+  }
+  .xianwen-hero-wrap {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+
+  .xianwen-mark-block {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: clamp(8rem, 16vw, 12rem);
+    height: clamp(8rem, 16vw, 12rem);
+    flex: none;
+  }
+  .xianwen-mark-frame {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--gold-line-strong);
+    transform: rotate(45deg);
+  }
+  .xianwen-mark-frame::before,
+  .xianwen-mark-frame::after {
+    content: '';
+    position: absolute;
+    background: var(--gold);
+  }
+  .xianwen-mark-frame::before {
+    top: -1px;
+    left: -1px;
+    width: 1.2rem;
+    height: 1px;
+  }
+  .xianwen-mark-frame::after {
+    bottom: -1px;
+    right: -1px;
+    width: 1.2rem;
+    height: 1px;
+  }
+  .xianwen-mark {
+    font-family: var(--font-zhuan);
+    font-size: clamp(4rem, 9vw, 6.5rem);
+    line-height: 1;
+    color: transparent;
+    /* 鎏金 (liquid gold) gradient fill, animated */
+    background: linear-gradient(135deg,
+      var(--gold-edge) 0%,
+      var(--gold-bright) 18%,
+      var(--gold) 35%,
+      var(--gold-deep) 52%,
+      var(--gold) 68%,
+      var(--gold-bright) 85%,
+      var(--gold-edge) 100%);
+    background-size: 220% 220%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: xianwen-font-flow 9s ease-in-out infinite;
+    text-shadow: 0 0 28px var(--gold-glow);
+    user-select: none;
+  }
+  @keyframes xianwen-font-flow {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+
+  .xianwen-hero-text { min-width: 0; }
+  .xianwen-eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.42em;
+    color: var(--gold);
+    margin: 0;
+  }
+  .xianwen-title {
+    margin: 1rem 0 0;
+    font-weight: 600;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    letter-spacing: 0.32em;
+    line-height: 1.15;
+    /* Liquid-gold gradient applied to the title text */
+    color: transparent;
+    background: linear-gradient(180deg,
+      var(--gold-edge) 0%,
+      var(--gold-bright) 22%,
+      var(--gold) 50%,
+      var(--gold-deep) 80%,
+      var(--gold) 100%);
+    background-size: 100% 220%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: xianwen-title-flow 12s ease-in-out infinite;
+    text-shadow: 0 0 22px var(--gold-glow);
+  }
+  @keyframes xianwen-title-flow {
+    0%, 100% { background-position: 0% 0%; }
+    50%      { background-position: 0% 100%; }
+  }
+  .xianwen-rule {
+    height: 1px;
+    width: 4.5rem;
+    margin: 1.6rem 0 0;
+    background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+  }
+  .xianwen-sub {
+    margin: 1.4rem 0 0;
+    max-width: 38em;
+    color: var(--bone-dim);
+    font-size: 1rem;
+    line-height: 2.2;
+  }
+  .xianwen-meta {
+    margin: 1.2rem 0 0;
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    color: var(--bone-faint);
+  }
+
+  /* ============================================================
+     暂空占位 —— 知识内容暂不放，只留一方空地
+     ============================================================ */
+
+  .xianwen-hold {
+    position: relative;
+    z-index: 1; /* ride above the fixed panorama */
+    padding-block: clamp(2.5rem, 5vw, 4rem);
+    /* settle the content on solid ground so the fixed backdrop
+       stays atmospheric but never fights the reading。 */
+    background: linear-gradient(180deg,
+      rgba(10, 6, 4, 0) 0%,
+      rgba(10, 6, 4, 0.6) 9rem,
+      rgba(10, 6, 4, 0.72) 100%);
+  }
+  .xianwen-card {
     max-width: 34rem;
     margin-inline: auto;
     padding: clamp(1.8rem, 4vw, 3rem);
     text-align: center;
-    border: 1px solid var(--line, rgba(150, 120, 60, 0.35));
-    border-radius: 4px;
+    border: 1px solid var(--gold-line-strong);
+    border-left: 3px solid var(--gold-deep);
+    border-radius: 3px;
+    background: linear-gradient(180deg, rgba(138, 111, 46, 0.08), rgba(5, 4, 2, 0.4));
   }
-  .temp-line {
-    color: var(--ink, inherit);
-    font-size: 1.05rem;
-    letter-spacing: 0.18em;
-    line-height: 2.1;
+  .xianwen-hold-title {
+    color: var(--heading);
+    font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+    letter-spacing: 0.28em;
   }
-  .btn {
+  .xianwen-line {
+    margin-top: 0.9rem;
+    color: var(--bone-dim);
+    font-size: 1rem;
+    letter-spacing: 0.16em;
+    line-height: 2.2;
+  }
+  .xianwen-btn {
     display: inline-block;
-    margin-top: 1.6rem;
-    padding: 0.55em 1.6em;
-    color: inherit;
-    text-decoration: none;
-    letter-spacing: 0.22em;
-    border: 1px solid currentColor;
+    margin-top: 1.8rem;
+    padding: 0.55em 1.7em;
+    border: 1px solid var(--gold-line-strong);
     border-radius: 2px;
-    opacity: 0.85;
-    transition: opacity 0.25s;
+    color: var(--gold-bright);
+    font-size: 0.94rem;
+    letter-spacing: 0.24em;
+    transition:
+      color 0.3s var(--ease-soft),
+      border-color 0.3s var(--ease-soft),
+      background 0.3s var(--ease-soft);
   }
-  .btn:hover { opacity: 1; }
+  .xianwen-btn:hover {
+    color: #050402;
+    border-color: var(--gold);
+    background: linear-gradient(180deg, rgba(236, 200, 121, 0.95), rgba(201, 169, 97, 0.95));
+  }
+
+  /* ============================================================
+     Mobile collapse
+     ============================================================ */
+
+  @media (max-width: 720px) {
+    .xianwen-hero { padding: 2.2rem 0 2.5rem; }
+    .xianwen-hero-wrap {
+      grid-template-columns: 1fr;
+      gap: 1.6rem;
+      justify-items: center;
+      text-align: center;
+    }
+    .xianwen-mark-block {
+      width: 7rem;
+      height: 7rem;
+    }
+    .xianwen-rule { margin-inline: auto; }
+  }
+
+  @media (max-width: 600px) {
+    .xianwen-card { padding: 1.6rem 1.2rem; }
+    .xianwen-line { font-size: 0.94rem; letter-spacing: 0.1em; }
+  }
+
+  /* ============================================================
+     Reduced motion
+     ============================================================ */
+
+  @media (prefers-reduced-motion: reduce) {
+    .xianwen-grain { opacity: 0.32; }
+    .xianwen-mark,
+    .xianwen-title { animation: none; }
+    .xianwen-btn { transition: none; }
+  }
 </style>
