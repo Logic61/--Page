@@ -6,22 +6,38 @@
 // 不依赖页面主题（data-theme），也不依赖页内的 scope 变量；
 // 在跟随明暗切换的页面上，可用 showSearch / showTheme 保留搜索与主题开关。
 //
-// 五个板块：首页 · 法门 · 秘闻 · 修炼常识 · 闲文
-// 当前板块由路径自动判定，也可用 active 显式指定。
+// 两种栏目：
+//   site   —— 全站板块：首页 · 法门 · 秘闻 · 修炼常识 · 闲文（/miwen、/changshi、/famen、/xianwen）
+//   zhoufa —— 咒法板块：返回目录 · 咒法脉络 · 体系学习 · 课程介绍 · 报名须知（/zhoufa 各页）
+// 当前栏目由路径自动判定（/zhoufa 开头即用咒法栏），也可用 variant / active 显式指定。
 // ============================================================
 
 interface Props {
-  active?: 'home' | 'famen' | 'miwen' | 'changshi' | 'xianwen';
+  active?:
+    | 'home'
+    | 'famen'
+    | 'miwen'
+    | 'changshi'
+    | 'xianwen'
+    | 'zhoufa-home'
+    | 'zhoufa-mailuo'
+    | 'zhoufa-xuexi'
+    | 'zhoufa-kecheng'
+    | 'zhoufa-baoming';
   /** 是否在栏内提供全局搜索入口（需宿主布局同时渲染搜索浮层） */
   showSearch?: boolean;
   /** 是否在栏内提供明暗切换（页内固定玄金时不必开启） */
   showTheme?: boolean;
+  /** 'zhoufa'：咒法板块内页顶栏（返回目录 / 咒法脉络 / 体系学习 / 课程介绍 / 报名须知）。
+      缺省时按路径自动判定：/zhoufa 开头的页面用咒法栏，其余页面用全站板块栏。 */
+  variant?: 'site' | 'zhoufa';
 }
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const path = (Astro.url.pathname.replace(/\/$/, '') || '/').replace(base, '') || '/';
 
-const items = [
+/* 全站板块栏：首页 · 法门 · 秘闻 · 修炼常识 · 闲文 */
+const siteItems = [
   { key: 'home', href: '/', label: '首页', glyph: '始' },
   { key: 'famen', href: '/famen', label: '法门', glyph: '法' },
   { key: 'miwen', href: '/miwen', label: '秘闻', glyph: '秘' },
@@ -29,20 +45,44 @@ const items = [
   { key: 'xianwen', href: '/xianwen', label: '闲文', glyph: '闲' },
 ];
 
+/* 咒法板块内页顶栏：只留返回目录与四项咒法栏目 */
+const zhoufaItems = [
+  { key: 'zhoufa-home', href: '/', label: '返回目录', glyph: '目' },
+  { key: 'zhoufa-mailuo', href: '/zhoufa/mailuo', label: '咒法脉络', glyph: '脉' },
+  { key: 'zhoufa-xuexi', href: '/zhoufa/xuexi', label: '体系学习', glyph: '学' },
+  { key: 'zhoufa-kecheng', href: '/zhoufa/kecheng', label: '课程介绍', glyph: '课' },
+  { key: 'zhoufa-baoming', href: '/zhoufa/baoming', label: '报名须知', glyph: '报' },
+];
+
 const numerals = ['一', '二', '三', '四', '五'];
 
+const variant = Astro.props.variant || (path.startsWith('/zhoufa') ? 'zhoufa' : 'site');
+const items = variant === 'zhoufa' ? zhoufaItems : siteItems;
+
 const guessed =
-  path === '/'
-    ? 'home'
-    : path.startsWith('/famen')
-      ? 'famen'
-      : path.startsWith('/miwen')
-        ? 'miwen'
-        : path.startsWith('/changshi')
-          ? 'changshi'
-          : path.startsWith('/xianwen')
-            ? 'xianwen'
-            : '';
+  variant === 'zhoufa'
+    ? path === '/'
+      ? 'zhoufa-home'
+      : path.startsWith('/zhoufa/mailuo')
+        ? 'zhoufa-mailuo'
+        : path.startsWith('/zhoufa/xuexi')
+          ? 'zhoufa-xuexi'
+          : path.startsWith('/zhoufa/kecheng')
+            ? 'zhoufa-kecheng'
+            : path.startsWith('/zhoufa/baoming')
+              ? 'zhoufa-baoming'
+              : ''
+    : path === '/'
+      ? 'home'
+      : path.startsWith('/famen')
+        ? 'famen'
+        : path.startsWith('/miwen')
+          ? 'miwen'
+          : path.startsWith('/changshi')
+            ? 'changshi'
+            : path.startsWith('/xianwen')
+              ? 'xianwen'
+              : '';
 
 const { showSearch = false, showTheme = false } = Astro.props;
 const activeKey = Astro.props.active || guessed;
