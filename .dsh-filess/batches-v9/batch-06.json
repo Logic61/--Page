@@ -1,0 +1,49 @@
+{
+  "requests": [
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic 3D render in Baroque tenebrism style. Pitch-black void background, only localized golden light sources illuminate the scene. Faithful photorealistic render. Preserve the exact composition, subject positions, and overall layout of the input image. Render every element with maximum realistic detail: real gold-leaf metallic texture on bright elements, real dark stone or cloud texture, real fire and lightning physics, volumetric god rays, atmospheric smoke visible only where backlit, cinematic color grading with crushed blacks, 8K ultra detailed, 16:9, no text, no watermark, no human figures, no humanoid silhouettes, no people, no souls in human shape.",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-12%2F9d1979fa-94ec-43a4-a7e3-7fac0f1ee87e.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260912%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260912T010316Z&x-oss-expires=3600&x-oss-signature=d57ed3f2d64e927524ef57d6c67039eb8f6382eccc6679705862adbcfed5a223&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "v9-fa-qi-a.webp"
+    },
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic 3D render in Baroque tenebrism style. Pitch-black void background, only localized golden light sources illuminate the scene. Hyper-dramatic photorealistic render. Preserve the composition and layout of the input image. Push contrast to maximum: deeper black shadows, more violent jagged lightning, more intense roaring fire, brighter god rays from light sources, more dramatic atmospheric haze, more orange-amber smoke backlit by fire. Cinematic chiaroscuro tenebrism, 8K ultra detailed, 16:9, no text, no watermark, no human figures, no humanoid silhouettes, no people.",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-12%2F9d1979fa-94ec-43a4-a7e3-7fac0f1ee87e.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260912%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260912T010316Z&x-oss-expires=3600&x-oss-signature=d57ed3f2d64e927524ef57d6c67039eb8f6382eccc6679705862adbcfed5a223&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "v9-fa-qi-b.webp"
+    },
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic 3D render in Baroque tenebrism style. Pitch-black void background, only localized golden light sources illuminate the scene. Close-up photorealistic render. Preserve the composition but shift the camera slightly closer so the main subject fills more of the frame. Shallow depth of field with the main subject sharp and background elements softly blurred. Render with real material textures: weathered stone, metallic gold, real fire and lightning, volumetric god rays, atmospheric haze. Cinematic color grading with crushed blacks, 8K ultra detailed, 16:9, no text, no watermark, no human figures, no humanoid silhouettes, no people.",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-12%2F9d1979fa-94ec-43a4-a7e3-7fac0f1ee87e.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260912%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260912T010316Z&x-oss-expires=3600&x-oss-signature=d57ed3f2d64e927524ef57d6c67039eb8f6382eccc6679705862adbcfed5a223&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "v9-fa-qi-c.webp"
+    },
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic 3D render in Baroque tenebrism style. Pitch-black void background, only localized golden light sources illuminate the scene. Wide expansive photorealistic render. Preserve the composition but pull the camera back slightly so more environment is visible around the main subject, deeper atmospheric perspective, more layered smoke and haze, more subtle background details visible. Real material textures throughout, real fire and lightning physics, cinematic color grading with crushed blacks, 8K ultra detailed, 16:9, no text, no watermark, no human figures, no humanoid silhouettes, no people.",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-12%2F9d1979fa-94ec-43a4-a7e3-7fac0f1ee87e.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260912%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260912T010316Z&x-oss-expires=3600&x-oss-signature=d57ed3f2d64e927524ef57d6c67039eb8f6382eccc6679705862adbcfed5a223&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "v9-fa-qi-d.webp"
+    },
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic 3D render in Baroque tenebrism style. Pitch-black void background, only localized golden light sources illuminate the scene. Soft atmospheric photorealistic render. Preserve the composition. Softer, more painterly mood: more haze and smoke diffusing the light, gentler warm-amber glow from fire, more diffuse lightning, less harsh contrast, more golden mist around the bright elements. Cinematic and meditative but still photorealistic, 8K ultra detailed, 16:9, no text, no watermark, no human figures, no humanoid silhouettes, no people.",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-12%2F9d1979fa-94ec-43a4-a7e3-7fac0f1ee87e.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260912%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260912T010316Z&x-oss-expires=3600&x-oss-signature=d57ed3f2d64e927524ef57d6c67039eb8f6382eccc6679705862adbcfed5a223&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "v9-fa-qi-e.webp"
+    }
+  ]
+}

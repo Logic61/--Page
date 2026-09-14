@@ -1,0 +1,13 @@
+{
+  "requests": [
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic 3D render in Baroque tenebrism style. Pitch-black void background. Composition: massive blazing golden sun dead center with realistic fire surface, surrounded by floating ancient Chinese leiwen thunder pattern spirals (bronze-age rectilinear and curling spirals) glowing with golden energy like ritual sigils, violent jagged golden lightning bolts striking inward from all four corners, fierce roaring flames at the bottom. NO palace, NO temple, NO architecture. KEY: only localized golden light sources illuminate the scene, most of the frame stays DEEP BLACK. Realistic physical materials: real gold-leaf texture on the leiwen spirals, atmospheric smoke visible only where backlit. Volumetric god rays radiating from the sun, real depth of field, cinematic color grading with crushed blacks, 8K ultra detailed, 16:9, no text or watermark",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-11%2Fea04f9ee-f75a-4d70-9d42-4aba5419658d.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260911%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260911T124225Z&x-oss-expires=3600&x-oss-signature=8cdd2045b3ee776e0f0a0d1cf579de879633d0b666c0631b9d7574aefccc29bd&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "v5-lunhui.webp"
+    }
+  ]
+}

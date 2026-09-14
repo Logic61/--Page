@@ -1,0 +1,8 @@
+﻿{
+  "file": "C:\\Users\\32372\\hermes-workspace\\巫祝page\\public\\bg\\lun-hui-zhenxiang.webp",
+  "filename": "lun-hui-zhenxiang.webp",
+  "bytes": 530664,
+  "mime_type": "image/webp",
+  "temp_url": "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-11%2F5450f1f0-dc12-41c3-b835-d26c7b3ad834.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260911%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260911T132342Z&x-oss-expires=3600&x-oss-signature=26591eb7ff2981b99e921a3166ea45a7ff173829ccf5c737479baea2a6928a98&x-oss-signature-version=OSS4-HMAC-SHA256",
+  "expires_in_seconds": 3600
+}

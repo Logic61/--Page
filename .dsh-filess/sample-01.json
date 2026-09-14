@@ -1,0 +1,22 @@
+{
+  "requests": [
+    {
+      "prompt": "A traditional Chinese ink-and-gold landscape painting, gold leaf on aged black silk. A radiant sun surrounded by swirling fire and golden lightning, with a dark mountain silhouette below. Highly painterly and atmospheric, refined gold brushwork with subtle gradients and texture, classical gold-and-blue landscape style (jin bi shan shui), deep tonal range from soft smoke to bright flame, museum-quality traditional Chinese art, no text, no logo, no watermark",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-11%2Fcc571883-7851-4634-a322-40fdbe8376c8.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260911%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260911T122234Z&x-oss-expires=3600&x-oss-signature=6fa5d41095e1d8729809508bd073e6878ec3acd50d3bfd53db89a7ca80517cf5&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "sample-xinyang.webp"
+    },
+    {
+      "prompt": "A traditional Chinese ink-and-gold landscape painting on aged black silk. An immense radiant golden sun with concentric light rays rising behind a classical Chinese temple-palace complex with palace rooftops, stone steps and balustrades, framed by dark mountains. Highly painterly and atmospheric, refined gold brushwork with subtle gradients, classical gold-and-blue landscape style, deep tonal range, museum-quality traditional Chinese art, no text, no logo, no watermark",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-11%2Fd7a02bf4-f9ab-4784-a50a-8769106a2dfb.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260911%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260911T122241Z&x-oss-expires=3600&x-oss-signature=1ffadd01e795341b3e0662f041dae336943fba853375a97fc9cc0fdeb97c32cb&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "sample-lunhui.webp"
+    }
+  ]
+}

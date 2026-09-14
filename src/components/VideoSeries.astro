@@ -1,0 +1,234 @@
+---
+import { groups, collectionUrl, collectionTitle, collectionAuthor, videoUrl } from '../data/videos';
+
+const total = groups.reduce((n, group) => n + group.videos.length, 0);
+const totalSecs = groups.reduce((n, group) => n + group.videos.reduce((m, video) => m + video.secs, 0), 0);
+
+const two = (n: number) => String(n).padStart(2, '0');
+
+const fmtDur = (secs: number) => {
+  const h = Math.floor(secs / 3600);
+  const m = Math.floor((secs % 3600) / 60);
+  const s = secs % 60;
+  return h ? `${h}:${two(m)}:${two(s)}` : `${m}:${two(s)}`;
+};
+
+const totalHours = Math.floor(totalSecs / 3600);
+const totalMinutes = Math.round((totalSecs % 3600) / 60);
+const totalText = totalHours ? `${totalHours} 小时 ${totalMinutes} 分` : `${totalMinutes} 分钟`;
+
+let serial = 0;
+const rows = groups.map((group) => ({
+  tag: group.tag,
+  name: group.name,
+  note: group.note,
+  items: group.videos.map((video) => ({ ...video, no: two(++serial) })),
+}));
+---
+
+<section class="study-video" id="video" aria-labelledby="study-video-title">
+  <div class="wrap">
+    <header class="video-head reveal">
+      <span class="eyebrow">视频合集</span>
+      <h1 id="study-video-title" class="section-title">体系认知 · 二十八讲</h1>
+      <p class="video-sub">
+        《{collectionTitle}》自道家源流讲至道法体系，共 {total} 讲，约 {totalText}。依课程次序排列，点击讲题即往 B 站观看。
+      </p>
+      <div class="video-actions">
+        <a class="video-all" href={collectionUrl} target="_blank" rel="noopener noreferrer">
+          在 B 站看完整合集<span class="video-arrow" aria-hidden="true">↗</span>
+        </a>
+        <span class="video-author">UP：{collectionAuthor}</span>
+      </div>
+    </header>
+
+    <div class="video-groups">
+      {
+        rows.map((group) => (
+          <div class="video-group reveal">
+            <header class="video-group-head">
+              <span class="video-tag kai">{group.tag}</span>
+              <h3 class="kai">{group.name}</h3>
+              <span class="video-count">{group.items.length} 讲</span>
+              <p>{group.note}</p>
+            </header>
+            <ol class="video-list">
+              {group.items.map((video) => (
+                <li>
+                  <a
+                    class="video-item"
+                    href={videoUrl(video.bvid)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={video.raw}
+                    aria-label={`${video.title}（B 站第 ${video.no} 讲，新窗口打开）`}
+                  >
+                    <span class="video-no kai">{video.no}</span>
+                    <span class="video-text">
+                      <b class="kai">{video.title}</b>
+                      <span class="video-meta">
+                        {fmtDur(video.secs)} · {video.date}
+                        {video.badge ? ` · ${video.badge}` : ''}
+                      </span>
+                    </span>
+                    <span class="video-go" aria-hidden="true">B站<span class="video-go-arrow">↗</span></span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ))
+      }
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* 本页只有此一节，页首不再重复画分隔线（顶栏自带下边线） */
+  .study-video {
+    scroll-margin-top: 5rem;
+  }
+
+  .video-head { margin-bottom: clamp(2rem, 4vw, 3rem); }
+  .video-head .eyebrow { display: block; margin-bottom: 0.9rem; }
+  .video-sub {
+    margin-top: 1.1rem;
+    max-width: 44rem;
+    color: var(--bone-dim);
+    font-size: 0.94rem;
+    line-height: 2.05;
+  }
+
+  .video-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem 1.3rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+  .video-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.72rem 1.35rem;
+    border: 1px solid var(--bronze-dim);
+    border-radius: 3px;
+    color: var(--bronze-bright);
+    font-family: var(--font-kai);
+    font-size: 0.94rem;
+    letter-spacing: 0.16em;
+    transition: border-color 0.3s var(--ease-soft), color 0.3s var(--ease-soft), background 0.3s var(--ease-soft);
+  }
+  .video-all:hover {
+    border-color: var(--bronze-bright);
+    background: rgba(184, 154, 94, 0.08);
+    color: var(--heading);
+  }
+  .video-arrow { transition: transform 0.25s var(--ease-soft); }
+  .video-all:hover .video-arrow { transform: translate(2px, -2px); }
+  .video-author { color: var(--bone-faint); font-size: 0.8rem; letter-spacing: 0.2em; }
+
+  .video-groups { display: flex; flex-direction: column; gap: clamp(1.8rem, 4vw, 2.6rem); }
+  .video-group { padding-block: 0; }
+
+  .video-group-head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    margin-bottom: 1.1rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid var(--ink-line);
+  }
+  .video-tag { color: var(--cinnabar-bright); font-size: 1.3rem; letter-spacing: 0.2em; }
+  .video-group-head h3 {
+    color: var(--heading);
+    font-size: 1.14rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+  }
+  .video-count { color: var(--bronze); font-size: 0.74rem; letter-spacing: 0.2em; }
+  .video-group-head p {
+    flex-basis: 100%;
+    color: var(--bone-dim);
+    font-size: 0.82rem;
+    line-height: 1.9;
+  }
+
+  .video-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+    gap: 0.6rem;
+  }
+  .video-list li { display: flex; }
+
+  .video-item {
+    display: grid;
+    grid-template-columns: 2.4rem 1fr auto;
+    align-items: center;
+    gap: 0.9rem;
+    width: 100%;
+    padding: 0.85rem 0.95rem;
+    border: 1px solid var(--ink-line);
+    border-radius: 3px;
+    background: var(--panel-soft);
+    transition: border-color 0.35s var(--ease-soft), background 0.35s var(--ease-soft), transform 0.35s var(--ease-soft);
+  }
+  .video-item:hover {
+    border-color: rgba(184, 154, 94, 0.45);
+    background: var(--panel-grad);
+    transform: translateY(-2px);
+  }
+
+  .video-no { color: var(--bronze-dim); font-size: 0.98rem; letter-spacing: 0.08em; transition: color 0.3s var(--ease-soft); }
+  .video-item:hover .video-no { color: var(--cinnabar-bright); }
+
+  .video-text { display: block; min-width: 0; }
+  .video-text b {
+    display: block;
+    color: var(--bone);
+    font-size: 0.98rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    line-height: 1.65;
+  }
+  .video-meta {
+    display: block;
+    margin-top: 0.3rem;
+    color: var(--bone-dim);
+    font-size: 0.76rem;
+    letter-spacing: 0.12em;
+    opacity: 0.85;
+  }
+
+  .video-go {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    color: var(--bronze-dim);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    transition: color 0.3s var(--ease-soft);
+  }
+  .video-item:hover .video-go { color: var(--bronze-bright); }
+  .video-go-arrow { transition: transform 0.25s var(--ease-soft); }
+  .video-item:hover .video-go-arrow { transform: translate(2px, -2px); }
+
+  .video-foot {
+    margin-top: 2rem;
+    padding-top: 1.2rem;
+    border-top: 1px dashed rgba(184, 154, 94, 0.28);
+    max-width: 46rem;
+    color: var(--bone-faint);
+    font-size: 0.82rem;
+    line-height: 2;
+  }
+
+  @media (max-width: 560px) {
+    .video-list { grid-template-columns: 1fr; }
+    .video-item { grid-template-columns: 2.1rem 1fr auto; padding: 0.8rem; }
+  }
+</style>

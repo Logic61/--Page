@@ -1,0 +1,22 @@
+{
+  "requests": [
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic 3D render in Baroque tenebrism style. Pitch-black void background, only localized golden light sources illuminate the scene. Realistic physical materials, atmospheric smoke visible only where backlit, volumetric god rays, real depth of field, cinematic color grading with crushed blacks, 8K. STRICTLY NO human figures, NO humanoid silhouettes, NO people, NO souls in human shape. NO leiwen thunder pattern spirals anywhere. NO borders, NO frames, NO corner decorations. NO palace, NO temple, NO architecture.  A blazing golden sun in the upper portion, a ghostly golden light orb descending into a swirling dark energy vortex below, violent jagged golden lightning bolts surrounding and piercing the vortex, fierce flames at the base. Pure dark void background. The orb descends INTO the vortex like a spirit entering a body. No humanoid silhouette, no person, no body. Just an abstract orb descending into an abstract vortex. 16:9, no text or watermark",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "bg-fu-ti-zhenxiang.webp"
+    },
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic 3D render in Baroque tenebrism style. Pitch-black void background, only localized golden light sources illuminate the scene. Realistic physical materials, atmospheric smoke visible only where backlit, volumetric god rays, real depth of field, cinematic color grading with crushed blacks, 8K. STRICTLY NO human figures, NO humanoid silhouettes, NO people, NO souls in human shape. NO leiwen thunder pattern spirals anywhere. NO borders, NO frames, NO corner decorations. NO palace, NO temple, NO architecture.  A massive golden bonfire erupting in the center of the frame, towering flames rising high, violent jagged golden lightning bolts striking inward from all sides, fire licking the edges. No talisman array, no leiwen grid, no human figure, just raw elemental power. Pure dark void background. The flames should fill the center of the frame and reach the top. 16:9, no text or watermark",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "bg-fu-lu-mimi.webp"
+    },
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic 3D render in Baroque tenebrism style. Pitch-black void background, only localized golden light sources illuminate the scene. Realistic physical materials, atmospheric smoke visible only where backlit, volumetric god rays, real depth of field, cinematic color grading with crushed blacks, 8K. STRICTLY NO human figures, NO humanoid silhouettes, NO people, NO souls in human shape. NO leiwen thunder pattern spirals anywhere. NO borders, NO frames, NO corner decorations. NO palace, NO temple, NO architecture.  A single massive ancient Chinese bronze sword floating in the center, vertically oriented, with realistic weathered bronze texture, intricate guard and pommel, no surface leiwen patterns, just one thin subtle decorative band on the blade near the hilt. The sword radiates intense golden energy. Violent jagged golden lightning bolts and fierce flames erupting around the sword, dark void background. The sword is the clear single main subject, not crossed with another weapon. 16:9, no text or watermark",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "bg-fa-qi-mimi.webp"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "slug": "xin-yang",
+    "ok": true,
+    "node_id": "440876750016596",
+    "stdout_tail": "{\"code\":0,\"message\":\"ok\",\"summary\":\"Batch processing completed: 1/1 succeeded\",\"total_requested\":1,\"total_success\":1,\"total_failed\":0,\"success_items\":[{\"node_id\":\"440876750016596\",\"file_name\":\"v11-xin-yang-a.jpg\"}],\"failed_items\":[]}\n"
+  },
+  {
+    "slug": "fa-jie",
+    "ok": true,
+    "node_id": "440876750016603",
+    "stdout_tail": "{\"code\":0,\"message\":\"ok\",\"summary\":\"Batch processing completed: 1/1 succeeded\",\"total_requested\":1,\"total_success\":1,\"total_failed\":0,\"success_items\":[{\"node_id\":\"440876750016603\",\"file_name\":\"v11-fa-jie-a.jpg\"}],\"failed_items\":[]}\n"
+  },
+  {
+    "slug": "lun-hui",
+    "ok": true,
+    "node_id": "440876750016606",
+    "stdout_tail": "{\"code\":0,\"message\":\"ok\",\"summary\":\"Batch processing completed: 1/1 succeeded\",\"total_requested\":1,\"total_success\":1,\"total_failed\":0,\"success_items\":[{\"node_id\":\"440876750016606\",\"file_name\":\"v11-lun-hui-a.jpg\"}],\"failed_items\":[]}\n"
+  },
+  {
+    "slug": "shen-dao",
+    "ok": true,
+    "node_id": "440876222730364",
+    "stdout_tail": "{\"code\":0,\"message\":\"ok\",\"summary\":\"Batch processing completed: 1/1 succeeded\",\"total_requested\":1,\"total_success\":1,\"total_failed\":0,\"success_items\":[{\"node_id\":\"440876222730364\",\"file_name\":\"v11-shen-dao-a.jpg\"}],\"failed_items\":[]}\n"
+  },
+  {
+    "slug": "fu-ti",
+    "ok": true,
+    "node_id": "440876149252219",
+    "stdout_tail": "{\"code\":0,\"message\":\"ok\",\"summary\":\"Batch processing completed: 1/1 succeeded\",\"total_requested\":1,\"total_success\":1,\"total_failed\":0,\"success_items\":[{\"node_id\":\"440876149252219\",\"file_name\":\"v11-fu-ti-a.jpg\"}],\"failed_items\":[]}\n"
+  },
+  {
+    "slug": "xia-zhong",
+    "ok": true,
+    "node_id": "440877714052035",
+    "stdout_tail": "{\"code\":0,\"message\":\"ok\",\"summary\":\"Batch processing completed: 1/1 succeeded\",\"total_requested\":1,\"total_success\":1,\"total_failed\":0,\"success_items\":[{\"node_id\":\"440877714052035\",\"file_name\":\"v11-xia-zhong-a.jpg\"}],\"failed_items\":[]}\n"
+  },
+  {
+    "slug": "quan-shan",
+    "ok": true,
+    "node_id": "440877458829518",
+    "stdout_tail": "{\"code\":0,\"message\":\"ok\",\"summary\":\"Batch processing completed: 1/1 succeeded\",\"total_requested\":1,\"total_success\":1,\"total_failed\":0,\"success_items\":[{\"node_id\":\"440877458829518\",\"file_name\":\"v11-quan-shan-a.jpg\"}],\"failed_items\":[]}\n"
+  },
+  {
+    "slug": "tao-ming-mimi",
+    "ok": true,
+    "node_id": "440877237875043",
+    "stdout_tail": "{\"code\":0,\"message\":\"ok\",\"summary\":\"Batch processing completed: 1/1 succeeded\",\"total_requested\":1,\"total_success\":1,\"total_failed\":0,\"success_items\":[{\"node_id\":\"440877237875043\",\"file_name\":\"v11-tao-ming-mimi-a.jpg\"}],\"failed_items\":[]}\n"
+  },
+  {
+    "slug": "fa-shu-mimi",
+    "ok": true,
+    "node_id": "440878096986816",
+    "stdout_tail": "{\"code\":0,\"message\":\"ok\",\"summary\":\"Batch processing completed: 1/1 succeeded\",\"total_requested\":1,\"total_success\":1,\"total_failed\":0,\"success_items\":[{\"node_id\":\"440878096986816\",\"file_name\":\"v11-fa-shu-mimi-a.jpg\"}],\"failed_items\":[]}\n"
+  },
+  {
+    "slug": "fu-lu-mimi",
+    "ok": true,
+    "node_id": "440878096986829",
+    "stdout_tail": "{\"code\":0,\"message\":\"ok\",\"summary\":\"Batch processing completed: 1/1 succeeded\",\"total_requested\":1,\"total_success\":1,\"total_failed\":0,\"success_items\":[{\"node_id\":\"440878096986829\",\"file_name\":\"v11-fu-lu-mimi-a.jpg\"}],\"failed_items\":[]}\n"
+  },
+  {
+    "slug": "fa-qi-mimi",
+    "ok": true,
+    "node_id": "440878096986838",
+    "stdout_tail": "{\"code\":0,\"message\":\"ok\",\"summary\":\"Batch processing completed: 1/1 succeeded\",\"total_requested\":1,\"total_success\":1,\"total_failed\":0,\"success_items\":[{\"node_id\":\"440878096986838\",\"file_name\":\"v11-fa-qi-mimi-a.jpg\"}],\"failed_items\":[]}\n"
+  }
+]

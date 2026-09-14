@@ -1,0 +1,22 @@
+{
+  "requests": [
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic concept art, ray-traced 3D render in the style of Black Myth Wukong and Elden Ring cinematics. NOT anime, NOT cartoon, NOT flat 2D illustration. Composition: massive blazing sun on the left, violent golden lightning bolts striking down from upper right, roaring inferno of fire surrounding, dark jagged mountain silhouette in lower left. Realistic physical lighting: volumetric god rays, subsurface scattering in the flames, atmospheric haze, real metallic gold-leaf texture with proper specular highlights on the lightning. Shot on cinema camera, shallow depth of field, cinematic color grading, 8K ultra detailed, physically based rendering. Deep tonal range from ink-black to burning white-gold, 16:9, no text or watermark",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-11%2Fa901f1e3-7589-467b-b442-a562b7801d51.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260911%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260911T124224Z&x-oss-expires=3600&x-oss-signature=78806a504b6e4bff837e6567fba48659eaad8ef079d6e4eec2c856e9c26d6bfb&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "v3-xinyang.webp"
+    },
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic concept art, ray-traced 3D render in the style of Black Myth Wukong and Elden Ring cinematics. NOT anime, NOT cartoon, NOT flat 2D illustration. Composition: massive blazing sun dead center, grand Chinese temple-palace with multiple curved tiled rooftops directly below the sun, dark mountains framing both sides, violent lightning and fire at the bottom edges. Realistic physical lighting: volumetric god rays radiating from the sun, real architectural details on the temple, weathered stone and wood textures, atmospheric haze, real metallic gold-leaf highlights. Shot on cinema camera, shallow depth of field, cinematic color grading, 8K ultra detailed, physically based rendering. Deep tonal range from ink-black to burning white-gold, 16:9, no text or watermark",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-11%2Fea04f9ee-f75a-4d70-9d42-4aba5419658d.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260911%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260911T124225Z&x-oss-expires=3600&x-oss-signature=8cdd2045b3ee776e0f0a0d1cf579de879633d0b666c0631b9d7574aefccc29bd&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "v3-lunhui.webp"
+    }
+  ]
+}

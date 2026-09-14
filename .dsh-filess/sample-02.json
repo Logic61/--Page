@@ -1,0 +1,22 @@
+{
+  "requests": [
+    {
+      "prompt": "Transform into a traditional Chinese ink-and-gold scroll painting on aged black silk. Composition must be preserved: a large blazing sun sits on the LEFT, with roaring turbulent fire and violent golden lightning bolts striking DOWN from the upper right into the bottom of the frame, dark jagged mountain silhouette in the lower left. Style: classical Song-dynasty gold-and-blue landscape (jin bi shan shui), refined painterly brushwork with visible gold-leaf texture, NOT a flat decorative poster. Dramatic raw power: the sun radiates intense fierce light, flames writhe and surge, lightning cracks with burning brightness, the whole scene trembles with energy. Deep tonal range from smoky blacks to blazing white-gold. Museum-quality scroll, 16:9, no text or watermark",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-11%2Fcc571883-7851-4634-a322-40fdbe8376c8.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260911%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260911T122234Z&x-oss-expires=3600&x-oss-signature=6fa5d41095e1d8729809508bd073e6878ec3acd50d3bfd53db89a7ca80517cf5&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "v2-xinyang.webp"
+    },
+    {
+      "prompt": "Transform into a traditional Chinese ink-and-gold scroll painting on aged black silk. Composition must be preserved: a MASSIVE blazing sun sits dead CENTER of the frame, a grand Chinese temple-palace with multiple curved rooftops stands directly below the sun, dark mountains frame both left and right sides, with lightning and fire at the bottom edges. Style: classical Song-dynasty gold-and-blue landscape (jin bi shan shui), refined painterly brushwork with visible gold-leaf texture, NOT a flat decorative poster. Dramatic raw power: the sun radiates concentric fierce light rays, the temple rooftops catch burning golden highlights, lightning cracks violently across the sky, smoke and fire surge around the mountain bases. Deep tonal range from ink-black to blazing white-gold. Museum-quality scroll, 16:9, no text or watermark",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-11%2Fd7a02bf4-f9ab-4784-a50a-8769106a2dfb.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260911%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260911T122241Z&x-oss-expires=3600&x-oss-signature=1ffadd01e795341b3e0662f041dae336943fba853375a97fc9cc0fdeb97c32cb&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "v2-lunhui.webp"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "requests": [
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic render in Baroque tenebrism style. Pitch-black void background, only localized golden light sources illuminate the scene. Composition: massive blazing golden sun on the left with realistic fire surface, violent jagged golden lightning bolts striking down from upper right, dark mountain silhouette in lower left, flames at bottom right. KEY: most of the frame must remain DEEP BLACK with only the sun, lightning, and flames casting sharp golden highlights onto nearby objects. Realistic physical materials: real gold-leaf texture on raised surfaces, weathered stone on the mountains, atmospheric smoke visible only where backlit by the light sources. NOT warm-orange wash, NOT anime, NOT flat illustration. Volumetric god rays, real depth of field, cinematic color grading with crushed blacks, 8K, 16:9, no text or watermark",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-11%2Fa901f1e3-7589-467b-b442-a562b7801d51.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260911%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260911T124224Z&x-oss-expires=3600&x-oss-signature=78806a504b6e4bff837e6567fba48659eaad8ef079d6e4eec2c856e9c26d6bfb&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "v4-xinyang.webp"
+    },
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic render in Baroque tenebrism style. Pitch-black void background, only localized golden light sources illuminate the scene. Composition: massive blazing golden sun dead center with realistic fire surface, grand Chinese temple-palace with multiple curved tiled rooftops directly below the sun, dark mountains framing both sides, violent jagged golden lightning bolts and flames at the bottom edges. KEY: most of the frame must remain DEEP BLACK with only the sun and lightning casting sharp golden highlights onto the temple roofs and the edges of the mountains. Realistic physical materials: real gold-leaf texture on the temple ridge ornaments, weathered tiled rooftops, atmospheric smoke visible only where backlit. NOT warm-orange wash, NOT anime, NOT flat illustration. Volumetric god rays radiating from the sun, real depth of field, cinematic color grading with crushed blacks, 8K, 16:9, no text or watermark",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-11%2Fea04f9ee-f75a-4d70-9d42-4aba5419658d.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260911%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260911T124225Z&x-oss-expires=3600&x-oss-signature=8cdd2045b3ee776e0f0a0d1cf579de879633d0b666c0631b9d7574aefccc29bd&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "v4-lunhui.webp"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "requests": [
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic 3D render in Baroque tenebrism style. Pitch-black void background, only localized golden light sources illuminate the scene. Realistic physical materials: real gold-leaf texture, atmospheric smoke visible only where backlit. Volumetric god rays, real depth of field, cinematic color grading with crushed blacks, 8K. NO palace, NO temple, NO architecture on top of altars.  Multiple concentric floating golden rings or portals layered like an interdimensional gateway, a massive blazing golden sun at the center of the innermost ring, violent golden lightning bolts piercing through all the rings, fierce flames licking the bottom. Ancient Chinese leiwen thunder pattern spirals (rectilinear and curling spirals like the project's 巫/雷纹/ collection) trace the outer edges of the rings as glowing ritual sigils. The whole scene feels like portals to other realms. 16:9, no text or watermark",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-11%2F2994feff-3c95-4339-95c0-155a18a6ef90.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260911%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260911T125832Z&x-oss-expires=3600&x-oss-signature=d74ac2510dfad05b0639565d8df08ec99947c02ce2d40c90c4a766e9d0cc0069&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "bg-fa-jie-zhenxiang.webp"
+    },
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic 3D render in Baroque tenebrism style. Pitch-black void background, only localized golden light sources illuminate the scene. Realistic physical materials: real gold-leaf texture, atmospheric smoke visible only where backlit. Volumetric god rays, real depth of field, cinematic color grading with crushed blacks, 8K. NO palace, NO temple, NO architecture on top of altars.  A massive elevated stone altar (BARE base only, NO temple or palace on top) at the lower center, with a giant blazing golden sun directly above pressing down on it, violent golden lightning bolts radiating outward from the sun, fierce flames licking the altar base. Ancient Chinese leiwen thunder pattern spirals (rectilinear and curling spirals) carved into the stone altar edges glowing with golden energy. The altar sits in pure dark void. 16:9, no text or watermark",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-11%2F71362104-258a-415b-a17b-abaebd419654.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260911%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260911T125828Z&x-oss-expires=3600&x-oss-signature=0a6d501553cc4bc4a51f469f4496511e459f038bd2ff6d567303e9e113666a6c&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "bg-shen-dao-zhenxiang.webp"
+    },
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic 3D render in Baroque tenebrism style. Pitch-black void background, only localized golden light sources illuminate the scene. Realistic physical materials: real gold-leaf texture, atmospheric smoke visible only where backlit. Volumetric god rays, real depth of field, cinematic color grading with crushed blacks, 8K. NO palace, NO temple, NO architecture on top of altars.  A dark silhouette of a human figure standing at the center, a ghostly golden light orb descending from above about to merge into the figure's chest, violent golden lightning bolts surrounding and binding the figure in a cage of energy, fierce flames at the base. Ancient Chinese leiwen thunder pattern spirals (rectilinear and curling spirals) orbiting around the figure as binding sigils. The whole scene reads as spirit possession. 16:9, no text or watermark",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-11%2F8601fb44-68d4-4874-a8ba-44faa3e36629.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260911%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260911T125834Z&x-oss-expires=3600&x-oss-signature=2a1bb9b59023815c3f4ac151d8bec9fa30257e982618ed1c1a58e3bebd1a3e4b&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "bg-fu-ti-zhenxiang.webp"
+    },
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic 3D render in Baroque tenebrism style. Pitch-black void background, only localized golden light sources illuminate the scene. Realistic physical materials: real gold-leaf texture, atmospheric smoke visible only where backlit. Volumetric god rays, real depth of field, cinematic color grading with crushed blacks, 8K. NO palace, NO temple, NO architecture on top of altars.  A vertical shaft of intense golden light pouring down from a massive blazing sun above into a womb-like glowing oval form at the bottom, a fire pit glowing beneath the oval, violent golden lightning striking the sides, a clear path of light between sun and oval. Ancient Chinese leiwen thunder pattern spirals lining both sides of the light shaft as ritual markings. Pure dark void background. 16:9, no text or watermark",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-11%2F4af76824-6e52-47b3-bde2-3bd013604f6e.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260911%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260911T125825Z&x-oss-expires=3600&x-oss-signature=c6da4a73a7180954b6b7dd816c7c360172bb55c254936708cd86079b862e91ee&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "bg-xia-zhong-zhenxiang.webp"
+    },
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic 3D render in Baroque tenebrism style. Pitch-black void background, only localized golden light sources illuminate the scene. Realistic physical materials: real gold-leaf texture, atmospheric smoke visible only where backlit. Volumetric god rays, real depth of field, cinematic color grading with crushed blacks, 8K. NO palace, NO temple, NO architecture on top of altars.  A blazing golden sun in the upper right corner with a beam of intense golden light extending down-left, a small ghostly soul light being lifted and guided upward along the beam, lightning bolts illuminating the path, fierce fire at the bottom. Ancient Chinese leiwen thunder pattern spirals forming the path markings along which the soul rises. Pure dark void background. 16:9, no text or watermark",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-11%2Fe5f9e241-8731-4420-be30-ac36cdefbcb0.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260911%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260911T125830Z&x-oss-expires=3600&x-oss-signature=ad9aa707305b1e3c3ffdcc40ae289687d5807a9ad8266fe1b70672053d06b864&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "bg-quan-shan-zhenxiang.webp"
+    },
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic 3D render in Baroque tenebrism style. Pitch-black void background, only localized golden light sources illuminate the scene. Realistic physical materials: real gold-leaf texture, atmospheric smoke visible only where backlit. Volumetric god rays, real depth of field, cinematic color grading with crushed blacks, 8K. NO palace, NO temple, NO architecture on top of altars.  A small dim golden orb at the center (almost extinguished, like a hidden spirit), surrounded by an explosion of dissipating light, violent golden lightning, and fierce flames radiating outward and breaking apart, scattered ancient Chinese leiwen thunder pattern spiral fragments dissolving into golden sparks and embers. The center is dim and quiet, the periphery is violent energy. Pure dark void background. 16:9, no text or watermark",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-11%2F46a6b7b4-48f4-4e6f-9a88-83a2a288b89f.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260911%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260911T125829Z&x-oss-expires=3600&x-oss-signature=340c21897d132af20c7820417a485a0553a9bb7e2355ef0db16552f3704bb464&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "bg-tao-ming-mimi.webp"
+    },
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic 3D render in Baroque tenebrism style. Pitch-black void background, only localized golden light sources illuminate the scene. Realistic physical materials: real gold-leaf texture, atmospheric smoke visible only where backlit. Volumetric god rays, real depth of field, cinematic color grading with crushed blacks, 8K. NO palace, NO temple, NO architecture on top of altars.  A massive glowing golden ritual seal or sigil floating in the center, made of densely packed ancient Chinese leiwen thunder pattern spirals and rectilinear sigils, with violent golden lightning bolts erupting outward from the seal in all directions, fierce flames at the bottom edges. The seal radiates raw arcane power. Pure dark void background. 16:9, no text or watermark",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-11%2F0b9eafed-57a1-44ee-a4fc-ed45a12ce35d.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260911%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260911T125824Z&x-oss-expires=3600&x-oss-signature=a748a435c55a7d21adcdd54a04ef32682b8b5a08c714a2150b39ea7946b78ff2&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "bg-fa-shu-mimi.webp"
+    },
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic 3D render in Baroque tenebrism style. Pitch-black void background, only localized golden light sources illuminate the scene. Realistic physical materials: real gold-leaf texture, atmospheric smoke visible only where backlit. Volumetric god rays, real depth of field, cinematic color grading with crushed blacks, 8K. NO palace, NO temple, NO architecture on top of altars.  A massive glowing golden talisman array centered, composed of interlocking ancient Chinese leiwen thunder pattern spirals and rectilinear sigils forming a ritual magic circle, with a brilliant golden core glowing in the middle, violent golden lightning bolts striking the array from outside, fierce flames licking the edges. The array looks like an active protective talisman. Pure dark void background. 16:9, no text or watermark",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-11%2Faff4fb8a-2dd5-41f8-867b-ffb9a15ba5f8.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260911%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260911T125827Z&x-oss-expires=3600&x-oss-signature=3a48ef2e9709250a1ba8a74dacedd37ddb3a749643d94c8ae1d51dbc7ab22011&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "bg-fu-lu-mimi.webp"
+    },
+    {
+      "prompt": "Hyperrealistic dark fantasy cinematic 3D render in Baroque tenebrism style. Pitch-black void background, only localized golden light sources illuminate the scene. Realistic physical materials: real gold-leaf texture, atmospheric smoke visible only where backlit. Volumetric god rays, real depth of field, cinematic color grading with crushed blacks, 8K. NO palace, NO temple, NO architecture on top of altars.  A floating golden ritual artifact in the center (a stylized ancient Chinese bronze sword or ritual seal or bronze mirror), with ancient Chinese leiwen thunder pattern spirals engraved across its body glowing with golden energy, violent golden lightning bolts and fierce flames erupting around it. The artifact radiates sacred, dangerous power. Pure dark void background. 16:9, no text or watermark",
+      "input_urls": [
+        "https://matrix-internal-cn.oss-cn-shanghai.aliyuncs.com/user_file_upload_tmp%2F2026-09-11%2F85b4cc12-df39-4558-bd2d-a4c6deef5e94.webp?x-oss-credential=LTAI5tKjcNxbSxktvpFqdYgH%2F20260911%2Fcn-shanghai%2Foss%2Faliyun_v4_request&x-oss-date=20260911T125833Z&x-oss-expires=3600&x-oss-signature=fb31ea96046bdafdb48de3ec64c4aab4102243ef8ba4800a1a4af99c4f210cf9&x-oss-signature-version=OSS4-HMAC-SHA256"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_file": "bg-fa-qi-mimi.webp"
+    }
+  ]
+}
