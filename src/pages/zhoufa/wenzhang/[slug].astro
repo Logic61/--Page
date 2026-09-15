@@ -1,9 +1,13 @@
 ---
+import RedirectPage from '../../../components/RedirectPage.astro';
+
+// 旧地址 /zhoufa/wenzhang/<slug> → /miwen/<slug>（散文改版后的老链接兜底）
 export function getStaticPaths() {
   const modules = import.meta.glob('../../../../巫/*.md', { eager: true });
   return Object.values(modules).map((mod) => ({ params: { slug: mod.frontmatter.slug } }));
 }
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-return Astro.redirect(`${base}/miwen/${Astro.params.slug}`, 301);
 ---
+
+<RedirectPage from={`${base}/zhoufa/wenzhang/${Astro.params.slug}/`} to={`${base}/miwen/${Astro.params.slug}/`} />

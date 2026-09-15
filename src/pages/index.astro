@@ -15,8 +15,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 // with width/height ratio ≥ 1.5），避开了上方的圆形徽章。
 const branches = [
   { name: '法门', route: '/famen', x: 19.40, y: 42.85, w: 22, h: 7 },
-  { name: '修炼常识', route: '/zhoufa/zhishi', x: 80.82, y: 42.85, w: 22, h: 7 },
-  { name: '秘闻', route: '/zhoufa/wenzhang', x: 19.33, y: 71.21, w: 22, h: 7 },
+  // 注意：热点必须直连终址。旧路径（/zhoufa/zhishi、/zhoufa/wenzhang 等）是
+  // 静态托管上的 meta refresh 跳转桩，点进去会先闪一张空页再跳，多一个来回。
+  { name: '修炼常识', route: '/changshi', x: 80.82, y: 42.85, w: 22, h: 7 },
+  { name: '秘闻', route: '/miwen', x: 19.33, y: 71.21, w: 22, h: 7 },
   { name: '闲文', route: '/xianwen', x: 80.67, y: 71.21, w: 22, h: 7 },
 ];
 ---

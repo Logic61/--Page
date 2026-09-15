@@ -1,4 +1,8 @@
 ---
+import RedirectPage from '../../components/RedirectPage.astro';
+
+// 旧地址 → 新地址。静态托管发不出真 301，用同底色跳转页兜住老链接/收藏与外链。
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-return Astro.redirect(`${base}/changshi`, 301);
 ---
+
+<RedirectPage from={`${base}/zhoufa/zhishi/`} to={`${base}/changshi/`} />

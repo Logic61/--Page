@@ -1,0 +1,61 @@
+---
+// 静态托管（GitHub Pages）无法返回真正的 3xx：Astro 的 Astro.redirect() 在静态构建里
+// 只能生成一张极简的 meta refresh 页。跳转途中浏览器会先把这张页面画出来——
+// 白底 + 一行 "Redirecting to …"，就是页面上看到的闪白。
+// 这里改成与全站同底色的跳转页：同样是 0 秒 meta refresh + noindex + canonical，
+// 但底色/字体/文案随站点，跳转瞬间不再闪白。
+// 若将来迁到支持服务端重定向的托管（Netlify/Cloudflare Pages 的 _redirects、
+// Vercel 的 redirects），这些页面应改回真实 301。
+interface Props {
+  /** 目标地址（含 base）。以 / 结尾可省掉托管平台补斜杠的那次 301 */
+  to: string;
+  /** 旧地址（含 base），仅用于提示文案 */
+  from?: string;
+}
+const { to, from } = Astro.props;
+const canonical = new URL(to, Astro.site ?? Astro.url).href;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>正在前往 {to}</title>
+    <meta http-equiv="refresh" content={`0;url=${to}`} />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={canonical} />
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        display: grid;
+        place-items: center;
+        background: #030303;
+        color: #8a6a33;
+        font-family: "Kaiti SC", "STKaiti", "KaiTi", "Songti SC", serif;
+        font-size: 0.95rem;
+        letter-spacing: 0.22em;
+      }
+      p {
+        margin: 0;
+      }
+      a {
+        color: #c9a55e;
+        text-decoration: none;
+      }
+      a:hover {
+        color: #fce18c;
+      }
+      .from {
+        color: #6b5730;
+        font-size: 0.78rem;
+      }
+    </style>
+  </head>
+  <body>
+    <p>正在前往 <a href={to}>{to}</a>{from ? <span class="from">（原地址 {from}）</span> : null}</p>
+  </body>
+</html>
