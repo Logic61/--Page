@@ -1,17 +1,35 @@
 ---
 import '../styles/global.css';
-import GoldBand from '../components/GoldBand.astro';
+
+// ============================================================
+// 五脉分支页布局（偶景 / 鏖战 / 驻颜 / 真气 …）
+// 顶栏：只保留三个全站入口——返回总目录 · 课程介绍 · 报名须知
+// 背景：整页固定一张实景图（bg 传入），不再叠金色环带与雷纹
+// ============================================================
 
 interface Props {
   title: string;
   description: string;
+  /** 分脉字形与名号（由各页 hero 呈现，顶栏不再重复；保留入参以兼容现有页面） */
   glyph: string;
   label: string;
+  /** 分脉主色：用于文字、描边与顶栏强调 */
   accent: string;
+  /** 整页背景图，含 base 前缀，如 `${base}/bg/oujing-shenying.webp` */
+  bg: string;
+  /** 背景定位，缺省居中 */
+  bgPos?: string;
+  /** 背景额外压暗 0~1（原图偏亮时用 0.1~0.25） */
+  bgDim?: number;
 }
 
-const { title, description, glyph, label, accent } = Astro.props;
+const { title, description, accent, bg, bgPos = '50% 50%', bgDim = 0 } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const entries = [
+  { href: '/zhoufa/kecheng', label: '课程介绍' },
+  { href: '/zhoufa/baoming', label: '报名须知' },
+];
 ---
 
 <!doctype html>
@@ -23,27 +41,181 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
     <title>{title}</title>
   </head>
-  <body class="branch-page" style={`--branch-accent: ${accent}`}>
-    <div class="branch-aura" aria-hidden="true"></div>
-    <div class="branch-bands" aria-hidden="true"><GoldBand /></div>
+  <body
+    class="branch-page"
+    style={`--branch-accent: ${accent}; --branch-bg: url('${bg}'); --branch-bg-pos: ${bgPos}; --branch-dim: ${bgDim};`}
+  >
+    {/* 整页背景：固定不随滚动，cover 铺满；上面压一层压暗/渐隐，保证文字可读 */}
+    <div class="branch-scene" aria-hidden="true"></div>
+    <div class="branch-scrim" aria-hidden="true"></div>
+
     <header class="branch-nav">
-      <a class="branch-back kai" href={`${base}/famen`}>返回目录</a>
-      <span class="branch-nav-name kai"><b>{glyph}</b>{label}</span>
+      <div class="branch-nav-inner">
+        <a class="branch-nav-back kai" href={`${base}/`}>
+          <span class="branch-nav-arrow" aria-hidden="true">←</span>返回总目录
+        </a>
+        <nav class="branch-nav-links kai" aria-label="全站入口">
+          {
+            entries.map((e, i) => (
+              <>
+                {i > 0 && <span class="branch-nav-sep" aria-hidden="true">·</span>}
+                <a href={`${base}${e.href}`}>{e.label}</a>
+              </>
+            ))
+          }
+        </nav>
+      </div>
     </header>
+
     <main><slot /></main>
   </body>
 </html>
 
 <style>
-  .branch-page { min-height: 100dvh; background: #070807; color: #d9d2c2; position: relative; }
-  .branch-bands { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-  .branch-aura { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(ellipse 72% 46% at 50% -6%, color-mix(in srgb, var(--branch-accent) 14%, transparent), transparent 66%), radial-gradient(ellipse 46% 34% at 10% 92%, color-mix(in srgb, var(--branch-accent) 8%, transparent), transparent 72%), radial-gradient(ellipse 42% 30% at 92% 22%, color-mix(in srgb, var(--branch-accent) 7%, transparent), transparent 72%), #070807; }
-  .branch-nav { position: relative; z-index: 2; width: min(100% - 3rem, 72rem); height: 5.3rem; margin-inline: auto; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid color-mix(in srgb, var(--branch-accent) 25%, transparent); }
-  main { position: relative; z-index: 1; }
-  .branch-back, .branch-nav-name { font-size: 0.88rem; letter-spacing: 0.3em; }
-  .branch-back { color: color-mix(in srgb, var(--branch-accent) 80%, #efe3c8); transition: color 0.25s var(--ease-soft); }
-  .branch-back:hover { color: #fff3db; }
-  .branch-nav-name { color: #8e856f; }
-  .branch-nav-name b { display: inline-block; margin-right: 0.5rem; color: var(--branch-accent); font-size: 1.25rem; font-weight: 400; }
-  @media (max-width: 640px) { .branch-nav { width: min(100% - 2.2rem, 72rem); } .branch-back, .branch-nav-name { font-size: 0.8rem; letter-spacing: 0.2em; } }
+  .branch-page {
+    min-height: 100dvh;
+    position: relative;
+    background: #05070a;
+    color: #d9d2c2;
+  }
+
+  /* ---------- 背景：实景图 + 可读性遮罩 ---------- */
+  .branch-scene {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: var(--branch-bg);
+    background-size: cover;
+    background-position: var(--branch-bg-pos);
+    background-repeat: no-repeat;
+  }
+
+  .branch-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(4, 6, 9, 0.88) 0%,
+        rgba(4, 6, 9, 0.46) 16%,
+        rgba(4, 6, 9, 0.38) 40%,
+        rgba(4, 6, 9, 0.6) 72%,
+        rgba(4, 6, 9, 0.9) 100%
+      ),
+      radial-gradient(
+        ellipse 80% 58% at 50% 32%,
+        color-mix(in srgb, var(--branch-accent) 9%, transparent),
+        transparent 72%
+      ),
+      rgba(4, 6, 9, var(--branch-dim));
+  }
+
+  /* ---------- 顶栏：三个全站入口 ---------- */
+  .branch-nav {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: linear-gradient(
+      180deg,
+      rgba(4, 6, 9, 0.86) 0%,
+      rgba(4, 6, 9, 0.5) 64%,
+      rgba(4, 6, 9, 0) 100%
+    );
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+
+  .branch-nav-inner {
+    width: min(100% - 3rem, 72rem);
+    min-height: 4.6rem;
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--branch-accent) 26%, transparent);
+  }
+
+  .branch-nav-back,
+  .branch-nav-links a {
+    font-size: 0.88rem;
+    letter-spacing: 0.3em;
+    text-decoration: none;
+  }
+
+  .branch-nav-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: color-mix(in srgb, var(--branch-accent) 80%, #efe3c8);
+    transition: color 0.25s var(--ease-soft), text-shadow 0.25s var(--ease-soft);
+  }
+  .branch-nav-back:hover {
+    color: #fff3db;
+    text-shadow: 0 0 16px color-mix(in srgb, var(--branch-accent) 45%, transparent);
+  }
+  .branch-nav-arrow {
+    font-size: 0.9em;
+    transition: transform 0.3s var(--ease-soft);
+  }
+  .branch-nav-back:hover .branch-nav-arrow {
+    transform: translateX(-3px);
+  }
+
+  .branch-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+  }
+  .branch-nav-links a {
+    position: relative;
+    color: #a89c85;
+    transition: color 0.25s var(--ease-soft);
+  }
+  .branch-nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    bottom: -0.45rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--branch-accent), transparent);
+    opacity: 0;
+    transition: left 0.4s var(--ease-soft), right 0.4s var(--ease-soft), opacity 0.3s var(--ease-soft);
+  }
+  .branch-nav-links a:hover {
+    color: #fff3db;
+  }
+  .branch-nav-links a:hover::after {
+    left: 0;
+    right: 0;
+    opacity: 0.9;
+  }
+  .branch-nav-sep {
+    color: color-mix(in srgb, var(--branch-accent) 55%, transparent);
+    font-size: 0.8rem;
+  }
+
+  main {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 640px) {
+    .branch-nav-inner {
+      width: min(100% - 2.2rem, 72rem);
+      min-height: 4rem;
+    }
+    .branch-nav-back,
+    .branch-nav-links a {
+      font-size: 0.76rem;
+      letter-spacing: 0.16em;
+    }
+    .branch-nav-links {
+      gap: 0.6rem;
+    }
+  }
 </style>
