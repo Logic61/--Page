@@ -1,0 +1,178 @@
+---
+// ============================================================
+// 全局搜索浮层（含交互脚本）
+// 顶栏里的「搜」按钮只负责触发（id=searchToggle），浮层与脚本由本组件提供。
+//
+// 由布局而非顶栏组件渲染浮层，是因为它必须留在顶栏所在的层叠上下文之外：
+//   · Base 默认顶栏（.nav，--z-nav+3）
+//   · 玄金顶栏 GoldNav（z-index 70）→ 传 gold，浮层提到 80 才压得住
+// 页面自绘顶栏时（Base hideNav），用 <Base search="gold"> 打开即可。
+//
+// 数据源：src/data/search-index.json（由 scripts/gen-knowledge.mjs 生成），
+// 含「修炼常识」全部条目与《神机秘闻》十一篇，故任意页面的搜索都是全站搜索。
+// ============================================================
+import searchIndex from '../data/search-index.json';
+
+interface Props {
+  /** 顶栏为玄金令牌（GoldNav）时开启：浮层 z-index 提到 80，压过顶栏的 70 */
+  gold?: boolean;
+}
+
+const { gold = false } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<div
+  class:list={['search-overlay', { 'is-gold': gold }]}
+  id="searchOverlay"
+  aria-hidden="true"
+  role="dialog"
+  aria-label="全局搜索"
+>
+  <div class="search-panel">
+    <div class="search-bar">
+      <input id="searchInput" type="search" placeholder="搜索修炼常识、秘闻…（Esc 关闭）" autocomplete="off" />
+      <button class="search-close" id="searchClose" type="button" aria-label="关闭搜索">×</button>
+    </div>
+    <div class="search-results" id="searchResults">
+      <p class="search-hint">输入关键词，可搜索全部修炼常识与《神机秘闻》秘闻</p>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ searchIndex, base }}>
+  // 顶栏可能在浮层之后才解析（页面自绘的 GoldNav 位于 <main> 内），
+  // 故把绑定推迟到 DOM 就绪，避免取不到 #searchToggle。
+  const initSearch = () => {
+    const st = document.getElementById('searchToggle');
+    const so = document.getElementById('searchOverlay');
+    const si = document.getElementById('searchInput');
+    const sr = document.getElementById('searchResults');
+    const sc = document.getElementById('searchClose');
+    if (!so || !si || !sr) return;
+    const HINT = '<p class="search-hint">输入关键词，可搜索全部修炼常识与《神机秘闻》秘闻</p>';
+    const openSearch = () => {
+      so.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('search-open');
+      setTimeout(() => si.focus(), 30);
+    };
+    const closeSearch = () => {
+      so.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('search-open');
+      si.value = '';
+      sr.innerHTML = HINT;
+    };
+    // 页面自绘顶栏时按钮可能更晚出现，做一次兜底重试
+    const bindToggle = (tries) => {
+      const btn = st || document.getElementById('searchToggle');
+      if (btn) btn.addEventListener('click', openSearch);
+      else if (tries > 0) setTimeout(() => bindToggle(tries - 1), 120);
+    };
+    bindToggle(10);
+    sc?.addEventListener('click', closeSearch);
+    so.addEventListener('click', (e) => { if (e.target === so) closeSearch(); });
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openSearch(); }
+      else if (e.key === 'Escape' && so.getAttribute('aria-hidden') === 'false') closeSearch();
+    });
+    const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    si.addEventListener('input', () => {
+      const q = si.value.trim().toLowerCase();
+      if (!q) { sr.innerHTML = HINT; return; }
+      const hits = searchIndex.filter((x) => (x.title + x.snippet + x.category).toLowerCase().includes(q))
+        .sort((a, b) => (b.title.toLowerCase().includes(q) ? 1 : 0) - (a.title.toLowerCase().includes(q) ? 1 : 0));
+      const kw = hits.filter((h) => h.type === 'knowledge');
+      const art = hits.filter((h) => h.type === 'article');
+      let html = '';
+      if (kw.length) {
+        html += '<h4 class="search-group-title">修炼常识（' + kw.length + '）</h4>';
+        html += kw.slice(0, 12).map((h) => '<a class="search-hit" href="' + base + h.url + '"><b>' + esc(h.title) + '</b><span>' + esc(h.category) + ' · ' + esc(h.snippet) + '</span></a>').join('');
+      }
+      if (art.length) {
+        html += '<h4 class="search-group-title">秘闻（' + art.length + '）</h4>';
+        html += art.slice(0, 6).map((h) => '<a class="search-hit" href="' + base + h.url + '"><b>' + esc(h.title) + '</b><span>' + esc(h.snippet) + '</span></a>').join('');
+      }
+      if (!html) html = '<p class="search-hint">未找到与「' + esc(q) + '」相关的内容</p>';
+      sr.innerHTML = html;
+    });
+    // 站点是纯静态多页应用，结果链接直接跳转即可
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initSearch, { once: true });
+  else initSearch();
+</script>
+
+<style>
+  :global(body.search-open) { overflow: hidden; }
+
+  .search-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: calc(var(--z-nav) + 3);
+    background: rgba(5, 8, 12, 0.84);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 13vh 1.2rem 2rem;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s var(--ease-soft), visibility 0.3s;
+  }
+  .search-overlay[aria-hidden='false'] { visibility: visible; opacity: 1; }
+  /* 玄金顶栏层级更高，搜索浮层须压在其上 */
+  .search-overlay.is-gold { z-index: 80; }
+
+  .search-panel { width: min(100%, 44rem); }
+  .search-bar { display: flex; gap: 0.6rem; }
+  .search-bar :global(input) {
+    flex: 1;
+    min-width: 0;
+    padding: 0.85em 1.1em;
+    border: 1px solid var(--ink-line);
+    border-radius: 4px;
+    background: var(--ink-3);
+    color: var(--bone);
+    font-family: var(--font-song);
+    font-size: 1.05rem;
+    outline: none;
+    transition: border-color 0.3s var(--ease-soft);
+  }
+  .search-bar :global(input:focus) { border-color: var(--bronze-dim); }
+  .search-bar :global(input::placeholder) { color: var(--bone-faint); }
+  .search-close {
+    width: 48px;
+    flex: none;
+    border: 1px solid var(--ink-line);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--bone-dim);
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: border-color 0.3s var(--ease-soft), color 0.3s var(--ease-soft);
+  }
+  .search-close:hover { border-color: var(--cinnabar); color: var(--cinnabar-bright); }
+
+  .search-results { margin-top: 1.1rem; max-height: 62vh; overflow-y: auto; padding-right: 0.3rem; }
+  .search-results :global(.search-hint) { color: var(--bone-faint); padding: 1rem 0.2rem; font-size: 0.9rem; line-height: 2; }
+  .search-results :global(.search-group-title) {
+    margin: 1.1rem 0 0.5rem;
+    color: var(--bronze-bright);
+    font-family: var(--font-kai);
+    font-size: 0.86rem;
+    letter-spacing: 0.24em;
+  }
+  .search-results :global(.search-hit) {
+    display: block;
+    padding: 0.8rem 0.95rem;
+    margin-bottom: 0.55rem;
+    border: 1px solid var(--ink-line);
+    border-left: 2px solid var(--bronze-dim);
+    border-radius: 3px;
+    background: var(--panel-soft);
+    transition: border-color 0.25s var(--ease-soft), transform 0.2s var(--ease-soft);
+  }
+  .search-results :global(.search-hit:hover) { border-color: var(--bronze-bright); transform: translateY(-1px); }
+  .search-results :global(.search-hit b) { display: block; color: var(--heading); font-size: 0.98rem; letter-spacing: 0.06em; }
+  .search-results :global(.search-hit span) { display: block; margin-top: 0.3rem; color: var(--bone-faint); font-size: 0.8rem; line-height: 1.8; }
+  .search-results :global(.search-hit:hover b) { color: var(--bronze-bright); }
+</style>

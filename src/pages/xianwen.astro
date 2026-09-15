@@ -8,7 +8,7 @@ const title = '闲文 · 上古祝门';
 const description = '闲文分支目录页：闲言散语，不成体系，聊备一格。此枝内容正在整理誊录，暂未开放。';
 ---
 
-<Base title={title} description={description} hideNav={true}>
+<Base title={title} description={description} hideNav={true} search="gold">
   <div class="xianwen-scope">
 
     {/* 整页背景：与「修炼常识」同源的「山河金影」图（public/bg/shanhe-gold.webp）。
@@ -20,8 +20,8 @@ const description = '闲文分支目录页：闲言散语，不成体系，聊�
       style={`background-image:url('${base}/bg/shanhe-gold.webp')`}
     ></div>
 
-    {/* 顶部栏：玄金令牌，五个板块（首页 / 法门 / 秘闻 / 修炼常识 / 闲文） */}
-    <GoldNav />
+    {/* 顶部栏：玄金令牌，五个板块（首页 / 法门 / 秘闻 / 修炼常识 / 闲文），右侧带全局搜索（Ctrl+K） */}
+    <GoldNav showSearch />
 
     <section class="xianwen-hero" aria-labelledby="xianwen-hero-title">
       <div class="xianwen-grain" aria-hidden="true"></div>

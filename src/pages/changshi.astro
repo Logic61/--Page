@@ -14,7 +14,7 @@ const groups = cats.map((c) => ({
 const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
 ---
 
-<Base title="修炼常识 · 上古祝门" description="按修炼基础、师承传承、修行境界、祝法养生、宗教神道等类别整理的上古祝门问答与修炼常识，支持全文检索。" hideNav={true}>
+<Base title="修炼常识 · 上古祝门" description="按修炼基础、师承传承、修行境界、祝法养生、宗教神道等类别整理的上古祝门问答与修炼常识，支持全文检索。" hideNav={true} search="gold">
   <div class="changshi-scope">
 
     {/* 整页背景：用户提供的「山河金影」图（public/bg/shanhe-gold.webp）。
@@ -26,8 +26,8 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
       style={`background-image:url('${base}/bg/shanhe-gold.webp')`}
     ></div>
 
-    {/* 顶部栏：玄金令牌，五个板块（首页 / 法门 / 秘闻 / 修炼常识 / 闲文） */}
-    <GoldNav />
+    {/* 顶部栏：玄金令牌，五个板块（首页 / 法门 / 秘闻 / 修炼常识 / 闲文），右侧带全局搜索（Ctrl+K） */}
+    <GoldNav showSearch />
 
     <section class="changshi-hero" aria-labelledby="changshi-hero-title">
       <div class="changshi-grain" aria-hidden="true"></div>

@@ -20,7 +20,7 @@ const articles = Object.entries(modules)
 const warning = '本文在写作过程中，引来大量鬼神干涉，不欲这些真相公之于众。也因此部分文字中沾染了鬼神气息，经复制到 TXT 格式过滤之后，基本已消除。但仍不能保证大家在阅读的时候，不会引来鬼神关注。所以请大家在浏览本文时，不要沉浸其中，不要尝试某些内容，并保持情绪稳定。部分内容须内群可见。为避免过度刺激导致大家信仰崩塌以身殉道，同时要给信教的朋友留面子，公众版相较内群版删减大量内容，以□代替，请大家见谅。';
 ---
 
-<Base title="秘闻 · 上古祝门" description="《神机秘闻》系列十一篇：信仰、法界、轮回、神道、附体、下种、劝善、逃名、法术、符箓与法器的真相。" hideNav={true}>
+<Base title="秘闻 · 上古祝门" description="《神机秘闻》系列十一篇：信仰、法界、轮回、神道、附体、下种、劝善、逃名、法术、符箓与法器的真相。" hideNav={true} search="gold">
   <div class="miwen-scope">
 
     {/* 整页背景：用户提供的「金树灵光」图（public/bg/jinshu-lingguang.webp）。
@@ -32,8 +32,8 @@ const warning = '本文在写作过程中，引来大量鬼神干涉，不欲这
       style={`background-image:url('${base}/bg/jinshu-lingguang.webp')`}
     ></div>
 
-    {/* 顶部栏：玄金令牌，五个板块（首页 / 法门 / 秘闻 / 修炼常识 / 闲文） */}
-    <GoldNav />
+    {/* 顶部栏：玄金令牌，五个板块（首页 / 法门 / 秘闻 / 修炼常识 / 闲文），右侧带全局搜索（Ctrl+K） */}
+    <GoldNav showSearch />
 
     <section class="miwen-hero" aria-labelledby="miwen-hero-title">
       <div class="miwen-grain" aria-hidden="true"></div>

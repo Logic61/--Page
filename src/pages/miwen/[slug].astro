@@ -39,7 +39,7 @@ const bgPos = mod.frontmatter.bgPos || '50% 50%';
 const bgDim = Number(mod.frontmatter.bgDim || 0);
 ---
 
-<Base title={title + ' · 秘闻 · 上古祝门'} description={summary} hideNav={true}>
+<Base title={title + ' · 秘闻 · 上古祝门'} description={summary} hideNav={true} search="gold">
   <div class:list={['miwen-scope', { 'bg-bright': bgDim > 0 }]}>
 
     {/* 整页背景：默认「金树灵光」，单篇可用 frontmatter 的 bg 覆盖
@@ -54,8 +54,8 @@ const bgDim = Number(mod.frontmatter.bgDim || 0);
     <div class="post-scrim" aria-hidden="true"></div>
     {bgDim > 0 && <div class="post-dim" style={`--dim:${bgDim}`} aria-hidden="true"></div>}
 
-    {/* 顶部栏：玄金令牌，五个板块（首页 / 法门 / 秘闻 / 修炼常识 / 闲文） */}
-    <GoldNav />
+    {/* 顶部栏：玄金令牌，五个板块（首页 / 法门 / 秘闻 / 修炼常识 / 闲文），右侧带全局搜索（Ctrl+K） */}
+    <GoldNav showSearch />
 
     <article class="post" aria-labelledby="post-title">
       <div class="post-grain" aria-hidden="true"></div>
