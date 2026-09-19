@@ -1,0 +1,646 @@
+---
+import Base from '../../layouts/Base.astro';
+import GoldNav from '../../components/GoldNav.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const title = '法门 · 上古祝门';
+const description = '法门二目：古往今来的体系，梳理法脉源流、支派与次第；传授法门，五门各承一脉，循门而入。';
+
+/* 法门总览：一页两目，并立如双扉。
+   一曰「古往今来的体系」——源流、支派、次第与图谱；
+   二曰「传授法门」——咒法、偶景、鏖战、驻颜、真气五门。 */
+const doors = [
+  {
+    numeral: '一',
+    glyph: '系',
+    name: '古往今来的体系',
+    subtitle: '源流 · 支派 · 次第 · 图谱',
+    desc: '法脉自上古祝门以降，历代相传之格局：源流所自，支派所分，修行次第与传承图谱，皆归此门。',
+    route: '/famen/tixi',
+    tag: '篇目整理中',
+    accent: '#93a7c2',
+  },
+  {
+    numeral: '二',
+    glyph: '传',
+    name: '传授法门',
+    subtitle: '咒法 · 偶景 · 鏖战 · 驻颜 · 真气',
+    desc: '诸法之门，循门而入。上古祝门之法分作五支，各承一脉；门门有径，径径通幽。',
+    route: '/famen/chuanshou',
+    tag: '五门已开',
+    accent: '#c9a86a',
+  },
+];
+---
+
+<Base title={title} description={description} hideNav={true} search="gold">
+  <div class="famen-scope">
+
+    {/* 整页背景：与「传授法门」「修炼常识」同源的「山河金影」图（public/bg/shanhe-gold.webp）。
+        视口固定、cover 铺满，页面滚动时背景不动。 */}
+    <div
+      class="famen-pattern"
+      aria-hidden="true"
+      style={`background-image:url('${base}/bg/shanhe-gold.webp')`}
+    ></div>
+
+    {/* 顶部栏：玄金令牌，五个板块（首页 / 法门 / 秘闻 / 修炼常识 / 闲文），右侧带全局搜索（Ctrl+K） */}
+    <GoldNav showSearch />
+
+    <section class="famen-hero" aria-labelledby="famen-hero-title">
+      <div class="famen-grain" aria-hidden="true"></div>
+      <div class="famen-vignette" aria-hidden="true"></div>
+
+      <div class="wrap famen-hero-wrap">
+        <div class="famen-mark-block reveal">
+          <span class="famen-mark-frame" aria-hidden="true"></span>
+          <span class="famen-mark zhuan">法</span>
+        </div>
+
+        <div class="famen-hero-text reveal" data-d="2">
+          <p class="famen-eyebrow kai">法 门 · 一 页 二 目</p>
+          <h1 id="famen-hero-title" class="famen-title kai">法门</h1>
+          <div class="famen-rule" aria-hidden="true"></div>
+          <p class="famen-sub">诸法之门，循门而入。一门之内复分二目：一曰古往今来之体系，一曰传授之法门。</p>
+          <p class="famen-meta kai">体系 · 传法</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="doors" aria-labelledby="doors-title">
+      <div class="wrap">
+        <h2 id="doors-title" class="doors-head">
+          <span class="doors-head-line" aria-hidden="true"></span>
+          <span class="doors-head-word kai">法 门 二 目</span>
+          <span class="doors-head-line" aria-hidden="true"></span>
+        </h2>
+
+        <div class="door-grid">
+          {
+            doors.map((d, i) => (
+              <article class="door reveal" style={`--c:${d.accent};`} data-d={i + 1}>
+                <a class="door-cover" href={`${base}${d.route}`} aria-label={`进入${d.name}`}></a>
+
+                <div class="door-lintel">
+                  <span class="door-numeral zhuan" aria-hidden="true">{d.numeral}</span>
+                  <span class="door-ring" aria-hidden="true"></span>
+                </div>
+
+                <div class="door-main">
+                  <span class="door-glyph-frame" aria-hidden="true">
+                    <span class="door-glyph zhuan">{d.glyph}</span>
+                  </span>
+                  <div class="door-text">
+                    <h3 class="door-name kai">{d.name}</h3>
+                    <p class="door-sub kai">{d.subtitle}</p>
+                    <p class="door-desc">{d.desc}</p>
+                  </div>
+                </div>
+
+                <div class="door-foot">
+                  <span class="door-tag kai">{d.tag}</span>
+                  <span class="door-enter kai" aria-hidden="true">入 ›</span>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+
+        <p class="doors-foot kai">法未择人，人自择法 · 二目同归一门</p>
+      </div>
+    </section>
+
+  </div>
+</Base>
+
+<style>
+  /* ============================================================
+     法门总览 · 玄金之页
+     与「传授法门」「修炼常识」同源：同一套黑金令牌、同一张
+     「山河金影」底图、同一套首屏（印框 + 鎏金标题 + 金线）。
+     条目改作「双扉」：两扇门板并立，中间留一道门缝。
+     用 `html[data-theme]` 前缀，确保盖过 global.css 里的浅色主题。
+     ============================================================ */
+
+  html[data-theme] .famen-scope {
+    --ink: #0a0604;
+    --ink-2: #100b07;
+    --ink-3: #18120b;
+    --ink-line: rgba(248, 220, 160, 0.2);
+    --bone: #f0d68e;
+    --bone-dim: #c4a878;
+    --bone-faint: #7a6840;
+
+    --heading: #f8dfa0;
+    --gold: #dfb878;
+    --gold-bright: #f8dca0;
+    --gold-deep: #a88440;
+    /* brightest highlight stop, used for liquid-gold gradient text */
+    --gold-edge: #fff8d8;
+    --gold-glow: rgba(248, 220, 160, 0.6);
+    --gold-line: rgba(248, 220, 160, 0.42);
+    --gold-line-strong: rgba(248, 220, 160, 0.72);
+
+    --panel-soft: rgba(248, 220, 160, 0.08);
+
+    background: var(--ink);
+    color: var(--bone);
+    position: relative;
+  }
+
+  /* ============================================================
+     整页背景 — 「山河金影」
+     ============================================================ */
+  .famen-pattern {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+  }
+
+  /* ============================================================
+     Hero（与「传授法门」首屏同构）
+     ============================================================ */
+
+  .famen-hero {
+    position: relative;
+    padding: clamp(2.6rem, 5vw, 4rem) 0 clamp(3rem, 6vw, 5rem);
+    overflow: hidden;
+    isolation: isolate;
+    border-bottom: 1px solid var(--gold-line);
+  }
+  .famen-grain {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.45;
+    background-image:
+      radial-gradient(circle at 22% 28%, rgba(236, 200, 121, 0.08) 0%, transparent 38%),
+      radial-gradient(circle at 82% 18%, rgba(201, 169, 97, 0.06) 0%, transparent 42%),
+      radial-gradient(circle at 58% 82%, rgba(201, 169, 97, 0.04) 0%, transparent 50%);
+    mix-blend-mode: screen;
+  }
+  .famen-vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 80% at 50% 50%, transparent 35%, rgba(0, 0, 0, 0.65) 100%);
+  }
+  .famen-hero-wrap {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+
+  .famen-mark-block {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: clamp(8rem, 16vw, 12rem);
+    height: clamp(8rem, 16vw, 12rem);
+    flex: none;
+  }
+  .famen-mark-frame {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--gold-line-strong);
+    transform: rotate(45deg);
+  }
+  .famen-mark-frame::before,
+  .famen-mark-frame::after {
+    content: '';
+    position: absolute;
+    background: var(--gold);
+  }
+  .famen-mark-frame::before {
+    top: -1px;
+    left: -1px;
+    width: 1.2rem;
+    height: 1px;
+  }
+  .famen-mark-frame::after {
+    bottom: -1px;
+    right: -1px;
+    width: 1.2rem;
+    height: 1px;
+  }
+  .famen-mark {
+    font-family: var(--font-zhuan);
+    font-size: clamp(4rem, 9vw, 6.5rem);
+    line-height: 1;
+    color: transparent;
+    background: linear-gradient(135deg,
+      var(--gold-edge) 0%,
+      var(--gold-bright) 18%,
+      var(--gold) 35%,
+      var(--gold-deep) 52%,
+      var(--gold) 68%,
+      var(--gold-bright) 85%,
+      var(--gold-edge) 100%);
+    background-size: 220% 220%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: famen-font-flow 9s ease-in-out infinite;
+    text-shadow: 0 0 28px var(--gold-glow);
+    user-select: none;
+  }
+  @keyframes famen-font-flow {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+
+  .famen-hero-text { min-width: 0; }
+  .famen-eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.42em;
+    color: var(--gold);
+    margin: 0;
+  }
+  .famen-title {
+    margin: 1rem 0 0;
+    font-weight: 600;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    letter-spacing: 0.32em;
+    line-height: 1.15;
+    color: transparent;
+    background: linear-gradient(180deg,
+      var(--gold-edge) 0%,
+      var(--gold-bright) 22%,
+      var(--gold) 50%,
+      var(--gold-deep) 80%,
+      var(--gold) 100%);
+    background-size: 100% 220%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: famen-title-flow 12s ease-in-out infinite;
+    text-shadow: 0 0 22px var(--gold-glow);
+  }
+  @keyframes famen-title-flow {
+    0%, 100% { background-position: 0% 0%; }
+    50%      { background-position: 0% 100%; }
+  }
+  .famen-rule {
+    height: 1px;
+    width: 4.5rem;
+    margin: 1.6rem 0 0;
+    background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+  }
+  .famen-sub {
+    margin: 1.4rem 0 0;
+    max-width: 38em;
+    color: var(--bone-dim);
+    font-size: 1rem;
+    line-height: 2.2;
+  }
+  .famen-meta {
+    margin: 1.2rem 0 0;
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    color: var(--bone-faint);
+  }
+
+  /* ============================================================
+     双扉 — 两扇门板并立
+     ============================================================ */
+
+  .doors {
+    position: relative;
+    z-index: 1; /* ride above the fixed panorama */
+    padding-block: clamp(2.5rem, 5vw, 4rem);
+    background: linear-gradient(180deg,
+      rgba(10, 6, 4, 0) 0%,
+      rgba(10, 6, 4, 0.6) 9rem,
+      rgba(10, 6, 4, 0.72) 100%);
+  }
+
+  .doors-head {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.9rem, 2.4vw, 1.6rem);
+    margin: 0 0 clamp(1.9rem, 3.6vw, 2.8rem);
+    font-weight: 400;
+  }
+  .doors-head-line {
+    height: 1px;
+    width: clamp(1.8rem, 11vw, 6.5rem);
+    flex: none;
+    background: linear-gradient(90deg, transparent, var(--gold-line));
+  }
+  .doors-head-line:last-child {
+    background: linear-gradient(270deg, transparent, var(--gold-line));
+  }
+  .doors-head-word {
+    flex: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.46em;
+    text-indent: 0.46em;
+    color: var(--bone-faint);
+  }
+
+  .door-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1rem, 2.4vw, 2rem);
+  }
+
+  /* 门缝：两扇之间的那道竖线，中央嵌一枚菱形门枢 */
+  .door-grid::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 7%;
+    bottom: 7%;
+    width: 1px;
+    transform: translateX(-0.5px);
+    background: linear-gradient(180deg,
+      transparent,
+      var(--gold-line) 14%,
+      var(--gold-line) 86%,
+      transparent);
+    pointer-events: none;
+  }
+  .door-grid::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 9px;
+    height: 9px;
+    margin: -4.5px 0 0 -4.5px;
+    transform: rotate(45deg);
+    border: 1px solid var(--gold-line-strong);
+    background: var(--ink);
+    pointer-events: none;
+  }
+
+  .door {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: clamp(17rem, 34vh, 22rem);
+    padding: clamp(1.5rem, 2.8vw, 2.2rem);
+    border: 1px solid var(--gold-line);
+    border-radius: 4px;
+    background: var(--panel-soft);
+    overflow: hidden;
+    isolation: isolate;
+    transition: border-color 0.4s var(--ease-soft), transform 0.35s var(--ease-soft), box-shadow 0.4s var(--ease-soft);
+  }
+
+  /* 门板上的青晕：悬停时自门枢一侧亮起 */
+  .door::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(120% 90% at 14% 6%, color-mix(in srgb, var(--c) 16%, transparent), transparent 62%);
+    opacity: 0;
+    transition: opacity 0.45s var(--ease-soft);
+  }
+  /* 板门木纹：极淡的竖线，只在门板上半部显影 */
+  .door::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.55;
+    background-image: repeating-linear-gradient(
+      90deg,
+      rgba(248, 220, 160, 0.05) 0 1px,
+      transparent 1px 34px
+    );
+    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.9), transparent 76%);
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.9), transparent 76%);
+  }
+
+  .door:hover,
+  .door:focus-within {
+    border-color: color-mix(in srgb, var(--c) 62%, transparent);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.5), 0 0 0 1px color-mix(in srgb, var(--c) 26%, transparent) inset;
+  }
+  .door:hover::before,
+  .door:focus-within::before { opacity: 1; }
+
+  /* 门楣：序号 + 门环 */
+  .door-lintel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px dashed rgba(248, 220, 160, 0.22);
+  }
+  .door-numeral {
+    position: relative;
+    padding-left: 1.1rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.3em;
+    color: color-mix(in srgb, var(--c) 62%, var(--gold-bright));
+  }
+  .door-numeral::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    transform: rotate(45deg);
+    background: color-mix(in srgb, var(--c) 70%, transparent);
+  }
+  .door-ring {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    flex: none;
+    border: 1px solid color-mix(in srgb, var(--c) 52%, transparent);
+    border-radius: 50%;
+    transition: border-color 0.4s var(--ease-soft), transform 0.5s var(--ease-soft);
+  }
+  .door-ring::after {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    border: 1px solid var(--gold-line);
+    border-radius: 50%;
+  }
+  .door:hover .door-ring {
+    border-color: color-mix(in srgb, var(--c) 86%, transparent);
+    transform: rotate(24deg);
+  }
+
+  /* 门心：大字印框 + 名目 */
+  .door-main {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(1.1rem, 2.4vw, 1.9rem);
+    margin-top: clamp(1.5rem, 3vw, 2.2rem);
+  }
+  .door-glyph-frame {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: clamp(5.2rem, 9vw, 6.6rem);
+    aspect-ratio: 1;
+    flex: none;
+  }
+  .door-glyph-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid color-mix(in srgb, var(--c) 46%, transparent);
+    transform: rotate(45deg);
+    transition: border-color 0.45s var(--ease-soft);
+  }
+  .door-glyph-frame::after {
+    content: '';
+    position: absolute;
+    inset: 12%;
+    border: 1px solid rgba(248, 220, 160, 0.16);
+    transition: border-color 0.45s var(--ease-soft);
+  }
+  .door-glyph {
+    position: relative;
+    font-family: var(--font-zhuan);
+    font-size: clamp(2.4rem, 5vw, 3.2rem);
+    line-height: 1;
+    color: transparent;
+    background: linear-gradient(160deg,
+      color-mix(in srgb, var(--c) 55%, var(--gold-edge)) 0%,
+      var(--gold-bright) 45%,
+      var(--gold-deep) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 0 0 26px color-mix(in srgb, var(--c) 30%, transparent);
+    user-select: none;
+  }
+  .door:hover .door-glyph-frame::before { border-color: color-mix(in srgb, var(--c) 80%, transparent); }
+  .door:hover .door-glyph-frame::after { border-color: rgba(248, 220, 160, 0.32); }
+
+  .door-text { min-width: 0; }
+  .door-name {
+    font-size: clamp(1.42rem, 2.8vw, 1.85rem);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    line-height: 1.4;
+    color: var(--heading);
+    text-shadow: 0 0 18px rgba(248, 220, 160, 0.16);
+  }
+  .door-sub {
+    margin-top: 0.75rem;
+    color: color-mix(in srgb, var(--c) 72%, var(--gold-bright));
+    font-size: 0.84rem;
+    letter-spacing: 0.2em;
+    line-height: 1.9;
+  }
+  .door-desc {
+    margin-top: 1rem;
+    color: var(--bone-dim);
+    font-size: 0.92rem;
+    line-height: 2;
+  }
+
+  /* 覆盖整扇门的隐形主链接：点门板任意处即入门 */
+  .door-cover {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+  }
+  .door-foot {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: auto;
+    padding-top: clamp(1.4rem, 3vw, 2rem);
+  }
+  .door-tag {
+    padding: 0.3em 0.85em;
+    border: 1px dashed color-mix(in srgb, var(--c) 42%, transparent);
+    border-radius: 999px;
+    color: color-mix(in srgb, var(--c) 58%, var(--bone-dim));
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+  }
+  .door-enter {
+    color: color-mix(in srgb, var(--c) 72%, var(--gold-bright));
+    font-size: 0.94rem;
+    letter-spacing: 0.24em;
+    transition: transform 0.35s var(--ease-soft), color 0.35s var(--ease-soft);
+  }
+  .door:hover .door-enter,
+  .door:focus-within .door-enter { transform: translateX(6px); color: var(--gold-edge); }
+
+  .doors-foot {
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    text-align: center;
+    color: var(--bone-faint);
+    font-size: 0.82rem;
+    letter-spacing: 0.4em;
+  }
+
+  /* ============================================================
+     Mobile / reduced motion
+     ============================================================ */
+
+  @media (max-width: 880px) {
+    /* 窄屏下双扉改为上下相叠，门缝与门枢隐去 */
+    .door-grid { grid-template-columns: 1fr; }
+    .door-grid::before,
+    .door-grid::after { display: none; }
+    .door { min-height: 0; }
+  }
+
+  @media (max-width: 720px) {
+    .famen-hero { padding: 2.2rem 0 2.5rem; }
+    .famen-hero-wrap {
+      grid-template-columns: 1fr;
+      gap: 1.6rem;
+      justify-items: center;
+      text-align: center;
+    }
+    .famen-mark-block {
+      width: 7rem;
+      height: 7rem;
+    }
+    .famen-rule { margin-inline: auto; }
+  }
+
+  @media (max-width: 560px) {
+    .door-main {
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+    .door-glyph-frame { width: 4.6rem; }
+    .doors-head-word { letter-spacing: 0.32em; text-indent: 0.32em; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .famen-grain { opacity: 0.32; }
+    .famen-mark,
+    .famen-title { animation: none; }
+    .door,
+    .door-ring,
+    .door-enter,
+    .door-glyph-frame::before,
+    .door-glyph-frame::after,
+    .door::before { transition: none; }
+  }
+</style>

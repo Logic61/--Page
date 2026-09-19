@@ -1,0 +1,427 @@
+---
+import Base from '../../layouts/Base.astro';
+import GoldNav from '../../components/GoldNav.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const title = '古往今来的体系 · 法门';
+const description = '法门二目之一：古往今来的体系。法脉源流、支派与传承次第，篇目整理中。';
+---
+
+<Base title={title} description={description} hideNav={true} search="gold">
+  <div class="famen-scope">
+
+    {/* 整页背景：与「法门」「传授法门」同源的「山河金影」图（public/bg/shanhe-gold.webp） */}
+    <div
+      class="famen-pattern"
+      aria-hidden="true"
+      style={`background-image:url('${base}/bg/shanhe-gold.webp')`}
+    ></div>
+
+    {/* 顶部栏：玄金令牌（首页 / 法门 / 秘闻 / 修炼常识 / 闲文），右侧带全局搜索（Ctrl+K） */}
+    <GoldNav showSearch />
+
+    <section class="famen-hero" aria-labelledby="famen-hero-title">
+      <div class="famen-grain" aria-hidden="true"></div>
+      <div class="famen-vignette" aria-hidden="true"></div>
+
+      <div class="wrap famen-hero-wrap">
+        <div class="famen-mark-block reveal">
+          <span class="famen-mark-frame" aria-hidden="true"></span>
+          <span class="famen-mark zhuan">系</span>
+        </div>
+
+        <div class="famen-hero-text reveal" data-d="2">
+          <a class="famen-back kai" href={`${base}/famen`}>
+            <span class="famen-back-arrow" aria-hidden="true">←</span> 返回法门
+          </a>
+          <p class="famen-eyebrow kai">法 门 · 其 一</p>
+          <h1 id="famen-hero-title" class="famen-title kai">体系</h1>
+          <div class="famen-rule" aria-hidden="true"></div>
+          <p class="famen-sub">古往今来，法脉相承。源流所自，支派所分，修行次第与传承图谱，皆归此门。</p>
+          <p class="famen-meta kai">源流 · 支派 · 次第 · 图谱</p>
+        </div>
+      </div>
+    </section>
+
+    {/* 空页：内容尚未动笔，只立一块留白之版，不铺陈、不虚构 */}
+    <section class="tixi-body" aria-labelledby="tixi-plate-title">
+      <div class="wrap">
+        <div class="plate reveal">
+          <span class="plate-glyph zhuan" aria-hidden="true">待</span>
+          <h2 id="tixi-plate-title" class="plate-title kai">此 卷 尚 待 开 示</h2>
+          <p class="plate-note">体系篇目正在整理之中，源流、支派与次第，稍后补入。</p>
+
+          <nav class="plate-actions kai" aria-label="法门其余入口">
+            <a href={`${base}/famen`}>← 返回法门</a>
+            <span class="plate-sep" aria-hidden="true">·</span>
+            <a href={`${base}/famen/chuanshou`}>前往传授法门 ›</a>
+          </nav>
+        </div>
+
+        <p class="tixi-foot kai">此 处 留 白 · 以 待 来 日</p>
+      </div>
+    </section>
+
+  </div>
+</Base>
+
+<style>
+  /* ============================================================
+     古往今来的体系 · 空白页
+     与「法门」「传授法门」同源：同一套黑金令牌、同一张「山河金影」
+     底图、同一套首屏。正文区先留一块空版，等篇目补入。
+     用 `html[data-theme]` 前缀，确保盖过 global.css 里的浅色主题。
+     ============================================================ */
+
+  html[data-theme] .famen-scope {
+    --ink: #0a0604;
+    --ink-2: #100b07;
+    --ink-3: #18120b;
+    --ink-line: rgba(248, 220, 160, 0.2);
+    --bone: #f0d68e;
+    --bone-dim: #c4a878;
+    --bone-faint: #7a6840;
+
+    --heading: #f8dfa0;
+    --gold: #dfb878;
+    --gold-bright: #f8dca0;
+    --gold-deep: #a88440;
+    --gold-edge: #fff8d8;
+    --gold-glow: rgba(248, 220, 160, 0.6);
+    --gold-line: rgba(248, 220, 160, 0.42);
+    --gold-line-strong: rgba(248, 220, 160, 0.72);
+
+    --panel-soft: rgba(248, 220, 160, 0.08);
+
+    background: var(--ink);
+    color: var(--bone);
+    position: relative;
+  }
+
+  /* ============================================================
+     整页背景 — 「山河金影」
+     ============================================================ */
+  .famen-pattern {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+  }
+
+  /* ============================================================
+     Hero
+     ============================================================ */
+
+  .famen-hero {
+    position: relative;
+    padding: clamp(2.6rem, 5vw, 4rem) 0 clamp(3rem, 6vw, 5rem);
+    overflow: hidden;
+    isolation: isolate;
+    border-bottom: 1px solid var(--gold-line);
+  }
+  .famen-grain {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.45;
+    background-image:
+      radial-gradient(circle at 22% 28%, rgba(236, 200, 121, 0.08) 0%, transparent 38%),
+      radial-gradient(circle at 82% 18%, rgba(201, 169, 97, 0.06) 0%, transparent 42%),
+      radial-gradient(circle at 58% 82%, rgba(201, 169, 97, 0.04) 0%, transparent 50%);
+    mix-blend-mode: screen;
+  }
+  .famen-vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 80% at 50% 50%, transparent 35%, rgba(0, 0, 0, 0.65) 100%);
+  }
+  .famen-hero-wrap {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+
+  .famen-mark-block {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: clamp(8rem, 16vw, 12rem);
+    height: clamp(8rem, 16vw, 12rem);
+    flex: none;
+  }
+  .famen-mark-frame {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--gold-line-strong);
+    transform: rotate(45deg);
+  }
+  .famen-mark-frame::before,
+  .famen-mark-frame::after {
+    content: '';
+    position: absolute;
+    background: var(--gold);
+  }
+  .famen-mark-frame::before {
+    top: -1px;
+    left: -1px;
+    width: 1.2rem;
+    height: 1px;
+  }
+  .famen-mark-frame::after {
+    bottom: -1px;
+    right: -1px;
+    width: 1.2rem;
+    height: 1px;
+  }
+  .famen-mark {
+    font-family: var(--font-zhuan);
+    font-size: clamp(4rem, 9vw, 6.5rem);
+    line-height: 1;
+    color: transparent;
+    background: linear-gradient(135deg,
+      var(--gold-edge) 0%,
+      var(--gold-bright) 18%,
+      var(--gold) 35%,
+      var(--gold-deep) 52%,
+      var(--gold) 68%,
+      var(--gold-bright) 85%,
+      var(--gold-edge) 100%);
+    background-size: 220% 220%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: famen-font-flow 9s ease-in-out infinite;
+    text-shadow: 0 0 28px var(--gold-glow);
+    user-select: none;
+  }
+  @keyframes famen-font-flow {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+
+  .famen-hero-text { min-width: 0; }
+  .famen-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0 0 1.15rem;
+    padding: 0.34em 0.95em;
+    border: 1px solid var(--gold-line);
+    border-radius: 999px;
+    color: var(--bone-dim);
+    font-size: 0.76rem;
+    letter-spacing: 0.22em;
+    text-decoration: none;
+    transition: border-color 0.35s var(--ease-soft), color 0.35s var(--ease-soft), background 0.35s var(--ease-soft);
+  }
+  .famen-back-arrow {
+    font-size: 0.9em;
+    transition: transform 0.35s var(--ease-soft);
+  }
+  .famen-back:hover {
+    border-color: var(--gold-line-strong);
+    background: rgba(248, 220, 160, 0.08);
+    color: var(--gold-edge);
+  }
+  .famen-back:hover .famen-back-arrow { transform: translateX(-3px); }
+
+  .famen-eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.42em;
+    color: var(--gold);
+    margin: 0;
+  }
+  .famen-title {
+    margin: 1rem 0 0;
+    font-weight: 600;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    letter-spacing: 0.32em;
+    line-height: 1.15;
+    color: transparent;
+    background: linear-gradient(180deg,
+      var(--gold-edge) 0%,
+      var(--gold-bright) 22%,
+      var(--gold) 50%,
+      var(--gold-deep) 80%,
+      var(--gold) 100%);
+    background-size: 100% 220%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: famen-title-flow 12s ease-in-out infinite;
+    text-shadow: 0 0 22px var(--gold-glow);
+  }
+  @keyframes famen-title-flow {
+    0%, 100% { background-position: 0% 0%; }
+    50%      { background-position: 0% 100%; }
+  }
+  .famen-rule {
+    height: 1px;
+    width: 4.5rem;
+    margin: 1.6rem 0 0;
+    background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+  }
+  .famen-sub {
+    margin: 1.4rem 0 0;
+    max-width: 38em;
+    color: var(--bone-dim);
+    font-size: 1rem;
+    line-height: 2.2;
+  }
+  .famen-meta {
+    margin: 1.2rem 0 0;
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    color: var(--bone-faint);
+  }
+
+  /* ============================================================
+     空版 — 一块留白的版面
+     ============================================================ */
+
+  .tixi-body {
+    position: relative;
+    z-index: 1;
+    padding-block: clamp(3rem, 7vw, 6rem);
+    background: linear-gradient(180deg,
+      rgba(10, 6, 4, 0) 0%,
+      rgba(10, 6, 4, 0.6) 9rem,
+      rgba(10, 6, 4, 0.72) 100%);
+  }
+
+  .plate {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    padding: clamp(3rem, 8vw, 6rem) clamp(1.4rem, 5vw, 4rem);
+    border: 1px dashed rgba(248, 220, 160, 0.3);
+    border-radius: 4px;
+    background:
+      radial-gradient(90% 120% at 50% 0%, rgba(248, 220, 160, 0.05), rgba(10, 6, 4, 0) 70%),
+      var(--panel-soft);
+    isolation: isolate;
+  }
+
+  /* 对角两枚角饰：呼应首屏印框的角线，像未落墨的界格 */
+  .plate::before,
+  .plate::after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
+  }
+  .plate::before {
+    top: -1px;
+    left: -1px;
+    border-top: 1px solid var(--gold-line-strong);
+    border-left: 1px solid var(--gold-line-strong);
+  }
+  .plate::after {
+    right: -1px;
+    bottom: -1px;
+    border-right: 1px solid var(--gold-line-strong);
+    border-bottom: 1px solid var(--gold-line-strong);
+  }
+
+  .plate-glyph {
+    font-family: var(--font-zhuan);
+    font-size: clamp(3rem, 7vw, 4.4rem);
+    line-height: 1;
+    color: transparent;
+    background: linear-gradient(160deg, var(--gold-bright) 0%, var(--gold) 45%, var(--gold-deep) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    opacity: 0.72;
+    text-shadow: 0 0 26px var(--gold-glow);
+    user-select: none;
+  }
+
+  .plate-title {
+    margin: clamp(1.4rem, 3vw, 2rem) 0 0;
+    font-size: clamp(1.2rem, 2.6vw, 1.6rem);
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+    color: var(--heading);
+    text-shadow: 0 0 18px rgba(248, 220, 160, 0.16);
+  }
+  .plate-note {
+    margin: 1.2rem 0 0;
+    max-width: 26em;
+    color: var(--bone-dim);
+    font-size: 0.94rem;
+    line-height: 2.1;
+  }
+
+  .plate-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: clamp(1.8rem, 4vw, 2.6rem);
+  }
+  .plate-actions a {
+    padding: 0.42em 1.15em;
+    border: 1px solid var(--gold-line);
+    border-radius: 999px;
+    color: var(--bone-dim);
+    font-size: 0.84rem;
+    letter-spacing: 0.2em;
+    text-decoration: none;
+    transition: border-color 0.35s var(--ease-soft), background 0.35s var(--ease-soft), color 0.35s var(--ease-soft);
+  }
+  .plate-actions a:hover {
+    border-color: var(--gold-line-strong);
+    background: rgba(248, 220, 160, 0.08);
+    color: var(--gold-edge);
+  }
+  .plate-sep { color: var(--bone-faint); }
+
+  .tixi-foot {
+    margin-top: clamp(2.4rem, 5vw, 3.6rem);
+    text-align: center;
+    color: var(--bone-faint);
+    font-size: 0.8rem;
+    letter-spacing: 0.42em;
+  }
+
+  /* ============================================================
+     Mobile / reduced motion
+     ============================================================ */
+
+  @media (max-width: 720px) {
+    .famen-hero { padding: 2.2rem 0 2.5rem; }
+    .famen-hero-wrap {
+      grid-template-columns: 1fr;
+      gap: 1.6rem;
+      justify-items: center;
+      text-align: center;
+    }
+    .famen-mark-block {
+      width: 7rem;
+      height: 7rem;
+    }
+    .famen-rule { margin-inline: auto; }
+    .famen-back { margin-bottom: 1rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .famen-grain { opacity: 0.32; }
+    .famen-mark,
+    .famen-title { animation: none; }
+    .famen-back,
+    .plate-actions a { transition: none; }
+  }
+</style>

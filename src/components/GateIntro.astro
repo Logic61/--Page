@@ -17,7 +17,7 @@ interface Props {
 }
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const { glyph, name, subtitle, lead, blocks, note, baomingHref, famenHref = base + '/famen' } = Astro.props;
+const { glyph, name, subtitle, lead, blocks, note, baomingHref, famenHref = base + '/famen/chuanshou' } = Astro.props;
 ---
 
 <article class="gate-intro">
@@ -56,7 +56,7 @@ const { glyph, name, subtitle, lead, blocks, note, baomingHref, famenHref = base
 
     <nav class="gi-actions kai" aria-label="下一步">
       <a class="gi-btn is-primary" href={baomingHref}>愿者自来 · 报名须知</a>
-      <a class="gi-btn" href={famenHref}>返回法门</a>
+      <a class="gi-btn" href={famenHref}>返回法门列表</a>
     </nav>
   </div>
 </article>

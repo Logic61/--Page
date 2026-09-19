@@ -1,11 +1,11 @@
 ---
-import Base from '../layouts/Base.astro';
-import GoldNav from '../components/GoldNav.astro';
+import Base from '../../layouts/Base.astro';
+import GoldNav from '../../components/GoldNav.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-const title = '法门 · 上古祝门';
-const description = '法门分支目录：咒法、偶景、鏖战、驻颜、真气治病，五门各承一脉，循门而入。';
+const title = '传授法门 · 上古祝门';
+const description = '传授法门：咒法、偶景、鏖战、驻颜、真气治病，五门各承一脉，循门而入。';
 
 const gates = [
   {
@@ -87,8 +87,11 @@ const gates = [
         </div>
 
         <div class="famen-hero-text reveal" data-d="2">
+          <a class="famen-back kai" href={`${base}/famen`}>
+            <span class="famen-back-arrow" aria-hidden="true">←</span> 返回法门
+          </a>
           <p class="famen-eyebrow kai">法 门 · 五 门 各 承 一 脉</p>
-          <h1 id="famen-hero-title" class="famen-title kai">法门</h1>
+          <h1 id="famen-hero-title" class="famen-title kai">传授法门</h1>
           <div class="famen-rule" aria-hidden="true"></div>
           <p class="famen-sub">诸法之门，循门而入。上古祝门之法，分作五支，各承一脉，门门有径，径径通幽。</p>
           <p class="famen-meta kai">分支目录 · 五门</p>
@@ -294,6 +297,33 @@ const gates = [
   }
 
   .famen-hero-text { min-width: 0; }
+
+  /* 返回总览：小圆牌，压在眼圈之上 */
+  .famen-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0 0 1.15rem;
+    padding: 0.34em 0.95em;
+    border: 1px solid var(--gold-line);
+    border-radius: 999px;
+    color: var(--bone-dim);
+    font-size: 0.76rem;
+    letter-spacing: 0.22em;
+    text-decoration: none;
+    transition: border-color 0.35s var(--ease-soft), color 0.35s var(--ease-soft), background 0.35s var(--ease-soft);
+  }
+  .famen-back-arrow {
+    font-size: 0.9em;
+    transition: transform 0.35s var(--ease-soft);
+  }
+  .famen-back:hover {
+    border-color: var(--gold-line-strong);
+    background: rgba(248, 220, 160, 0.08);
+    color: var(--gold-edge);
+  }
+  .famen-back:hover .famen-back-arrow { transform: translateX(-3px); }
+
   .famen-eyebrow {
     font-size: 0.78rem;
     letter-spacing: 0.42em;
@@ -505,6 +535,7 @@ const gates = [
       height: 7rem;
     }
     .famen-rule { margin-inline: auto; }
+    .famen-back { margin-bottom: 1rem; }
   }
 
   @media (max-width: 560px) {
