@@ -13,11 +13,15 @@ interface Props {
   /** 页面自绘顶栏（hideNav={true}）时的搜索开关：
       true = 普通顶栏；'gold' = 玄金令牌顶栏（GoldNav，浮层需压在其之上）。 */
   search?: boolean | 'gold';
+  /** 黑金页：暖黑底 + 鎏金字 + 整页「山河金影」底图，并隐含 navVariant="gold"
+      （玄金令牌顶栏，且不再提供明暗切换）。/zhoufa 各页用，
+      配色与 /famen、/changshi、/miwen、/xianwen 同源。 */
+  inkGold?: boolean;
 }
 
-const { title = '上古祝门 · 古巫祝脉', description = '古巫祝脉，上古祝门，传承祝法之道。祝，咒也。以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。', hideNav = false, navVariant = 'default', search = false } = Astro.props;
+const { title = '上古祝门 · 古巫祝脉', description = '古巫祝脉，上古祝门，传承祝法之道。祝，咒也。以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。', hideNav = false, navVariant = 'default', search = false, inkGold = false } = Astro.props;
 
-const goldNav = navVariant === 'gold';
+const goldNav = navVariant === 'gold' || inkGold;
 const showDefaultNav = !hideNav && !goldNav;
 // 顶栏自带搜索按钮时（默认顶栏的「搜」/ GoldNav 的 showSearch）由本布局渲染浮层
 const searchGold = search === 'gold' || goldNav;
@@ -41,7 +45,7 @@ const isActive = (item: (typeof nav)[number]) =>
 ---
 
 <!doctype html>
-<html lang="zh-CN" data-theme="light">
+<html lang="zh-CN" data-theme="light" {...(inkGold ? { 'data-theme-lock': 'dark' } : {})}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -51,18 +55,24 @@ const isActive = (item: (typeof nav)[number]) =>
     <title>{title}</title>
     <script>
       (function () {
+        var root = document.documentElement;
+        // 黑金页（data-theme-lock="dark"）：底图与配色都是暖黑鎏金，锁定暗色，
+        // 既不读本地偏好也不写回，别的页面照旧跟随明暗切换
+        var lock = root.getAttribute('data-theme-lock');
         var saved = null;
-        try { saved = localStorage.getItem('zhumen-theme'); } catch (e) {}
-        var dark = saved ? saved === 'dark' : false;
-        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-        document.documentElement.classList.add('js');
+        if (!lock) {
+          try { saved = localStorage.getItem('zhumen-theme'); } catch (e) {}
+        }
+        var dark = lock ? lock === 'dark' : saved ? saved === 'dark' : false;
+        root.setAttribute('data-theme', dark ? 'dark' : 'light');
+        root.classList.add('js');
       })();
     </script>
   </head>
   <body>
     <Atmosphere />
 
-    {goldNav && <GoldNav showSearch showTheme />}
+    {goldNav && <GoldNav showSearch showTheme={!inkGold} />}
 
     {showDefaultNav && (
       <header class="nav" id="nav">
@@ -105,7 +115,13 @@ const isActive = (item: (typeof nav)[number]) =>
       </div>
     )}
 
-    <main id="top" class:list={{ 'nav-gold': goldNav }}>
+    {/* ink-gold 的整页底图由 main 的 ::before 画（见 global.css），
+        这里只把图片地址按 base 前缀传进去 */}
+    <main
+      id="top"
+      class:list={{ 'nav-gold': goldNav, 'ink-gold': inkGold }}
+      style={inkGold ? `--ink-gold-bg:url('${base}/bg/zhoufa-xingpan.webp')` : undefined}
+    >
       <slot />
     </main>
 

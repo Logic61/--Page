@@ -1,5 +1,15 @@
 ---
-import { groups, collectionUrl, collectionTitle, collectionAuthor, videoUrl } from '../data/videos';
+import {
+  groups,
+  collectionUrl,
+  collectionTitle,
+  collectionAuthor,
+  kuaishouProfile,
+  douyinProfile,
+  videoUrl,
+  douyinUrl,
+  kuaishouUrl,
+} from '../data/videos';
 
 const total = groups.reduce((n, group) => n + group.videos.length, 0);
 const totalSecs = groups.reduce((n, group) => n + group.videos.reduce((m, video) => m + video.secs, 0), 0);
@@ -24,6 +34,9 @@ const rows = groups.map((group) => ({
   note: group.note,
   items: group.videos.map((video) => ({ ...video, no: two(++serial) })),
 }));
+
+const all = rows.flatMap((group) => group.items);
+const douyinCount = all.filter((video) => video.douyin).length;
 ---
 
 <section class="study-video" id="video" aria-labelledby="study-video-title">
@@ -32,11 +45,18 @@ const rows = groups.map((group) => ({
       <span class="eyebrow">视频合集</span>
       <h1 id="study-video-title" class="section-title">体系认知 · 二十八讲</h1>
       <p class="video-sub">
-        《{collectionTitle}》自道家源流讲至道法体系，共 {total} 讲，约 {totalText}。依课程次序排列，点击讲题即往 B 站观看。
+        《{collectionTitle}》自道家源流讲至道法体系，共 {total} 讲，约 {totalText}。依课程次序排列，每讲列出各平台观看入口：
+        哔哩哔哩收录全 {total} 讲{douyinCount ? `，抖音同步 ${douyinCount} 讲` : ''}，快手作品请见上方快手主页。
       </p>
       <div class="video-actions">
         <a class="video-all" href={collectionUrl} target="_blank" rel="noopener noreferrer">
           在 B 站看完整合集<span class="video-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="video-home" href={douyinProfile} target="_blank" rel="noopener noreferrer">
+          访问抖音主页<span class="plat-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="video-home" href={kuaishouProfile} target="_blank" rel="noopener noreferrer">
+          访问快手主页<span class="plat-arrow" aria-hidden="true">↗</span>
         </a>
         <span class="video-author">UP：{collectionAuthor}</span>
       </div>
@@ -55,24 +75,52 @@ const rows = groups.map((group) => ({
             <ol class="video-list">
               {group.items.map((video) => (
                 <li>
-                  <a
-                    class="video-item"
-                    href={videoUrl(video.bvid)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title={video.raw}
-                    aria-label={`${video.title}（B 站第 ${video.no} 讲，新窗口打开）`}
-                  >
+                  <article class="video-item">
                     <span class="video-no kai">{video.no}</span>
-                    <span class="video-text">
+                    <div class="video-text">
                       <b class="kai">{video.title}</b>
                       <span class="video-meta">
                         {fmtDur(video.secs)} · {video.date}
                         {video.badge ? ` · ${video.badge}` : ''}
                       </span>
-                    </span>
-                    <span class="video-go" aria-hidden="true">B站<span class="video-go-arrow">↗</span></span>
-                  </a>
+                      <div class="video-links">
+                        <a
+                          class="plat"
+                          href={videoUrl(video.bvid)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title={`${video.raw}（哔哩哔哩）`}
+                          aria-label={`${video.title} — 哔哩哔哩（新窗口打开）`}
+                        >
+                          B 站<span class="plat-arrow" aria-hidden="true">↗</span>
+                        </a>
+                        {video.douyin && (
+                          <a
+                            class="plat"
+                            href={douyinUrl(video.douyin)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title={`${video.title}（抖音）`}
+                            aria-label={`${video.title} — 抖音（新窗口打开）`}
+                          >
+                            抖音<span class="plat-arrow" aria-hidden="true">↗</span>
+                          </a>
+                        )}
+                        {video.kuaishou && (
+                          <a
+                            class="plat"
+                            href={kuaishouUrl(video.kuaishou)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title={`${video.title}（快手）`}
+                            aria-label={`${video.title} — 快手（新窗口打开）`}
+                          >
+                            快手<span class="plat-arrow" aria-hidden="true">↗</span>
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </article>
                 </li>
               ))}
             </ol>
@@ -81,6 +129,9 @@ const rows = groups.map((group) => ({
       }
     </div>
 
+    <p class="video-foot reveal">
+      B 站原标题多附「仅供娱乐，无不良引导」等语，此处为便阅读略作精简，原题可悬停查看。各平台收录进度不一，抖音未同步的讲次不显示抖音入口，快手作品统一见页首「访问快手主页」。视频所述未经科学证实，切勿迷信。
+    </p>
   </div>
 </section>
 
@@ -166,9 +217,9 @@ const rows = groups.map((group) => ({
 
   .video-item {
     display: grid;
-    grid-template-columns: 2.4rem 1fr auto;
-    align-items: center;
-    gap: 0.9rem;
+    grid-template-columns: 2.2rem 1fr;
+    align-items: start;
+    gap: 0.85rem;
     width: 100%;
     padding: 0.85rem 0.95rem;
     border: 1px solid var(--ink-line);
@@ -203,19 +254,45 @@ const rows = groups.map((group) => ({
     opacity: 0.85;
   }
 
-  .video-go {
+  .video-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+  }
+  .plat {
     display: inline-flex;
     align-items: center;
-    gap: 0.2rem;
-    color: var(--bronze-dim);
+    gap: 0.25rem;
+    padding: 0.28em 0.62em;
+    border: 1px solid var(--ink-line);
+    border-radius: 2px;
+    color: var(--bronze);
     font-size: 0.72rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     white-space: nowrap;
-    transition: color 0.3s var(--ease-soft);
+    transition: border-color 0.3s var(--ease-soft), color 0.3s var(--ease-soft), background 0.3s var(--ease-soft);
   }
-  .video-item:hover .video-go { color: var(--bronze-bright); }
-  .video-go-arrow { transition: transform 0.25s var(--ease-soft); }
-  .video-item:hover .video-go-arrow { transform: translate(2px, -2px); }
+  .plat:hover {
+    border-color: var(--bronze-bright);
+    background: rgba(184, 154, 94, 0.1);
+    color: var(--heading);
+  }
+  .plat-arrow { transition: transform 0.25s var(--ease-soft); }
+  .plat:hover .plat-arrow { transform: translate(2px, -2px); }
+
+  .video-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35em 0.2em;
+    border-bottom: 1px solid var(--bronze-dim);
+    color: var(--bronze-bright);
+    font-size: 0.86rem;
+    letter-spacing: 0.14em;
+    transition: border-color 0.3s var(--ease-soft), color 0.3s var(--ease-soft);
+  }
+  .video-home:hover { border-color: var(--cinnabar-bright); color: var(--cinnabar-bright); }
 
   .video-foot {
     margin-top: 2rem;
@@ -229,6 +306,6 @@ const rows = groups.map((group) => ({
 
   @media (max-width: 560px) {
     .video-list { grid-template-columns: 1fr; }
-    .video-item { grid-template-columns: 2.1rem 1fr auto; padding: 0.8rem; }
+    .video-item { grid-template-columns: 2rem 1fr; padding: 0.8rem; }
   }
 </style>

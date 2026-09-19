@@ -441,6 +441,102 @@ main.nav-gold > .hero {
   }
 }
 
+/* ---------- 黑金页（main.ink-gold） ----------
+   /zhoufa 各页：暖黑底 + 鎏金字，配色与 /famen、/changshi、/miwen、/xianwen 同源。
+   变量直接声明在 main 上：元素自身的声明优先于 html 上的明暗两套取值，
+   因此无论 data-theme 是 light 还是 dark，本页都是同一副黑金面貌。
+   底图用 ::before 画 —— main 本身已是层叠上下文（position:relative + z-index），
+   z-index:-1 只压过 main 自身的底色，不会盖住正文（正文里的 <article> 等
+   静态块也照常在上层）。视口固定、cover 铺满，滚动时背景不动；
+   图未加载时兜底为暖黑。 */
+
+main.ink-gold {
+  --ink: #0a0604;
+  --ink-2: #100b07;
+  --ink-3: #18120b;
+  --ink-4: #201810;
+  --ink-line: rgba(248, 220, 160, 0.2);
+
+  --bone: #f0d68e;
+  --bone-dim: #c4a878;
+  --bone-faint: #7a6840;
+  --heading: #f8dfa0;
+
+  --cinnabar: #b23a2c;
+  --cinnabar-bright: #cf4b39;
+  --cinnabar-deep: #8f2c22;
+
+  --bronze: #dfb878;
+  --bronze-bright: #f8dca0;
+  --bronze-dim: #a88440;
+
+  --gold: #dfb878;
+  --gold-bright: #f8dca0;
+  --gold-deep: #a88440;
+  /* 鎏金渐变文字用的最亮高光边 */
+  --gold-edge: #fff8d8;
+  --gold-glow: rgba(248, 220, 160, 0.6);
+  --gold-line: rgba(248, 220, 160, 0.42);
+  --gold-line-strong: rgba(248, 220, 160, 0.72);
+
+  --panel-grad: linear-gradient(180deg, rgba(248, 220, 160, 0.07), rgba(10, 6, 4, 0.42));
+  --panel-mid: linear-gradient(180deg, rgba(248, 220, 160, 0.09), rgba(10, 6, 4, 0.5));
+  --panel-strong: linear-gradient(180deg, rgba(248, 220, 160, 0.12), rgba(10, 6, 4, 0.62));
+  --panel-soft: rgba(248, 220, 160, 0.08);
+
+  min-height: 100dvh;
+  background: var(--ink);
+  color: var(--bone);
+}
+
+/* 鎏金标题：与 /famen、/changshi 首屏同源的「液态鎏金」渐变（缓慢流动），
+   只作用于黑金页的一级标题，正文标题仍是平金。 */
+main.ink-gold .page-intro h1,
+main.ink-gold .hero-title,
+main.ink-gold h1.section-title {
+  color: transparent;
+  background: linear-gradient(
+    180deg,
+    var(--gold-edge) 0%,
+    var(--gold-bright) 22%,
+    var(--gold) 50%,
+    var(--gold-deep) 80%,
+    var(--gold) 100%
+  );
+  background-size: 100% 220%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: ink-gold-flow 12s ease-in-out infinite;
+  text-shadow: 0 0 22px var(--gold-glow);
+}
+
+/* 标题里的强调字随父级走同一道渐变 */
+main.ink-gold .hero-title span {
+  color: inherit;
+}
+
+@keyframes ink-gold-flow {
+  0%,
+  100% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 0% 100%;
+  }
+}
+
+main.ink-gold::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--ink-gold-bg);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+}
+
 /* ---------- page intro (sub-pages) ---------- */
 
 .page-intro {
