@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Atmosphere from '../components/Atmosphere.astro';
 import GoldNav from '../components/GoldNav.astro';
 import SearchOverlay from '../components/SearchOverlay.astro';
+import SeoHead from '../components/SeoHead.astro';
 
 interface Props {
   title?: string;
@@ -17,9 +18,20 @@ interface Props {
       （玄金令牌顶栏，且不再提供明暗切换）。/zhoufa 各页用，
       配色与 /famen、/changshi、/miwen、/xianwen 同源。 */
   inkGold?: boolean;
+  /** 搜索关键词（keywords 元标签）。Google 已不看它，百度/360/搜狗仍参考，
+      默认覆盖站名与主要法门词，个别页面可自行覆盖。 */
+  keywords?: string;
 }
 
-const { title = '上古祝门 · 古巫祝脉', description = '古巫祝脉，上古祝门，传承祝法之道。祝，咒也。以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。', hideNav = false, navVariant = 'default', search = false, inkGold = false } = Astro.props;
+const {
+  title = '上古祝门 · 古巫祝脉',
+  description = '古巫祝脉，上古祝门，传承祝法之道。祝，咒也。以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。',
+  keywords = '古巫祝脉, 上古祝门, 祝门, 祝法, 咒法, 祝由, 巫祝, 修炼常识, 秘闻, 法门',
+  hideNav = false,
+  navVariant = 'default',
+  search = false,
+  inkGold = false,
+} = Astro.props;
 
 const goldNav = navVariant === 'gold' || inkGold;
 const showDefaultNav = !hideNav && !goldNav;
@@ -49,10 +61,7 @@ const isActive = (item: (typeof nav)[number]) =>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
-    <meta name="generator" content={Astro.generator} />
-    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
-    <title>{title}</title>
+    <SeoHead title={title} description={description} keywords={keywords} />
     <script>
       (function () {
         var root = document.documentElement;

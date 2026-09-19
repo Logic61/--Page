@@ -1,5 +1,6 @@
 ---
 import NineStarArray from '../components/ritual/NineStarArray.astro';
+import SeoHead from '../components/SeoHead.astro';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <!doctype html>
@@ -8,13 +9,18 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
-    <title>九星芒阵 · 预览</title>
+    <SeoHead
+      title="九星芒阵 · 古巫祝脉"
+      description="上古祝门九星芒阵法阵预览：法阵、雷纹与金环的构成演示，配合古巫祝脉分支图使用。"
+      keywords="古巫祝脉, 上古祝门, 九星芒阵, 法阵, 雷纹"
+    />
   </head>
   <body>
     <div class="veil" aria-hidden="true"></div>
     <header class="top">
       <a class="brand kai" href={`${base}/`}>古巫祝脉</a>
-      <span class="top-title kai">九星芒阵</span>
+      {/* 页面主标题：原来是 <span>，整页没有 h1 */}
+      <h1 class="top-title kai">九星芒阵</h1>
       <a class="top-link kai" href={`${base}/`}>返回分支图</a>
     </header>
     <main>
@@ -63,6 +69,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   .brand, .top-link { color: #d4b877; font-size: 0.9rem; letter-spacing: 0.32em; text-decoration: none; transition: color 0.25s; }
   .brand:hover, .top-link:hover { color: #f0e3c8; }
   .top-title { color: #817253; font-size: 0.7rem; letter-spacing: 0.44em; }
+  /* 顶栏标题改成 h1 后抹掉默认的字号/加粗/外边距，外观与原来的 <span> 一致 */
+  h1.top-title { margin: 0; font-weight: 400; }
   .top-link { justify-self: end; }
   main { position: relative; z-index: 2; }
   .stage { position: relative; display: flex; justify-content: center; padding: 3vh 0; }

@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import SeoHead from '../components/SeoHead.astro';
 
 // ============================================================
 // 五脉分支页布局（偶景 / 鏖战 / 驻颜 / 真气 …）
@@ -21,9 +22,19 @@ interface Props {
   bgPos?: string;
   /** 背景额外压暗 0~1（原图偏亮时用 0.1~0.25） */
   bgDim?: number;
+  /** 该分脉的搜索关键词，覆盖 SeoHead 的默认值 */
+  keywords?: string;
 }
 
-const { title, description, accent, bg, bgPos = '50% 50%', bgDim = 0 } = Astro.props;
+const {
+  title,
+  description,
+  accent,
+  bg,
+  bgPos = '50% 50%',
+  bgDim = 0,
+  keywords,
+} = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 // 顶栏右侧三项；左上角另设「返回法门列表」（回到五门目录）
@@ -39,9 +50,8 @@ const entries = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
-    <title>{title}</title>
+    <SeoHead title={title} description={description} keywords={keywords} />
   </head>
   <body
     class="branch-page"

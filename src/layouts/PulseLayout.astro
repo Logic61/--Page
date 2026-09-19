@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import ArrayPattern from '../components/ArrayPattern.astro';
+import SeoHead from '../components/SeoHead.astro';
 ---
 
 <!doctype html>
@@ -8,12 +9,12 @@ import ArrayPattern from '../components/ArrayPattern.astro';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="上古祝门四脉分支目录：根出一源，法分四脉，循脉而入。古巫祝脉传承脉图。"
-    />
     <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
-    <title>古巫祝脉 · 法门总览</title>
+    <SeoHead
+      title="古巫祝脉 · 法门总览"
+      description="上古祝门四脉分支目录：根出一源，法分四脉，循脉而入。古巫祝脉传承脉图。"
+      keywords="古巫祝脉, 上古祝门, 法门, 四脉分支, 祝法, 咒法"
+    />
   </head>
   <body class="pulse-page">
     <!-- 大阵背景：一座完整阵图铺在页面背后，占满且超出视口 -->

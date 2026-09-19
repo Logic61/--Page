@@ -31,6 +31,11 @@ jobs:
         run: npm run build
         env:
           BASE_PATH: /--Page
+          # 站长平台验证令牌（可选）：在仓库 Settings → Secrets and variables →
+          # Actions → Variables 里加 GOOGLE_SITE_VERIFICATION / BING_SITE_VERIFICATION，
+          # 构建时会自动注入全站 <head>。未设置即为空，不会输出对应 meta。
+          PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
+          PUBLIC_BING_SITE_VERIFICATION: ${{ vars.BING_SITE_VERIFICATION }}
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

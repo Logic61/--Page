@@ -6,6 +6,7 @@
 // 再叠同 filter 链时渲染色像素级一致 → 树与法阵浑然一体）。
 // 法阵保持高亮度鎏金，不做压暗处理。
 import NineStarArray from '../components/ritual/NineStarArray.astro';
+import SeoHead from '../components/SeoHead.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -28,15 +29,20 @@ const branches = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="古巫祝脉一树四枝：法门、修炼常识、秘闻、闲文。循脉而入，可览上古祝门传承。" />
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
-    <title>古巫祝脉 · 法脉总览</title>
+    {/* 首页是独立文档（不走 Base 布局），SEO head 由 SeoHead 组件统一提供 */}
+    <SeoHead
+      title="古巫祝脉 · 法脉总览 · 上古祝门"
+      description="古巫祝脉，上古祝门法脉总览。一树四枝：法门、修炼常识、秘闻、闲文。祝，咒也——以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。"
+      keywords="古巫祝脉, 上古祝门, 祝门, 祝法, 咒法, 祝由, 巫祝, 法门, 修炼常识, 秘闻, 闲文"
+    />
   </head>
   <body>
     <div class="veil" aria-hidden="true"></div>
 
     <header class="top">
-      <a class="brand kai" href={`${base}/`}>古巫祝脉</a>
+      {/* 整页原来没有一个 <h1>，品牌名本身就是页面主标题，直接用它 */}
+      <h1 class="brand kai"><a href={`${base}/`}>古巫祝脉</a></h1>
       <a class="top-link kai" href={`${base}/zhoufa`}>进入祝门</a>
     </header>
 
@@ -169,6 +175,9 @@ const branches = [
               data-name={b.name}
               style={`left:${b.x}%; top:${b.y}%; width:${b.w}%; --hs-h:${b.h}%;`}
             >
+              {/* 牌匾上的字是烧进图片里的，锚点自身没有文本；补一份纯文本锚文本，
+                  搜索引擎才读得到「法门」「秘闻」这些词 */}
+              <span class="sr-only">{b.name}</span>
               <span class="hotspot-ring" aria-hidden="true"></span>
               {b.name === '法门' && (
                 <img
@@ -184,7 +193,25 @@ const branches = [
       </div>
     </main>
 
-    <footer class="foot kai">诸枝同源 · 各有所传</footer>
+    {/* 页脚原来只有一行装饰字，整页可读文本不足 40 字，搜索引擎几乎抓不到内容。
+        这里补成「分支文字导航 + 一句简介」：外观仍是页脚细字，
+        但首页从此有了可抓取的正文与带关键词的内链锚文本。 */}
+    <footer class="foot kai">
+      <nav class="foot-branches" aria-label="法脉分支">
+        {branches.map((b, i) => (
+          <>
+            {i > 0 && <span class="foot-sep" aria-hidden="true">·</span>}
+            <a href={`${base}${b.route}`}>{b.name}</a>
+          </>
+        ))}
+      </nav>
+      <p class="foot-line">诸枝同源 · 各有所传</p>
+      <p class="foot-desc">
+        古巫祝脉，上古祝门传承总览。祝，咒也；以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。
+        循脉而入：法门承咒法、偶景、鏖战、驻颜、真气治病五支，各有所传；修炼常识辑录修炼基础、师承传承、
+        修行境界与祝法养生问答；秘闻《神机秘闻》十一篇，辨神道、法界、轮回之实；闲文闲言散语，聊备一格。
+      </p>
+    </footer>
 
     <script is:inline>
       // 中低端设备兜底：首屏采样帧率，低于阈值则冻结旋转/流光动画。
@@ -270,6 +297,12 @@ const branches = [
   }
   .brand:hover, .top-link:hover { color: #f6e9bd; }
   .top-link { justify-self: end; }
+
+  /* 品牌名现在是 <h1>（整页主标题），抹掉 h1 默认的字号/加粗/外边距，
+     外观与原来的 <a> 完全一致；字号字距仍由上面的 .brand 规则给出，
+     链接本身只负责继承颜色 */
+  h1.brand { margin: 0; font-weight: 400; }
+  .brand a { color: inherit; text-decoration: none; }
 
   main {
     position: relative;
@@ -493,6 +526,39 @@ const branches = [
     text-align: center;
     font-size: 0.72rem;
     letter-spacing: 0.42em;
+  }
+
+  /* 页脚文字导航：四个分支的纯文字入口 */
+  .foot-branches {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0 0 0.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+  }
+  .foot-branches a {
+    color: #a9843f;
+    text-decoration: none;
+    transition: color 0.25s;
+  }
+  .foot-branches a:hover { color: #f6e9bd; }
+  .foot-sep { color: #5a4826; }
+
+  .foot-line { margin: 0; }
+
+  /* 页脚简介：留给搜索引擎的正文，比装饰行低调，不抢主图 */
+  .foot-desc {
+    max-width: 33rem;
+    margin: 0.75rem auto 0;
+    color: #6d5930;
+    font-size: 0.68rem;
+    line-height: 2;
+    letter-spacing: 0.08em;
+    text-align: justify;
+    text-justify: inter-ideograph;
   }
 
   @media (max-width: 900px) {

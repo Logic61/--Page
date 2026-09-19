@@ -1,0 +1,102 @@
+---
+/**
+ * 全站 SEO head 片段。
+ *
+ * 抽成独立组件的原因：首页（/）与 /jiuxing 是不走 Base 布局的独立 HTML 文档，
+ * 若把 head 写在 Base 里，这两页就会漏掉 canonical / 结构化数据 —— 而首页恰恰
+ * 是品牌词「古巫祝脉」最需要命中的那一页。
+ *
+ * 输出：标题、描述、关键词、canonical、robots、站长平台验证、分享卡片、JSON-LD。
+ */
+interface Props {
+  title: string;
+  description: string;
+  keywords?: string;
+}
+
+const {
+  title,
+  description,
+  keywords = '古巫祝脉, 上古祝门, 祝门, 祝法, 咒法, 祝由, 巫祝, 修炼常识, 秘闻, 法门',
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+// 取当前页相对 base 的路径（不含尾斜杠），首页为 '/'
+const path = (Astro.url.pathname.replace(/\/$/, '') || '/').replace(base, '') || '/';
+
+// 站点根去掉尾斜杠，与 base 拼出规范地址；换自定义域名只需改 astro.config 的 site
+const siteURL = (Astro.site?.href ?? 'https://logic61.github.io/').replace(/\/+$/, '');
+const homeURL = `${siteURL}${base}/`;
+// 静态构建是目录式页面（xxx/index.html），规范地址统一补尾斜杠，
+// 避免 /a 与 /a/ 被搜索引擎当成两份不同的重复页面
+const canonical = `${siteURL}${base}${path === '/' ? '/' : `${path}/`}`;
+const ogImage = `${siteURL}${base}/分支图-final-gold.png`;
+
+// 站长平台验证令牌由构建环境注入（见 .github/workflows/deploy.yml），未设置则不输出
+const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION ?? '';
+const bingVerification = import.meta.env.PUBLIC_BING_SITE_VERIFICATION ?? '';
+
+const SITE_NAME = '古巫祝脉';
+const SITE_ALT_NAME = '上古祝门';
+const SITE_DESC = '古巫祝脉，上古祝门。祝，咒也。以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。';
+
+// 结构化数据：把「古巫祝脉 / 上古祝门」作为一个明确的站点实体报给搜索引擎，
+// 品牌词检索时更容易命中，也更可能被识别为站点名而非拆散的词
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${homeURL}#website`,
+      url: homeURL,
+      name: SITE_NAME,
+      alternateName: [SITE_ALT_NAME, `${SITE_NAME} · ${SITE_ALT_NAME}`],
+      description: SITE_DESC,
+      inLanguage: 'zh-CN',
+      publisher: { '@id': `${homeURL}#organization` },
+    },
+    {
+      '@type': 'Organization',
+      '@id': `${homeURL}#organization`,
+      name: SITE_ALT_NAME,
+      alternateName: SITE_NAME,
+      url: homeURL,
+      logo: { '@type': 'ImageObject', url: ogImage },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${canonical}#webpage`,
+      url: canonical,
+      name: title,
+      description,
+      isPartOf: { '@id': `${homeURL}#website` },
+      inLanguage: 'zh-CN',
+    },
+  ],
+};
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords} />
+<meta name="generator" content={Astro.generator} />
+{/* 规范地址：防止 /a、/a/、?query 等变体被当成多份重复页面 */}
+<link rel="canonical" href={canonical} />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+{googleVerification && <meta name="google-site-verification" content={googleVerification} />}
+{bingVerification && <meta name="msvalidate.01" content={bingVerification} />}
+
+{/* 分享卡片：微信/QQ/Twitter 等抓取缩略图与摘要用 */}
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={`${SITE_NAME} · ${SITE_ALT_NAME}`} />
+<meta property="og:locale" content="zh_CN" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
