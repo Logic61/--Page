@@ -4,11 +4,10 @@ interface Props {
   title: string;
   subtitle: string;
   description: string;
-  introHref?: string;
-  baomingHref?: string;
 }
 
-const { glyph, title, subtitle, description, introHref, baomingHref } = Astro.props;
+// 页内不再自设动作行：一脉三页的前后跳转统一由 BranchSteps 在页底给两个去处
+const { glyph, title, subtitle, description } = Astro.props;
 ---
 
 <article class="branch-portal">
@@ -23,23 +22,11 @@ const { glyph, title, subtitle, description, introHref, baomingHref } = Astro.pr
       <p id="portal-reading-title" class="portal-label kai">分脉提要</p>
       <p>{description}</p>
     </section>
-    <section class="portal-note" aria-label="内容说明">
-      <span class="portal-note-mark" aria-hidden="true"></span>
-      <p>此支内容尚在整理，后续篇章将在此展开。</p>
-    </section>
-    {
-      (introHref || baomingHref) && (
-        <nav class="portal-actions kai" aria-label={title + "入口"}>
-          {introHref && <a class="portal-link" href={introHref}>门中介绍</a>}
-          {baomingHref && <a class="portal-link is-primary" href={baomingHref}>报名须知</a>}
-        </nav>
-      )
-    }
   </div>
 </article>
 
 <style>
-  .branch-portal { position: relative; z-index: 1; padding: clamp(4.5rem, 10vw, 9rem) 0 clamp(5rem, 10vw, 9rem); }
+  .branch-portal { position: relative; z-index: 1; padding: clamp(4.5rem, 10vw, 9rem) 0 clamp(2.6rem, 5vw, 4rem); }
   .branch-wrap { width: min(100% - 3rem, 48rem); margin-inline: auto; }
   .portal-hero { display: grid; grid-template-columns: auto 1fr; column-gap: clamp(1.4rem, 4vw, 3.5rem); align-items: end; padding-bottom: clamp(3rem, 6vw, 5rem); border-bottom: 1px solid color-mix(in srgb, var(--branch-accent) 35%, transparent); }
   .portal-glyph { grid-row: 1 / span 3; color: transparent; -webkit-text-stroke: 1.7px color-mix(in srgb, var(--branch-accent) 58%, #f8ecca); font-size: clamp(7rem, 17vw, 13rem); line-height: 0.7; text-shadow: 0 0 34px color-mix(in srgb, var(--branch-accent) 22%, transparent); }
@@ -48,11 +35,5 @@ const { glyph, title, subtitle, description, introHref, baomingHref } = Astro.pr
   .portal-subtitle { margin-top: 0.9rem; color: #cdc3b0; font-size: 0.9rem; letter-spacing: 0.3em; }
   .portal-reading { width: min(100%, 48rem); margin: clamp(3.5rem, 8vw, 7rem) auto 0; }
   .portal-reading > p:last-child { margin-top: 1.2rem; color: #e0d8c6; font-size: clamp(1rem, 1.5vw, 1.12rem); line-height: 2.25; }
-  .portal-note { display: flex; gap: 1rem; width: min(100%, 48rem); margin: clamp(3rem, 6vw, 5rem) auto 0; padding-top: 1.2rem; border-top: 1px solid color-mix(in srgb, var(--branch-accent) 25%, transparent); color: #c2b7a4; font-size: 0.9rem; line-height: 2; }
- .portal-actions { display: flex; flex-wrap: wrap; gap: 1rem; width: min(100%, 48rem); margin: clamp(2.4rem, 5vw, 4rem) auto 0; }
- .portal-link { padding: 0.72em 1.6em; border: 1px solid color-mix(in srgb, var(--branch-accent) 55%, transparent); border-radius: 3px; color: color-mix(in srgb, var(--branch-accent) 78%, #efe3c8); font-size: 0.9rem; letter-spacing: 0.28em; text-decoration: none; transition: border-color 0.3s var(--ease-soft), background 0.3s var(--ease-soft), color 0.3s var(--ease-soft), transform 0.25s var(--ease-soft); }
- .portal-link:hover { border-color: var(--branch-accent); background: color-mix(in srgb, var(--branch-accent) 14%, transparent); color: #fff3db; transform: translateY(-2px); }
- .portal-link.is-primary { background: linear-gradient(180deg, color-mix(in srgb, var(--branch-accent) 30%, transparent), color-mix(in srgb, var(--branch-accent) 16%, transparent)); color: #f0e6cf; }
-  .portal-note-mark { width: 0.48rem; height: 0.48rem; flex: none; margin-top: 0.7rem; border: 1px solid var(--branch-accent); transform: rotate(45deg); }
   @media (max-width: 640px) { .branch-wrap { width: min(100% - 2.2rem, 48rem); } .portal-hero { column-gap: 1rem; } .portal-glyph { font-size: 6.3rem; } .portal-subtitle { letter-spacing: 0.17em; } }
 </style>

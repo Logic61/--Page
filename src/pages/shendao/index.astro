@@ -1,6 +1,7 @@
 ---
 import BranchLayout from '../../layouts/BranchLayout.astro';
 import BranchPortal from '../../components/BranchPortal.astro';
+import BranchSteps from '../../components/BranchSteps.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -16,12 +17,16 @@ const description = '神道法辨明：由香火念力衍生的法门——聚�
   accent="#cf8a52"
   bgDim={0.22}
   bg={`${base}/bg/shen-dao-zhenxiang.webp`}
+  courseHref="/shendao/jieshao"
+  baomingHref="/shendao/baoming"
 >
   <BranchPortal
     glyph="神"
     title="神道法"
     subtitle="香火 · 封神 · 下种"
     description="神道与自力，是修行的两条路。此门所讲，是神道一途的来路与去处：何以容易，何以受制，何以被内行人称作「堕入神道」。"
-    introHref={base + '/shendao/jieshao'}
   />
+
+  {/* 第一页只给两个去处：介绍 · 报名 */}
+  <BranchSteps />
 </BranchLayout>

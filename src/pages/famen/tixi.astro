@@ -1,11 +1,110 @@
 ---
 import Base from '../../layouts/Base.astro';
 import GoldNav from '../../components/GoldNav.astro';
+import Treatise from '../../components/Treatise.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const title = '古往今来的体系 · 法门';
-const description = '法门二目之一：古往今来的体系。法脉源流、支派与传承次第，篇目整理中。';
+const description =
+  '法门二目之一：古往今来的体系。修炼分炼神、炼形、培养道心三大方面；法门有存思、存神、精思、导引、服食、咒音、内丹、采炁等；依得炁来源又分内求与外求，依力量归属再分自力与它力。';
+
+// 正文：源文件《古往今来的体系》全篇，由 .qa/gzh-gen.mjs 机械生成，逐字未改
+const chapters = [
+  {
+    blocks: [
+      { t: 'p', text: '修炼包括：炼神、炼形、培养道心三大方面' },
+      { t: 'p', text: '【养炼神形，提升神形品质，最终实现神形合一、神形俱妙、互化有无、长生久视的成就】' },
+      { t: 'p', text: '古往今来具体体系方面大致包括有：存思、存神、精思、导引、服食、咒音、内丹、采炁等等。' },
+      { t: 'p', text: '【以上体系之法，每一种都有修炼到最高境界成体系的法门，但是现实大部分的存在不是没有传承，就是已残缺、已断绝，或有少许些许零星传承，甚至对它们懂都不懂什么意思。】' },
+      { t: 'p', text: '存思：想象事物形象、外观，以养炼神炁。【存思之中，有一种存想xxx神灵、某个物品，或者等等形象的神道法门也叫存神。】' },
+      { t: 'p', text: '存神：就是存养精神、存我之神、凝练魂魄，精一魂魄的法门。' },
+      { t: 'p', text: '精思：精神守一，纯粹思想，干净简洁，用来养炼神气的法门。' },
+      { t: 'p', text: '导引：是利用身体动作，来导引内外神炁，炼养神形的法门。' },
+      { t: 'p', text: '服食：是通过服食某些存在，如：草木、金石、药材、物质、丹药、炁体等等，来辅助主要功法修炼。【又称食饵，后来慢慢发展为丹鼎一派，此派后世称作外丹法】（其本质是内丹法的老祖）' },
+      { t: 'p', text: '咒音：是发出特定频率、声音等音律，用以炼形炼神，或寄托精神的法门。【自力祝法便是教此内容】' },
+      { t: 'p', text: '内丹：是外丹法中的炼炁部分，中途发展期间由于环境历史原因，又融合了部分佛家法门和一些其他道家法门形成的一类修炼方法，最后独成一系。' },
+      { t: 'p', text: '【好在人家也算是创业成功了，后世之中到目前2023年来看，算是成为大众所知最广的存在，丹道随着宗教传播，逐渐广为人知，但核心传承依然，隐传、秘传、师寻徒传。】' },
+      { t: 'p', text: '采炁：是利用动作、精神采取先天炁、地炁、罡煞等等外炁，用来养炼神形的法门。 当中也有利用呼吸、吐纳法、采炁、吞气的服气法。 【丹道随着宗教传播，逐渐广为人知，但传承依然，隐传、秘传、师寻徒传。】' },
+    ],
+  },
+  {
+    num: '二：',
+    title: '内求法与外求法',
+    blocks: [
+      { t: 'p', text: '除了修炼法门体系外，根据得炁来源的不同，可以把修炼法门分为内求法和外求法。' },
+      { t: 'p', text: '内求法：就是通过自身的阴阳转化，或开玄关，自内虚空得炁的方法，所以有句话叫，先天一炁自虚无中来。' },
+      { t: 'p', text: '这里面就包括自力修炼、内丹等。' },
+      { t: 'p', text: '优点：内求法得炁品质高、地点要求较低，对财侣要求不高，有地方就能修炼，可以移动，可以跑路。' },
+      { t: 'p', text: '缺点：大部分人难以入门、得炁的体量少。' },
+      { t: 'p', text: '外求法：意思就是除去自己诞生求得的方式，比如采取天地间自然产生的先天炁。' },
+      { t: 'p', text: '什么采炁、导引、存思等等。' },
+      { t: 'p', text: '优点：量大管饱、门槛低到可谓没有门槛' },
+      { t: 'p', text: '缺点：质量不如内求之法，对地方有严格限制，而且需要大毅力，大有钱。（甚至某些外求法要在一个地方一直呆着，不能随意外出，否则修为转退，甚至一朝回到解放前，甚至危机性命，所以遇见个什么地震啊，相关部门伸出搬移援助啊什么的也是有苦说不出，只能承受后果了。可谓束地啊~）' },
+      { t: 'p', text: '另说：' },
+      { t: 'p', text: '外求法看起来是苦逼，但是香也是真的香，因为它是特别容易出成就的法门。' },
+      { t: 'p', text: '同等的情况和努力下，能把内求法远远甩在身后。' },
+      { t: 'p', text: '但是！！！！' },
+      { t: 'p', text: '他实在是太束地了，太依赖环境了，而且深山老林里面的日子长时间没谁受得了，其次，想要摆脱这种束缚得到先天或者人仙境了。' },
+      { t: 'p', text: '而且，一旦修外求法的话，在没有达到一定程度之前，你很难和内修一起修，真发生环境变化，你除了罚站挨打，接受后果外没什么办法，真想兼修内求，得到一定程度了。' },
+      { t: 'p', text: '不过外求法的诞生历史比较早，算是初始的一种存在了，只不过随着现实情况的转变，慢慢合适要求的地方减少，然后大部分修士就开始了内修。' },
+      { t: 'p', text: '【外求法现在完整的全法全诀难得一见，和断绝快媲美了，现在流出的部分碎片也就导引、服气、站桩等等了。】' },
+    ],
+  },
+  {
+    num: '三：',
+    title: '又有自力与它力',
+    blocks: [
+      { t: 'p', text: '除了体系、得气从修炼的宏观来说，又有自力与它力一说。' },
+      { t: 'p', text: '起头，总结核心：基本来说，只有两个区别，一：自力，二：它力。' },
+      { t: 'p', text: '自力：说白了，修出来的力量是完完全全，百分百属于自己的，这叫自力。' },
+      { t: 'p', text: '它力：说白了和自力相反，是通过别的手段得到力量。（有人可能觉得这很不错啊，但是我只说一句，别人给你的，随时都能收回去。）' },
+      { t: 'p', text: '接下来具体说大概内容。' },
+      { t: 'p', text: '其实，核心已经说的很清楚了，就是上面的核心总结，能吃透那么就很好区别了。' },
+      { t: 'p', text: '从宏观本质上来说，就是上面那些，两个点，一个点，力量是你自己的，另一个点，力量不是你自己的，但是可以用。' },
+      { t: 'p', text: '自力法' },
+      { t: 'p', text: '通过自己努力修炼，靠传承指导，到达结果的一个过程，期间不接受任何外力，比如下种、灌顶、附体、透支等等行为。' },
+      { t: 'p', text: '好处：力量完完全全百分百属于自己，生死由自我掌控。' },
+      { t: 'p', text: '难处：自力之路难走，且不说你是否有真东西，有了真东西之后你还得辛辛苦苦才修炼，很难，很多存在练了几十年可能才一点反应。' },
+      { t: 'p', text: '它力：' },
+      { t: 'p', text: '非自己努力的结果，依靠一些东西到达的程度，这里我们拿香火神道举例。' },
+      { t: 'p', text: '比如，依靠万民信念信仰以及香火达到某种地步。' },
+      { t: 'p', text: '比如，拜入宗教得到种子被种子带上去的地步。' },
+      { t: 'p', text: '好处：不用自己辛辛苦苦的修炼，随着种子信息自我运转，逐渐达到某种地步，甚至可以出现一些神通功能。' },
+      { t: 'p', text: '难处：力量不是你的，你如同一件衣服，可以随时被换掉，力量可以随时被收回，这个时候有宗教或者什么法教的朋友，可能听说过xxx因为什么什么事情，然后什么修为被废掉了，或者什么神通或者什么能力被上面收掉，封掉了等等情况。' },
+      { t: 'p', text: '其次，种子的高度就是你的上限，种子不同，修炼的成果也不一样，最主要的是，你有了种子也得有操作办法才是。' },
+      { t: 'p', text: '有了办法后，说白了就是拿你的一切去喂养这个种子，让它茁壮成长，如果不知道一切是什么意思，你可以理解为拿你的命去养。' },
+      { t: 'p', text: '很多时候，播撒种子，只是为了回收果实而已，就算有种子，平平无奇的存在也多如沙漠之粒。' },
+      { t: 'p', text: '一句话，这种它力存在如同案板上的肉，对方什么时候想吃你了，你就自求多福吧。' },
+      { t: 'p', text: '生前为工具，死后为备用干粮，说的就是这种。' },
+      { t: 'p', text: '问' },
+      { t: 'p', text: 'XXX:我修炼只是想成为神仙神佛那种的啊~' },
+      { t: 'p', text: '答：很不好意思，人家那种是自力行为，力量是完完全全属于自己的，自力之法，自古瘾传、秘传，师寻徒传，口口相传，甚至不记文字，不载外物。' },
+      { t: 'p', text: '注：经过几千年的演变发展，现在世面不是宗教，就是宗教相关，至于真正的传承历来都是隐传，秘传，师寻徒传，不记文字，不载外物，外界难知。' },
+      { t: 'p', text: '没有真东西就是进不去，任你把话说破，任你身上有多么耀眼的光环，任你社会上多么牛逼的身份，哪怕是皇帝，你也进不去。' },
+      { t: 'p', text: '而没有真东西的，出事只是早晚问题，有的能反应过来，被拉出来，但这都是稀有的少数。' },
+    ],
+  },
+  {
+    title: '神道法',
+    blocks: [
+      { t: 'p', text: '神道法有两种，一种是汇聚万民心念自身修成神佛；一种是通过传播宗教，获取神道功德，死后受封成为神官；一种是依靠附庸神明祖师仙佛，以自身神气或修炼来壮大神明种子，最终修成有一定自我意识的神佛化身。' },
+      { t: 'p', text: '第一种，要修成有自我意识的神佛，并不是只是获取香火心念就可以的，其中有特别的修法，而且这条路也并不十分好走。修这个，要么是死后修，要么是修了以后会早死。就算修成了，神人互役的大缺陷，也是摆脱不了的。' },
+      { t: 'p', text: '第二种，无论权柄还是神炁，皆来自于神明封赐，予取予夺，没什么好说的。' },
+      { t: 'p', text: '第三种情况比较复杂，其中有很多种类。' },
+      { t: 'p', text: '首先是神明种子的获取就有几种情况，有的是通过下种灌顶过法等师门师传、祖传的种子；有的是通过入门仪式获取；有的是练功过程中有涉及神佛祖师的神道内容，通过感召获取，例如观想神灵、念咒呼名；有的是通过长期把玩佩戴法器法物获得；有的是通过诚心供奉膜拜神佛，通过信力与神佛建立联系获得的。这里面前三种还是要挑剔一下人选的，后两种不挑人，必然获得，狗都可以获得。' },
+      { t: 'p', text: '所谓种子，其实就是神佛祖师一点神炁，也可以说是一点分神。因这神炁在品质上高于你自身，所以这种子会成为你的神炁核心，你的修炼，就是用你自身或你所采取的神炁，来养大种子，壮大这个神炁核心。这就是将自身神炁转化为高品质神炁的过程，也可以说是高品质神炁同化你的过程。也因此，种子的神炁品质就是你修炼的极限。当然这里面还有更复杂一些的神炁道理，在此不细讲，总之受种的修炼是无法超越下种者的。受种者的修炼可能对下种者有所补益，也可能仅仅壮大法力，但也无法令下种者超越自身层次。' },
+      { t: 'p', text: '其中不同的种子，修炼获得的成果也不一样。' },
+      { t: 'p', text: '神明一类，有的类似阳属层次的正神，有的是阴神下鬼附体护法出马一类。因受香火而成就的仙佛，虽然名为仙佛，从归类上也属于神明。这类种子，修炼有成，就是去做神仆天官，乃至护法阴兵，最高可以做个仆从神，为上神服务，做神佛的高级电池。你的神炁，或说你的法身的所有权是属于神明的，但你还是有使用权的，只要上神不收回，你就可以一直使用。你本身也有一定的自主权，但因为思维受到侵蚀影响，你自己会认为你是完全有自主权的，而意识不到你的思想是受到一定影响和控制的。' },
+      { t: 'p', text: '真正有成就的仙佛是另一类，他们有了真正的自身神炁上的大成就，可以做到不沾香火心念。根据自身的选择，他们可以将香火完全隔离消灭，也可以置之不理让他自然汇聚成神，或者作为一个神明分身替自己处理事务，甚至可以拿香火来做个法器。如果获得的是被隔离的神或者神分身的种子，那情况和上一种无异。如果是获取的真正仙佛的种子，那你也可以有很高的成就，虽然受控于仙佛，也相当于仙佛分身，但真正的仙佛未必有兴趣控制你，因为你对他来说未必有用，最多拿你当个后手备胎之类。' },
+      { t: 'p', text: '祖师种子有不同情况，有的祖师已经成就仙佛，有的祖师可能已归入神道成就神明或加入神明体系成为神官，有的祖师可能还只是阴神下鬼，形神俱灭，只是被拜出来的灵。根据不同情况，受种者最高可以获得不同成果。' },
+      { t: 'p', text: '仙人和祖师相对靠谱一点，可能有提携后辈的想法，未必怀有恶意。' },
+      { t: 'p', text: '优缺点' },
+      { t: 'p', text: '尺有所短，寸有所长，说自力法或者神道法，不能只说他的好处或者坏处。自力虽好，伟力归于自身。但完全依靠自己的努力，即便不求形神聚妙，那也是非常困难的。并且自力法基本不修法术神通，不是没有，而是纯靠自身神炁的法术神通修起来比正路子神形修炼一点也不省劲，有那个功夫，好好修炼也出成就了。神道法受控，生死操于神手，但是你在生活中，又何尝不是受控于人呢？最起码神道法有神佛祖师带你飞，要容易得多，成功的几率大得多。而且神道可以借用上神法力，可以使用部分法术神通，像什么符箓啊咒法啊印决啊，简单的一入门就可以使用。但也并不是就不需要努力了完全靠阿姨就上位了，神佛也不养闲人的，他们只是对你提供一些帮助给你一些便利条件，依旧需要你自身努力才能达成成就。即便有神明提携，其实成功率只是相对较高，能有成就的依然是极少数人。如果等你死的时候一点成就都没有，下种者直接收回自身神炁，连同你魂魄作为利息，阴兵也做不成。' },
+      { t: 'p', text: '人各有志，不能强求。神道笑话自力不可能成就，但人家逍遥自在你生死由人；自力笑话神道做奴隶做电池，但可能你骨头都腐朽了他还在乐呵呵笑话你。选什么修炼路子，在于自身选择。自由选择，自己承担后果。只是在做这个选择之前，能够知晓前因后果，明明白白的就行了。' },
+    ],
+  },
+];
 ---
 
 <Base title={title} description={description} hideNav={true} search="gold">
@@ -39,27 +138,22 @@ const description = '法门二目之一：古往今来的体系。法脉源流�
           <h1 id="famen-hero-title" class="famen-title kai">体系</h1>
           <div class="famen-rule" aria-hidden="true"></div>
           <p class="famen-sub">古往今来，法脉相承。源流所自，支派所分，修行次第与传承图谱，皆归此门。</p>
-          <p class="famen-meta kai">源流 · 支派 · 次第 · 图谱</p>
+          <p class="famen-meta kai">体系 · 内求外求 · 自力它力 · 神道另说</p>
         </div>
       </div>
     </section>
 
-    {/* 空页：内容尚未动笔，只立一块留白之版，不铺陈、不虚构 */}
-    <section class="tixi-body" aria-labelledby="tixi-plate-title">
+    {/* 正文：全篇照录，只作分章排版 */}
+    <section class="tixi-body" aria-label="正文">
       <div class="wrap">
-        <div class="plate reveal">
-          <span class="plate-glyph zhuan" aria-hidden="true">待</span>
-          <h2 id="tixi-plate-title" class="plate-title kai">此 卷 尚 待 开 示</h2>
-          <p class="plate-note">体系篇目正在整理之中，源流、支派与次第，稍后补入。</p>
+        <Treatise chapters={chapters} />
 
-          <nav class="plate-actions kai" aria-label="法门其余入口">
-            <a href={`${base}/famen`}>← 返回法门</a>
-            <span class="plate-sep" aria-hidden="true">·</span>
-            <a href={`${base}/famen/chuanshou`}>前往传授法门 ›</a>
-          </nav>
-        </div>
+        <nav class="tixi-actions kai" aria-label="法门其余入口">
+          <a class="tixi-btn is-primary" href={`${base}/shendao/jieshao`}>神道法 · 法门介绍</a>
+          <a class="tixi-btn" href={`${base}/famen/chuanshou`}>前往传授法门 ›</a>
+          <a class="tixi-btn" href={`${base}/famen`}>← 返回法门</a>
+        </nav>
 
-        <p class="tixi-foot kai">此 处 留 白 · 以 待 来 日</p>
       </div>
     </section>
 
@@ -68,10 +162,11 @@ const description = '法门二目之一：古往今来的体系。法脉源流�
 
 <style>
   /* ============================================================
-     古往今来的体系 · 空白页
+     古往今来的体系 · 正文页
      与「法门」「传授法门」同源：同一套黑金令牌、同一张「山河金影」
-     底图、同一套首屏。正文区先留一块空版，等篇目补入。
-     用 `html[data-theme]` 前缀，确保盖过 global.css 里的浅色主题。
+     底图、同一套首屏。正文用通用「文书」版式（Treatise）排布。
+     用 `html[data-theme]` 前缀，确保盖过 global.css 里的浅色主题；
+     并补上 Treatise 用到的朱色、青铜色令牌（本页令牌自带一套）。
      ============================================================ */
 
   html[data-theme] .famen-scope {
@@ -87,11 +182,18 @@ const description = '法门二目之一：古往今来的体系。法脉源流�
     --gold: #dfb878;
     --gold-bright: #f8dca0;
     --gold-deep: #a88440;
+    --bronze: #dfb878;
+    --bronze-bright: #f8dca0;
     --bronze-dim: #bfa05e;
     --gold-edge: #fff8d8;
     --gold-glow: rgba(248, 220, 160, 0.6);
     --gold-line: rgba(248, 220, 160, 0.42);
     --gold-line-strong: rgba(248, 220, 160, 0.72);
+
+    --cinnabar: #b23a2c;
+    --cinnabar-bright: #cf4b39;
+    --cinnabar-deep: #8f2c22;
+    --cinnabar-ink: #e8836b;
 
     --panel-soft: rgba(248, 220, 160, 0.08);
 
@@ -286,116 +388,55 @@ const description = '法门二目之一：古往今来的体系。法脉源流�
   }
 
   /* ============================================================
-     空版 — 一块留白的版面
+     正文
      ============================================================ */
 
   .tixi-body {
     position: relative;
     z-index: 1;
-    padding-block: clamp(3rem, 7vw, 6rem);
+    padding-block: clamp(2.6rem, 6vw, 4.5rem);
     background: linear-gradient(180deg,
       rgba(10, 6, 4, 0) 0%,
       rgba(10, 6, 4, 0.6) 9rem,
       rgba(10, 6, 4, 0.72) 100%);
   }
 
-  .plate {
-    position: relative;
-    display: grid;
-    justify-items: center;
-    text-align: center;
-    padding: clamp(3rem, 8vw, 6rem) clamp(1.4rem, 5vw, 4rem);
-    border: 1px dashed rgba(248, 220, 160, 0.3);
-    border-radius: 4px;
-    background:
-      radial-gradient(90% 120% at 50% 0%, rgba(248, 220, 160, 0.05), rgba(10, 6, 4, 0) 70%),
-      var(--panel-soft);
-    isolation: isolate;
+  /* 首屏已有下边框、本节已有内边距，正文不需要再来一道上框线 */
+  .tixi-body :global(.treatise) {
+    border-top: 0;
+    padding-top: 0;
   }
 
-  /* 对角两枚角饰：呼应首屏印框的角线，像未落墨的界格 */
-  .plate::before,
-  .plate::after {
-    content: '';
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    pointer-events: none;
-  }
-  .plate::before {
-    top: -1px;
-    left: -1px;
-    border-top: 1px solid var(--gold-line-strong);
-    border-left: 1px solid var(--gold-line-strong);
-  }
-  .plate::after {
-    right: -1px;
-    bottom: -1px;
-    border-right: 1px solid var(--gold-line-strong);
-    border-bottom: 1px solid var(--gold-line-strong);
-  }
-
-  .plate-glyph {
-    font-family: var(--font-zhuan);
-    font-size: clamp(3rem, 7vw, 4.4rem);
-    line-height: 1;
-    color: transparent;
-    background: linear-gradient(160deg, var(--gold-bright) 0%, var(--gold) 45%, var(--gold-deep) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    opacity: 0.72;
-    text-shadow: 0 0 26px var(--gold-glow);
-    user-select: none;
-  }
-
-  .plate-title {
-    margin: clamp(1.4rem, 3vw, 2rem) 0 0;
-    font-size: clamp(1.2rem, 2.6vw, 1.6rem);
-    font-weight: 600;
-    letter-spacing: 0.3em;
-    text-indent: 0.3em;
-    color: var(--heading);
-    text-shadow: 0 0 18px rgba(248, 220, 160, 0.16);
-  }
-  .plate-note {
-    margin: 1.2rem 0 0;
-    max-width: 26em;
-    color: var(--bone-dim);
-    font-size: 0.94rem;
-    line-height: 2.1;
-  }
-
-  .plate-actions {
+  .tixi-actions {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 0.7rem;
-    margin-top: clamp(1.8rem, 4vw, 2.6rem);
+    gap: 0.9rem;
+    max-width: 48em;
+    margin-inline: auto;
+    margin-top: clamp(1.6rem, 4vw, 2.4rem);
   }
-  .plate-actions a {
-    padding: 0.42em 1.15em;
+  .tixi-btn {
+    padding: 0.66em 1.5em;
     border: 1px solid var(--gold-line);
-    border-radius: 999px;
+    border-radius: 3px;
     color: var(--bone-dim);
-    font-size: 0.84rem;
-    letter-spacing: 0.2em;
+    font-size: 0.88rem;
+    letter-spacing: 0.22em;
     text-decoration: none;
-    transition: border-color 0.35s var(--ease-soft), background 0.35s var(--ease-soft), color 0.35s var(--ease-soft);
+    transition: border-color 0.35s var(--ease-soft), background 0.35s var(--ease-soft), color 0.35s var(--ease-soft), transform 0.25s var(--ease-soft);
   }
-  .plate-actions a:hover {
+  .tixi-btn:hover {
     border-color: var(--gold-line-strong);
     background: rgba(248, 220, 160, 0.08);
     color: var(--gold-edge);
+    transform: translateY(-2px);
   }
-  .plate-sep { color: var(--bone-faint); }
-
-  .tixi-foot {
-    margin-top: clamp(2.4rem, 5vw, 3.6rem);
-    text-align: center;
-    color: var(--bone-faint);
-    font-size: 0.8rem;
-    letter-spacing: 0.42em;
+  .tixi-btn.is-primary {
+    border-color: var(--gold-line-strong);
+    background: linear-gradient(180deg, rgba(223, 184, 120, 0.22), rgba(223, 184, 120, 0.1));
+    color: var(--gold-bright);
   }
 
   /* ============================================================
@@ -416,6 +457,7 @@ const description = '法门二目之一：古往今来的体系。法脉源流�
     }
     .famen-rule { margin-inline: auto; }
     .famen-back { margin-bottom: 1rem; }
+    .tixi-actions .tixi-btn { flex: 1 1 100%; text-align: center; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -423,6 +465,6 @@ const description = '法门二目之一：古往今来的体系。法脉源流�
     .famen-mark,
     .famen-title { animation: none; }
     .famen-back,
-    .plate-actions a { transition: none; }
+    .tixi-btn { transition: none; }
   }
 </style>

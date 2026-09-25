@@ -7,7 +7,7 @@ import Registration from '../../components/Registration.astro';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const { title, description } = {
-  title: '报名 · 愿者自来',
+  title: '神道法报名 · 愿者自来',
   description: '有意拜师学习者，请踏实工作生活，勿抱侥幸思想。愿者来，不强迫，不强求。',
 };
 ---
@@ -15,14 +15,16 @@ const { title, description } = {
 <BranchLayout
   title={title}
   description={description}
-  glyph="气"
-  label="真气疗愈"
-  accent="#7fa387"
-  bg={`${base}/bg/zhenqi-jianliu.webp`}
-  bgDim={0.08}
-  courseHref="/zhenqi/jieshao"
-  baomingHref="/zhenqi/baoming"
+  glyph="神"
+  label="神道法"
+  accent="#cf8a52"
+  bg={`${base}/bg/shen-dao-zhenxiang.webp`}
+  bgDim={0.22}
+  courseHref="/shendao/jieshao"
+  baomingHref="/shendao/baoming"
 >
+  {/* 报名须知各分脉共用同一套内容（Registration + 同一段题头），
+      各页只换本脉主色与背景图；此处即神道法的入口，不再外借咒法那页 */}
   <PageIntro
     mark="缘"
     title="愿者自来"

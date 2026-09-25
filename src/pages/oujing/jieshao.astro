@@ -1,5 +1,6 @@
 ---
 import BranchLayout from '../../layouts/BranchLayout.astro';
+import BranchSteps from '../../components/BranchSteps.astro';
 import PageIntro from '../../components/PageIntro.astro';
 import Treatise from '../../components/Treatise.astro';
 
@@ -115,10 +116,8 @@ const chapters = [
 
   <Treatise chapters={chapters} center />
 
-  <nav class="oujing-next kai" aria-label="下一步">
-    <a class="btn btn--primary" href={`${base}/oujing/baoming`}>报名须知</a>
-    <a class="btn" href={`${base}/oujing`}>返回偶景总览</a>
-  </nav>
+  {/* 中间页只给两个去处：上一页名字 · 下一页名字 */}
+  <BranchSteps />
 </BranchLayout>
 
 <style>
@@ -128,16 +127,4 @@ const chapters = [
     margin-inline: auto;
   }
 
-  .oujing-next {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    max-width: 48em;
-    margin-inline: auto;
-    padding-bottom: clamp(4rem, 9vw, 7rem);
-  }
-  @media (max-width: 600px) {
-    .oujing-next .btn { flex: 1 1 100%; text-align: center; }
-  }
 </style>

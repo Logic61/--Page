@@ -1,55 +1,156 @@
 ---
 import BranchLayout from '../../layouts/BranchLayout.astro';
+import BranchSteps from '../../components/BranchSteps.astro';
 import GateIntro from '../../components/GateIntro.astro';
+import Treatise from '../../components/Treatise.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const title = '鏖战之法 · 法门介绍';
-const lead = "鏖战之法，源自人元丹法筑基一脉，古称阴阳筑基之道。历来口传心授，文字少载，故世人多误会其为邪淫之术——实则恰相反：此道贵在节制与养护。";
-
-const blocks = [
-  {
-    "label": "渊源",
-    "title": "人元筑基，口传一脉",
-    "paras": [
-      "人元丹法，借人之精气补己之亏损，为丹道筑基的一条路径。其法不立文字，历来择人而授，故典籍所载语焉不详，市井所传多以讹传讹。",
-      "本门所承，为其筑基一段：以房中之术固精养身，佐以配套养生功法，使根本日壮，以续修道之年寿。"
-    ]
-  },
-  {
-    "label": "所修",
-    "title": "交而不泄，养生为配",
-    "paras": [
-      "核心功关交而不泄，练的是收纵自如的功夫；配合饮食、作息、导引诸般养护，使亏者渐盈、弱者渐强。",
-      "此功强身为本，快感为末。贪图后者而弃前者，是买椟还珠，且必受其害。"
-    ]
-  },
-  {
-    "label": "所正",
-    "title": "非邪法，更非纵欲之术",
-    "paras": [
-      "此道以补养为务，以续道为期。凡借此猎艳纵欲、损耗他人者，早已背离师训，为本门所严禁。"
-    ]
-  },
-  {
-    "label": "宜何人",
-    "paras": [
-      "成年、家室和睦、生活规律、能守戒慎之人。年少血气未定者、生活糜烂者、欲借此助淫者，皆不相宜，请勿问津。"
-    ]
-  }
-];
 
 const description = '鏖战之法法门介绍：源自人元丹法筑基，交而不泄，养生配套，非邪法。循门而入，先识其门，再问其径。';
+
+// 正文：源文件《男子房中术》全篇，由 .qa/gzh-gen.mjs 机械生成，逐字未改
+const chapters = [
+  {
+    blocks: [
+      { t: 'p', text: '应诸多需求，及古往今来之热烈，现在推出男子房中方面内容，提高男性幸福，促进夫妻和谐，再者让现在男性拜托因过度不良习惯、或相关内容而造成的一些负面表现，从而促进健康。' },
+      { t: 'p', text: '售卖内容，分为数个方面，有还阳补虚之内容、止遗精法之内容、养阳固本之方面，以及鏖战之法【鏖战之法为主要法门，其余为养生配套】，可满足不同人群的需求，让其更加健康。' },
+      { t: 'p', text: '鏖战之法：此法其实就是一般男性渴望可求的床事内容，练成之后可交而不泄，畅享床事之快乐，古代达官显贵，世家门阀无不对其欢喜。' },
+      { t: 'p', text: '此法来源于人元丹法，筑基内容，练成身体健康、百病不易生，附带强壮男性功能，非邪门歪道之法。' },
+      { t: 'p', text: '今面市，传法，主为解决人身体亚健康，关于男性方面提高，促进夫妻和谐等只是附带。' },
+      { t: 'p', text: '注：是正统丹法，非邪法！！！【男子可正常生育】' },
+      { t: 'p', text: '不传：' },
+      {
+        t: 'items',
+        items: [
+          '1：心术不正',
+          '2：淫邪、淫乱',
+          '3：轻命之人',
+          '4：特殊嗜好',
+        ],
+      },
+      { t: 'p', text: '鏖战之法相关问题，请与对应群观看文件' },
+      { t: 'p', text: '其余相关养生配套：' },
+      { t: 'p', text: '还阳补虚：是为桩法，但轻松简单、不累，可疏通下肢经络、调补肾阳、活血益气、安神助眠、改善上热下寒体质。【合适身体亏虚，还阳之人】' },
+      { t: 'p', text: '止遗精法：' },
+      {
+        t: 'items',
+        items: [
+          '1：此法可以使人体血、脉、气恢复正常运行，防止伤阴伤阳，调理频繁梦遗。',
+          '2：可调理肾虚，频繁梦遗',
+          '3：可消除劳损导致的阴部疼痛，膝部寒冷、脾肾虚导致的干瘦。',
+          '4：调理频繁遗精、小便白浊、肾阳不足，虚寒少精。',
+          '5：可以固精，身心安康。',
+        ],
+      },
+      { t: 'p', text: '【合适相关，以及过度亏虚，甚至因为不良习惯而造成的相关表现内容】' },
+      { t: 'p', text: '养阳固本：' },
+      {
+        t: 'items',
+        items: [
+          '1、滋阴养阳。',
+          '2、健腰益肾。',
+          '3、调和寒热。',
+          '4、增长精力。',
+          '5、调理生殖泌尿系统。',
+          '6、恢复、提升男性健康状态',
+        ],
+      },
+      { t: 'p', text: '在此额外赠送养阳与壮阳具有根本区别。' },
+      { t: 'p', text: '壮阳：' },
+      {
+        t: 'items',
+        items: [
+          '1、壮阳效果很快，侧重于肾功能，他更多的是增强你的欲望，而不是补益你的身体。',
+          '2、壮阳对肾功能的提升是一时的，不是长久的。',
+          '3、壮阳极易伤身，往往形成壮阳-欲望炽盛-纵欲-阳虚-壮阳的恶性循环。',
+        ],
+      },
+      { t: 'p', text: '养阳：' },
+      {
+        t: 'items',
+        items: [
+          '1、养阳是温补，是治本而非治标，效果稍慢，十天左右可见明显效果。',
+          '2、养阳不仅限于肾功能和生殖机能，而是从整体上提升人的阳气。',
+          '3、养阳补益五脏六腑元气，对人的体质有一个整体的提升。',
+          '4、养阳对身体是有利益而没有弊端的。',
+        ],
+      },
+      { t: 'p', text: '便于大家方便，特设有QQ群、微信群【添加本人后邀请入群】' },
+      { t: 'p', text: '公众号二维码：' },
+    ],
+  },
+];
 ---
 
-<BranchLayout title={title} description={description} glyph="战" label="鏖战" accent="#b8785e" bgDim={0.3} bg={`${base}/bg/aozhan-chiyan.webp`}>
+<BranchLayout
+  title={title}
+  description={description}
+  glyph="战"
+  label="鏖战"
+  accent="#b8785e"
+  bgDim={0.3}
+  bg={`${base}/bg/aozhan-chiyan.webp`}
+  courseHref="/aozhan/jieshao"
+  baomingHref="/aozhan/baoming"
+>
   <GateIntro
     glyph="战"
     name="鏖战之法"
     subtitle="丹基 · 房中 · 养生"
-    lead={lead}
-    blocks={blocks}
-    note="报名之前请三思：此门功夫关乎身命，学之不慎反受其害。愿者来，不强迫，不强求。"
-    baomingHref={base + '/aozhan/baoming'}
-  />
+  >
+    <Treatise chapters={chapters} />
+
+    {/* 二维码在正文之后、页底两个跳转之前 */}
+    <section class="aozhan-contact">
+      <div class="contact-inner">
+        <div class="contact-qr">
+          <div class="qr-frame">
+            <img src={`${base}/公众号二维码.jpg`} alt="公众号二维码" loading="lazy" />
+          </div>
+          <p>扫码关注 · 联系巫恒先生</p>
+        </div>
+      </div>
+    </section>
+  </GateIntro>
+
+  {/* 中间页只给两个去处：上一页名字 · 下一页名字 */}
+  <BranchSteps />
 </BranchLayout>
+
+<style>
+  /* 二维码紧跟正文末行：global.css 给每个 <section> 带了 clamp(3rem,6vw,5.5rem)
+     的上下内边距，正文末尾本身还有 86px 内边距 + 42px 外边距 + 96px 收尾，
+     一并去掉，避免引子与二维码之间空出一大段。 */
+  .aozhan-contact {
+    margin-top: 0;
+    padding-block: 0;
+  }
+  :global(.gi-wrap > .treatise) { padding-bottom: 0; }
+  :global(.gi-wrap > .treatise > .wrap > section:last-of-type) {
+    margin-bottom: 0;
+    padding-bottom: 1.4rem;
+  }
+  .contact-inner {
+    max-width: 48em;
+    margin-inline: auto;
+    display: flex;
+    justify-content: center;
+  }
+  .contact-qr { text-align: center; }
+  .qr-frame {
+    width: min(15rem, 60vw);
+    padding: 0.6rem;
+    border: 1px solid color-mix(in srgb, var(--branch-accent) 45%, transparent);
+    border-radius: 3px;
+    background: rgba(6, 10, 14, 0.6);
+  }
+  .qr-frame img { width: 100%; height: auto; display: block; border-radius: 2px; }
+  .contact-qr p {
+    margin-top: 0.8rem;
+    color: #c2b7a4;
+    font-size: 0.86rem;
+    letter-spacing: 0.2em;
+  }
+</style>

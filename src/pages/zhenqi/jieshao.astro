@@ -1,5 +1,6 @@
 ---
 import BranchLayout from '../../layouts/BranchLayout.astro';
+import BranchSteps from '../../components/BranchSteps.astro';
 import GateIntro from '../../components/GateIntro.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -43,7 +44,17 @@ const blocks = [
 const description = '真气疗愈法门介绍：外气疗愈机理之辨——激发潜力、赋予精气、移除恶气。循门而入，先识其门，再问其径。';
 ---
 
-<BranchLayout title={title} description={description} glyph="气" label="真气疗愈" accent="#7fa387" bgDim={0.08} bg={`${base}/bg/zhenqi-jianliu.webp`}>
+<BranchLayout
+  title={title}
+  description={description}
+  glyph="气"
+  label="真气疗愈"
+  accent="#7fa387"
+  bgDim={0.08}
+  bg={`${base}/bg/zhenqi-jianliu.webp`}
+  courseHref="/zhenqi/jieshao"
+  baomingHref="/zhenqi/baoming"
+>
   <GateIntro
     glyph="气"
     name="真气疗愈"
@@ -51,6 +62,8 @@ const description = '真气疗愈法门介绍：外气疗愈机理之辨——�
     lead={lead}
     blocks={blocks}
     note="有病仍须就医，此道不代医、不拒医。凡宣称包治百病者，皆非此门所为。修行理论未经科学证实，切勿迷信。"
-    baomingHref={base + '/zhenqi/baoming'}
   />
+
+  {/* 中间页只给两个去处：上一页名字 · 下一页名字 */}
+  <BranchSteps />
 </BranchLayout>

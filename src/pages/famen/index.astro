@@ -16,9 +16,8 @@ const doors = [
     glyph: '系',
     name: '古往今来的体系',
     subtitle: '源流 · 支派 · 次第 · 图谱',
-    desc: '法脉自上古祝门以降，历代相传之格局：源流所自，支派所分，修行次第与传承图谱，皆归此门。',
+    desc: '古往今来之法门总目：存思、存神、导引、服食、咒音、内丹、采炁诸般体系，内求外求之别，自力它力之分，皆归此门。',
     route: '/famen/tixi',
-    tag: '篇目整理中',
     accent: '#93a7c2',
   },
   {
@@ -28,7 +27,6 @@ const doors = [
     subtitle: '咒法 · 偶景 · 鏖战 · 驻颜 · 真气 · 神道',
     desc: '诸法之门，循门而入。上古祝门之法分作五支，各承一脉；另立神道法一门，以辨香火之途。',
     route: '/famen/chuanshou',
-    tag: '五门已开 · 一门以辨',
     accent: '#c9a86a',
   },
 ];
@@ -99,7 +97,6 @@ const doors = [
                 </div>
 
                 <div class="door-foot">
-                  <span class="door-tag kai">{d.tag}</span>
                   <span class="door-enter kai" aria-hidden="true">入 ›</span>
                 </div>
               </article>
@@ -567,18 +564,10 @@ const doors = [
     z-index: 2;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 1rem;
     margin-top: auto;
     padding-top: clamp(1.4rem, 3vw, 2rem);
-  }
-  .door-tag {
-    padding: 0.3em 0.85em;
-    border: 1px dashed color-mix(in srgb, var(--c) 42%, transparent);
-    border-radius: 999px;
-    color: color-mix(in srgb, var(--c) 58%, var(--bone-dim));
-    font-size: 0.72rem;
-    letter-spacing: 0.22em;
   }
   .door-enter {
     color: color-mix(in srgb, var(--c) 72%, var(--gold-bright));

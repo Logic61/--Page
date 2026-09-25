@@ -1,11 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
 import GoldNav from '../components/GoldNav.astro';
+import { essays } from '../data/xianwen';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const title = '闲文 · 上古祝门';
-const description = '闲文分支目录页：闲言散语，不成体系，聊备一格。此枝内容正在整理誊录，暂未开放。';
+const description =
+  '闲文三篇：为什么修炼这种事情自古以来普罗大众绝大部分不知道、论人求道杂谈、日常养生修炼功法问答。闲言散语，不成体系，聊备一格。';
 ---
 
 <Base title={title} description={description} hideNav={true} search="gold">
@@ -37,20 +39,44 @@ const description = '闲文分支目录页：闲言散语，不成体系，聊�
           <p class="xianwen-eyebrow kai">闲 文 · 散 墨 有 痕</p>
           <h1 id="xianwen-hero-title" class="xianwen-title kai">闲文</h1>
           <div class="xianwen-rule" aria-hidden="true"></div>
-          <p class="xianwen-sub">闲言散语，不成体系，聊备一格。此枝篇章尚在拣选整理，来日安放，再供消遣。</p>
-          <p class="xianwen-meta kai">内容正在整理誊录 · 暂未开放</p>
+          <p class="xianwen-sub">闲言散语，不成体系，聊备一格。凡不入法门、不列常识、不尽是秘闻者，皆归此枝。</p>
+          <p class="xianwen-meta kai">凡 {essays.length} 篇 · 求道之难 · 师承之实 · 日用养生</p>
         </div>
       </div>
     </section>
 
-    <section class="xianwen-hold" aria-labelledby="xianwen-hold-title">
+    <section class="xianwen-body" aria-labelledby="xianwen-toc-title">
       <div class="wrap">
-        <div class="xianwen-card reveal">
-          <h2 id="xianwen-hold-title" class="xianwen-hold-title kai">闲话不闲 · 散墨有痕</h2>
-          <p class="xianwen-line kai">此处篇章尚在拣选，来日安放，再供消遣。</p>
-          <p class="xianwen-line kai">闲文暂不列目，先留一方空地，候字来填。</p>
+
+        <div class="xw-notice reveal">
+          <b class="kai">闲文散墨</b>
+          <p>闲文栏可见篇目与提要，点击进入该篇全文。文中所述未经实证，请理性阅读，切勿迷信。</p>
+        </div>
+
+        <nav class="xw-toc reveal" data-d="2" aria-labelledby="xianwen-toc-title">
+          <h2 id="xianwen-toc-title" class="kai">篇 目</h2>
+          <ol>
+            {
+              essays.map((e) => (
+                <li>
+                  <a href={`${base}/xianwen/${e.id}`}>
+                    <span class="xw-toc-num kai">{e.num}</span>
+                    <span class="xw-toc-body">
+                      <b class="kai">{e.title}</b>
+                      <i>{e.summary}</i>
+                    </span>
+                    <span class="xw-toc-go kai" aria-hidden="true">›</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </nav>
+
+        <div class="xianwen-foot reveal">
           <a class="xianwen-btn kai" href={`${base}/`}>返回分支图</a>
         </div>
+
       </div>
     </section>
 
@@ -58,7 +84,7 @@ const description = '闲文分支目录页：闲言散语，不成体系，聊�
 </Base>
 
 <style>
-  /* ============================================================
+/* ============================================================
      闲文 · 玄金之页
      与「修炼常识」同源：同一套黑金令牌（tokens）、同一张
      「山河金影」底图、同一套首屏（印框 + 鎏金标题 + 金线）。
@@ -262,13 +288,13 @@ const description = '闲文分支目录页：闲言散语，不成体系，聊�
   }
 
   /* ============================================================
-     暂空占位 —— 知识内容暂不放，只留一方空地
+     正文
      ============================================================ */
 
-  .xianwen-hold {
+  .xianwen-body {
     position: relative;
     z-index: 1; /* ride above the fixed panorama */
-    padding-block: clamp(2.5rem, 5vw, 4rem);
+    padding-block: clamp(2.6rem, 5vw, 4rem);
     /* settle the content on solid ground so the fixed backdrop
        stays atmospheric but never fights the reading。 */
     background: linear-gradient(180deg,
@@ -276,37 +302,114 @@ const description = '闲文分支目录页：闲言散语，不成体系，聊�
       rgba(10, 6, 4, 0.6) 9rem,
       rgba(10, 6, 4, 0.72) 100%);
   }
-  .xianwen-card {
-    max-width: 34rem;
+
+  .xw-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.1rem;
+    max-width: 48em;
     margin-inline: auto;
-    padding: clamp(1.8rem, 4vw, 3rem);
-    text-align: center;
-    border: 1px solid var(--gold-line-strong);
-    border-left: 3px solid var(--gold-deep);
-    border-radius: 3px;
-    background: linear-gradient(180deg, rgba(138, 111, 46, 0.08), rgba(5, 4, 2, 0.4));
+    padding: 1.1rem 1.4rem;
+    border: 1px solid var(--gold-line);
+    border-left: 3px solid #b23a2c;
+    border-radius: 2px;
+    background: var(--panel-soft);
   }
-  .xianwen-hold-title {
-    color: var(--heading);
-    font-size: clamp(1.15rem, 2.4vw, 1.45rem);
-    letter-spacing: 0.28em;
+  .xw-notice b {
+    flex: none;
+    padding: 0.28em 0.55em;
+    border-radius: 2px;
+    background: #8f2c22;
+    color: #f2dfc4;
+    font-size: 0.82rem;
+    letter-spacing: 0.3em;
+    transform: translateY(0.2em);
   }
-  .xianwen-line {
-    margin-top: 0.9rem;
+  .xw-notice p {
+    margin: 0;
     color: var(--bone-dim);
-    font-size: 1rem;
-    letter-spacing: 0.16em;
-    line-height: 2.2;
+    font-size: 0.9rem;
+    line-height: 2;
+  }
+
+  /* ---------- 篇目 ---------- */
+  .xw-toc {
+    max-width: 48em;
+    margin: clamp(2.2rem, 5vw, 3.4rem) auto 0;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--gold-line);
+  }
+  .xw-toc h2 {
+    color: var(--gold);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.5em;
+  }
+  .xw-toc ol {
+    list-style: none;
+    margin: 1.2rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .xw-toc a {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.95rem 1.1rem;
+    border: 1px solid var(--ink-line);
+    border-radius: 2px;
+    background: linear-gradient(180deg, rgba(248, 220, 160, 0.05), rgba(5, 4, 2, 0.35));
+    text-decoration: none;
+    transition: border-color 0.35s var(--ease-soft), background 0.35s var(--ease-soft), transform 0.25s var(--ease-soft);
+  }
+  .xw-toc a:hover {
+    border-color: var(--gold-line-strong);
+    transform: translateY(-2px);
+  }
+  .xw-toc-num {
+    flex: none;
+    color: var(--gold);
+    font-size: 1.05rem;
+    letter-spacing: 0.1em;
+  }
+  .xw-toc-body { flex: 1 1 auto; min-width: 0; }
+  .xw-toc-body b {
+    display: block;
+    color: var(--heading);
+    font-size: 1.02rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    line-height: 1.9;
+  }
+  .xw-toc-body i {
+    display: block;
+    margin-top: 0.35rem;
+    color: var(--bone-faint);
+    font-size: 0.84rem;
+    font-style: normal;
+    line-height: 1.95;
+  }
+  .xw-toc-go {
+    flex: none;
+    color: var(--bone-faint);
+    font-size: 1.1rem;
+  }
+
+  /* ---------- 页脚 ---------- */
+  .xianwen-foot {
+    margin-top: clamp(3.4rem, 7vw, 5rem);
+    text-align: center;
   }
   .xianwen-btn {
     display: inline-block;
-    margin-top: 1.8rem;
     padding: 0.55em 1.7em;
     border: 1px solid var(--gold-line-strong);
     border-radius: 2px;
     color: var(--gold-bright);
     font-size: 0.94rem;
     letter-spacing: 0.24em;
+    text-decoration: none;
     transition:
       color 0.3s var(--ease-soft),
       border-color 0.3s var(--ease-soft),
@@ -335,11 +438,14 @@ const description = '闲文分支目录页：闲言散语，不成体系，聊�
       height: 7rem;
     }
     .xianwen-rule { margin-inline: auto; }
+    .xw-toc-body i { font-size: 0.8rem; }
   }
 
   @media (max-width: 600px) {
-    .xianwen-card { padding: 1.6rem 1.2rem; }
-    .xianwen-line { font-size: 0.94rem; letter-spacing: 0.1em; }
+    .xw-notice { flex-direction: column; gap: 0.5rem; }
+    .xw-block > p,
+    .xw-entries p { font-size: 0.9rem; }
+    .xw-toc a { padding: 0.8rem 0.9rem; gap: 0.7rem; }
   }
 
   /* ============================================================
@@ -350,6 +456,8 @@ const description = '闲文分支目录页：闲言散语，不成体系，聊�
     .xianwen-grain { opacity: 0.32; }
     .xianwen-mark,
     .xianwen-title { animation: none; }
-    .xianwen-btn { transition: none; }
+    .xianwen-btn,
+    .xw-toc a,
+    .xw-back a { transition: none; }
   }
 </style>

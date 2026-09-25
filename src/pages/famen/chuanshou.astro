@@ -13,11 +13,10 @@ interface Gate {
   subtitle: string;
   desc: string;
   route: string;
+  /** 介绍页入口（卡片上暂不展示，保留以便随时恢复小字行） */
   intro: string;
-  /** 报名入口；「辨明之门」不设报名，故可缺省 */
+  /** 报名入口；「辨明之门」不设报名，故可缺省（同上，暂不展示） */
   baoming?: string;
-  /** 门卡脚部的补充标签（如「辨明之门 · 不设报名」） */
-  tag?: string;
   accent: string;
 }
 
@@ -56,7 +55,7 @@ const gates: Gate[] = [
     glyph: '颜',
     name: '驻颜',
     subtitle: '驻容 · 养容 · 生发',
-    desc: '以气血温养为本，驻容颜于岁月之中，养容仪于日常之间，此支篇幅尚待人开示。',
+    desc: '以气血温养为本，驻容颜于岁月之中，养容仪于日常之间。',
     route: '/zhuyanshu',
     intro: '/zhuyanshu/jieshao',
     baoming: '/zhuyanshu/baoming',
@@ -79,7 +78,6 @@ const gates: Gate[] = [
     desc: '由香火念力衍生之法门：聚念、拜神、下种、带功、灌顶、附身。其利在易，其弊在受制，故此门以辨明为归。',
     route: '/shendao',
     intro: '/shendao/jieshao',
-    tag: '辨明之门 · 不设报名',
     accent: '#cf8a52',
   },
 ];
@@ -138,27 +136,11 @@ const gates: Gate[] = [
                   <p class="gate-sub">{g.subtitle}</p>
                   <p class="gate-desc">{g.desc}</p>
                 </div>
-                <div class="gate-foot-row">
-                  <span class="gate-enter kai" aria-hidden="true">入 ›</span>
-                  <nav class="gate-links kai" aria-label={`${g.name}入口`}>
-                    <a href={`${base}${g.intro}`}>介绍</a>
-                    {
-                      g.baoming && (
-                        <>
-                          <span class="sep" aria-hidden="true">·</span>
-                          <a href={`${base}${g.baoming}`}>报名</a>
-                        </>
-                      )
-                    }
-                    {g.tag && <span class="gate-tag">{g.tag}</span>}
-                  </nav>
-                </div>
               </article>
             ))
           }
         </div>
 
-        <p class="gate-foot kai">法未择人，人自择法 · 五门同源，各有所传；神道一门，以辨为归</p>
       </div>
     </section>
 
@@ -501,65 +483,6 @@ const gates: Gate[] = [
     z-index: 1;
     border-radius: inherit;
   }
-  .gate-foot-row {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 1.6rem;
-  }
-  .gate-links {
-    display: inline-flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.55rem;
-  }
-  .gate-links a {
-    padding: 0.32em 0.85em;
-    border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
-    border-radius: 999px;
-    color: color-mix(in srgb, var(--c) 70%, var(--gold-bright));
-    font-size: 0.84rem;
-    letter-spacing: 0.22em;
-    text-decoration: none;
-    transition: border-color 0.3s var(--ease-soft), background 0.3s var(--ease-soft), color 0.3s var(--ease-soft);
-  }
-  .gate-links a:hover {
-    border-color: color-mix(in srgb, var(--c) 85%, transparent);
-    background: color-mix(in srgb, var(--c) 18%, transparent);
-    color: var(--gold-edge);
-  }
-  .gate-links .sep { color: var(--bone-faint); }
-  /* 辨明之门的补充标签（如「辨明之门 · 不设报名」） */
-  .gate-tag {
-    padding: 0.3em 0.8em;
-    border: 1px dashed color-mix(in srgb, var(--c) 42%, transparent);
-    border-radius: 999px;
-    color: color-mix(in srgb, var(--c) 58%, var(--bone-dim));
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
-    white-space: nowrap;
-  }
-
-  .gate-enter {
-    color: color-mix(in srgb, var(--c) 70%, var(--gold-bright));
-    font-size: 0.92rem;
-    letter-spacing: 0.24em;
-    transition: transform 0.35s var(--ease-soft), color 0.35s var(--ease-soft);
-  }
-  .gate:hover .gate-enter,
-  .gate:focus-within .gate-enter { transform: translateX(6px); color: var(--gold-edge); }
-
-  .gate-foot {
-    margin-top: clamp(3rem, 6vw, 4.5rem);
-    text-align: center;
-    color: var(--bone-faint);
-    font-size: 0.82rem;
-    letter-spacing: 0.4em;
-  }
-
   /* ============================================================
      Mobile / reduced motion
      ============================================================ */
@@ -588,8 +511,6 @@ const gates: Gate[] = [
     .famen-grain { opacity: 0.32; }
     .famen-mark,
     .famen-title { animation: none; }
-    .gate,
-    .gate-enter,
-    .gate-links a { transition: none; }
+    .gate { transition: none; }
   }
 </style>

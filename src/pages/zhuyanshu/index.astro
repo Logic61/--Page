@@ -1,6 +1,7 @@
 ---
 import BranchLayout from '../../layouts/BranchLayout.astro';
 import BranchPortal from '../../components/BranchPortal.astro';
+import BranchSteps from '../../components/BranchSteps.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -16,13 +17,16 @@ const description = '驻颜一脉：以气血温养为本，驻容颜于岁月�
   accent="#b99752"
   bg={`${base}/bg/zhuyanshu-meizhi.webp`}
   bgDim={0.12}
+  courseHref="/zhuyanshu/jieshao"
+  baomingHref="/zhuyanshu/baoming"
 >
   <BranchPortal
     glyph="颜"
     title="驻颜术"
     subtitle="驻颜 · 养容 · 生发"
     description="驻颜一脉，以气血温养为本，驻容颜于岁月之中，养容仪于日常之间。"
-    introHref={base + '/zhuyanshu/jieshao'}
-    baomingHref={base + '/zhuyanshu/baoming'}
   />
+
+  {/* 第一页只给两个去处：介绍 · 报名 */}
+  <BranchSteps />
 </BranchLayout>

@@ -1,6 +1,7 @@
 ---
 import BranchLayout from '../../layouts/BranchLayout.astro';
 import BranchPortal from '../../components/BranchPortal.astro';
+import BranchSteps from '../../components/BranchSteps.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -8,13 +9,24 @@ const title = '鏖战之法 · 丹基房中';
 const description = '源自人元丹法筑基，交而不泄，养生配套。';
 ---
 
-<BranchLayout title={title} description={description} glyph="战" label="鏖战之法" accent="#b8785e" bgDim={0.3} bg={`${base}/bg/aozhan-chiyan.webp`}>
+<BranchLayout
+  title={title}
+  description={description}
+  glyph="战"
+  label="鏖战之法"
+  accent="#b8785e"
+  bgDim={0.3}
+  bg={`${base}/bg/aozhan-chiyan.webp`}
+  courseHref="/aozhan/jieshao"
+  baomingHref="/aozhan/baoming"
+>
   <BranchPortal
     glyph="战"
     title="鏖战之法"
     subtitle="丹基 · 房中 · 养生"
     description="源自人元丹法筑基，交而不泄，养生配套。"
-    introHref={base + '/aozhan/jieshao'}
-    baomingHref={base + '/aozhan/baoming'}
   />
+
+  {/* 第一页只给两个去处：介绍 · 报名 */}
+  <BranchSteps />
 </BranchLayout>

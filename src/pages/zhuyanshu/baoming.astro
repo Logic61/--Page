@@ -1,5 +1,6 @@
 ---
 import BranchLayout from '../../layouts/BranchLayout.astro';
+import BranchSteps from '../../components/BranchSteps.astro';
 import PageIntro from '../../components/PageIntro.astro';
 import Registration from '../../components/Registration.astro';
 
@@ -19,6 +20,8 @@ const { title, description } = {
   accent="#b99752"
   bg={`${base}/bg/zhuyanshu-meizhi.webp`}
   bgDim={0.12}
+  courseHref="/zhuyanshu/jieshao"
+  baomingHref="/zhuyanshu/baoming"
 >
   <PageIntro
     mark="缘"
@@ -27,4 +30,7 @@ const { title, description } = {
     meta="报名请谨慎考虑，一经报名，概不退款、不打折、不调价、不分期。"
   />
   <Registration />
+
+  {/* 最后一页只给两个去处：返回法门目录 · 介绍 */}
+  <BranchSteps />
 </BranchLayout>

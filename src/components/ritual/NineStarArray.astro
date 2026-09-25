@@ -12,7 +12,7 @@
 import Taiji from './patterns/taiji.astro';
 import { ringUses } from './ritual.js';
 
-// structureDim：结构层（array-body）整体压暗系数；0 = 不压暗（jiuxing 等页保持旧观感）。
+// structureDim：结构层（array-body）整体压暗系数；0 = 不压暗（保持法阵旧观感）。
 // four-veins 传 0：法阵亮度由页内 CSS 分层控制（符文/轨道全亮、结构压暗）。
 const { structureDim = 0 } = Astro.props;
 

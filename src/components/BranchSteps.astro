@@ -1,0 +1,112 @@
+---
+// ============================================================
+// 分脉页底端跳转 —— 一脉三页：总览 → 介绍 → 报名
+// 底端只留两个去处，按当前页自动取：
+//   第一页（总览）：介绍 · 报名
+//   中间页（介绍）：上一页名字 · 下一页名字
+//   最后一页（报名）：返回法门目录 · 介绍
+// 缺省按当前路径自判分脉与所在页，页面直接 <BranchSteps /> 即可；
+// 页序不同、或想换结尾去处时再传 steps / current / exitHref 覆盖。
+// ============================================================
+interface Step {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  /** 本脉页序，不含结尾的「返回法门目录」 */
+  steps?: Step[];
+  /** 当前页在 steps 中的下标；缺省按当前路径自判 */
+  current?: number;
+  /** 最后一页的收尾去处，缺省回法门目录 */
+  exitLabel?: string;
+  exitHref?: string;
+}
+
+const {
+  steps: stepsProp,
+  current: currentProp,
+  exitLabel = '返回法门目录',
+  exitHref = '/famen/chuanshou',
+} = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = (Astro.url.pathname.replace(/\/$/, '') || '/').replace(base, '') || '/';
+
+const branch = path.split('/').filter(Boolean)[0] ?? '';
+const steps: Step[] =
+  stepsProp ??
+  (branch
+    ? [
+        { label: '总览', href: `/${branch}` },
+        { label: '介绍', href: `/${branch}/jieshao` },
+        { label: '报名', href: `/${branch}/baoming` },
+      ]
+    : []);
+
+const at = steps.findIndex((s) => (s.href.replace(/\/$/, '') || '/') === path);
+const current = currentProp ?? (at >= 0 ? at : 0);
+
+// 站内地址补 base 前缀；已带前缀的（页面自写 `${base}/xxx`）原样保留
+const withBase = (h: string) => {
+  if (!h) return h;
+  if (/^[a-z]+:/i.test(h) || h.startsWith('#') || h.startsWith('//')) return h;
+  if (base && (h === base || h.startsWith(`${base}/`))) return h;
+  return `${base}${h}`;
+};
+const pick = (s?: Step) => (s ? { label: s.label, href: withBase(s.href) } : null);
+
+const lastIndex = steps.length - 1;
+const slots =
+  current <= 0
+    ? [pick(steps[1]), pick(steps[2])]
+    : current >= lastIndex
+      ? [pick({ label: exitLabel, href: exitHref }), pick(steps[current - 1])]
+      : [pick(steps[current - 1]), pick(steps[current + 1])];
+
+const links = slots.filter((s): s is Step => s !== null);
+---
+
+{
+  links.length > 0 && (
+    <nav class="branch-steps kai" aria-label="本脉前后页">
+      {links.map((l) => (
+        <a class="branch-step" href={l.href}>{l.label}</a>
+      ))}
+    </nav>
+  )
+}
+
+<style>
+  .branch-steps {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    width: min(100% - 3rem, 48rem);
+    margin-inline: auto;
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+  .branch-step {
+    padding: 0.74em 1.7em;
+    border: 1px solid color-mix(in srgb, var(--branch-accent) 55%, transparent);
+    border-radius: 3px;
+    color: color-mix(in srgb, var(--branch-accent) 78%, #efe3c8);
+    font-size: 0.9rem;
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+    text-decoration: none;
+    transition: border-color 0.3s var(--ease-soft), background 0.3s var(--ease-soft), color 0.3s var(--ease-soft), transform 0.25s var(--ease-soft);
+  }
+  .branch-step:hover {
+    border-color: var(--branch-accent);
+    background: color-mix(in srgb, var(--branch-accent) 14%, transparent);
+    color: #fff3db;
+    transform: translateY(-2px);
+  }
+  @media (max-width: 600px) {
+    .branch-steps { width: min(100% - 2.2rem, 48rem); }
+    .branch-step { flex: 1 1 100%; text-align: center; }
+  }
+</style>

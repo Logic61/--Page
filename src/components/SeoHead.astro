@@ -2,8 +2,8 @@
 /**
  * 全站 SEO head 片段。
  *
- * 抽成独立组件的原因：首页（/）与 /jiuxing 是不走 Base 布局的独立 HTML 文档，
- * 若把 head 写在 Base 里，这两页就会漏掉 canonical / 结构化数据 —— 而首页恰恰
+ * 抽成独立组件的原因：首页（/）是不走 Base 布局的独立 HTML 文档，
+ * 若把 head 写在 Base 里，这一页就会漏掉 canonical / 结构化数据 —— 而首页恰恰
  * 是品牌词「古巫祝脉」最需要命中的那一页。
  *
  * 输出：标题、描述、关键词、canonical、robots、站长平台验证、分享卡片、JSON-LD。

@@ -1,5 +1,6 @@
 ---
 import BranchLayout from '../../layouts/BranchLayout.astro';
+import BranchSteps from '../../components/BranchSteps.astro';
 import PageIntro from '../../components/PageIntro.astro';
 import Treatise from '../../components/Treatise.astro';
 
@@ -138,10 +139,8 @@ const chapters = [
     </div>
   </section>
 
-  <nav class="oujing-next kai" aria-label="下一步">
-    <a class="btn" href={`${base}/oujing/jieshao`}>功法内容</a>
-    <a class="btn" href={`${base}/oujing`}>返回偶景总览</a>
-  </nav>
+  {/* 最后一页只给两个去处：返回法门目录 · 介绍 */}
+  <BranchSteps />
 </BranchLayout>
 
 <style>
@@ -184,17 +183,5 @@ const chapters = [
     color: var(--bone-dim);
     font-size: 0.94rem;
     line-height: 2.1;
-  }
-  .oujing-next {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    max-width: 48em;
-    margin-inline: auto;
-    padding-bottom: clamp(4rem, 9vw, 7rem);
-  }
-  @media (max-width: 600px) {
-    .oujing-next .btn { flex: 1 1 100%; text-align: center; }
   }
 </style>

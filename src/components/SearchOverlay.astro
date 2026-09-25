@@ -9,7 +9,8 @@
 // 页面自绘顶栏时（Base hideNav），用 <Base search="gold"> 打开即可。
 //
 // 数据源：src/data/search-index.json（由 scripts/gen-knowledge.mjs 生成），
-// 含「修炼常识」全部条目与《神机秘闻》十一篇，故任意页面的搜索都是全站搜索。
+// 含「修炼常识」全部条目、《神机秘闻》十一篇，以及法门与闲文的独立篇章，
+// 故任意页面的搜索都是全站搜索。
 // ============================================================
 import searchIndex from '../data/search-index.json';
 
@@ -35,7 +36,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <button class="search-close" id="searchClose" type="button" aria-label="关闭搜索">×</button>
     </div>
     <div class="search-results" id="searchResults">
-      <p class="search-hint">输入关键词，可搜索全部修炼常识与《神机秘闻》秘闻</p>
+      <p class="search-hint">输入关键词，可搜索修炼常识、《神机秘闻》秘闻，以及法门与闲文篇章</p>
     </div>
   </div>
 </div>
@@ -50,7 +51,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     const sr = document.getElementById('searchResults');
     const sc = document.getElementById('searchClose');
     if (!so || !si || !sr) return;
-    const HINT = '<p class="search-hint">输入关键词，可搜索全部修炼常识与《神机秘闻》秘闻</p>';
+    const HINT = '<p class="search-hint">输入关键词，可搜索修炼常识、《神机秘闻》秘闻，以及法门与闲文篇章</p>';
     const openSearch = () => {
       so.setAttribute('aria-hidden', 'false');
       document.body.classList.add('search-open');
@@ -83,6 +84,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         .sort((a, b) => (b.title.toLowerCase().includes(q) ? 1 : 0) - (a.title.toLowerCase().includes(q) ? 1 : 0));
       const kw = hits.filter((h) => h.type === 'knowledge');
       const art = hits.filter((h) => h.type === 'article');
+      const pg = hits.filter((h) => h.type === 'page');
       let html = '';
       if (kw.length) {
         html += '<h4 class="search-group-title">修炼常识（' + kw.length + '）</h4>';
@@ -91,6 +93,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       if (art.length) {
         html += '<h4 class="search-group-title">秘闻（' + art.length + '）</h4>';
         html += art.slice(0, 6).map((h) => '<a class="search-hit" href="' + base + h.url + '"><b>' + esc(h.title) + '</b><span>' + esc(h.snippet) + '</span></a>').join('');
+      }
+      if (pg.length) {
+        html += '<h4 class="search-group-title">法门与闲文（' + pg.length + '）</h4>';
+        html += pg.slice(0, 6).map((h) => '<a class="search-hit" href="' + base + h.url + '"><b>' + esc(h.title) + '</b><span>' + esc(h.category) + ' · ' + esc(h.snippet) + '</span></a>').join('');
       }
       if (!html) html = '<p class="search-hint">未找到与「' + esc(q) + '」相关的内容</p>';
       sr.innerHTML = html;

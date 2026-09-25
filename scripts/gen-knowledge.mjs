@@ -161,6 +161,61 @@ for (const f of readdirSync(join(root, '巫')).filter(f => f.endsWith('.md')).so
   if (!slug) continue;
   index.push({ type: 'article', id: slug, title: '《' + (get('title') || f) + '》', snippet: get('summary'), category: '神机秘闻', url: '/miwen/' + slug });
 }
+// ---------- 法门与闲文的独立篇章 ----------
+// 这些页面正文直接写在 .astro 里，没有 frontmatter 可读，故在此登记条目，
+// 让顶栏的全局搜索也能搜到它们。
+const PAGES = [
+  {
+    id: 'famen-tixi',
+    title: '《古往今来的体系》',
+    snippet: '修炼分炼神、炼形、培养道心三大方面；法门有存思、存神、精思、导引、服食、咒音、内丹、采炁等；依得炁来源又分内求与外求，依力量归属再分自力与它力。',
+    category: '法门',
+    url: '/famen/tixi',
+  },
+  {
+    id: 'shendao-famen',
+    title: '《神道法》',
+    snippet: '神道分自力与它力：祖先神道与三不朽、祖师神道，封神法香火神道，传教积功受封神官，附庸神明祖师壮大种子。香火有毒，断绝道途。',
+    category: '法门 · 神道法',
+    url: '/shendao/jieshao',
+  },
+  {
+    id: 'zhuyanshu-yuanwen',
+    title: '《驻颜术》',
+    snippet: '古往今来，多少人追求容颜不老？却苦求无果？——驻颜术原文与作用五项。',
+    category: '法门 · 驻颜术',
+    url: '/zhuyanshu/jieshao',
+  },
+  {
+    id: 'aozhan-yuanwen',
+    title: '《男子房中术》',
+    snippet: '鏖战之法为门中主法，另有还阳补虚、止遗精法、养阳固本三项养生配套；并辨养阳与壮阳之别。',
+    category: '法门 · 鏖战之法',
+    url: '/aozhan/jieshao',
+  },
+  {
+    id: 'xianwen-why-not-known',
+    title: '《为什么修炼这种事情，自古以来普罗大众绝大部分不知道？》',
+    snippet: '阶级、变故、限制、古来有成者——四重门槛叠在一起，便足够抹杀九成七的求道之人。',
+    category: '闲文',
+    url: '/xianwen/why-not-known',
+  },
+  {
+    id: 'xianwen-seeking-the-way',
+    title: '《论人求道杂谈》',
+    snippet: '求道之难，不在虔诚与资质，而在「是人家挑人」。隐与秘、师与徒、考核与人心，一篇说尽。',
+    category: '闲文',
+    url: '/xianwen/seeking-the-way',
+  },
+  {
+    id: 'xianwen-daily-nourishing',
+    title: '《日常养生修炼功法（问答）》',
+    snippet: '广播体操、八部金刚功、八段锦、五禽戏——大众最常见的基础养生功法，就在眼前。',
+    category: '闲文',
+    url: '/xianwen/daily-nourishing',
+  },
+];
+for (const p of PAGES) index.push({ type: 'page', ...p });
 writeFileSync(join(outData, 'search-index.json'), JSON.stringify(index, null, 2), 'utf8');
 
 console.log('条目: ' + allItems.length + '（基础 ' + itemsA.length + ' + 祝法 ' + itemsB.length + '） FAQ: ' + faqIds.length + ' 索引: ' + index.length);

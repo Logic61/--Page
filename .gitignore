@@ -11,6 +11,9 @@ nul
 .dsh-vision-router/
 .qa/
 
+# Office 打开文档时生成的锁文件（~$xxx.docx）
+~$*
+
 
 # Python bytecode
 __pycache__/

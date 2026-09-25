@@ -3,8 +3,11 @@ import '../styles/global.css';
 import SeoHead from '../components/SeoHead.astro';
 
 // ============================================================
-// 五脉分支页布局（偶景 / 鏖战 / 驻颜 / 真气 …）
+// 五脉分支页布局（偶景 / 鏖战 / 驻颜 / 真气 / 神道 …）
 // 顶栏：只保留三个全站入口——返回总目录 · 课程介绍 · 报名须知
+//       「课程介绍」「报名须知」各自归位到本分支自己的页面
+//       （/{分支}/jieshao、/{分支}/baoming），不再一律指向咒法；
+//       传空串可去掉该入口，传 navItems 则整组覆盖。
 // 背景：整页固定一张实景图（bg 传入），不再叠金色环带与雷纹
 // ============================================================
 
@@ -24,9 +27,9 @@ interface Props {
   bgDim?: number;
   /** 该分脉的搜索关键词，覆盖 SeoHead 的默认值 */
   keywords?: string;
-  /** 顶栏「课程介绍」入口，缺省指向咒法课程页 */
+  /** 顶栏「课程介绍」入口；缺省即本分支的 /{分支}/jieshao，传空串可去掉该入口 */
   courseHref?: string;
-  /** 顶栏「报名须知」入口，缺省指向咒法报名页 */
+  /** 顶栏「报名须知」入口；缺省即本分支的 /{分支}/baoming，传空串可去掉该入口 */
   baomingHref?: string;
   /** 顶栏右侧入口；给出时整组覆盖上面的缺省三项 */
   navItems?: { href: string; label: string }[];
@@ -40,18 +43,37 @@ const {
   bgPos = '50% 50%',
   bgDim = 0,
   keywords,
-  courseHref = '/zhoufa/kecheng',
-  baomingHref = '/zhoufa/baoming',
   navItems,
 } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = (Astro.url.pathname.replace(/\/$/, '') || '/').replace(base, '') || '/';
+
+// 本页所属分脉（/aozhan/jieshao → aozhan）：顶栏两项缺省各自归位到本分支自己的页面，
+// 于是每个分支都跳自己的课程介绍与报名须知，不再统统指向咒法。
+const branch = path.split('/').filter(Boolean)[0] ?? '';
+const courseHref = Astro.props.courseHref ?? (branch ? `/${branch}/jieshao` : '');
+const baomingHref = Astro.props.baomingHref ?? (branch ? `/${branch}/baoming` : '');
 
 // 顶栏右侧三项；左上角另设「返回法门列表」（回到五门目录）
 const entries = navItems ?? [
   { href: '/', label: '返回总目录' },
-  { href: courseHref, label: '课程介绍' },
-  { href: baomingHref, label: '报名须知' },
+  ...(courseHref ? [{ href: courseHref, label: '课程介绍' }] : []),
+  ...(baomingHref ? [{ href: baomingHref, label: '报名须知' }] : []),
 ];
+
+// 站内地址统一补 base 前缀；外链、锚点与已带 base 的地址（navItems 里常写成 `${base}/xxx`）原样保留
+const withBase = (href: string) => {
+  if (!href) return href;
+  if (/^[a-z]+:/i.test(href) || href.startsWith('#') || href.startsWith('//')) return href;
+  if (base && (href === base || href.startsWith(`${base}/`))) return href;
+  return `${base}${href}`;
+};
+
+// 顶栏里当前所在的那一项（本页或本页下一级）
+const isHere = (href: string) => {
+  const target = href.replace(/\/$/, '') || '/';
+  return target !== '/' && (path === target || path.startsWith(`${target}/`));
+};
 ---
 
 <!doctype html>
@@ -80,7 +102,13 @@ const entries = navItems ?? [
             entries.map((e, i) => (
               <>
                 {i > 0 && <span class="branch-nav-sep" aria-hidden="true">·</span>}
-                <a href={`${base}${e.href}`}>{e.label}</a>
+                <a
+                  href={withBase(e.href)}
+                  class:list={{ 'is-here': isHere(e.href) }}
+                  aria-current={isHere(e.href) ? 'page' : undefined}
+                >
+                  {e.label}
+                </a>
               </>
             ))
           }
@@ -220,6 +248,15 @@ const entries = navItems ?? [
     left: 0;
     right: 0;
     opacity: 0.9;
+  }
+  /* 当前所在页：常驻一道浅金下划线，与 hover 同一套语言（只是更收敛） */
+  .branch-nav-links a.is-here {
+    color: #fff3db;
+  }
+  .branch-nav-links a.is-here::after {
+    left: 0;
+    right: 0;
+    opacity: 0.55;
   }
   .branch-nav-sep {
     color: color-mix(in srgb, var(--branch-accent) 62%, #efe3c8);
