@@ -4,16 +4,16 @@ import BranchPortal from '../../components/BranchPortal.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-const title = '真气治病 · 外气治病';
-const description = '外气治病机理之辨：真气外发、神气加持与心理暗示。';
+const title = '真气疗愈 · 外气疗愈';
+const description = '外气疗愈机理之辨：真气外发、神气加持与心理暗示。';
 ---
 
-<BranchLayout title={title} description={description} glyph="气" label="真气治病" accent="#7fa387" bgDim={0.08} bg={`${base}/bg/zhenqi-jianliu.webp`}>
+<BranchLayout title={title} description={description} glyph="气" label="真气疗愈" accent="#7fa387" bgDim={0.08} bg={`${base}/bg/zhenqi-jianliu.webp`}>
   <BranchPortal
     glyph="气"
-    title="真气治病"
+    title="真气疗愈"
     subtitle="外气 · 神气 · 激发"
-    description="外气治病机理之辨：真气外发、神气加持与心理暗示。"
+    description="外气疗愈机理之辨：真气外发、神气加持与心理暗示。"
     introHref={base + '/zhenqi/jieshao'}
     baomingHref={base + '/zhenqi/baoming'}
   />

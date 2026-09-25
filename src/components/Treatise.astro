@@ -1,0 +1,350 @@
+---
+// ============================================================
+// 通用「文书」版式：把一份完整文件按章节分块排出来。
+// 只负责排版与分块，不动一字文案。
+// 服务两类页面：分支页（BranchLayout，带 --branch-accent）
+// 与黑金页（Base inkGold，退回 --bronze）。
+// ============================================================
+
+type Block =
+  | { t: 'p'; text: string }
+  | { t: 'items'; items: string[] }
+  | { t: 'office'; pairs: [string, string][] }
+  | { t: 'note'; text: string }
+  | { t: 'quote'; text: string }
+  | { t: 'h4'; text: string };
+
+interface Chapter {
+  /** 章节序号，如「一」 */
+  num?: string;
+  /** 章节标题；省略时只排正文，用于承接上文的段落 */
+  title?: string;
+  blocks: Block[];
+}
+
+interface Props {
+  /** 文书大标题 */
+  headTitle?: string;
+  /** 标题下的小注 */
+  headNote?: string;
+  /** 卷首敬告（朱框提示） */
+  notice?: { title: string; paras: string[] };
+  /** 敬告之后的提要段 */
+  lead?: string[];
+  chapters: Chapter[];
+  /** 章节之间的过渡句 */
+  bridge?: string;
+  /** 收束语 */
+  closing?: string;
+  /** 全文居中排布（缺省即为居中一列，列内文字仍左对齐） */
+  center?: boolean;
+}
+
+const { headTitle, headNote, notice, lead = [], chapters, bridge, closing, center = true } = Astro.props;
+---
+
+<article class:list={['treatise', { 'is-center': center }]}>
+  <div class="wrap">
+    {
+      (headTitle || headNote) && (
+        <header class="treatise-head reveal">
+          {headTitle && <h2 class="kai">{headTitle}</h2>}
+          {headNote && <p>{headNote}</p>}
+        </header>
+      )
+    }
+
+    {
+      notice && (
+        <aside class="treatise-notice reveal" data-d="2">
+          <b class="kai">{notice.title}</b>
+          <div>
+            {notice.paras.map((p) => (
+              <p>{p}</p>
+            ))}
+          </div>
+        </aside>
+      )
+    }
+
+    {
+      lead.length > 0 && (
+        <section class="lead-block reveal">
+          {lead.map((p) => (
+            <p>{p}</p>
+          ))}
+        </section>
+      )
+    }
+
+    {
+      chapters.map((c, ci) => (
+        <section class="block reveal" data-d={ci % 3 === 0 ? undefined : String((ci % 3) + 1)}>
+          {(c.num || c.title) && (
+            <header class="block-head">
+              {c.num && <span class="block-num kai">{c.num}</span>}
+              {c.title && <h3 class="kai">{c.title}</h3>}
+            </header>
+          )}
+          {c.blocks.map((b) => {
+            if (b.t === 'p') return <p>{b.text}</p>;
+            if (b.t === 'h4') return <h4 class="kai">{b.text}</h4>;
+            if (b.t === 'quote') return <p class="quote kai">{b.text}</p>;
+            if (b.t === 'note')
+              return (
+                <aside class="note">
+                  <p>{b.text}</p>
+                </aside>
+              );
+            if (b.t === 'office')
+              return (
+                <dl class="office-list">
+                  {b.pairs.map(([k, v]) => (
+                    <div>
+                      <dt class="kai">{k}</dt>
+                      <dd>{v}</dd>
+                    </div>
+                  ))}
+                </dl>
+              );
+            return (
+              <ul class="entries">
+                {b.items.map((it) => (
+                  <li>
+                    <span class="entry-dot" aria-hidden="true"></span>
+                    <p>{it}</p>
+                  </li>
+                ))}
+              </ul>
+            );
+          })}
+        </section>
+      ))
+    }
+
+    {bridge && <p class="bridge kai reveal">{bridge}</p>}
+
+    {closing && <p class="closing kai reveal">{closing}</p>}
+  </div>
+</article>
+
+<style>
+  .treatise {
+    border-top: 1px solid color-mix(in srgb, var(--branch-accent, var(--bronze)) 22%, transparent);
+    padding: clamp(2.6rem, 5vw, 4rem) 0 clamp(4rem, 8vw, 6rem);
+  }
+
+  .treatise-head { margin-bottom: 1.4rem; }
+  .treatise-head h2 {
+    font-size: clamp(1.9rem, 4.6vw, 2.8rem);
+    letter-spacing: 0.3em;
+    color: var(--heading);
+  }
+  .treatise-head p {
+    margin-top: 0.9rem;
+    color: var(--bone-faint);
+    font-size: 0.82rem;
+    letter-spacing: 0.24em;
+  }
+
+  .treatise-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.1rem;
+    margin: 1.5rem 0 2.4rem;
+    padding: 1.1rem 1.4rem;
+    background: var(--panel-soft);
+    border: 1px solid var(--ink-line);
+    border-left: 3px solid var(--cinnabar);
+    border-radius: 2px;
+  }
+  .treatise-notice b {
+    flex: none;
+    color: #f2dfc4;
+    background: var(--cinnabar-deep);
+    padding: 0.28em 0.55em;
+    font-size: 0.82rem;
+    letter-spacing: 0.3em;
+    border-radius: 2px;
+    transform: translateY(0.2em);
+  }
+  .treatise-notice p {
+    color: var(--bone-dim);
+    font-size: 0.9rem;
+    line-height: 2;
+  }
+  .treatise-notice p + p { margin-top: 0.6rem; }
+
+  .lead-block {
+    max-width: 46em;
+    padding-bottom: 1.6rem;
+    border-bottom: 1px dashed color-mix(in srgb, var(--branch-accent, var(--bronze)) 22%, transparent);
+    margin-bottom: 2.4rem;
+  }
+  .lead-block p {
+    color: var(--bone-dim);
+    font-size: 0.96rem;
+    line-height: 2.15;
+    text-indent: 2em;
+  }
+  .lead-block p + p { margin-top: 0.7rem; }
+
+  .block { margin-bottom: 2.6rem; }
+  .block-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    border-left: 3px solid var(--cinnabar);
+    padding-left: 0.95rem;
+  }
+  .block-num {
+    flex: none;
+    color: var(--cinnabar-ink);
+    font-size: clamp(1.1rem, 2.4vw, 1.4rem);
+    letter-spacing: 0.12em;
+  }
+  .block h3 {
+    font-size: clamp(1.35rem, 2.8vw, 1.8rem);
+    letter-spacing: 0.24em;
+    line-height: 1.7;
+    color: var(--heading);
+  }
+  .block h4 {
+    margin-top: 1.6rem;
+    color: var(--bronze-bright);
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+  }
+  .block > p {
+    margin-top: 0.8rem;
+    color: var(--bone-dim);
+    font-size: 0.94rem;
+    line-height: 2.1;
+    max-width: 46em;
+  }
+  .block > p.quote {
+    margin-top: 1.1rem;
+    padding: 1rem 1.3rem;
+    border-block: 1px solid var(--ink-line);
+    color: var(--bronze);
+    font-size: 1rem;
+    letter-spacing: 0.16em;
+    line-height: 2.1;
+  }
+
+  .entries {
+    list-style: none;
+    margin-top: 0.9rem;
+    max-width: 46em;
+  }
+  .entries li {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    padding-block: 0.5rem;
+  }
+  .entry-dot {
+    flex: none;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--branch-accent, var(--bronze)) 78%, var(--cinnabar));
+    margin-top: 0.85em;
+  }
+  .entries p {
+    color: var(--bone-dim);
+    font-size: 0.93rem;
+    line-height: 2.05;
+  }
+
+  .note {
+    margin-top: 1rem;
+    padding: 0.95rem 1.3rem;
+    border-left: 2px solid var(--bronze-dim);
+    background: var(--panel-soft);
+    max-width: 46em;
+  }
+  .note p {
+    margin: 0;
+    color: var(--bone-faint);
+    font-size: 0.86rem;
+    line-height: 2.05;
+  }
+
+  .office-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 1.2rem;
+    border-top: 1px solid var(--ink-line);
+    border-left: 1px solid var(--ink-line);
+    max-width: 60em;
+  }
+  .office-list div {
+    padding: 1.05rem 1.15rem;
+    border-right: 1px solid var(--ink-line);
+    border-bottom: 1px solid var(--ink-line);
+  }
+  .office-list dt {
+    color: var(--cinnabar-ink);
+    font-size: 1.12rem;
+    letter-spacing: 0.2em;
+  }
+  .office-list dd {
+    margin-top: 0.45rem;
+    color: var(--bone-dim);
+    font-size: 0.84rem;
+    line-height: 1.8;
+  }
+
+  .bridge {
+    margin: 0 0 2.4rem;
+    padding: 1.2rem 0;
+    border-block: 1px solid var(--ink-line);
+    text-align: center;
+    color: var(--bronze);
+    font-size: 1rem;
+    letter-spacing: 0.22em;
+    line-height: 2.2;
+  }
+
+  .closing {
+    margin-top: 1.3rem;
+    padding: 1.1rem 1.4rem;
+    border: 1px solid var(--ink-line);
+    background: var(--panel-soft);
+    color: var(--heading);
+    font-size: 1rem;
+    letter-spacing: 0.14em;
+    line-height: 2.1;
+  }
+
+  /* ---------- 文本框居中 ----------
+     整列收窄居中，行内文字仍按左对齐排（标题的朱线、条目的圆点都保留）。 */
+  .treatise.is-center .treatise-head,
+  .treatise.is-center .treatise-notice,
+  .treatise.is-center .lead-block,
+  .treatise.is-center .block,
+  .treatise.is-center .bridge,
+  .treatise.is-center .closing {
+    max-width: 48em;
+    margin-inline: auto;
+  }
+  /* 列内的段落/条目/附注撑满这一列，不再各自收窄 */
+  .treatise.is-center .block > p,
+  .treatise.is-center .block > p.quote,
+  .treatise.is-center .entries,
+  .treatise.is-center .note,
+  .treatise.is-center .office-list {
+    max-width: none;
+    margin-inline: 0;
+  }
+
+  @media (max-width: 900px) {
+    .office-list { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .office-list { grid-template-columns: 1fr; }
+    .treatise-notice { flex-direction: column; gap: 0.5rem; }
+    .bridge { text-align: left; }
+  }
+</style>

@@ -24,6 +24,12 @@ interface Props {
   bgDim?: number;
   /** 该分脉的搜索关键词，覆盖 SeoHead 的默认值 */
   keywords?: string;
+  /** 顶栏「课程介绍」入口，缺省指向咒法课程页 */
+  courseHref?: string;
+  /** 顶栏「报名须知」入口，缺省指向咒法报名页 */
+  baomingHref?: string;
+  /** 顶栏右侧入口；给出时整组覆盖上面的缺省三项 */
+  navItems?: { href: string; label: string }[];
 }
 
 const {
@@ -34,14 +40,17 @@ const {
   bgPos = '50% 50%',
   bgDim = 0,
   keywords,
+  courseHref = '/zhoufa/kecheng',
+  baomingHref = '/zhoufa/baoming',
+  navItems,
 } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 // 顶栏右侧三项；左上角另设「返回法门列表」（回到五门目录）
-const entries = [
+const entries = navItems ?? [
   { href: '/', label: '返回总目录' },
-  { href: '/zhoufa/kecheng', label: '课程介绍' },
-  { href: '/zhoufa/baoming', label: '报名须知' },
+  { href: courseHref, label: '课程介绍' },
+  { href: baomingHref, label: '报名须知' },
 ];
 ---
 
@@ -89,6 +98,11 @@ const entries = [
     position: relative;
     background: #05070a;
     color: #d9d2c2;
+    /* 实景图当底时，半透明面板要更实一点，否则正文压在亮部上读不清 */
+    --panel-grad: linear-gradient(180deg, rgba(6, 10, 14, 0.82), rgba(4, 6, 9, 0.74));
+    --panel-mid: linear-gradient(180deg, rgba(6, 10, 14, 0.86), rgba(4, 6, 9, 0.78));
+    --panel-strong: linear-gradient(180deg, rgba(6, 10, 14, 0.92), rgba(4, 6, 9, 0.86));
+    --panel-soft: rgba(6, 10, 14, 0.76);
   }
 
   /* ---------- 背景：实景图 + 可读性遮罩 ---------- */
@@ -111,11 +125,11 @@ const entries = [
     background:
       linear-gradient(
         180deg,
-        rgba(4, 6, 9, 0.88) 0%,
-        rgba(4, 6, 9, 0.46) 16%,
-        rgba(4, 6, 9, 0.38) 40%,
-        rgba(4, 6, 9, 0.6) 72%,
-        rgba(4, 6, 9, 0.9) 100%
+        rgba(4, 6, 9, 0.9) 0%,
+        rgba(4, 6, 9, 0.72) 16%,
+        rgba(4, 6, 9, 0.68) 40%,
+        rgba(4, 6, 9, 0.76) 72%,
+        rgba(4, 6, 9, 0.94) 100%
       ),
       radial-gradient(
         ellipse 80% 58% at 50% 32%,
@@ -208,7 +222,7 @@ const entries = [
     opacity: 0.9;
   }
   .branch-nav-sep {
-    color: color-mix(in srgb, var(--branch-accent) 55%, transparent);
+    color: color-mix(in srgb, var(--branch-accent) 62%, #efe3c8);
     font-size: 0.8rem;
   }
 

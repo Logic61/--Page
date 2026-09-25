@@ -1,5 +1,36 @@
-﻿---
+---
+interface Props {
+  /** 印面字 */
+  seal?: string;
+  /** 主标题前半 */
+  titleLead?: string;
+  /** 主标题强调部分 */
+  titleAccent?: string;
+  /** 副题各行（逐行断行） */
+  lines?: string[];
+  /** 左右竖排小字 */
+  leftSide?: string;
+  rightSide?: string;
+  primaryHref?: string;
+  primaryLabel?: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+}
+
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const {
+  seal = '巫',
+  titleLead = '上古',
+  titleAccent = '祝门',
+  lines = ['古巫祝脉，隐传至今。', '祝，咒也。以诵咒通窍开脉，锻炼神形，', '追求天人合一，万物一咒。'],
+  leftSide = '巫祝巫祝 · 巫，祝也',
+  rightSide = '祝，咒也 · 通窍开脉 · 锻炼神形 · 延年益寿',
+  primaryHref = `${base}/zhoufa/mailuo`,
+  primaryLabel = '阅览传承',
+  secondaryHref = `${base}/zhoufa/baoming`,
+  secondaryLabel = '报名须知',
+} = Astro.props;
 
 // 八卦 (trigrams) radiating outward around the ring.
 // patterns: [topBroken, middleBroken, bottomBroken]
@@ -42,23 +73,27 @@ const trigrams = patterns.map((p, i) => {
 
   <div class="hero-core">
     <div class="hero-seal">
-      <span class="seal" style="font-size:1.6rem;padding:0.5em 0.7em;">巫</span>
+      <span class="seal" style="font-size:1.6rem;padding:0.5em 0.7em;">{seal}</span>
     </div>
     <h1 class="hero-title kai">
-      上古<span>祝门</span>
+      {titleLead}<span>{titleAccent}</span>
     </h1>
     <p class="hero-sub">
-      古巫祝脉，隐传至今。<br />
-      祝，咒也。以诵咒通窍开脉，锻炼神形，<br class="br-lg" />追求天人合一，万物一咒。
+      {lines.map((line, i) => (
+        <>
+          {line}
+          {i < lines.length - 1 && <br />}
+        </>
+      ))}
     </p>
     <div class="hero-cta">
-      <a class="btn btn--primary" href={`${base}/zhoufa/mailuo`}>阅览传承</a>
-      <a class="btn" href={`${base}/zhoufa/baoming`}>报名须知</a>
+      <a class="btn btn--primary" href={primaryHref}>{primaryLabel}</a>
+      <a class="btn" href={secondaryHref}>{secondaryLabel}</a>
     </div>
   </div>
 
-  <p class="hero-side left vtext">巫祝巫祝 · 巫，祝也</p>
-  <p class="hero-side right vtext">祝，咒也 · 通窍开脉 · 锻炼神形 · 延年益寿</p>
+  <p class="hero-side left vtext">{leftSide}</p>
+  <p class="hero-side right vtext">{rightSide}</p>
 
 </section>
 

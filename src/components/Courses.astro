@@ -1,4 +1,4 @@
-﻿---
+---
 const levels = [
   {
     tag: '基础课',
@@ -233,7 +233,7 @@ const advanced = [
 
   .course-note-mark {
     font-size: 2.2rem;
-    color: var(--cinnabar);
+    color: var(--cinnabar-ink);
     line-height: 1.2;
   }
 
@@ -252,5 +252,16 @@ const advanced = [
       grid-column: 2;
       margin-top: -0.6rem;
     }
+  }
+
+  /* 文本框居中：题头与说明文字同为一列 48em，列内文字仍左对齐；
+     课程层级与卡片网格维持原宽（.wrap 本身已居中） */
+  .courses .s-head,
+  .courses .course-note {
+    max-width: 48em;
+    margin-inline: auto;
+  }
+  .courses .sub {
+    max-width: none;
   }
 </style>

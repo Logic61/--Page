@@ -127,13 +127,14 @@ const bgDim = Number(mod.frontmatter.bgDim || 0);
     --ink-3: #18120b;
     --ink-line: rgba(248, 220, 160, 0.2);
     --bone: #f0d68e;
-    --bone-dim: #c4a878;
-    --bone-faint: #7a6840;
+    --bone-dim: #d3bb92;
+    --bone-faint: #b69c66;
 
     --heading: #f8dfa0;
     --gold: #dfb878;
     --gold-bright: #f8dca0;
     --gold-deep: #a88440;
+    --bronze-dim: #bfa05e;
     /* brightest highlight stop, used for liquid-gold gradient text */
     --gold-edge: #fff8d8;
     --gold-glow: rgba(248, 220, 160, 0.6);
@@ -339,6 +340,7 @@ const bgDim = Number(mod.frontmatter.bgDim || 0);
   .post-summary {
     margin-top: 1.2rem;
     max-width: 44em;
+    margin-inline: auto;
     color: var(--bone-dim);
     font-size: 0.94rem;
     line-height: 2.05;
@@ -360,7 +362,7 @@ const bgDim = Number(mod.frontmatter.bgDim || 0);
   .post-notice b {
     flex: none;
     color: #f4e7c1;
-    background: var(--gold-deep);
+    background: color-mix(in srgb, var(--gold-deep) 45%, #241806);
     padding: 0.28em 0.55em;
     font-size: 0.82rem;
     letter-spacing: 0.32em;
@@ -484,7 +486,7 @@ const bgDim = Number(mod.frontmatter.bgDim || 0);
     background: rgba(201, 169, 97, 0.06);
   }
   .post-pager.is-next { text-align: right; }
-  .post-pager.is-empty { opacity: 0.55; pointer-events: none; }
+  .post-pager.is-empty { opacity: 0.8; pointer-events: none; }
   .pager-label {
     color: var(--gold);
     font-size: 0.74rem;

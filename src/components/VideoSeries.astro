@@ -192,7 +192,7 @@ const douyinCount = all.filter((video) => video.douyin).length;
     padding-bottom: 0.85rem;
     border-bottom: 1px solid var(--ink-line);
   }
-  .video-tag { color: var(--cinnabar-bright); font-size: 1.3rem; letter-spacing: 0.2em; }
+  .video-tag { color: var(--cinnabar-ink); font-size: 1.3rem; letter-spacing: 0.2em; }
   .video-group-head h3 {
     color: var(--heading);
     font-size: 1.14rem;
@@ -233,7 +233,7 @@ const douyinCount = all.filter((video) => video.douyin).length;
     transform: translateY(-2px);
   }
 
-  .video-no { color: var(--bronze-dim); font-size: 0.98rem; letter-spacing: 0.08em; transition: color 0.3s var(--ease-soft); }
+  .video-no { color: color-mix(in srgb, var(--bronze-dim) 62%, #f6e6be); font-size: 0.98rem; letter-spacing: 0.08em; transition: color 0.3s var(--ease-soft); }
   .video-item:hover .video-no { color: var(--cinnabar-bright); }
 
   .video-text { display: block; min-width: 0; }
@@ -251,7 +251,6 @@ const douyinCount = all.filter((video) => video.douyin).length;
     color: var(--bone-dim);
     font-size: 0.76rem;
     letter-spacing: 0.12em;
-    opacity: 0.85;
   }
 
   .video-links {
@@ -307,5 +306,15 @@ const douyinCount = all.filter((video) => video.douyin).length;
   @media (max-width: 560px) {
     .video-list { grid-template-columns: 1fr; }
     .video-item { grid-template-columns: 2rem 1fr; padding: 0.8rem; }
+  }
+
+  /* 文本框居中：题头与页脚同为一列 48em，列内文字仍左对齐；视频列表维持原宽 */
+  .study-video .video-head,
+  .study-video .video-foot {
+    max-width: 48em;
+    margin-inline: auto;
+  }
+  .study-video .video-sub {
+    max-width: none;
   }
 </style>

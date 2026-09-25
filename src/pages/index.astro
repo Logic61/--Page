@@ -175,9 +175,9 @@ const branches = [
               data-name={b.name}
               style={`left:${b.x}%; top:${b.y}%; width:${b.w}%; --hs-h:${b.h}%;`}
             >
-              {/* 牌匾上的字是烧进图片里的，锚点自身没有文本；补一份纯文本锚文本，
-                  搜索引擎才读得到「法门」「秘闻」这些词 */}
-              <span class="sr-only">{b.name}</span>
+              {/* 牌匾上的字烧进图片里了，热点自身不渲染文字；只画发光的椭圆环，
+                  hover 时由 ::after 小签给出分支名提示。SEO/读屏由 img alt +
+                  aria-label + 页脚 nav 三处覆盖，不在这里放可见文本。 */}
               <span class="hotspot-ring" aria-hidden="true"></span>
               {b.name === '法门' && (
                 <img
@@ -208,7 +208,7 @@ const branches = [
       <p class="foot-line">诸枝同源 · 各有所传</p>
       <p class="foot-desc">
         古巫祝脉，上古祝门传承总览。祝，咒也；以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。
-        循脉而入：法门承咒法、偶景、鏖战、驻颜、真气治病五支，各有所传；修炼常识辑录修炼基础、师承传承、
+        循脉而入：法门承咒法、偶景、鏖战、驻颜、真气疗愈五支，各有所传，另立神道法一门以辨香火；修炼常识辑录修炼基础、师承传承、
         修行境界与祝法养生问答；秘闻《神机秘闻》十一篇，辨神道、法界、轮回之实；闲文闲言散语，聊备一格。
       </p>
     </footer>
@@ -518,11 +518,13 @@ const branches = [
   .foot {
     position: relative;
     z-index: 6;
+    /* 页脚压在页面金色光晕上，加一层渐入的深色底板，保证细字可读 */
+    background: linear-gradient(180deg, rgba(3, 3, 3, 0.78) 0%, rgba(3, 3, 3, 0.92) 30%, rgba(3, 3, 3, 0.96) 100%);
     width: min(100% - 3rem, 44rem);
     margin-inline: auto;
     padding: 1.3rem 0 2rem;
-    border-top: 1px solid rgba(217, 185, 106, 0.16);
-    color: #8a6a33;
+    border-top: 1px solid rgba(217, 185, 106, 0.22);
+    color: #b08d4a;
     text-align: center;
     font-size: 0.72rem;
     letter-spacing: 0.42em;
@@ -540,12 +542,12 @@ const branches = [
     letter-spacing: 0.3em;
   }
   .foot-branches a {
-    color: #a9843f;
+    color: #e4c579;
     text-decoration: none;
     transition: color 0.25s;
   }
   .foot-branches a:hover { color: #f6e9bd; }
-  .foot-sep { color: #5a4826; }
+  .foot-sep { color: #a68d4f; }
 
   .foot-line { margin: 0; }
 
@@ -553,7 +555,7 @@ const branches = [
   .foot-desc {
     max-width: 33rem;
     margin: 0.75rem auto 0;
-    color: #6d5930;
+    color: #bda05e;
     font-size: 0.68rem;
     line-height: 2;
     letter-spacing: 0.08em;

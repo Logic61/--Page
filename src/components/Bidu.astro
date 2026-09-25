@@ -1,4 +1,4 @@
-﻿---
+---
 const notTeach = [
   '先天、后天大疾病者：心脏病、内脏病、身体某处问题、精神病等。',
   '沉迷幻境，无法自拔，过分追求功感者。',
@@ -107,11 +107,11 @@ const mustKnow = [
     border-radius: 50%;
     font-size: 1.1rem;
     color: #f0e3c8;
-    background: radial-gradient(circle at 30% 25%, rgba(207, 75, 57, 0.9), rgba(143, 44, 34, 0.95));
+    background: radial-gradient(circle at 30% 25%, rgba(150, 45, 32, 0.92), rgba(105, 30, 22, 0.95));
   }
 
   .bidu--know .bidu-mark {
-    background: radial-gradient(circle at 30% 25%, rgba(184, 154, 94, 0.9), rgba(125, 106, 68, 0.95));
+    background: radial-gradient(circle at 30% 25%, rgba(122, 96, 52, 0.92), rgba(84, 68, 38, 0.95));
   }
 
   .bidu-head h3 {
@@ -168,5 +168,11 @@ const mustKnow = [
 
   @media (max-width: 900px) {
     .bidu-grid { grid-template-columns: 1fr; }
+  }
+
+  /* 文本框居中：题头同为一列 48em，列内文字仍左对齐；两侧须知面板维持原宽 */
+  .bidu .s-head {
+    max-width: 48em;
+    margin-inline: auto;
   }
 </style>

@@ -5,11 +5,11 @@ import GoldNav from '../../components/GoldNav.astro';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const title = '法门 · 上古祝门';
-const description = '法门二目：古往今来的体系，梳理法脉源流、支派与次第；传授法门，五门各承一脉，循门而入。';
+const description = '法门二目：古往今来的体系，梳理法脉源流、支派与次第；传授法门，五门各承一脉，另立神道法一门以辨明，循门而入。';
 
 /* 法门总览：一页两目，并立如双扉。
    一曰「古往今来的体系」——源流、支派、次第与图谱；
-   二曰「传授法门」——咒法、偶景、鏖战、驻颜、真气五门。 */
+   二曰「传授法门」——咒法、偶景、鏖战、驻颜、真气五门，另立神道法一门以辨明。 */
 const doors = [
   {
     numeral: '一',
@@ -25,10 +25,10 @@ const doors = [
     numeral: '二',
     glyph: '传',
     name: '传授法门',
-    subtitle: '咒法 · 偶景 · 鏖战 · 驻颜 · 真气',
-    desc: '诸法之门，循门而入。上古祝门之法分作五支，各承一脉；门门有径，径径通幽。',
+    subtitle: '咒法 · 偶景 · 鏖战 · 驻颜 · 真气 · 神道',
+    desc: '诸法之门，循门而入。上古祝门之法分作五支，各承一脉；另立神道法一门，以辨香火之途。',
     route: '/famen/chuanshou',
-    tag: '五门已开',
+    tag: '五门已开 · 一门以辨',
     accent: '#c9a86a',
   },
 ];
@@ -129,13 +129,14 @@ const doors = [
     --ink-3: #18120b;
     --ink-line: rgba(248, 220, 160, 0.2);
     --bone: #f0d68e;
-    --bone-dim: #c4a878;
-    --bone-faint: #7a6840;
+    --bone-dim: #d3bb92;
+    --bone-faint: #b69c66;
 
     --heading: #f8dfa0;
     --gold: #dfb878;
     --gold-bright: #f8dca0;
     --gold-deep: #a88440;
+    --bronze-dim: #bfa05e;
     /* brightest highlight stop, used for liquid-gold gradient text */
     --gold-edge: #fff8d8;
     --gold-glow: rgba(248, 220, 160, 0.6);

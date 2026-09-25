@@ -21,7 +21,7 @@ export const pulseTree = {
     },
     {
       id: 'zhenqi',
-      name: '真气治病',
+      name: '真气疗愈',
       type: 'major',
       glyph: '气',
       route: '/zhenqi',
@@ -38,9 +38,9 @@ export const pulseTree = {
       glyph: '景',
       route: '/oujing',
       children: [
-        { id: 'neijing', name: '内景', type: 'normal' },
-        { id: 'guanzhao', name: '观照', type: 'normal' },
-        { id: 'shouyi', name: '守一', type: 'normal' },
+        { id: 'daolv', name: '道侣', type: 'normal' },
+        { id: 'ouying', name: '偶影', type: 'normal' },
+        { id: 'shuangxiu', name: '双修', type: 'normal' },
       ],
     },
     {

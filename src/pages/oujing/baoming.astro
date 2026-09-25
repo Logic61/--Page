@@ -1,14 +1,108 @@
 ---
 import BranchLayout from '../../layouts/BranchLayout.astro';
 import PageIntro from '../../components/PageIntro.astro';
-import Registration from '../../components/Registration.astro';
+import Treatise from '../../components/Treatise.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-const { title, description } = {
-  title: '报名 · 愿者自来',
-  description: '有意拜师学习者，请踏实工作生活，勿抱侥幸思想。愿者来，不强迫，不强求。',
-};
+const title = '偶景报名 · 愿者自来';
+const description = '偶景报名准备、报名要求、注意事项与报名办法：一切内容未经报备、允许不得外泄；修法可学，课程不卖；愿者来，不强迫，不强求，请大家考虑清楚。';
+
+// 顶栏入口：与分脉首页一致
+const navItems = [
+  { href: '/', label: '返回总目录' },
+  { href: `${base}/oujing`, label: '总览' },
+  { href: `${base}/oujing/jieshao`, label: '功法内容' },
+  { href: `${base}/oujing/baoming`, label: '报名须知' },
+];
+
+const chapters = [
+  {
+    num: '二：',
+    title: '报名准备',
+    blocks: [{ t: 'items', items: ['1：时常交流', '2：真心修行'] }],
+  },
+  {
+    num: '四：',
+    title: '报名要求：',
+    blocks: [
+      {
+        t: 'items',
+        items: [
+          '1：一切内容，未经报备、允许的情况下，不得外泄，（无论现实还是网络，甚至父母亲人也不可），若有违反，报名费不退，一旦泄露，情况严重者，情况依盗法处理，后果自负。',
+          '2：修法可学，课程不卖（不理解什么意思，可以认为是——你有学习的权利，却没有归属权利、拥有权、传播的权利），不接受买功法，买课程，如不实修，请勿开口【你付法金，只是得到了一个学艺被指导的机会。而非买卖资料】',
+        ],
+      },
+    ],
+  },
+  {
+    title: '注意事项：',
+    blocks: [
+      {
+        t: 'items',
+        items: [
+          '1：报名请谨慎考虑，一旦报名概不退款，不打折，不调价，不分期，免开尊口。（如果我们认识什么的，根据情况会提供些许帮助）【报名后，后悔概不退款，其次道法不得再练，也不得传播外露，若有违反依盗法处理，后果自负。】',
+          '2：报名后请实修，请务必经常与本人或同路者道友交流，有什么发内部群',
+          '3：请按修法操作，谢绝自我脑补',
+        ],
+      },
+    ],
+  },
+  {
+    num: '五：',
+    title: '报名办法',
+    blocks: [
+      { t: 'p', text: '与群主沟通，填写相关信息，且愿意报名后，按相关流程进行。确定好课程之后，通过微信或支付宝付款。' },
+    ],
+  },
+  {
+    num: '六：',
+    title: '报名学习，必读！！！！',
+    blocks: [
+      { t: 'p', text: '自古有多不传，我这也一样！！！' },
+      { t: 'h4', text: '不传类！！！' },
+      {
+        t: 'items',
+        items: [
+          '1：先天、后天大疾病者，如心脏病，内脏病，身体某处问题，精神病等。',
+          '2：沉迷幻境，无法自拔，过分追求功感。',
+          '3：引经据典、空谈阔论、好高骛远、心性不定，自创自悟、想一步登天者。',
+          '4：好奇，新鲜感，无恒心，无毅力者。',
+          '5：偏执狂热的踪迹分子，有门有派者。',
+          '6：急功近利，追求神通，心术不正者。',
+          '7：“脑补家”、“空说家”、“研究家”、“科学家”、“考据家”、“理论家”、“宗教家”、“小说家”、“学者”、“悟道者”、“创法者等',
+          '8:本人不做生意、也不是卖资料，本着花钱买资料目没必要，还是那句话，有那些钱你不如自己留着，或者孝顺父母。',
+        ],
+      },
+      { t: 'h4', text: '必知类' },
+      {
+        t: 'items',
+        items: [
+          '1：学习前，请通读文件。',
+          '2：我所讲并指的为养生之道，没有男女限制，不找名人给脸上贴金增加所谓的祖师等等，说的古养生，爱学不学，不学拉倒，不逼人，不强迫！！',
+          '3：不开神通，不沉迷神通，想追求这个的还是算了，在我这里算是浪费钱财，不如老老实实的给自己留着。不然，报名了你还感觉上当受骗，何必了。',
+          '5：修炼就老老实实的修炼，好高骛远的还是算了。',
+          '6：练了也不一定有什么用，其次进来后就老老实实实修，修炼如同逆水行舟，不努力很容易转退。',
+          '7：报名的，按操作进行，请不要自我脑补，加或减，刚开始让你怎么练就怎么练，不要走都不会就想着跑。',
+          '8：道贵师传，法贵专精，不要私底下去练了别的，或者超脱了操作内容后出问题再来找我。',
+          '9：“脑补家”、“空说家”、“研究家”、“科学家”、“考据家”、“理论家”、“宗教家”、“小说家”、“学者”、“悟道者”、“创法者等就不要进了，除非你能逐渐变化自己。',
+          '10：不能虚心学习，自己理论一大堆，听不进、看不起、不相信我所讲课程，抱着怀疑态度前来批判、吸收、研究等等的离远点，这种是练不好的，也别练，我家的东西用不着你来批判。追求丹道、鬼神、道教、佛教的也请远离，满足不了你们，更不要拿这些来烦我。（顺便插一句，市面上只有宗教和宗教相关。道家是道家跟道教没关系，佛家是佛家跟佛教没关系。至于人们为什么认为是一样的，我不在乎，反正又不是我不懂。反倒人们追求的什么丹道倒是修炼内容，所以说好好想想吧，你在一个和修炼没啥关系的地方求修炼，你不出事谁出事？出事只是早晚的时间问题罢了，有的人能反应过来，但这是少数，大部分存在终其一生也就在里面了。）',
+          '11：修炼不是一天之事，也许你一辈子也不会有什么结果，你报名了也不保证你一定成功，去看看上面第6句话，说的很清楚了。如果你是抱着百分之百成功的，还是算了吧，去另寻高明。',
+          '12：学东西，守规矩，现在你虽然能直接买到，不用像以前学东西时候先待上几十年，跟个孙子一样伺候师父几十年如一日，可谓打不还口，骂不还手什么的，但是该守的规矩还是要有，最根本的一点就是不外漏。这其实算是对你自己的一种保护，因为学东西是需要发誓的，一旦违规，很严重，当然有人不相信就是了，但是对于这种情况，我只笑笑，不说话。',
+          '13：文件和内部群描述文件，我已经说的很清楚了。',
+          '愿者来，不强迫，不强求，请大家考虑清楚',
+          '14：虽然不建议大家冲动什么的，但是真有想报名学习的，经过考核、双方认同后可以学习，毕竟我不能一杆子打死真心想求道修炼的人，所以说全凭自愿吧。',
+          '15：练习此法：不得与伴侣淫乐！',
+        ],
+      },
+    ],
+  },
+  {
+    num: '七：',
+    title: '学法需发誓，遵守规矩，诸位看自己能不能接受，能则学，不能则散，不强迫，不诱导。',
+    blocks: [],
+  },
+];
 ---
 
 <BranchLayout
@@ -17,14 +111,90 @@ const { title, description } = {
   glyph="景"
   label="偶景"
   accent="#8291b7"
-  bg={`${base}/bg/oujing-shenying.webp`}
   bgDim={0.08}
+  bg={`${base}/bg/oujing-shenying.webp`}
+  navItems={navItems}
 >
   <PageIntro
     mark="缘"
     title="愿者自来"
-    sub="有意拜师学习者，请踏实工作生活，勿抱侥幸思想。愿者来，不强迫，不强求。请考虑清楚，再决定是否报名。"
-    meta="报名请谨慎考虑，一经报名，概不退款、不打折、不调价、不分期。"
+    sub="愿者来，不强迫，不强求，请大家考虑清楚。各位在参加学习之前，请务必仔细阅读本文件，如不认可，请勿报名，免生不快。"
+    meta="报名请谨慎考虑，一旦报名概不退款，不打折，不调价，不分期，免开尊口。"
   />
-  <Registration />
+
+  <Treatise chapters={chapters} center />
+
+  <section class="oujing-contact">
+    <div class="wrap contact-inner">
+      <div class="contact-qr">
+        <div class="qr-frame">
+          <img src={`${base}/公众号二维码.jpg`} alt="公众号二维码" loading="lazy" />
+        </div>
+        <p>扫码关注 · 联系巫恒先生</p>
+      </div>
+      <p class="contact-line">
+        与群主沟通，填写相关信息，且愿意报名后，按相关流程进行。确定好课程之后，通过微信或支付宝付款。
+      </p>
+    </div>
+  </section>
+
+  <nav class="oujing-next kai" aria-label="下一步">
+    <a class="btn" href={`${base}/oujing/jieshao`}>功法内容</a>
+    <a class="btn" href={`${base}/oujing`}>返回偶景总览</a>
+  </nav>
 </BranchLayout>
+
+<style>
+  /* 文本框居中：题头、正文（Treatise center）、联系卡、按钮同为一列 48em，列内文字仍左对齐 */
+  :global(.page-intro .wrap > div) {
+    max-width: 48em;
+    margin-inline: auto;
+  }
+
+  .oujing-contact { padding-top: 0; }
+  .contact-inner {
+    max-width: 48em;
+    margin-inline: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: clamp(1.6rem, 4vw, 3rem);
+    padding: clamp(1.6rem, 3vw, 2.4rem);
+    border: 1px dashed color-mix(in srgb, var(--branch-accent) 32%, transparent);
+    border-radius: 3px;
+    background: var(--panel-soft);
+  }
+  .contact-qr { text-align: center; }
+  .qr-frame {
+    display: inline-block;
+    padding: 0.85rem;
+    border: 1px solid var(--ink-line);
+    border-radius: 3px;
+    background: var(--panel-strong);
+  }
+  .qr-frame img { width: 168px; height: 168px; object-fit: cover; }
+  .contact-qr p {
+    margin-top: 0.9rem;
+    color: var(--bone-faint);
+    font-size: 0.78rem;
+    letter-spacing: 0.3em;
+  }
+  .contact-line {
+    flex: 1 1 20rem;
+    color: var(--bone-dim);
+    font-size: 0.94rem;
+    line-height: 2.1;
+  }
+  .oujing-next {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    max-width: 48em;
+    margin-inline: auto;
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+  @media (max-width: 600px) {
+    .oujing-next .btn { flex: 1 1 100%; text-align: center; }
+  }
+</style>

@@ -1,20 +1,92 @@
 ---
 import BranchLayout from '../../layouts/BranchLayout.astro';
-import BranchPortal from '../../components/BranchPortal.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import Treatise from '../../components/Treatise.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-const title = '偶景 · 内景观照';
-const description = '内景与幻境之辨，观照存想而不入妄境。';
+const title = '偶景 · 相与为偶，形影不离';
+const description = '偶景传承，系古人创造的一种养生理论。偶者仙偶，景者影也：偶景，又叫偶影，就是相与为偶，形影不离的意思。修行理论内容，未经科学证实，切勿迷信。';
+
+// 顶栏入口：本脉直接给功法内容与报名须知，不走咒法那两项
+const navItems = [
+  { href: '/', label: '返回总目录' },
+  { href: `${base}/oujing`, label: '总览' },
+  { href: `${base}/oujing/jieshao`, label: '功法内容' },
+  { href: `${base}/oujing/baoming`, label: '报名须知' },
+];
+
+const notice = {
+  title: '敬告：',
+  paras: [
+    '各位在参加学习之前，请务必仔细阅读本文件，如不认可，请勿报名，免生不快。',
+    '偶景传承，系古人创造的一种养生理论，长生之说虚妄，修炼之事无凭，未经科学证实，不符合主流唯物主义价值观。本人作为理论学者，仅保证所授内容系思想传承并非本人编造，不保证各位长生不老，仅供大家作为一项爱好，在饭后茶余研究古代养生使用。有意拜师学习者，请踏实工作生活、勿抱侥幸思想。当然如有兴趣，也可尝试实修实证，来验证古人理论有无可取之处。另本人所传授思想理论与宗教毫无关系，建议大家自信自求，不要封建迷信。',
+  ],
+};
+
+const chapters = [
+  {
+    num: '一：',
+    title: '偶景法课程简介',
+    blocks: [
+      { t: 'p', text: '修炼之事起源古秘，远古时期，有普遍修炼的一段时期，各类法门法门普传于世【修炼核心不曾外泄】，但是经过某些原因事件的发展，传承、法门逐渐被少数人收拢，保留了其中部分修法，并且传承了下去，随着岁月变迁和发展，逐渐成为隐传之法，不显于世，修炼的事情却随着岁月流传，越发的难见，逐渐成为一种传说，但自古以来，求道者却络绎不绝.....' },
+      { t: 'p', text: '其中外界所知的名人数不胜数，比如：黄帝、老子，庄子等....' },
+      { t: 'p', text: '偶景，便是曾经古时代，出名修炼内容之一。古老而神秘，且为特别存在群体才可接触，列如：达官显贵。' },
+      { t: 'p', text: '而随着岁月变迁，经过世面轮转之后，偶景逐渐在市面失传，一说这个便出现了各种理解，例如房中。【很多人一说双修就以为是房事，其实不是】' },
+      { t: 'h4', text: '历史记载：' },
+      { t: 'p', text: '偶景术在历史上有多种记载，例如在《真诰》中，偶景被用来描述男女双修的秘术，但这种解释是后世对偶景术的误解。实际上，偶景术的核心是仙神与凡人的共同修炼，而非简单的男女双修。' },
+      { t: 'h4', text: '偶景术修炼的先例：' },
+      { t: 'items', items: ['有神女鄂绿华与羊权', '九华安妃与杨羲', '右英夫人与许谧'] },
+      { t: 'p', text: '以上结成道侣，相与为偶，形影不离，共同修炼，成仙得道。' },
+      { t: 'p', text: '若有真心想报名修行者，请与与本人联系。经考察后逐步传授。' },
+      { t: 'p', text: '欧景有两套体系，自力体系和它力体系，在这里就不多讲什么宏观概括一下' },
+    ],
+  },
+];
 ---
 
-<BranchLayout title={title} description={description} glyph="景" label="偶景" accent="#8291b7" bgDim={0.08} bg={`${base}/bg/oujing-shenying.webp`}>
-  <BranchPortal
-    glyph="景"
+<BranchLayout
+  title={title}
+  description={description}
+  glyph="景"
+  label="偶景"
+  accent="#8291b7"
+  bgDim={0.08}
+  bg={`${base}/bg/oujing-shenying.webp`}
+  navItems={navItems}
+>
+  <PageIntro
+    mark="景"
     title="偶景"
-    subtitle="内景 · 观照 · 守一"
-    description="内景与幻境之辨，观照存想而不入妄境。"
-    introHref={base + '/oujing/jieshao'}
-    baomingHref={base + '/oujing/baoming'}
+    sub="偶者仙偶，景者影也。偶景，又叫偶影，就是相与为偶，形影不离的意思。"
+    meta="修行理论内容，未经科学证实，切勿迷信"
   />
+
+  <Treatise notice={notice} chapters={chapters} center />
+
+  <nav class="oujing-next kai" aria-label="下一步">
+    <a class="btn btn--primary" href={`${base}/oujing/jieshao`}>功法内容</a>
+    <a class="btn" href={`${base}/oujing/baoming`}>报名须知</a>
+  </nav>
 </BranchLayout>
+
+<style>
+  /* 文本框居中：题头、正文（Treatise center）、按钮同为一列 48em，列内文字仍左对齐 */
+  :global(.page-intro .wrap > div) {
+    max-width: 48em;
+    margin-inline: auto;
+  }
+
+  .oujing-next {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    max-width: 48em;
+    margin-inline: auto;
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+  @media (max-width: 600px) {
+    .oujing-next .btn { flex: 1 1 100%; text-align: center; }
+  }
+</style>

@@ -1,56 +1,143 @@
 ---
 import BranchLayout from '../../layouts/BranchLayout.astro';
-import GateIntro from '../../components/GateIntro.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import Treatise from '../../components/Treatise.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-const title = '偶景 · 法门介绍';
-const lead = "内景之说，古已有之。存想观照，本为修性之一路，然歧途亦最多——见内景者，十有八九误入妄境而不自知。偶景一门，所授正是分辨与守持之功。";
+const title = '偶景 · 功法内容';
+const description = '偶景课程功法次序与步骤：神妃降世、结成道侣，相与为偶、形影不离，神气双修、神仙眷侣。功法简介需要解密，会随着修炼者到达一定程度从而分段讲解。';
 
-const blocks = [
-  {
-    "label": "渊源",
-    "title": "巫祝余脉，修性支流",
-    "paras": [
-      "存想观照之法，源出上古巫祝静修一脉，后为道家修性者所承。所谓内景，即闭目返观时身中气象的自映；所谓幻境，即心念编织的罗网。二者形貌相近，去向天壤。",
-      "历代修士于此处跌倒者众：见光影便以为得见神真，闻异音便以为天师传法，一步步把自己喂给了妄境。偶景之门，先教人认路，再教人行走。"
-    ]
-  },
-  {
-    "label": "所辨",
-    "title": "内景非幻境，幻境非通神",
-    "paras": [
-      "内景是身中气血神意的映照，随修炼进程自然显现，不迎不来；幻境是欲望与恐惧的造物，专拣心头所好所惧演给你看。",
-      "妄境最悦人，也最误人。凡使你狂喜、使你自大、催你速成的景象，十之八九是妄；凡平淡无奇、须下苦功方寸寸推进的路，反而近真。"
-    ]
-  },
-  {
-    "label": "所修",
-    "title": "观照存想，守一不入妄",
-    "paras": [
-      "此门功课，重在观照存想而不入妄：守一不移，见景不迷。景来任其来，景去任其去，只作壁上观，不当戏中人。",
-      "久久纯熟，方能于万象纷纭中认得那点真消息，养己心性，不为境转。"
-    ]
-  },
-  {
-    "label": "宜何人",
-    "paras": [
-      "心性沉稳、不好玄谈、能自觉从幻象中抽身之人。好奇心重、盼神通盼感应者，请先在咒法门中打磨心性，再来叩此门。"
-    ]
-  }
+// 顶栏入口：与分脉首页一致
+const navItems = [
+  { href: '/', label: '返回总目录' },
+  { href: `${base}/oujing`, label: '总览' },
+  { href: `${base}/oujing/jieshao`, label: '功法内容' },
+  { href: `${base}/oujing/baoming`, label: '报名须知' },
 ];
 
-const description = '偶景法门介绍：内景与幻境之辨，观照存想而不入妄。循门而入，先识其门，再问其径。';
+const chapters = [
+  {
+    title: '偶景课程【解密方面在下面】',
+    blocks: [
+      { t: 'p', text: '一：总结功法次序简介：' },
+      {
+        t: 'items',
+        items: [
+          '1、神妃降世，结成道侣。【6w一个人半全职刻苦修炼十几年大成应该问题不大】',
+          '2、相与为偶，形影不离。【12w能到这一步可以开始准备孕胎阳神进阶】',
+          '3、神气双修，神仙眷侣。【X能练到这一步者已经凤毛麟角，已至阳神，价格就不展示了】',
+        ],
+      },
+      { t: 'note', text: '【偶景最后功法简介其实是一个需要解密的诗，就和丹诗一样需要解密，会随着修炼者到达一定程度从而分段讲解】' },
+      { t: 'note', text: '【第一步坚持修炼半年后颇有家资的存在，若想更系统化的学习，一次性讲透彻80w，体系化进阶，秘传式学艺，则一次性付清180w，且需要遵守规矩！】' },
+    ],
+  },
+  {
+    title: '功法步骤：',
+    blocks: [
+      { t: 'p', text: '偶者仙偶，景者影也，偶景，又叫偶影，就是相与为偶，形影不离的意思。' },
+      { t: 'p', text: '解密：' },
+      { t: 'h4', text: '一：神妃降世，结成道侣' },
+      { t: 'p', text: '部分步骤透露：' },
+      {
+        t: 'items',
+        items: [
+          '1：如何祈求神妃或者天君降世【道侣为异性，男求女仙，女择男神】',
+          '2：如何确定伴侣主要身份',
+          '3：如何与神妃或者天君结成道侣【道侣为异性，男求女仙，女择男神】',
+          '4：在结成道侣之后约法几章',
+        ],
+      },
+      { t: 'h4', text: '二：相与为偶，形影不离' },
+      { t: 'p', text: '部分步骤透露：' },
+      {
+        t: 'items',
+        items: [
+          '1：与神妃或者天君的道侣生活',
+          '2：如何适应神妃或者天君的道侣生活【道侣为异性，男求女仙，女择男神】',
+          '3：如何炼神精确',
+          '4：如何保养精神',
+          '5：如何防护外邪',
+          '6：如何巩固神形',
+          '7：如何与神妃或者天君的双向沟通【道侣为异性，男求女仙，女择男神】',
+          '8：如何与与神妃或者天君形影不离【道侣为异性，男求女仙，女择男神】',
+          '9：如何孕育养胎',
+          '10：如何诞胎脱凡',
+        ],
+      },
+      { t: 'h4', text: '三：神气双修，神仙眷侣' },
+      { t: 'p', text: '部分透露步骤：' },
+      { t: 'items', items: ['1：如何神气双修', '2：如何任游千山', '3：如何飞升相成'] },
+      { t: 'note', text: '【第一步坚持修炼半年后颇有家资的存在，若想更系统化的学习，一次性讲透彻80w，体系化进阶，秘传式学艺，则一次性付清180w，且需要遵守规矩！】' },
+    ],
+  },
+  {
+    blocks: [
+      { t: 'p', text: '自古道法有诸多限制，但本法除了遵守不得 泄规矩之外，剩下的限制较少。' },
+      {
+        t: 'items',
+        items: [
+          '1：不限制吃喝',
+          '2:不限制种族（自力体系例外）',
+          '3：不限制结婚生子',
+          '4:不限制正常生活以及工作',
+          '5：不限制行业，无论是上至王候将相、下至贩 夫走卒，一视同仁',
+        ],
+      },
+    ],
+  },
+  {
+    title: '注：',
+    blocks: [
+      { t: 'items', items: ['1：师父领进门修行在个人，不包票成功。', '2：修炼需要坚定的毅力与恒心，两天打鱼，三天晒网者，勿扰。'] },
+    ],
+  },
+];
 ---
 
-<BranchLayout title={title} description={description} glyph="景" label="偶景" accent="#8291b7" bgDim={0.08} bg={`${base}/bg/oujing-shenying.webp`}>
-  <GateIntro
-    glyph="景"
-    name="偶景"
-    subtitle="内景 · 观照 · 守一"
-    lead={lead}
-    blocks={blocks}
-    note="此门重辨析而轻神异。凡以见神见怪为务、以境界诱人者，皆非此门正路。修行理论未经科学证实，切勿迷信。"
-    baomingHref={base + '/oujing/baoming'}
+<BranchLayout
+  title={title}
+  description={description}
+  glyph="景"
+  label="偶景"
+  accent="#8291b7"
+  bgDim={0.08}
+  bg={`${base}/bg/oujing-shenying.webp`}
+  navItems={navItems}
+>
+  <PageIntro
+    mark="解"
+    title="功法内容"
+    sub="偶者仙偶，景者影也。偶景，又叫偶影，就是相与为偶，形影不离的意思。"
+    meta="不包票成功；修行理论内容，未经科学证实，切勿迷信"
   />
+
+  <Treatise chapters={chapters} center />
+
+  <nav class="oujing-next kai" aria-label="下一步">
+    <a class="btn btn--primary" href={`${base}/oujing/baoming`}>报名须知</a>
+    <a class="btn" href={`${base}/oujing`}>返回偶景总览</a>
+  </nav>
 </BranchLayout>
+
+<style>
+  /* 文本框居中：题头、正文（Treatise center）、按钮同为一列 48em，列内文字仍左对齐 */
+  :global(.page-intro .wrap > div) {
+    max-width: 48em;
+    margin-inline: auto;
+  }
+
+  .oujing-next {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    max-width: 48em;
+    margin-inline: auto;
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+  @media (max-width: 600px) {
+    .oujing-next .btn { flex: 1 1 100%; text-align: center; }
+  }
+</style>

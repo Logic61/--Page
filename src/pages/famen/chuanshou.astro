@@ -5,9 +5,23 @@ import GoldNav from '../../components/GoldNav.astro';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const title = '传授法门 · 上古祝门';
-const description = '传授法门：咒法、偶景、鏖战、驻颜、真气治病，五门各承一脉，循门而入。';
+const description = '传授法门：咒法、偶景、鏖战、驻颜、真气疗愈五门正传，另立神道法一门以辨明，循门而入。';
 
-const gates = [
+interface Gate {
+  glyph: string;
+  name: string;
+  subtitle: string;
+  desc: string;
+  route: string;
+  intro: string;
+  /** 报名入口；「辨明之门」不设报名，故可缺省 */
+  baoming?: string;
+  /** 门卡脚部的补充标签（如「辨明之门 · 不设报名」） */
+  tag?: string;
+  accent: string;
+}
+
+const gates: Gate[] = [
   {
     glyph: '咒',
     name: '咒法',
@@ -21,8 +35,8 @@ const gates = [
   {
     glyph: '景',
     name: '偶景',
-    subtitle: '内景 · 观照 · 守一',
-    desc: '内景与幻境之辨：见内景者多入妄境，修性不可误此，观照存想而不入妄。',
+    subtitle: '仙偶 · 道侣 · 双修',
+    desc: '偶者仙偶，景者影也：偶景，又叫偶影，就是相与为偶，形影不离的意思。',
     route: '/oujing',
     intro: '/oujing/jieshao',
     baoming: '/oujing/baoming',
@@ -50,13 +64,23 @@ const gates = [
   },
   {
     glyph: '气',
-    name: '真气治病',
+    name: '真气疗愈',
     subtitle: '外气 · 神气 · 激发',
-    desc: '外气治病机理之辨：激发潜力、赋予精气、移除恶气，真气外发而愈人疾。',
+    desc: '外气疗愈机理之辨：激发潜力、赋予精气、移除恶气，真气外发而愈人疾。',
     route: '/zhenqi',
     intro: '/zhenqi/jieshao',
     baoming: '/zhenqi/baoming',
     accent: '#7fa387',
+  },
+  {
+    glyph: '神',
+    name: '神道法',
+    subtitle: '香火 · 封神 · 下种',
+    desc: '由香火念力衍生之法门：聚念、拜神、下种、带功、灌顶、附身。其利在易，其弊在受制，故此门以辨明为归。',
+    route: '/shendao',
+    intro: '/shendao/jieshao',
+    tag: '辨明之门 · 不设报名',
+    accent: '#cf8a52',
   },
 ];
 ---
@@ -90,18 +114,18 @@ const gates = [
           <a class="famen-back kai" href={`${base}/famen`}>
             <span class="famen-back-arrow" aria-hidden="true">←</span> 返回法门
           </a>
-          <p class="famen-eyebrow kai">法 门 · 五 门 各 承 一 脉</p>
+          <p class="famen-eyebrow kai">法 门 · 五 门 正 传 · 一 门 以 辨</p>
           <h1 id="famen-hero-title" class="famen-title kai">传授法门</h1>
           <div class="famen-rule" aria-hidden="true"></div>
-          <p class="famen-sub">诸法之门，循门而入。上古祝门之法，分作五支，各承一脉，门门有径，径径通幽。</p>
-          <p class="famen-meta kai">分支目录 · 五门</p>
+          <p class="famen-sub">诸法之门，循门而入。上古祝门之法分作五支，各承一脉；另立神道法一门，以辨香火之途。门门有径，径径通幽。</p>
+          <p class="famen-meta kai">分支目录 · 五门正传 · 另立一门以辨</p>
         </div>
       </div>
     </section>
 
     <section class="gates" aria-labelledby="gates-title">
       <div class="wrap">
-        <h2 id="gates-title" class="visually-hidden">五门目录</h2>
+        <h2 id="gates-title" class="visually-hidden">六门目录</h2>
 
         <div class="gate-grid">
           {
@@ -118,8 +142,15 @@ const gates = [
                   <span class="gate-enter kai" aria-hidden="true">入 ›</span>
                   <nav class="gate-links kai" aria-label={`${g.name}入口`}>
                     <a href={`${base}${g.intro}`}>介绍</a>
-                    <span class="sep" aria-hidden="true">·</span>
-                    <a href={`${base}${g.baoming}`}>报名</a>
+                    {
+                      g.baoming && (
+                        <>
+                          <span class="sep" aria-hidden="true">·</span>
+                          <a href={`${base}${g.baoming}`}>报名</a>
+                        </>
+                      )
+                    }
+                    {g.tag && <span class="gate-tag">{g.tag}</span>}
                   </nav>
                 </div>
               </article>
@@ -127,7 +158,7 @@ const gates = [
           }
         </div>
 
-        <p class="gate-foot kai">法未择人，人自择法 · 五门同源，各有所传</p>
+        <p class="gate-foot kai">法未择人，人自择法 · 五门同源，各有所传；神道一门，以辨为归</p>
       </div>
     </section>
 
@@ -149,8 +180,8 @@ const gates = [
     --ink-3: #18120b;
     --ink-line: rgba(248, 220, 160, 0.2);
     --bone: #f0d68e;
-    --bone-dim: #c4a878;
-    --bone-faint: #7a6840;
+    --bone-dim: #d3bb92;
+    --bone-faint: #b69c66;
 
     --heading: #f8dfa0;
     --gold: #dfb878;
@@ -165,7 +196,7 @@ const gates = [
     --panel-soft: rgba(248, 220, 160, 0.08);
     /* 门卡混色用的亮金/暗金（旧版引用了这两个名字） */
     --bronze-bright: var(--gold-bright);
-    --bronze-dim: var(--gold-deep);
+    --bronze-dim: #bfa05e;
 
     background: var(--ink);
     color: var(--bone);
@@ -375,7 +406,7 @@ const gates = [
   }
 
   /* ============================================================
-     五门门卡
+     六门门卡
      ============================================================ */
 
   .gates {
@@ -481,6 +512,7 @@ const gates = [
   }
   .gate-links {
     display: inline-flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 0.55rem;
   }
@@ -500,6 +532,16 @@ const gates = [
     color: var(--gold-edge);
   }
   .gate-links .sep { color: var(--bone-faint); }
+  /* 辨明之门的补充标签（如「辨明之门 · 不设报名」） */
+  .gate-tag {
+    padding: 0.3em 0.8em;
+    border: 1px dashed color-mix(in srgb, var(--c) 42%, transparent);
+    border-radius: 999px;
+    color: color-mix(in srgb, var(--c) 58%, var(--bone-dim));
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    white-space: nowrap;
+  }
 
   .gate-enter {
     color: color-mix(in srgb, var(--c) 70%, var(--gold-bright));

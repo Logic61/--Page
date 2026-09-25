@@ -137,13 +137,14 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
     --ink-3: #18120b;
     --ink-line: rgba(248, 220, 160, 0.2);
     --bone: #f0d68e;
-    --bone-dim: #c4a878;
-    --bone-faint: #7a6840;
+    --bone-dim: #d3bb92;
+    --bone-faint: #b69c66;
 
     --heading: #f8dfa0;
     --gold: #dfb878;
     --gold-bright: #f8dca0;
     --gold-deep: #a88440;
+    --bronze-dim: #bfa05e;
     /* brightest highlight stop, used for liquid-gold gradient text */
     --gold-edge: #fff8d8;
     --gold-glow: rgba(248, 220, 160, 0.6);
@@ -360,7 +361,7 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
   .kb-notice b {
     flex: none;
     color: #f4e7c1;
-    background: var(--gold-deep);
+    background: color-mix(in srgb, var(--gold-deep) 45%, #241806);
     padding: 0.28em 0.55em;
     font-size: 0.82rem;
     letter-spacing: 0.32em;

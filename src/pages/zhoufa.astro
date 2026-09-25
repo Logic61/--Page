@@ -1,13 +1,71 @@
 ---
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
+import Treatise from '../components/Treatise.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const { title, description } = {
-  title: '上古祝法 · 祝门根本',
-  description: '上古祝法，祝门根本。以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。',
+  title: '太易之音 · 上古巫祝祝法',
+  description: '太易之音为上古巫祝、祝门传承祝法之道。祝，咒也，此道以诵咒为主，通窍开脉、锻炼神形，令人身体健康，延年益寿，继而追求天人合一，万物一咒的咒法至高境界。此脉自古隐秘，外界难知。',
 };
+
+const lead = [
+  '太易之音为上古巫祝、祝门传承祝法之道，是为巫祝修炼体系中除去通天建木、不死药等的又一大独立、隐秘、完整的体系。',
+  '祝，咒也，此道以诵咒为主，通窍开脉、锻炼神形，令人身体健康，延年益寿，继而追求天人合一，万物一咒的咒法至高境界。',
+  '此脉自古隐秘，外界难知。',
+];
+
+const chapters = [
+  {
+    title: '前言：【以下为市面可显内容，以及宏观流转】',
+    blocks: [
+      { t: 'h4', text: '祝的由来：' },
+      { t: 'p', text: '巫祝，巫，祝也。' },
+      { t: 'p', text: '巫的传说古来已久，巫为定义沟通天地、先祖的人。' },
+      { t: 'p', text: '比如在殷商时期，巫承担着沟通“天帝”与“人帝”的任务，传达相关的意志，但是随着时间的流转因为某些人碰瓷等行为逐渐成为大家眼中装神弄鬼、招摇撞骗存在。' },
+      { t: 'p', text: '巫祝在以前可以算是地位、身份，因为在某些时代“公务员”就是巫，只是因为时代叫法不同所以现代叫我们叫公务员古代叫巫。' },
+    ],
+  },
+];
 ---
 
 <Base title={title} description={description} inkGold>
-  <Hero />
+  <Hero
+    seal="巫"
+    titleLead="太易"
+    titleAccent="之音"
+    lines={[
+      '太易之音为上古巫祝、祝门传承祝法之道。',
+      '祝，咒也——此道以诵咒为主，通窍开脉、锻炼神形，',
+      '令人身体健康，延年益寿，',
+      '继而追求天人合一，万物一咒的咒法至高境界。',
+    ]}
+    leftSide="巫祝巫祝 · 巫，祝也"
+    rightSide="祝，咒也 · 通窍开脉 · 锻炼神形 · 延年益寿"
+    primaryHref={`${base}/zhoufa/jieshao`}
+    primaryLabel="太易之音 · 详说"
+    secondaryHref={`${base}/zhoufa/baoming`}
+    secondaryLabel="报名须知"
+  />
+
+  <Treatise headTitle="太易之音" headNote="上古巫祝 · 祝门传承祝法之道" lead={lead} chapters={chapters} />
+
+  <nav class="zhoufa-next kai" aria-label="下一步">
+    <a class="btn btn--primary" href={`${base}/zhoufa/jieshao`}>祝法介绍</a>
+    <a class="btn" href={`${base}/zhoufa/mailuo`}>巫祝脉络</a>
+  </nav>
 </Base>
+
+<style>
+  .zhoufa-next {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+  @media (max-width: 600px) {
+    .zhoufa-next .btn { flex: 1 1 100%; text-align: center; }
+  }
+</style>
