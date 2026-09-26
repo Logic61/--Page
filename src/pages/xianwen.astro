@@ -7,7 +7,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const title = '闲文 · 上古祝门';
 const description =
-  '闲文三篇：为什么修炼这种事情自古以来普罗大众绝大部分不知道、论人求道杂谈、日常养生修炼功法问答。闲言散语，不成体系，聊备一格。';
+  `闲文${essays.length}篇：修炼何为、师承门户、飞升虚实、炼形服食、剑仙神通、末法香火——闲言散语，不成体系，聊备一格。`;
 ---
 
 <Base title={title} description={description} hideNav={true} search="gold">
@@ -40,7 +40,7 @@ const description =
           <h1 id="xianwen-hero-title" class="xianwen-title kai">闲文</h1>
           <div class="xianwen-rule" aria-hidden="true"></div>
           <p class="xianwen-sub">闲言散语，不成体系，聊备一格。凡不入法门、不列常识、不尽是秘闻者，皆归此枝。</p>
-          <p class="xianwen-meta kai">凡 {essays.length} 篇 · 求道之难 · 师承之实 · 日用养生</p>
+          <p class="xianwen-meta kai">凡 {essays.length} 篇 · 求道之难 · 师承门户 · 剑仙神通</p>
         </div>
       </div>
     </section>

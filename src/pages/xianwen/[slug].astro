@@ -212,7 +212,8 @@ const description = essay.summary;
 
   .xw-post-nav {
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    /* minmax(0,·)：窄屏时两侧篇名可换行收缩，不让长标题把页面撑出横向滚动 */
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     gap: 1.2rem;
     align-items: stretch;
     margin-top: clamp(2.2rem, 5vw, 3rem);
@@ -223,6 +224,7 @@ const description = essay.summary;
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
+    min-width: 0;
     padding: 1rem 1.1rem;
     border: 1px solid var(--gold-line);
     border-radius: 3px;
@@ -247,6 +249,7 @@ const description = essay.summary;
     font-size: 1.02rem;
     letter-spacing: 0.12em;
     line-height: 1.8;
+    overflow-wrap: anywhere;
     transition: color 0.3s var(--ease-soft);
   }
   .xw-pager:hover .xw-pager-title { color: var(--gold-bright); }
