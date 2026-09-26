@@ -9,20 +9,20 @@
   --ink-3: #121a22;
   --ink-4: #18232d;
   --ink-line: rgba(184, 154, 94, 0.16);
-  --bone: #d9d2c2;
-  --bone-dim: #bdb3a2;
-  --bone-faint: #a89e8c;
+  --bone: #eae4d8;
+  --bone-dim: #d4cbbd;
+  --bone-faint: #c2b9a9;
   --cinnabar: #b23a2c;
   --cinnabar-bright: #cf4b39;
   --cinnabar-deep: #8f2c22;
   /* 深底上的朱砂文字：比 --cinnabar 亮一档，保证 4.5:1 */
-  --cinnabar-ink: #e8836b;
-  --bronze: #b89a5e;
-  --bronze-bright: #d4b877;
-  --bronze-dim: #8f7a4e;
+  --cinnabar-ink: #f6a189;
+  --bronze: #cdb074;
+  --bronze-bright: #ead09a;
+  --bronze-dim: #a68f61;
   --jade: #5f7d6b;
 
-  --heading: #ece4d2;
+  --heading: #f8f3ea;
   --panel-grad: linear-gradient(180deg, rgba(18, 26, 34, 0.55), rgba(10, 14, 19, 0.45));
   --panel-mid: linear-gradient(180deg, rgba(18, 26, 34, 0.6), rgba(10, 14, 19, 0.5));
   --panel-strong: linear-gradient(180deg, rgba(18, 26, 34, 0.7), rgba(10, 14, 19, 0.5));
@@ -459,25 +459,25 @@ main.ink-gold {
   --ink-4: #201810;
   --ink-line: rgba(248, 220, 160, 0.2);
 
-  --bone: #f0d68e;
-  --bone-dim: #d3bb92;
-  --bone-faint: #b69c66;
-  --heading: #f8dfa0;
+  --bone: #f9edc1;
+  --bone-dim: #e8d8b6;
+  --bone-faint: #d0b98a;
+  --heading: #fdf4d2;
 
   --cinnabar: #b23a2c;
   --cinnabar-bright: #cf4b39;
   --cinnabar-deep: #8f2c22;
-  --cinnabar-ink: #e8836b;
+  --cinnabar-ink: #f6a189;
 
-  --bronze: #dfb878;
-  --bronze-bright: #f8dca0;
-  --bronze-dim: #bfa05e;
+  --bronze: #f0d59f;
+  --bronze-bright: #fff0cb;
+  --bronze-dim: #d2b67e;
 
-  --gold: #dfb878;
-  --gold-bright: #f8dca0;
-  --gold-deep: #a88440;
+  --gold: #f0d59f;
+  --gold-bright: #fff0cb;
+  --gold-deep: #bd9a55;
   /* 鎏金渐变文字用的最亮高光边 */
-  --gold-edge: #fff8d8;
+  --gold-edge: #fffceb;
   --gold-glow: rgba(248, 220, 160, 0.6);
   --gold-line: rgba(248, 220, 160, 0.42);
   --gold-line-strong: rgba(248, 220, 160, 0.72);
