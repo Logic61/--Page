@@ -1,0 +1,133 @@
+---
+/**
+ * 留言区（giscus / GitHub Discussions 承载）
+ * 配置见 src/data/comments.ts —— categoryId 未填时整块不渲染、
+ * 也不加载任何 giscus 脚本。默认懒加载：滚动接近时再注入脚本；
+ * 主题用 public/giscus-theme.css（黑金）。
+ */
+import { giscus } from '../data/comments';
+
+const ready = Boolean(giscus.repoId && giscus.categoryId);
+// BASE_URL 未必以斜杠结尾（base 未带尾斜杠时即如此），先归一化再拼
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const themeUrl = new URL(`${base}/giscus-theme.css`, import.meta.env.SITE).href;
+// 本地开发时该文件尚未部署到线上（404），先用 giscus 内置深色主题
+const theme = import.meta.env.DEV ? 'dark_dimmed' : themeUrl;
+---
+
+{
+  ready && (
+    <>
+      <section class="cmt" aria-label="留言">
+        <div class="cmt-head">
+          <h2 class="cmt-title kai">留言</h2>
+          <p class="cmt-hint">评论由 GitHub Discussions 承载 · 需 GitHub 账号登录</p>
+        </div>
+        <div
+          class="giscus cmt-slot"
+          data-giscus="pending"
+          data-repo={giscus.repo}
+          data-repo-id={giscus.repoId}
+          data-category={giscus.category}
+          data-category-id={giscus.categoryId}
+          data-mapping="pathname"
+          data-strict="0"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="top"
+          data-theme={theme}
+          data-lang="zh-CN"
+          data-loading="lazy"
+        >
+          <p class="cmt-pending">评论载入中……</p>
+        </div>
+      </section>
+
+      <script is:inline>
+        (() => {
+          const slot = document.querySelector('.cmt-slot[data-giscus="pending"]');
+          if (!slot) return;
+          const ATTRS = [
+            'repo',
+            'repo-id',
+            'category',
+            'category-id',
+            'mapping',
+            'strict',
+            'reactions-enabled',
+            'emit-metadata',
+            'input-position',
+            'theme',
+            'lang',
+            'loading',
+          ];
+          const load = () => {
+            const s = document.createElement('script');
+            s.src = 'https://giscus.app/client.js';
+            s.async = true;
+            s.crossOrigin = 'anonymous';
+            for (const k of ATTRS) {
+              const v = slot.getAttribute('data-' + k);
+              if (v !== null) s.setAttribute('data-' + k, v);
+            }
+            slot.removeAttribute('data-giscus');
+            slot.appendChild(s);
+          };
+          if (!('IntersectionObserver' in window)) return load();
+          const io = new IntersectionObserver(
+            (entries) => {
+              for (const e of entries) {
+                if (e.isIntersecting) {
+                  io.disconnect();
+                  load();
+                  return;
+                }
+              }
+            },
+            { rootMargin: '600px 0px' }
+          );
+          io.observe(slot);
+        })();
+      </script>
+    </>
+  )
+}
+
+<style>
+  .cmt {
+    max-width: 46em;
+    margin: clamp(2.6rem, 6vw, 4rem) auto 0;
+    padding-top: clamp(1.6rem, 4vw, 2.4rem);
+    border-top: 1px solid var(--gold-line, rgba(248, 220, 160, 0.32));
+  }
+  .cmt-head {
+    text-align: center;
+    margin-bottom: 1.3rem;
+  }
+  .cmt-title {
+    margin: 0;
+    color: var(--heading, #fdf4d2);
+    font-size: 1.12rem;
+    font-weight: 500;
+    letter-spacing: 0.5em;
+    text-indent: 0.5em;
+    font-family: var(--font-kai, 'Kaiti SC'), 'STKaiti', 'KaiTi', serif;
+  }
+  .cmt-hint {
+    margin: 0.5rem 0 0;
+    color: var(--bone-faint, #d0b98a);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+  }
+  .cmt-slot {
+    min-height: 8rem;
+  }
+  .cmt-pending {
+    margin: 0;
+    padding: 2.4rem 0;
+    text-align: center;
+    color: var(--bone-faint, #d0b98a);
+    font-size: 0.74rem;
+    letter-spacing: 0.24em;
+  }
+</style>

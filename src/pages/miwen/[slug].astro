@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Giscus from '../../components/Giscus.astro';
 import GoldNav from '../../components/GoldNav.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -100,6 +101,8 @@ const bgDim = Number(mod.frontmatter.bgDim || 0);
             ) : <span class="post-pager is-next is-empty"><span class="pager-label kai">下一篇</span><span class="pager-title kai">已是末篇</span></span>
           }
         </nav>
+
+        <Giscus />
 
       </div>
     </article>

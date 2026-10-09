@@ -1,0 +1,46 @@
+name: Snapshot visitor stats
+
+# 每日把 GoatCounter 的国别访问数快照进 src/data/visits.json，
+# 提交后手动唤起 Pages 重建（GITHUB_TOKEN 的推送不会自动触发 deploy.yml）。
+# 接入前（未配置变量/密钥）脚本会打一条 warning 后正常退出。
+
+on:
+  schedule:
+    # 每天 UTC 19:23 ≈ 北京时间 03:23；GitHub 定时任务可能稍有延迟
+    - cron: '23 19 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 拉取 GoatCounter 国别数据
+        run: node scripts/snapshot-visits.mjs
+        env:
+          # 站点代码放 Variables 或 Secrets 均可，大小写不限（脚本会转小写）
+          GOATCOUNTER_SITE: ${{ vars.GOATCOUNTER_SITE || secrets.GOATCOUNTER_SITE }}
+          GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
+      - name: 提交数据，有更新则触发站点重建
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/visits.json
+          if git diff --cached --quiet; then
+            echo "数据无变化，跳过提交与重建"
+            exit 0
+          fi
+          git commit -m "chore(visits): 每日访问数据快照"
+          git push
+          gh workflow run deploy.yml

@@ -1,0 +1,391 @@
+---
+/**
+ * 访客星图：世界地图按来客所在逐地亮起，「亮起程度 = 来客多寡」。
+ * 构建时静态生成，数据来自 src/data/visits.json —— 由
+ * .github/workflows/visits.yml 每日从 GoatCounter 快照；数据未接入时
+ * 只画一层暗金底图并给出提示，页面照常可用。
+ */
+import visits from '../data/visits.json';
+import { feature } from 'topojson-client';
+import { geoNaturalEarth1, geoPath } from 'd3-geo';
+import isoCountries from 'i18n-iso-countries';
+import zhLocale from 'i18n-iso-countries/langs/zh.json';
+import worldData from 'world-atlas/countries-110m.json';
+
+const W = 960;
+const H = 500;
+
+type CountryHit = { code: string; visitors: number; views: number };
+type RangeStats = { visitors: number; views: number; countries: CountryHit[] };
+
+const all: RangeStats = visits.all ?? { visitors: 0, views: 0, countries: [] };
+const d30: RangeStats = visits.d30 ?? { visitors: 0, views: 0, countries: [] };
+
+const hits = new Map<string, CountryHit>();
+for (const c of all.countries) hits.set(c.code, c);
+
+const hasData = all.countries.length > 0;
+const maxVisitors = Math.max(1, ...all.countries.map((c) => c.visitors));
+
+isoCountries.registerLocale(zhLocale as Parameters<typeof isoCountries.registerLocale>[0]);
+
+const projection = geoNaturalEarth1().fitExtent(
+  [
+    [8, 8],
+    [W - 8, H - 8],
+  ],
+  { type: 'Sphere' },
+);
+const pathOf = geoPath(projection);
+
+// 坐标压到一位小数：110m 底图上误差 <1px，HTML 体积约省三成
+const shrink = (d: string) => d.replace(/\d+\.\d+/g, (n) => String(Math.round(Number(n) * 10) / 10));
+
+const topo = worldData as unknown as Parameters<typeof feature>[0];
+const world = feature(topo, (topo as any).objects.countries) as unknown as {
+  features: Array<{ id?: string | number | null; properties?: { name?: string } }>;
+};
+
+const shapes = world.features.map((f) => {
+  const num = String(f.id ?? '').padStart(3, '0');
+  const alpha2 = /^\d{3}$/.test(num) ? isoCountries.numericToAlpha2(num) : undefined;
+  const hit = alpha2 ? hits.get(alpha2) ?? null : null;
+  const opacity = hit ? 0.1 + 0.82 * (Math.log1p(hit.visitors) / Math.log1p(maxVisitors)) : 0;
+  return {
+    key: alpha2 ?? `x-${f.id ?? f.properties?.name ?? 'unknown'}`,
+    d: shrink(pathOf(f as any) ?? ''),
+    name: (alpha2 ? isoCountries.getName(alpha2, 'zh') ?? alpha2 : f.properties?.name) ?? '',
+    hit,
+    opacity: Number(opacity.toFixed(2)),
+  };
+});
+
+// 有来客的地方后画（压在上层），免得国境描边被邻国盖掉
+shapes.sort((a, b) => Number(Boolean(a.hit)) - Number(Boolean(b.hit)));
+
+const rank = [...all.countries]
+  .sort((a, b) => b.visitors - a.visitors)
+  .slice(0, 10)
+  .map((c) => ({ ...c, name: isoCountries.getName(c.code, 'zh') ?? c.code }));
+const listMax = Math.max(1, rank[0]?.visitors ?? 1);
+
+const fmt = (n: number) => n.toLocaleString('zh-CN');
+const updatedText = visits.updated ? String(visits.updated).slice(0, 10) : '';
+
+const ariaSummary = hasData
+  ? `访客星图：累计 ${fmt(all.visitors)} 位来客、${fmt(all.views)} 次到访，来自 ${all.countries.length} 个国家和地区`
+  : '访客星图：访问统计尚未接入';
+---
+
+<section class="vp" aria-label="访客星图">
+  <header class="vp-head">
+    <p class="vp-kicker">古巫祝脉 · 四海来客</p>
+    <h2 class="vp-title">访客星图</h2>
+    <p class="vp-sub">来客所在，逐地亮起；越亮之处，来访越多</p>
+  </header>
+
+  <div class="vp-grid">
+    <div class="vp-mapwrap">
+      <svg class="vp-map" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={ariaSummary}>
+        <defs>
+          <radialGradient id="vpGlow" cx="50%" cy="46%" r="64%">
+            <stop offset="0%" stop-color="#f6d98a" stop-opacity="0.1" />
+            <stop offset="60%" stop-color="#f6d98a" stop-opacity="0.032" />
+            <stop offset="100%" stop-color="#f6d98a" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+        <rect x="0" y="0" width={W} height={H} fill="url(#vpGlow)" />
+        <g class="vp-countries">
+          {
+            shapes.map((s) => (
+              <path
+                d={s.d}
+                class:list={['vp-c', { 'vp-on': Boolean(s.hit) }]}
+                style={
+                  s.hit
+                    ? `--o:${s.opacity};--os:${Math.min(1, s.opacity + 0.25).toFixed(2)}`
+                    : undefined
+                }
+              >
+                <title>
+                  {s.hit
+                    ? `${s.name} · ${fmt(s.hit.visitors)} 人／${fmt(s.hit.views)} 次`
+                    : s.name}
+                </title>
+              </path>
+            ))
+          }
+        </g>
+      </svg>
+      {!hasData && <p class="vp-pending">统计尚在接入 · 来客渐多之后，此处逐地亮起</p>}
+    </div>
+
+    <aside class="vp-side">
+      <dl class="vp-stats">
+        <div class="vp-stat">
+          <dt>累计来客</dt>
+          <dd><b>{hasData ? fmt(all.visitors) : '—'}</b><i>人</i></dd>
+        </div>
+        <div class="vp-stat">
+          <dt>累计到访</dt>
+          <dd><b>{hasData ? fmt(all.views) : '—'}</b><i>次</i></dd>
+        </div>
+        <div class="vp-stat">
+          <dt>足迹所至</dt>
+          <dd><b>{hasData ? fmt(all.countries.length) : '—'}</b><i>地</i></dd>
+        </div>
+        <div class="vp-stat">
+          <dt>近三十日</dt>
+          <dd><b>{hasData ? fmt(d30.visitors) : '—'}</b><i>人</i></dd>
+        </div>
+      </dl>
+
+      {
+        rank.length > 0 && (
+          <ol class="vp-rank">
+            {rank.map((c, i) => (
+              <li>
+                <span class="vp-rank-no">{i + 1}</span>
+                <span class="vp-rank-name">{c.name}</span>
+                <span class="vp-rank-bar" aria-hidden="true">
+                  <i style={`width:${Math.max(4, (c.visitors / listMax) * 100).toFixed(1)}%`} />
+                </span>
+                <span class="vp-rank-num">{fmt(c.visitors)}</span>
+              </li>
+            ))}
+          </ol>
+        )
+      }
+
+      <p class="vp-note">{hasData ? `数据截至 ${updatedText} · 每日更新` : '数据接入后每日更新'}</p>
+    </aside>
+  </div>
+</section>
+
+<style>
+  /* 首页底部独用的一块：自成一套暗金配色，不依赖其他页面的主题变量 */
+  .vp {
+    position: relative;
+    z-index: 2;
+    width: min(100% - 2rem, 76rem);
+    margin: clamp(3rem, 7vw, 5.5rem) auto 0;
+    padding: clamp(2.2rem, 5vw, 3.6rem) clamp(0.6rem, 2vw, 1.4rem) 0;
+    border-top: 1px solid rgba(240, 213, 159, 0.16);
+    color: #e8d8b6;
+  }
+  /* 顶部金线：中间亮、两端隐，和站内其他分节线同语言 */
+  .vp::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    width: min(100%, 44rem);
+    height: 1px;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, transparent, rgba(246, 217, 138, 0.55), transparent);
+  }
+
+  .vp-head {
+    text-align: center;
+    margin-bottom: clamp(1.6rem, 4vw, 2.6rem);
+  }
+  .vp-kicker {
+    margin: 0;
+    color: #b08d45;
+    font-size: 0.72rem;
+    letter-spacing: 0.6em;
+    text-indent: 0.6em;
+    font-family: 'Kaiti SC', 'STKaiti', 'KaiTi', serif;
+  }
+  .vp-title {
+    margin: 0.7rem 0 0;
+    font-family: 'Kaiti SC', 'STKaiti', 'KaiTi', serif;
+    font-weight: 500;
+    font-size: clamp(1.6rem, 3.6vw, 2.2rem);
+    letter-spacing: 0.34em;
+    text-indent: 0.34em;
+    color: transparent;
+    background: linear-gradient(180deg, #fff1a8 0%, #d8b45a 45%, #a67c2f 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 0 0 18px rgba(205, 160, 60, 0.14);
+  }
+  .vp-sub {
+    margin: 0.75rem 0 0;
+    color: #a5905f;
+    font-size: 0.78rem;
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+  }
+
+  .vp-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 17rem;
+    gap: clamp(1.4rem, 3vw, 2.6rem);
+    align-items: start;
+  }
+
+  .vp-mapwrap {
+    position: relative;
+    min-width: 0;
+  }
+  .vp-map {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .vp-c {
+    fill: rgba(246, 217, 138, 0.055);
+    stroke: rgba(240, 213, 159, 0.14);
+    stroke-width: 0.6;
+    vector-effect: non-scaling-stroke;
+    transition: fill 0.25s ease, stroke 0.25s ease, filter 0.25s ease;
+  }
+  .vp-c.vp-on {
+    fill: rgba(246, 217, 138, var(--o));
+    stroke: rgba(255, 236, 180, var(--os));
+    stroke-width: 0.8;
+  }
+  .vp-c:hover {
+    fill: #ffeaa6;
+    stroke: #fff5cf;
+    filter: drop-shadow(0 0 6px rgba(255, 224, 138, 0.55));
+  }
+
+  .vp-pending {
+    margin: 0.9rem 0 0;
+    text-align: center;
+    color: #8d7a51;
+    font-size: 0.72rem;
+    letter-spacing: 0.24em;
+  }
+
+  .vp-side {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    min-width: 0;
+  }
+
+  .vp-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem;
+    margin: 0;
+  }
+  .vp-stat {
+    padding: 0.75rem 0.9rem;
+    border: 1px solid rgba(240, 213, 159, 0.2);
+    border-radius: 3px;
+    background: linear-gradient(180deg, rgba(138, 111, 46, 0.09), rgba(5, 4, 2, 0.32));
+  }
+  .vp-stat dt {
+    color: #b08d45;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+  }
+  .vp-stat dd {
+    margin: 0.3rem 0 0;
+    display: flex;
+    align-items: baseline;
+    gap: 0.3rem;
+    color: #f6d98a;
+  }
+  .vp-stat dd b {
+    font-size: 1.28rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .vp-stat dd i {
+    font-style: normal;
+    font-size: 0.66rem;
+    color: #a5905f;
+  }
+
+  .vp-rank {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.42rem;
+  }
+  .vp-rank li {
+    display: grid;
+    grid-template-columns: 1.1rem minmax(3.4em, auto) 1fr auto;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.78rem;
+  }
+  .vp-rank-no {
+    color: #8d7a51;
+    font-size: 0.68rem;
+    font-family: 'Kaiti SC', 'STKaiti', 'KaiTi', serif;
+  }
+  .vp-rank-name {
+    color: #e8d8b6;
+    font-family: 'Kaiti SC', 'STKaiti', 'KaiTi', serif;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .vp-rank-bar {
+    height: 3px;
+    border-radius: 2px;
+    background: rgba(240, 213, 159, 0.12);
+    overflow: hidden;
+  }
+  .vp-rank-bar i {
+    display: block;
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(246, 217, 138, 0.5), #ffeaa6);
+  }
+  .vp-rank-num {
+    color: #c9b48c;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.74rem;
+  }
+
+  .vp-note {
+    margin: 0;
+    color: #8d7a51;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+  }
+
+  @media (max-width: 920px) {
+    .vp-grid {
+      grid-template-columns: 1fr;
+    }
+    .vp-side {
+      gap: 1rem;
+    }
+    .vp-stats {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .vp-stat {
+      padding: 0.6rem 0.55rem;
+    }
+    .vp-stat dd b {
+      font-size: 1.05rem;
+    }
+    .vp-rank li {
+      grid-template-columns: 1.1rem minmax(3em, auto) 1fr auto;
+    }
+  }
+  @media (max-width: 560px) {
+    .vp {
+      width: min(100% - 1.3rem, 76rem);
+    }
+    .vp-stats {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .vp-c {
+      transition: none;
+    }
+  }
+</style>

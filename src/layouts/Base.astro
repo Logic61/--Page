@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Analytics from '../components/Analytics.astro';
 import Atmosphere from '../components/Atmosphere.astro';
 import GoldNav from '../components/GoldNav.astro';
 import SearchOverlay from '../components/SearchOverlay.astro';
@@ -137,6 +138,8 @@ const isActive = (item: (typeof nav)[number]) =>
     {/* 搜索浮层：放在 <main> 之后，确保页面自绘的顶栏（GoldNav 等）已解析，
         脚本才拿得到顶栏里的 #searchToggle；浮层本身 position:fixed，顺序不影响视觉 */}
     {showSearch && <SearchOverlay gold={searchGold} />}
+
+    <Analytics />
 
     <script>
       const rootEl = document.documentElement;

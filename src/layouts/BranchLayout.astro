@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import SeoHead from '../components/SeoHead.astro';
+import Analytics from '../components/Analytics.astro';
 
 // ============================================================
 // 五脉分支页布局（偶景 / 鏖战 / 驻颜 / 真气 / 神道 …）
@@ -117,6 +118,8 @@ const isHere = (href: string) => {
     </header>
 
     <main><slot /></main>
+
+    <Analytics />
   </body>
 </html>
 

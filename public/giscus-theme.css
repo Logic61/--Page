@@ -1,0 +1,127 @@
+/*!
+ * giscus 留言区主题 · 玄金之页（黑金）
+ * 依据 giscus 官方自定义主题模板改写：
+ * https://github.com/giscus/giscus/blob/main/styles/themes/custom_example.css
+ * 覆盖 GitHub Primer 的 CSS 变量，让评论区与站内「玄金」配色同源。
+ */
+
+main {
+  /* ---- 正文与背景 ---- */
+  --color-fg-default: #e8d8b6;
+  --color-fg-muted: #bda87e;
+  --color-fg-subtle: #93805a;
+  --color-canvas-default: #0b0705;
+  --color-canvas-overlay: #120c07;
+  --color-canvas-inset: #090604;
+  --color-canvas-subtle: rgba(248, 220, 160, 0.06);
+  --color-border-default: rgba(248, 220, 160, 0.26);
+  --color-border-muted: rgba(248, 220, 160, 0.14);
+  --color-neutral-muted: rgba(248, 220, 160, 0.14);
+
+  /* ---- 强调色（金） ---- */
+  --color-accent-fg: #f0d59f;
+  --color-accent-emphasis: #b98a3e;
+  --color-accent-muted: rgba(240, 213, 159, 0.4);
+  --color-accent-subtle: rgba(240, 213, 159, 0.12);
+  --color-success-fg: #a8c78a;
+  --color-attention-fg: #d9b45a;
+  --color-attention-muted: rgba(217, 180, 90, 0.4);
+  --color-attention-subtle: rgba(217, 180, 90, 0.14);
+  --color-danger-fg: #d9786b;
+  --color-danger-muted: rgba(217, 120, 107, 0.4);
+  --color-danger-subtle: rgba(217, 120, 107, 0.12);
+
+  /* ---- 按钮 ---- */
+  --color-btn-text: #e8d8b6;
+  --color-btn-bg: rgba(248, 220, 160, 0.07);
+  --color-btn-border: rgba(248, 220, 160, 0.28);
+  --color-btn-shadow: 0 0 transparent;
+  --color-btn-inset-shadow: 0 0 transparent;
+  --color-btn-hover-bg: rgba(248, 220, 160, 0.14);
+  --color-btn-hover-border: rgba(248, 220, 160, 0.5);
+  --color-btn-active-bg: rgba(248, 220, 160, 0.18);
+  --color-btn-active-border: rgba(248, 220, 160, 0.55);
+  --color-btn-selected-bg: rgba(248, 220, 160, 0.12);
+  --color-btn-primary-text: #1c1305;
+  --color-btn-primary-bg: #c9a558;
+  --color-btn-primary-border: rgba(255, 236, 180, 0.4);
+  --color-btn-primary-shadow: 0 0 transparent;
+  --color-btn-primary-inset-shadow: 0 0 transparent;
+  --color-btn-primary-hover-bg: #e0bb6b;
+  --color-btn-primary-hover-border: rgba(255, 236, 180, 0.55);
+  --color-btn-primary-selected-bg: #b8934a;
+  --color-btn-primary-selected-shadow: 0 0 transparent;
+  --color-btn-primary-disabled-text: rgba(28, 19, 5, 0.6);
+  --color-btn-primary-disabled-bg: rgba(201, 165, 88, 0.6);
+  --color-btn-primary-disabled-border: rgba(255, 236, 180, 0.2);
+
+  /* ---- 控件与杂项 ---- */
+  --color-action-list-item-default-hover-bg: rgba(248, 220, 160, 0.08);
+  --color-segmented-control-bg: rgba(248, 220, 160, 0.08);
+  --color-segmented-control-button-bg: #120c07;
+  --color-segmented-control-button-selected-border: rgba(248, 220, 160, 0.5);
+  --color-primer-shadow-inset: 0 0 transparent;
+  --color-scale-gray-7: rgba(248, 220, 160, 0.12);
+  --color-scale-blue-8: rgba(240, 213, 159, 0.2);
+  --color-social-reaction-bg-hover: rgba(248, 220, 160, 0.12);
+  --color-social-reaction-bg-reacted-hover: rgba(240, 213, 159, 0.2);
+
+  /* ---- 代码高亮（暖金系） ---- */
+  --color-prettylights-syntax-comment: #8d7a51;
+  --color-prettylights-syntax-constant: #e8c47a;
+  --color-prettylights-syntax-entity: #f0d59f;
+  --color-prettylights-syntax-storage-modifier-import: #d9c49a;
+  --color-prettylights-syntax-entity-tag: #d8b45a;
+  --color-prettylights-syntax-keyword: #e0925e;
+  --color-prettylights-syntax-string: #e5c887;
+  --color-prettylights-syntax-variable: #d99f6b;
+  --color-prettylights-syntax-brackethighlighter-unmatched: #d96b5a;
+  --color-prettylights-syntax-invalid-illegal-text: #f4e6c8;
+  --color-prettylights-syntax-invalid-illegal-bg: #6e2418;
+  --color-prettylights-syntax-carriage-return-text: #f4e6c8;
+  --color-prettylights-syntax-carriage-return-bg: #8a3020;
+  --color-prettylights-syntax-string-regexp: #d8b45a;
+  --color-prettylights-syntax-markup-list: #e8c47a;
+  --color-prettylights-syntax-markup-heading: #f0d59f;
+  --color-prettylights-syntax-markup-italic: #c9b48c;
+  --color-prettylights-syntax-markup-bold: #f0d59f;
+  --color-prettylights-syntax-markup-deleted-text: #f4c9c0;
+  --color-prettylights-syntax-markup-deleted-bg: #4a1710;
+  --color-prettylights-syntax-markup-inserted-text: #cfe0b0;
+  --color-prettylights-syntax-markup-inserted-bg: #23380f;
+  --color-prettylights-syntax-markup-changed-text: #f0d9a8;
+  --color-prettylights-syntax-markup-changed-bg: #472f0f;
+  --color-prettylights-syntax-markup-ignored-text: #c9b48c;
+  --color-prettylights-syntax-markup-ignored-bg: #24406e;
+  --color-prettylights-syntax-meta-diff-range: #f0d59f;
+  --color-prettylights-syntax-brackethighlighter-angle: #8d7a51;
+  --color-prettylights-syntax-sublimelinter-gutter-mark: #5a4d33;
+  --color-prettylights-syntax-constant-other-reference-link: #f0d59f;
+}
+
+/* ---- 自定义部分 ---- */
+body {
+  font-family: 'Songti SC', 'STSong', 'Noto Serif SC', 'Source Han Serif SC', serif;
+}
+input,
+textarea,
+button {
+  font-family: inherit;
+}
+
+.gsc-homepage-bg {
+  background-color: #0b0705;
+}
+
+main .gsc-loading-image {
+  background-image: none;
+}
+
+.gsc-comment-box {
+  border-radius: 3px;
+}
+
+.gsc-comment > .gsc-comment-content,
+.gsc-reply-content {
+  border-radius: 3px;
+}

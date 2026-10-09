@@ -1,0 +1,23 @@
+---
+/**
+ * 访问统计（GoatCounter）：站点代码见 src/data/analytics.ts。
+ * 仅在正式构建且填了站点代码时输出；本地开发不加载，
+ * 避免开发预览的访问混进统计。
+ */
+import { analytics } from '../data/analytics';
+
+// 站点代码容错：去空格、转小写（填成 LOGIC 之类也能正常工作）
+const site = analytics.goatcounterSite.trim().toLowerCase();
+const on = import.meta.env.PROD && Boolean(site);
+---
+
+{
+  on && (
+    <script
+      is:inline
+      async
+      src="https://gc.zgo.at/count.js"
+      data-goatcounter={`https://${site}.goatcounter.com/count`}
+    />
+  )
+}

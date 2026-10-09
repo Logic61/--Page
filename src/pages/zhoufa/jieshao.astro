@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Giscus from '../../components/Giscus.astro';
 import PageIntro from '../../components/PageIntro.astro';
 import Treatise from '../../components/Treatise.astro';
 
@@ -52,6 +53,8 @@ const chapters = [
     <a class="btn btn--primary" href={`${base}/zhoufa/mailuo`}>继续读 · 巫祝脉络</a>
     <a class="btn" href={`${base}/zhoufa`}>返回太易之音</a>
   </nav>
+
+  <Giscus />
 </Base>
 
 <style>

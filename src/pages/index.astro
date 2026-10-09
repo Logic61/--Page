@@ -5,8 +5,10 @@
 // 保留 alpha 与 luma 梯度，每像素按亮度等比映射到 #fce18c，与法阵符文环同源色，
 // 再叠同 filter 链时渲染色像素级一致 → 树与法阵浑然一体）。
 // 法阵保持高亮度鎏金，不做压暗处理。
+import Analytics from '../components/Analytics.astro';
 import NineStarArray from '../components/ritual/NineStarArray.astro';
 import SeoHead from '../components/SeoHead.astro';
+import VisitMap from '../components/VisitMap.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -193,6 +195,9 @@ const branches = [
       </div>
     </main>
 
+    {/* 访客星图：世界地图按来客所在亮起；数据由每日快照写入 src/data/visits.json */}
+    <VisitMap />
+
     {/* 页脚原来只有一行装饰字，整页可读文本不足 40 字，搜索引擎几乎抓不到内容。
         这里补成「分支文字导航 + 一句简介」：外观仍是页脚细字，
         但首页从此有了可抓取的正文与带关键词的内链锚文本。 */}
@@ -212,6 +217,8 @@ const branches = [
         修行境界与祝法养生问答；秘闻《神机秘闻》十一篇，辨神道、法界、轮回之实；闲文闲言散语，聊备一格。
       </p>
     </footer>
+
+    <Analytics />
 
     <script is:inline>
       // 中低端设备兜底：首屏采样帧率，低于阈值则冻结旋转/流光动画。
