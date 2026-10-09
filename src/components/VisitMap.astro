@@ -1,11 +1,13 @@
 ---
 /**
- * 访客星图：世界地图按来客所在逐地亮起，「亮起程度 = 来客多寡」。
- * 构建时静态生成，数据来自 src/data/visits.json —— 由
- * .github/workflows/visits.yml 每日从 GoatCounter 快照；数据未接入时
- * 只画一层暗金底图并给出提示，页面照常可用。
+ * 访客星图：世界地图按来客所在逐地亮起，「亮起程度 = 来客多寡」；
+ * 在此之上叠加城市光点（MapMyVisitors 城市级数据）。
+ * 构建时静态生成，数据来自 src/data/visits.json 与 src/data/cities.json ——
+ * 由 .github/workflows/visits.yml 每日从 GoatCounter / MapMyVisitors 快照；
+ * 数据未接入时只画一层暗金底图并给出提示，页面照常可用。
  */
 import visits from '../data/visits.json';
+import cityData from '../data/cities.json';
 import { feature } from 'topojson-client';
 import { geoNaturalEarth1, geoPath } from 'd3-geo';
 import isoCountries from 'i18n-iso-countries';
@@ -71,8 +73,53 @@ const listMax = Math.max(1, rank[0]?.visitors ?? 1);
 const fmt = (n: number) => n.toLocaleString('zh-CN');
 const updatedText = visits.updated ? String(visits.updated).slice(0, 10) : '';
 
+/* ---------------- 城市光点（MapMyVisitors 城市级来客） ---------------- */
+
+type CityHit = { name: string; lat: number; lng: number; hits: number };
+
+// 数据侧返回英文城市名，这里做常用城市的中文对照；未收录的保持原文
+const zhCityNames: Record<string, string> = {
+  Beijing: '北京', Shanghai: '上海', Guangzhou: '广州', Shenzhen: '深圳',
+  Hangzhou: '杭州', Nanjing: '南京', Suzhou: '苏州', Chengdu: '成都',
+  Chongqing: '重庆', Wuhan: '武汉', "Xi'an": '西安', Xian: '西安',
+  Tianjin: '天津', Changsha: '长沙', Zhengzhou: '郑州', Qingdao: '青岛',
+  Jinan: '济南', Shenyang: '沈阳', Dalian: '大连', Harbin: '哈尔滨',
+  Xiamen: '厦门', Fuzhou: '福州', Kunming: '昆明', Hefei: '合肥',
+  Nanchang: '南昌', Guiyang: '贵阳', Nanning: '南宁', Taiyuan: '太原',
+  Shijiazhuang: '石家庄', Changchun: '长春', Urumqi: '乌鲁木齐', Lanzhou: '兰州',
+  Haikou: '海口', Ningbo: '宁波', Wuxi: '无锡', Foshan: '佛山',
+  Dongguan: '东莞', Zhuhai: '珠海', Wenzhou: '温州', Xuzhou: '徐州',
+  Changzhou: '常州', Yantai: '烟台', Luoyang: '洛阳',
+  'Hong Kong': '香港', Macau: '澳门', Taipei: '台北',
+  Singapore: '新加坡', Tokyo: '东京', Osaka: '大阪', Seoul: '首尔',
+  'New York': '纽约', 'Los Angeles': '洛杉矶', 'San Francisco': '旧金山',
+  'San Jose': '圣何塞', Seattle: '西雅图', Chicago: '芝加哥', Boston: '波士顿',
+  Toronto: '多伦多', Vancouver: '温哥华', London: '伦敦', Paris: '巴黎',
+  Berlin: '柏林', Amsterdam: '阿姆斯特丹', Sydney: '悉尼', Melbourne: '墨尔本',
+  Moscow: '莫斯科', Dubai: '迪拜', Bangkok: '曼谷',
+  'Kuala Lumpur': '吉隆坡', 'Ho Chi Minh City': '胡志明市', Hanoi: '河内',
+};
+
+const citySrc = (cityData as { cities?: CityHit[]; source?: string }).cities ?? [];
+const cityPoints = citySrc
+  .map((c) => {
+    const p = projection([c.lng, c.lat]);
+    if (!p || !Number.isFinite(p[0]) || !Number.isFinite(p[1])) return null;
+    return {
+      name: zhCityNames[c.name] ?? c.name,
+      hits: c.hits,
+      x: Number(p[0].toFixed(1)),
+      y: Number(p[1].toFixed(1)),
+    };
+  })
+  .filter((c): c is { name: string; hits: number; x: number; y: number } => c !== null);
+const cityR = (hits: number) => Math.min(4.6, 1.6 + 1.15 * Math.log1p(hits));
+
+const citySource = (cityData as { source?: string }).source ?? 'https://mapmyvisitors.com';
+
 const ariaSummary = hasData
-  ? `访客星图：累计 ${fmt(all.views)} 次到访，来自 ${all.countries.length} 个国家和地区`
+  ? `访客星图：累计 ${fmt(all.views)} 次到访，来自 ${all.countries.length} 个国家和地区` +
+    (cityPoints.length ? `，点亮 ${cityPoints.length} 座城市` : '')
   : '访客星图：访问统计尚未接入';
 ---
 
@@ -80,7 +127,7 @@ const ariaSummary = hasData
   <header class="vp-head">
     <p class="vp-kicker">古巫祝脉 · 四海来客</p>
     <h2 class="vp-title">访客星图</h2>
-    <p class="vp-sub">来客所在，逐地亮起；越亮之处，来访越多</p>
+    <p class="vp-sub">来客所在，逐城亮起；越亮之处，来访越多</p>
   </header>
 
   <div class="vp-grid">
@@ -90,6 +137,11 @@ const ariaSummary = hasData
           <radialGradient id="vpGlow" cx="50%" cy="46%" r="64%">
             <stop offset="0%" stop-color="#f6d98a" stop-opacity="0.1" />
             <stop offset="60%" stop-color="#f6d98a" stop-opacity="0.032" />
+            <stop offset="100%" stop-color="#f6d98a" stop-opacity="0" />
+          </radialGradient>
+          <radialGradient id="vpCityGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffe9ad" stop-opacity="0.9" />
+            <stop offset="35%" stop-color="#f6d98a" stop-opacity="0.38" />
             <stop offset="100%" stop-color="#f6d98a" stop-opacity="0" />
           </radialGradient>
         </defs>
@@ -115,6 +167,19 @@ const ariaSummary = hasData
             ))
           }
         </g>
+        {
+          cityPoints.length > 0 && (
+            <g class="vp-cities">
+              {cityPoints.map((c, i) => (
+                <g class="vp-city" style={`--ph:${(i * 0.83).toFixed(2)}s`}>
+                  <circle class="vp-city-glow" cx={c.x} cy={c.y} r={(cityR(c.hits) * 3).toFixed(1)} />
+                  <circle class="vp-city-dot" cx={c.x} cy={c.y} r={cityR(c.hits).toFixed(1)} />
+                  <title>{`${c.name} · ${fmt(c.hits)} 次到访`}</title>
+                </g>
+              ))}
+            </g>
+          )
+        }
       </svg>
       {!hasData && <p class="vp-pending">统计尚在接入 · 来客渐多之后，此处逐地亮起</p>}
     </div>
@@ -149,6 +214,17 @@ const ariaSummary = hasData
       }
 
       <p class="vp-note">{hasData ? `数据截至 ${updatedText} · 每日更新` : '数据接入后每日更新'}</p>
+      {
+        cityPoints.length > 0 && (
+          <p class="vp-note vp-note-city">
+            城市微光 · 数据由{' '}
+            <a href={citySource} target="_blank" rel="noopener">
+              MapMyVisitors
+            </a>{' '}
+            提供
+          </p>
+        )
+      }
     </aside>
   </div>
 </section>
@@ -241,6 +317,26 @@ const ariaSummary = hasData
     fill: #ffeaa6;
     stroke: #fff5cf;
     filter: drop-shadow(0 0 6px rgba(255, 224, 138, 0.55));
+  }
+
+  /* 城市光点：亮心 + 金色光晕，大小随来客多寡；呼吸动画错相，像星子眨眼 */
+  .vp-city-glow {
+    fill: url(#vpCityGlow);
+    animation: vp-breath 4.8s ease-in-out infinite;
+    animation-delay: calc(var(--ph, 0s) * -1);
+  }
+  .vp-city-dot {
+    fill: #fff3c9;
+    filter: drop-shadow(0 0 3px rgba(255, 232, 160, 0.9));
+  }
+  @keyframes vp-breath {
+    0%,
+    100% {
+      opacity: 0.55;
+    }
+    50% {
+      opacity: 1;
+    }
   }
 
   .vp-pending {
@@ -345,6 +441,19 @@ const ariaSummary = hasData
     font-size: 0.68rem;
     letter-spacing: 0.14em;
   }
+  .vp-note-city {
+    margin-top: 0.3rem;
+  }
+  .vp-note a {
+    color: #c9a95e;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201, 169, 94, 0.4);
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+  .vp-note a:hover {
+    color: #ffeaa6;
+    border-bottom-color: rgba(255, 234, 166, 0.7);
+  }
 
   @media (max-width: 920px) {
     .vp-grid {
@@ -370,6 +479,12 @@ const ariaSummary = hasData
   }
   @media (prefers-reduced-motion: reduce) {
     .vp-c {
+      transition: none;
+    }
+    .vp-city-glow {
+      animation: none;
+    }
+    .vp-note a {
       transition: none;
     }
   }
