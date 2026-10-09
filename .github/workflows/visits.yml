@@ -27,7 +27,8 @@ jobs:
       - name: 拉取 GoatCounter 国别数据
         run: node scripts/snapshot-visits.mjs
         env:
-          # 站点代码放 Variables 或 Secrets 均可，大小写不限（脚本会转小写）
+          # 填站点代码（如 logic，见 https://<代码>.goatcounter.com）；
+          # 放 Variables 或 Secrets 均可，大小写不限，误填整条网址也会自动归一化
           GOATCOUNTER_SITE: ${{ vars.GOATCOUNTER_SITE || secrets.GOATCOUNTER_SITE }}
           GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
       - name: 提交数据，有更新则触发站点重建

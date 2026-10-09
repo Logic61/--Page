@@ -12,8 +12,14 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-// 站点代码统一转小写（GoatCounter 主机名大小写不敏感，但保持一致更稳）
-const SITE = (process.env.GOATCOUNTER_SITE || '').trim().toLowerCase();
+// 站点代码取自 https://<代码>.goatcounter.com。这里容错归一化：允许填「logic」「LOGIC」，
+// 也允许误填整条网址（如 https://logic.goatcounter.com/，从浏览器地址栏复制很常见）——
+// 一律剥成站点代码再拼 API 域名；带路径/尾斜杠会让最终请求路径错位、GoatCounter 回 404。
+const rawSite = (process.env.GOATCOUNTER_SITE || '').trim().toLowerCase();
+const SITE = rawSite
+  .replace(/^[a-z][a-z0-9+.-]*:\/\//, '') // 去协议
+  .split('/')[0] // 去路径与结尾斜杠
+  .replace(/\.goatcounter\.com$/, ''); // 去域名后缀
 const TOKEN = (process.env.GOATCOUNTER_TOKEN || '').trim();
 const OUT = path.resolve('src/data/visits.json');
 
@@ -22,6 +28,14 @@ if (missing.length) {
   console.log(`::warning ::${missing.join(' / ')} 未配置，跳过快照（统计接入前属正常）`);
   process.exit(0);
 }
+if (rawSite !== SITE) console.log(`GOATCOUNTER_SITE 已归一化："${rawSite}" → "${SITE}"`);
+if (!/^[a-z0-9](?:[a-z0-9-]{0,48}[a-z0-9])?$/.test(SITE)) {
+  console.error(
+    `::error ::GOATCOUNTER_SITE 不像站点代码（归一化后为 "${SITE}"）。应填 https://<代码>.goatcounter.com 里的 <代码>，如 logic。`,
+  );
+  process.exit(1);
+}
+console.log(`取数站点：https://${SITE}.goatcounter.com`);
 
 const iso = (d) => d.toISOString().slice(0, 10);
 const daysAgo = (n) => iso(new Date(Date.now() - n * 86400000));
@@ -44,17 +58,28 @@ async function fetchLocations(start) {
         msg = JSON.parse(text).error || '';
       } catch {}
       if (!msg) {
-        const paras = [...text.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/g)].map((m) => m[1].replace(/<[^>]+>/g, ''));
-        msg = paras.find((p) => /error|permission/i.test(p)) || text;
+        // 错误页多为「<h1>Error 401</h1><p>error 401: …</p>」或 404 的
+        // 「<h1>Not found</h1><p>This page doesn't exist.</p>」；
+        // 先整段去掉 <style>/<script>，否则内联 css 会混进摘要
+        const clean = text.replace(/<(style|script)\b[\s\S]*?<\/\1>/gi, ' ');
+        const pair = clean.match(/<h1[^>]*>([\s\S]*?)<\/h1>\s*<p[^>]*>([\s\S]*?)<\/p>/i);
+        msg =
+          (pair ? `${pair[1]} — ${pair[2]}` : '') ||
+          clean.match(/<p[^>]*>([\s\S]*?)<\/p>/i)?.[1] ||
+          clean;
         msg = msg.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
         msg = msg
-          .replace(/&#3[49];|&#x27;/gi, "'")
-          .replace(/&quot;/gi, '"')
+          .replace(/&#39;|&#x27;/gi, "'")
+          .replace(/&#34;|&quot;/gi, '"')
           .replace(/&lt;/gi, '<')
           .replace(/&gt;/gi, '>')
-          .replace(/&amp;/gi, '&');
+          .replace(/&amp;/g, '&');
       }
-      throw new Error(`GoatCounter ${res.status}: ${msg.slice(0, 200)}`);
+      const hint =
+        res.status === 404 || res.status === 400
+          ? '（多半是 GOATCOUNTER_SITE 填得不对：应填站点代码如 logic，而不是整条网址）'
+          : '';
+      throw new Error(`GoatCounter ${res.status}: ${msg.slice(0, 200)}${hint}`);
     }
     const body = await res.json();
     const stats = Array.isArray(body.stats) ? body.stats : [];
