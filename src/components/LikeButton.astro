@@ -7,6 +7,8 @@
  * 计数显示走 visitor counter 端点（JSON 带 CORS，取数成功即常显数字，0 也显示）——
  * 该端点有 4 小时缓存、且对同一会话去重：数字含义≈「点过赞的人数」，
  * 本人点完立即 +1（乐观显示），全站数字最多滞后数小时。
+ * 响应头带 Cache-Control: public，浏览器还会再缓存一层，故请求用
+ * cache: 'no-store' 绕开，只留服务端那一层滞后。
  * 已赞状态存 localStorage，本机不重复上报。
  */
 import { analytics } from '../data/analytics';
@@ -72,7 +74,8 @@ const eventPath = `like/${rel}`;
       if (!site || !eventPath) return;
       try {
         const res = await fetch(
-          'https://' + site + '.goatcounter.com/counter/' + encodeURIComponent(eventPath) + '.json'
+          'https://' + site + '.goatcounter.com/counter/' + encodeURIComponent(eventPath) + '.json',
+          { cache: 'no-store' }
         );
         // 无记录时返回 404，但响应体仍是 {"count_unique":"0","count":"0"}
         const data = await res.json();
