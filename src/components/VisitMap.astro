@@ -1,15 +1,19 @@
 ---
 /**
  * 访客星图：世界地图按来客所在逐地亮起，「亮起程度 = 来客多寡」；
- * 在此之上叠加城市光点（MapMyVisitors 城市级数据）。
- * 构建时静态生成，数据来自 src/data/visits.json 与 src/data/cities.json ——
- * 由 .github/workflows/visits.yml 每日从 GoatCounter / MapMyVisitors 快照；
+ * 中国与美国细化到省州：省州界线常显，来客城市所在的省州点亮（取代整国涂色），
+ * 再叠加城市光点（MapMyVisitors 城市级数据）。
+ * 构建时静态生成，数据来自 src/data/visits.json、cities.json 与 admin1-cn-us.json ——
+ * 前两者由 .github/workflows/visits.yml 每日从 GoatCounter / MapMyVisitors 快照；
+ * admin1-cn-us.json 为固定底数据（中国 DataV GeoAtlas 省级 + 美国 us-atlas 州界，
+ * 绕向归一、分档简化后合成），如无特需不必更新。
  * 数据未接入时只画一层暗金底图并给出提示，页面照常可用。
  */
 import visits from '../data/visits.json';
 import cityData from '../data/cities.json';
+import admin1Data from '../data/admin1-cn-us.json';
 import { feature } from 'topojson-client';
-import { geoNaturalEarth1, geoPath } from 'd3-geo';
+import { geoNaturalEarth1, geoPath, geoContains } from 'd3-geo';
 import isoCountries from 'i18n-iso-countries';
 import zhLocale from 'i18n-iso-countries/langs/zh.json';
 import worldData from 'world-atlas/countries-110m.json';
@@ -117,8 +121,57 @@ const cityR = (hits: number) => Math.min(4.6, 1.6 + 1.15 * Math.log1p(hits));
 
 const citySource = (cityData as { source?: string }).source ?? 'https://mapmyvisitors.com';
 
+/* ---------------- 省州层（中国、美国细化到省级/州级） ---------------- */
+
+const adminTopo = admin1Data as unknown as Parameters<typeof feature>[0];
+const adminFC = feature(adminTopo, (adminTopo as any).objects.admin1) as unknown as {
+  features: Array<{ properties: { name: string; country: string }; geometry: any }>;
+};
+
+const ringArea = (ring: number[][]) => {
+  let a = 0;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    a += ring[j][0] * ring[i][1] - ring[i][0] * ring[j][1];
+  }
+  return Math.abs(a / 2);
+};
+const geomArea = (g: any): number => {
+  const polys: number[][][][] = g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
+  return polys.reduce((s, p) => s + ringArea(p[0]), 0);
+};
+
+const adminAreas = adminFC.features.map((f) => ({
+  name: f.properties.name,
+  country: f.properties.country,
+  area: geomArea(f.geometry),
+  d: shrink(pathOf(f as any) ?? ''),
+  f,
+}));
+
+// 城市点落进哪个省州：省界简化后相邻区域会轻微重叠，多点命中时取面积最小的
+const areaHits = new Map<(typeof adminAreas)[number], number>();
+for (const c of citySrc) {
+  let best: (typeof adminAreas)[number] | null = null;
+  for (const a of adminAreas) {
+    if (!geoContains(a.f as any, [c.lng, c.lat])) continue;
+    if (!best || a.area < best.area) best = a;
+  }
+  if (best) areaHits.set(best, (areaHits.get(best) ?? 0) + c.hits);
+}
+
+// 该国的省州已亮起时，整国不再涂色（美国领土划归各州同理）
+const litCountries = new Set([...areaHits.keys()].map((a) => a.country));
+// 是否整国涂色可见：国家有数据且省州层还没接住它（此时省界改画墨线，压在亮金上）
+const wholeLit = (code: string) => Boolean(hits.get(code)?.visitors) && !litCountries.has(code);
+const maxAdminHits = Math.max(1, ...areaHits.values());
+const adminOpacity = (h: number) => 0.1 + 0.82 * (Math.log1p(h) / Math.log1p(maxAdminHits));
+
+// 亮起的省州后画（压在邻省描边之上）
+const adminList = [...adminAreas].sort((x, y) => Number(areaHits.has(x)) - Number(areaHits.has(y)));
+
 const ariaSummary = hasData
   ? `访客星图：累计 ${fmt(all.views)} 次到访，来自 ${all.countries.length} 个国家和地区` +
+    (areaHits.size ? `，${areaHits.size} 个省州亮起` : '') +
     (cityPoints.length ? `，点亮 ${cityPoints.length} 座城市` : '')
   : '访客星图：访问统计尚未接入';
 ---
@@ -127,7 +180,7 @@ const ariaSummary = hasData
   <header class="vp-head">
     <p class="vp-kicker">古巫祝脉 · 四海来客</p>
     <h2 class="vp-title">访客星图</h2>
-    <p class="vp-sub">来客所在，逐城亮起；越亮之处，来访越多</p>
+    <p class="vp-sub">来客所在，省州城池次第亮起；越亮之处，来访越多</p>
   </header>
 
   <div class="vp-grid">
@@ -151,7 +204,7 @@ const ariaSummary = hasData
             shapes.map((s) => (
               <path
                 d={s.d}
-                class:list={['vp-c', { 'vp-on': Boolean(s.hit) }]}
+                class:list={['vp-c', { 'vp-on': Boolean(s.hit) && !litCountries.has(s.key) }]}
                 style={
                   s.hit
                     ? `--o:${s.opacity};--os:${Math.min(1, s.opacity + 0.25).toFixed(2)}`
@@ -165,6 +218,24 @@ const ariaSummary = hasData
                 </title>
               </path>
             ))
+          }
+        </g>
+        <g class="vp-admin1">
+          {
+            adminList.map((a) => {
+              const h = areaHits.get(a) ?? 0;
+              const o = h ? adminOpacity(h) : 0;
+              const ink = h === 0 && wholeLit(a.country);
+              return (
+                <path
+                  d={a.d}
+                  class:list={['vp-a1', { 'vp-on': h > 0, 'vp-ink': ink }]}
+                  style={h ? `--o:${o.toFixed(2)};--os:${Math.min(1, o + 0.25).toFixed(2)}` : undefined}
+                >
+                  <title>{h ? `${a.name} · ${fmt(h)} 次到访` : a.name}</title>
+                </path>
+              );
+            })
           }
         </g>
         {
@@ -225,6 +296,8 @@ const ariaSummary = hasData
           </p>
         )
       }
+
+      <p class="vp-note vp-note-geo">省州界线 · DataV GeoAtlas / U.S. Census Bureau</p>
     </aside>
   </div>
 </section>
@@ -314,6 +387,33 @@ const ariaSummary = hasData
     stroke-width: 0.8;
   }
   .vp-c:hover {
+    fill: #ffeaa6;
+    stroke: #fff5cf;
+    filter: drop-shadow(0 0 6px rgba(255, 224, 138, 0.55));
+  }
+
+  /* 省州界线（中国省级 + 美国州级）：常显细描边作底；来客所在省州点亮，
+     未点亮的只描边不响应指针，免得挡住下方国家层的悬停 */
+  .vp-a1 {
+    fill: none;
+    stroke: rgba(240, 213, 159, 0.13);
+    stroke-width: 0.5;
+    vector-effect: non-scaling-stroke;
+    pointer-events: none;
+    transition: fill 0.25s ease, stroke 0.25s ease, filter 0.25s ease;
+  }
+  /* 整国仍涂亮金时（尚无城市数据），省界改画深色墨线才看得见 */
+  .vp-a1.vp-ink {
+    stroke: rgba(88, 60, 14, 0.55);
+    stroke-width: 0.6;
+  }
+  .vp-a1.vp-on {
+    fill: rgba(246, 217, 138, var(--o));
+    stroke: rgba(255, 236, 180, var(--os));
+    stroke-width: 0.7;
+    pointer-events: auto;
+  }
+  .vp-a1.vp-on:hover {
     fill: #ffeaa6;
     stroke: #fff5cf;
     filter: drop-shadow(0 0 6px rgba(255, 224, 138, 0.55));
@@ -478,7 +578,8 @@ const ariaSummary = hasData
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .vp-c {
+    .vp-c,
+    .vp-a1 {
       transition: none;
     }
     .vp-city-glow {
