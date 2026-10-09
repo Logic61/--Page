@@ -9,10 +9,13 @@
  * 2026-10-09 自 gc.zgo.at 与官方仓库双向核对），如需升级照此重取即可。
  * 上报端点 https://<站点>.goatcounter.com/count 国内可达，不受影响。
  *
- * MapMyVisitors：页面加载一次其 widget_call_home.js 即完成计数（服务端按 IP
- * 定位到城市），响应弃用——不渲染它的地图、不加载它的 jQuery/jVectorMap。
- * 城市数据由每日快照取回（scripts/snapshot-cities.mjs），画在首页访客星图。
- * 带时间戳参数绕开浏览器缓存，保证每次页面访问都真正请求一次。
+ * MapMyVisitors：页面加载一次其官方嵌入脚本 map.js（cl/w/t/d 参数照官方嵌入原样）
+ * 即完成计数——服务端在收到该请求时按 IP 定位到城市，脚本本体无需执行。
+ * 2026-10-09 实测厘清：widget_call_home.js（其内部小部件代码）不计数，
+ * 发了数十次一条未记；map.js 每次请求必记一条（导航、页面内 fetch 皆可）。
+ * 故此处只发请求、不执行脚本、不加载它的 jQuery/jVectorMap，响应弃用——
+ * 不渲染它自带图样。城市数据由每日快照取回（scripts/snapshot-cities.mjs），
+ * 画在首页访客星图。带时间戳参数绕开浏览器缓存，保证每次页面访问都真正请求一次。
  *
  * 仅在正式构建且填了相应配置时输出；本地开发不加载，
  * 避免开发预览的访问混进统计（信标另有本地域名守卫，防预览点击计数）。
@@ -27,7 +30,7 @@ const mmvOn = import.meta.env.PROD && Boolean(mmvKey);
 // BASE_URL 未必以斜杠结尾（base 为 /--Page 时就没有），先归一化再拼
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-const mmvBeacon = `(function(){try{var h=location.hostname;if(!h||h==='localhost'||h==='127.0.0.1'||/^(192\\.168\\.|10\\.|172\\.(1[6-9]|2\\d|3[01])\\.)/.test(h))return}catch(e){}fetch('https://mapmyvisitors.com/widget_call_home.js?cl=ffffff&w=300&t=n&d=${mmvKey}&r='+Date.now(),{mode:'no-cors',cache:'no-store',credentials:'omit'}).catch(function(){})})();`;
+const mmvBeacon = `(function(){try{var h=location.hostname;if(!h||h==='localhost'||h==='127.0.0.1'||/^(192\\.168\\.|10\\.|172\\.(1[6-9]|2\\d|3[01])\\.)/.test(h))return}catch(e){}fetch('https://mapmyvisitors.com/map.js?cl=ffffff&w=300&t=n&d=${mmvKey}&r='+Date.now(),{mode:'no-cors',cache:'no-store',credentials:'omit'}).catch(function(){})})();`;
 ---
 
 {
