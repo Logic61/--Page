@@ -1,6 +1,14 @@
 ---
 /**
  * 访问统计（GoatCounter）：站点代码见 src/data/analytics.ts。
+ *
+ * 脚本自托管（public/count.js）而非官方 CDN：实测国内网络访问 gc.zgo.at
+ * 连接超时（DNS 亦被干扰），脚本加载不出来则统计完全失效；
+ * 自托管文件与官方分发逐字节一致（9213 字节，
+ * sha256 792b7abd26c1fb6ae62906833e09a301251e2641816e69e4f95aba518f3fe3f0，
+ * 2026-10-09 自 gc.zgo.at 与官方仓库双向核对），如需升级照此重取即可。
+ * 上报端点 https://<站点>.goatcounter.com/count 国内可达，不受影响。
+ *
  * 仅在正式构建且填了站点代码时输出；本地开发不加载，
  * 避免开发预览的访问混进统计。
  */
@@ -9,6 +17,8 @@ import { analytics } from '../data/analytics';
 // 站点代码容错：去空格、转小写（填成 LOGIC 之类也能正常工作）
 const site = analytics.goatcounterSite.trim().toLowerCase();
 const on = import.meta.env.PROD && Boolean(site);
+// BASE_URL 未必以斜杠结尾（base 为 /--Page 时就没有），先归一化再拼
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 {
@@ -16,7 +26,7 @@ const on = import.meta.env.PROD && Boolean(site);
     <script
       is:inline
       async
-      src="https://gc.zgo.at/count.js"
+      src={`${base}/count.js`}
       data-goatcounter={`https://${site}.goatcounter.com/count`}
     />
   )
