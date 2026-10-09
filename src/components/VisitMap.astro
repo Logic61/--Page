@@ -19,7 +19,6 @@ type CountryHit = { code: string; visitors: number; views: number };
 type RangeStats = { visitors: number; views: number; countries: CountryHit[] };
 
 const all: RangeStats = visits.all ?? { visitors: 0, views: 0, countries: [] };
-const d30: RangeStats = visits.d30 ?? { visitors: 0, views: 0, countries: [] };
 
 const hits = new Map<string, CountryHit>();
 for (const c of all.countries) hits.set(c.code, c);
@@ -73,7 +72,7 @@ const fmt = (n: number) => n.toLocaleString('zh-CN');
 const updatedText = visits.updated ? String(visits.updated).slice(0, 10) : '';
 
 const ariaSummary = hasData
-  ? `访客星图：累计 ${fmt(all.visitors)} 位来客、${fmt(all.views)} 次到访，来自 ${all.countries.length} 个国家和地区`
+  ? `访客星图：累计 ${fmt(all.views)} 次到访，来自 ${all.countries.length} 个国家和地区`
   : '访客星图：访问统计尚未接入';
 ---
 
@@ -123,20 +122,12 @@ const ariaSummary = hasData
     <aside class="vp-side">
       <dl class="vp-stats">
         <div class="vp-stat">
-          <dt>累计来客</dt>
-          <dd><b>{hasData ? fmt(all.visitors) : '—'}</b><i>人</i></dd>
-        </div>
-        <div class="vp-stat">
           <dt>累计到访</dt>
           <dd><b>{hasData ? fmt(all.views) : '—'}</b><i>次</i></dd>
         </div>
         <div class="vp-stat">
           <dt>足迹所至</dt>
           <dd><b>{hasData ? fmt(all.countries.length) : '—'}</b><i>地</i></dd>
-        </div>
-        <div class="vp-stat">
-          <dt>近三十日</dt>
-          <dd><b>{hasData ? fmt(d30.visitors) : '—'}</b><i>人</i></dd>
         </div>
       </dl>
 
@@ -362,9 +353,6 @@ const ariaSummary = hasData
     .vp-side {
       gap: 1rem;
     }
-    .vp-stats {
-      grid-template-columns: repeat(4, 1fr);
-    }
     .vp-stat {
       padding: 0.6rem 0.55rem;
     }
@@ -378,9 +366,6 @@ const ariaSummary = hasData
   @media (max-width: 560px) {
     .vp {
       width: min(100% - 1.3rem, 76rem);
-    }
-    .vp-stats {
-      grid-template-columns: 1fr 1fr;
     }
   }
   @media (prefers-reduced-motion: reduce) {
