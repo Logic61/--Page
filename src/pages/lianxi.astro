@@ -1,0 +1,435 @@
+---
+import Base from '../layouts/Base.astro';
+import GoldNav from '../components/GoldNav.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Base
+  title="联系我们 · 上古祝门"
+  description="上古祝门联系方式：微信公众号与 QQ 群二维码、微信 SGWZWH、QQ 42914407。修行有疑，或欲入群交流，皆可由此联系。"
+  hideNav={true}
+  search="gold"
+>
+  <div class="lx-scope">
+
+    {/* 整页背景：与「闲文」「修炼常识」同源的「山河金影」，视口固定、滚动不动 */}
+    <div
+      class="lx-scene"
+      aria-hidden="true"
+      style={`background-image:url('${base}/bg/shanhe-gold.webp')`}
+    ></div>
+    <div class="lx-scrim" aria-hidden="true"></div>
+
+    {/* 顶部栏：玄金令牌，六个板块（本页高亮「联系我们」），右侧带全局搜索（Ctrl+K） */}
+    <GoldNav showSearch active="lianxi" />
+
+    <section class="lx-hero" aria-labelledby="lx-title">
+      <div class="lx-grain" aria-hidden="true"></div>
+      <div class="lx-vignette" aria-hidden="true"></div>
+
+      <div class="wrap lx-hero-wrap">
+        <div class="lx-mark-block reveal">
+          <span class="lx-mark-frame" aria-hidden="true"></span>
+          <span class="lx-mark zhuan">联</span>
+        </div>
+
+        <div class="lx-hero-text reveal" data-d="2">
+          <p class="lx-eyebrow kai">古 巫 祝 脉 · 上 古 祝 门</p>
+          <h1 id="lx-title" class="lx-title kai">联系我们</h1>
+          <div class="lx-rule" aria-hidden="true"></div>
+          <p class="lx-sub">修行有疑，或欲入群交流，皆可由此取得联系。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="lx-body" aria-label="联系方式">
+      <div class="wrap">
+
+        <div class="lx-qrs">
+          <figure class="lx-qr reveal">
+            <div class="lx-qr-frame">
+              <img
+                src={`${base}/公众号二维码.jpg`}
+                alt="微信公众号二维码"
+                loading="lazy"
+                width="1050"
+                height="1164"
+              />
+            </div>
+            <figcaption class="kai">微信公众号 · 扫码关注</figcaption>
+          </figure>
+
+          <figure class="lx-qr reveal" data-d="2">
+            <div class="lx-qr-frame">
+              <img
+                src={`${base}/群二维码.webp`}
+                alt="QQ 群二维码：太易之道（一群）"
+                loading="lazy"
+                width="720"
+                height="1010"
+              />
+            </div>
+            <figcaption class="kai">
+              <span>QQ 群 · 太易之道（一群）</span>
+              <small>群号 606517450</small>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="lx-contact reveal" data-d="2">
+          <div class="lx-row">
+            <span class="lx-row-label kai">微信</span>
+            <span class="lx-row-value" title="点击可全选复制">SGWZWH</span>
+          </div>
+          <div class="lx-row">
+            <span class="lx-row-label kai">QQ</span>
+            <span class="lx-row-value" title="点击可全选复制">42914407</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</Base>
+
+<style>
+  /* ============================================================
+     联系我们 · 玄金之页
+     与「闲文」「修炼常识」同源：同一套黑金令牌（tokens）、同一张
+     「山河金影」底图、同一套首屏语言（印框 + 鎏金标题 + 金线）。
+     首屏居中排版，下接二维码卡片与联系信息。
+     ============================================================ */
+
+  html[data-theme] .lx-scope {
+    --ink: #0a0604;
+    --ink-2: #100b07;
+    --ink-3: #18120b;
+    --ink-line: rgba(248, 220, 160, 0.2);
+    --bone: #f9edc1;
+    --bone-dim: #e8d8b6;
+    --bone-faint: #d0b98a;
+
+    --heading: #fdf4d2;
+    --gold: #f0d59f;
+    --gold-bright: #fff0cb;
+    --gold-deep: #bd9a55;
+    --bronze-dim: #d2b67e;
+    --gold-edge: #fffceb;
+    --gold-glow: rgba(248, 220, 160, 0.6);
+    --gold-line: rgba(248, 220, 160, 0.42);
+    --gold-line-strong: rgba(248, 220, 160, 0.72);
+
+    --panel-soft: rgba(248, 220, 160, 0.08);
+
+    background: var(--ink);
+    color: var(--bone);
+    position: relative;
+  }
+
+  /* ============================================================
+     整页背景 — 「山河金影」（与闲文/修炼常识同一张图）
+     视口固定、cover 铺满；再压一层同源遮罩保证文字可读。
+     ============================================================ */
+
+  .lx-scene {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+  }
+
+  .lx-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 52% 66% at 50% 40%,
+        rgba(10, 6, 4, 0.74) 0%,
+        rgba(10, 6, 4, 0.52) 58%,
+        rgba(10, 6, 4, 0.26) 100%),
+      linear-gradient(180deg,
+        rgba(10, 6, 4, 0.55) 0%,
+        rgba(10, 6, 4, 0.4) 42%,
+        rgba(10, 6, 4, 0.6) 100%);
+  }
+
+  /* ============================================================
+     首屏（居中）
+     ============================================================ */
+
+  .lx-hero {
+    position: relative;
+    z-index: 1;
+    padding: clamp(2.8rem, 5.5vw, 4.4rem) 0 clamp(2.2rem, 4.5vw, 3.4rem);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .lx-grain {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.45;
+    background-image:
+      radial-gradient(circle at 22% 28%, rgba(236, 200, 121, 0.08) 0%, transparent 38%),
+      radial-gradient(circle at 82% 18%, rgba(201, 169, 97, 0.06) 0%, transparent 42%),
+      radial-gradient(circle at 58% 82%, rgba(201, 169, 97, 0.04) 0%, transparent 50%);
+    mix-blend-mode: screen;
+  }
+
+  .lx-vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 80% at 50% 50%, transparent 35%, rgba(0, 0, 0, 0.5) 100%);
+  }
+
+  .lx-hero-wrap {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .lx-mark-block {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: clamp(6.4rem, 13vw, 9rem);
+    height: clamp(6.4rem, 13vw, 9rem);
+    margin-bottom: 1.8rem;
+  }
+
+  .lx-mark-frame {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--gold-line-strong);
+    transform: rotate(45deg);
+  }
+  .lx-mark-frame::before,
+  .lx-mark-frame::after {
+    content: '';
+    position: absolute;
+    background: var(--gold);
+  }
+  .lx-mark-frame::before {
+    top: -1px;
+    left: -1px;
+    width: 1.1rem;
+    height: 1px;
+  }
+  .lx-mark-frame::after {
+    bottom: -1px;
+    right: -1px;
+    width: 1.1rem;
+    height: 1px;
+  }
+
+  .lx-mark {
+    font-family: var(--font-zhuan);
+    font-size: clamp(3rem, 6.4vw, 4.4rem);
+    line-height: 1;
+    color: transparent;
+    /* 鎏金（liquid gold）渐变，与「秘」「闲」同源 */
+    background: linear-gradient(135deg,
+      var(--gold-edge) 0%,
+      var(--gold-bright) 18%,
+      var(--gold) 35%,
+      var(--gold-deep) 52%,
+      var(--gold) 68%,
+      var(--gold-bright) 85%,
+      var(--gold-edge) 100%);
+    background-size: 220% 220%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: lx-font-flow 9s ease-in-out infinite;
+    text-shadow: 0 0 28px var(--gold-glow);
+    user-select: none;
+  }
+  @keyframes lx-font-flow {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+
+  .lx-eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.42em;
+    color: var(--gold);
+    margin: 0;
+  }
+
+  .lx-title {
+    margin: 1rem 0 0;
+    font-weight: 600;
+    font-size: clamp(2.2rem, 5.4vw, 3.4rem);
+    letter-spacing: 0.32em;
+    /* 抵掉末字后的字距，居中时视觉才真平衡 */
+    text-indent: 0.32em;
+    line-height: 1.15;
+    color: transparent;
+    background: linear-gradient(180deg,
+      var(--gold-edge) 0%,
+      var(--gold-bright) 22%,
+      var(--gold) 50%,
+      var(--gold-deep) 80%,
+      var(--gold) 100%);
+    background-size: 100% 220%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: lx-title-flow 12s ease-in-out infinite;
+    text-shadow: 0 0 22px var(--gold-glow);
+  }
+  @keyframes lx-title-flow {
+    0%, 100% { background-position: 0% 0%; }
+    50%      { background-position: 0% 100%; }
+  }
+
+  .lx-rule {
+    height: 1px;
+    width: 4.5rem;
+    margin: 1.6rem 0 0;
+    background: linear-gradient(90deg, transparent 0%, var(--gold) 50%, transparent 100%);
+  }
+
+  .lx-sub {
+    margin: 1.3rem 0 0;
+    max-width: 34em;
+    color: var(--bone-dim);
+    font-size: 0.98rem;
+    line-height: 2.2;
+  }
+
+  /* ============================================================
+     二维码与联系信息
+     ============================================================ */
+
+  .lx-body {
+    position: relative;
+    z-index: 1;
+    padding-block: clamp(1.8rem, 3.6vw, 2.8rem) clamp(3.4rem, 7vw, 5.6rem);
+    /* 下滑进入正文区后底纹渐暗，卡片与文字读起来更稳 */
+    background: linear-gradient(180deg,
+      rgba(10, 6, 4, 0) 0%,
+      rgba(10, 6, 4, 0.58) 8rem,
+      rgba(10, 6, 4, 0.72) 100%);
+  }
+
+  .lx-qrs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.6rem, 4vw, 3.2rem);
+    max-width: 44rem;
+    margin-inline: auto;
+  }
+
+  .lx-qr {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* 统一白底卡片：图片绝对定位撑满卡面、contain 等比缩放，
+     letterbox 留白即卡片白底（两张图自带边距），两卡严格同尺寸，
+     且不受图片原始比例反馈影响 */
+  .lx-qr-frame {
+    position: relative;
+    width: min(100%, 19.5rem);
+    margin-inline: auto;
+    aspect-ratio: 1 / 1.35;
+    background: #fff;
+    border: 1px solid var(--gold-line-strong);
+    border-radius: 3px;
+    box-shadow:
+      0 26px 60px rgba(0, 0, 0, 0.5),
+      0 0 26px rgba(248, 220, 160, 0.1);
+  }
+  .lx-qr-frame img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .lx-qr figcaption {
+    margin-top: 1.1rem;
+    text-align: center;
+    font-size: 0.82rem;
+    letter-spacing: 0.24em;
+    color: var(--bone-faint);
+    line-height: 1.9;
+  }
+  .lx-qr figcaption small {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.74rem;
+    letter-spacing: 0.18em;
+    color: rgba(240, 214, 142, 0.66);
+  }
+
+  /* 微信 / QQ 一行一项；点击即全选，方便复制 */
+  .lx-contact {
+    max-width: 30rem;
+    margin: clamp(2.6rem, 5vw, 3.8rem) auto 0;
+    border: 1px solid var(--gold-line);
+    border-radius: 2px;
+    background: linear-gradient(180deg, rgba(20, 16, 8, 0.62), rgba(5, 4, 2, 0.78));
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.42);
+  }
+
+  .lx-row {
+    display: grid;
+    grid-template-columns: 4.2rem 1fr;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 1.05rem 1.5rem;
+  }
+  .lx-row + .lx-row {
+    border-top: 1px solid rgba(248, 220, 160, 0.16);
+  }
+
+  .lx-row-label {
+    font-size: 0.86rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+  }
+
+  .lx-row-value {
+    font-size: 1.12rem;
+    letter-spacing: 0.18em;
+    color: var(--gold-bright);
+    text-shadow: 0 0 16px rgba(248, 220, 160, 0.22);
+    user-select: all;
+    word-break: break-all;
+  }
+
+  /* ============================================================
+     窄屏与减弱动效
+     ============================================================ */
+
+  @media (max-width: 640px) {
+    .lx-hero { padding: 2.2rem 0 1.8rem; }
+    .lx-qrs {
+      grid-template-columns: 1fr;
+      max-width: 21rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lx-grain { opacity: 0.35; }
+    .lx-mark,
+    .lx-title { animation: none; }
+  }
+</style>
