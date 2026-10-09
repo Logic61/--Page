@@ -1,13 +1,13 @@
 {
-  "updated": "2026-10-09T11:32:38.886Z",
+  "updated": "2026-10-09T23:18:23.158Z",
   "all": {
-    "visitors": 15,
-    "views": 15,
+    "visitors": 20,
+    "views": 20,
     "countries": [
       {
         "code": "CN",
-        "visitors": 8,
-        "views": 8
+        "visitors": 13,
+        "views": 13
       },
       {
         "code": "DE",
@@ -22,13 +22,13 @@
     ]
   },
   "d30": {
-    "visitors": 15,
-    "views": 15,
+    "visitors": 20,
+    "views": 20,
     "countries": [
       {
         "code": "CN",
-        "visitors": 8,
-        "views": 8
+        "visitors": 13,
+        "views": 13
       },
       {
         "code": "DE",
