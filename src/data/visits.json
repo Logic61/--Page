@@ -1,5 +1,25 @@
 {
-  "updated": null,
-  "all": { "visitors": 0, "views": 0, "countries": [] },
-  "d30": { "visitors": 0, "views": 0, "countries": [] }
+  "updated": "2026-10-09T07:29:08.513Z",
+  "all": {
+    "visitors": 1,
+    "views": 1,
+    "countries": [
+      {
+        "code": "US",
+        "visitors": 1,
+        "views": 1
+      }
+    ]
+  },
+  "d30": {
+    "visitors": 1,
+    "views": 1,
+    "countries": [
+      {
+        "code": "US",
+        "visitors": 1,
+        "views": 1
+      }
+    ]
+  }
 }
