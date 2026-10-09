@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Giscus from '../../components/Giscus.astro';
 import GoldNav from '../../components/GoldNav.astro';
+import LikeButton from '../../components/LikeButton.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const nums = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一'];
@@ -101,6 +102,8 @@ const bgDim = Number(mod.frontmatter.bgDim || 0);
             ) : <span class="post-pager is-next is-empty"><span class="pager-label kai">下一篇</span><span class="pager-title kai">已是末篇</span></span>
           }
         </nav>
+
+        <LikeButton />
 
         <Giscus />
 

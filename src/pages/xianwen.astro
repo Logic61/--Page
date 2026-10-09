@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Giscus from '../components/Giscus.astro';
 import GoldNav from '../components/GoldNav.astro';
 import { essays } from '../data/xianwen';
 
@@ -76,6 +77,8 @@ const description =
         <div class="xianwen-foot reveal">
           <a class="xianwen-btn kai" href={`${base}/`}>返回分支图</a>
         </div>
+
+        <Giscus />
 
       </div>
     </section>

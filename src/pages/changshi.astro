@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Giscus from '../components/Giscus.astro';
 import GoldNav from '../components/GoldNav.astro';
 import knowledge from '../data/knowledge.json';
 
@@ -113,6 +114,8 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
         </div>
 
         <p class="kb-trailer kai reveal">依据《知识点》整理 · 修行理论内容，未经科学证实，切勿迷信</p>
+
+        <Giscus />
 
       </div>
     </section>

@@ -1,0 +1,177 @@
+---
+/**
+ * 点赞（GoatCounter 事件）
+ *
+ * 点击 → window.goatcounter.count({path: 'like/<页面路径>', event: true})，
+ * 事件在 GoatCounter 后台「Events」里单独统计；
+ * 计数显示走 visitor counter 端点（同源无需脚本，JSON 带 CORS）——
+ * 该端点有 4 小时缓存、且对同一会话去重：数字含义≈「点过赞的人数」，
+ * 本人点完立即 +1（乐观显示），全站数字最多滞后数小时。
+ * 已赞状态存 localStorage，本机不重复上报。
+ */
+import { analytics } from '../data/analytics';
+
+const site = analytics.goatcounterSite.trim().toLowerCase();
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// 从页面路径派生事件名：/--Page/miwen/truth-of-faith/ → like/miwen/truth-of-faith
+let rel = Astro.url.pathname;
+if (base && rel.startsWith(base)) rel = rel.slice(base.length);
+rel = rel.replace(/^\/+|\/+$/g, '');
+const eventPath = `like/${rel}`;
+---
+
+{
+  site && (
+    <div class="like" data-like data-event-path={eventPath} data-site={site}>
+      <button class="like-btn kai" type="button" aria-pressed="false">
+        <span class="like-heart" aria-hidden="true">♥</span>
+        <span class="like-text">赞</span>
+        <span class="like-num" hidden></span>
+      </button>
+    </div>
+  )
+}
+
+<script>
+  (() => {
+    const el = document.querySelector('[data-like]');
+    if (!el) return;
+    const btn = el.querySelector('.like-btn');
+    const heart = el.querySelector('.like-heart');
+    const textEl = el.querySelector('.like-text');
+    const numEl = el.querySelector('.like-num');
+    const eventPath = el.dataset.eventPath || '';
+    const site = el.dataset.site || '';
+    const KEY = 'wuzhu-like:' + eventPath;
+
+    const readLiked = () => {
+      try { return localStorage.getItem(KEY) === '1'; } catch (e) { return false; }
+    };
+    const writeLiked = () => {
+      try { localStorage.setItem(KEY, '1'); } catch (e) {}
+    };
+
+    let count = -1;
+
+    const paint = () => {
+      const liked = readLiked();
+      el.classList.toggle('is-liked', liked);
+      btn.setAttribute('aria-pressed', String(liked));
+      textEl.textContent = liked ? '已赞' : '赞';
+      if (count > 0) {
+        numEl.hidden = false;
+        numEl.textContent = String(count);
+      } else {
+        numEl.hidden = true;
+      }
+    };
+
+    const fetchCount = async () => {
+      if (!site || !eventPath) return;
+      try {
+        const res = await fetch(
+          'https://' + site + '.goatcounter.com/counter/' + encodeURIComponent(eventPath) + '.json'
+        );
+        // 无记录时返回 404，但响应体仍是 {"count_unique":"0","count":"0"}
+        const data = await res.json();
+        const n = parseInt(data && (data.count_unique || data.count), 10);
+        if (!Number.isNaN(n)) count = n;
+      } catch (e) {
+        // 网络失败就不显示数字
+      }
+      paint();
+    };
+
+    btn.addEventListener('click', () => {
+      if (readLiked() || !eventPath) return;
+      writeLiked();
+      const gc = window.goatcounter;
+      if (gc && typeof gc.count === 'function') {
+        gc.count({ path: eventPath, event: true });
+      }
+      if (count >= 0) count += 1;
+      el.classList.remove('is-pop');
+      void heart.offsetWidth; // 强制回流，让动画可重播
+      el.classList.add('is-pop');
+      paint();
+    });
+
+    paint();
+    fetchCount();
+  })();
+</script>
+
+<style>
+  .like {
+    display: flex;
+    justify-content: center;
+    margin: clamp(2.4rem, 5vw, 3.6rem) auto 0;
+  }
+
+  .like-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    padding: 0.62em 1.7em;
+    border: 1px solid var(--gold-line, rgba(248, 220, 160, 0.42));
+    border-radius: 999px;
+    background: var(--panel-soft, rgba(248, 220, 160, 0.08));
+    color: var(--bone-dim, #e8d8b6);
+    font-family: var(--font-kai, 'Kaiti SC'), 'STKaiti', 'KaiTi', serif;
+    font-size: 0.94rem;
+    letter-spacing: 0.22em;
+    cursor: pointer;
+    transition:
+      border-color 0.35s var(--ease-soft, ease),
+      color 0.35s var(--ease-soft, ease),
+      background 0.35s var(--ease-soft, ease),
+      transform 0.25s var(--ease-soft, ease);
+  }
+  .like-btn:hover {
+    border-color: var(--gold-line-strong, rgba(248, 220, 160, 0.72));
+    background: rgba(248, 220, 160, 0.12);
+    color: var(--gold-bright, #fff0cb);
+    transform: translateY(-2px);
+  }
+
+  .like-heart {
+    font-size: 0.94em;
+    line-height: 1;
+    color: var(--gold, #f0d59f);
+    letter-spacing: 0;
+    transition: color 0.35s var(--ease-soft, ease), transform 0.25s var(--ease-soft, ease);
+  }
+  .like-btn:hover .like-heart { transform: scale(1.12); }
+
+  .like-num {
+    font-family: var(--font-song, serif);
+    font-size: 0.88em;
+    opacity: 0.85;
+    letter-spacing: 0;
+  }
+  .like-num[hidden] { display: none; }
+
+  /* 已赞：鎏金实底、墨字，与全站「选中态」一致 */
+  .is-liked .like-btn {
+    border-color: var(--gold, #f0d59f);
+    background: linear-gradient(180deg, rgba(236, 200, 121, 0.95), rgba(201, 169, 97, 0.95));
+    color: #050402;
+    cursor: default;
+  }
+  .is-liked .like-btn:hover { transform: none; }
+  .is-liked .like-heart { color: #8f2c22; }
+
+  .is-pop .like-heart { animation: like-pop 0.5s var(--ease-soft, ease); }
+  @keyframes like-pop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.4); }
+    100% { transform: scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .like-btn,
+    .like-heart { transition: none; }
+    .is-pop .like-heart { animation: none; }
+  }
+</style>

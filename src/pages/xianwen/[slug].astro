@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Giscus from '../../components/Giscus.astro';
 import GoldNav from '../../components/GoldNav.astro';
+import LikeButton from '../../components/LikeButton.astro';
 import { essays } from '../../data/xianwen';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -114,6 +115,8 @@ const description = essay.summary;
             )
           }
         </nav>
+
+        <LikeButton />
 
         <Giscus />
 
