@@ -1,8 +1,8 @@
 {
-  "updated": "2026-10-09T10:23:31.510Z",
+  "updated": "2026-10-09T11:12:33.622Z",
   "all": {
-    "visitors": 11,
-    "views": 11,
+    "visitors": 13,
+    "views": 13,
     "countries": [
       {
         "code": "CN",
@@ -13,12 +13,17 @@
         "code": "US",
         "visitors": 3,
         "views": 3
+      },
+      {
+        "code": "DE",
+        "visitors": 2,
+        "views": 2
       }
     ]
   },
   "d30": {
-    "visitors": 11,
-    "views": 11,
+    "visitors": 13,
+    "views": 13,
     "countries": [
       {
         "code": "CN",
@@ -29,6 +34,11 @@
         "code": "US",
         "visitors": 3,
         "views": 3
+      },
+      {
+        "code": "DE",
+        "visitors": 2,
+        "views": 2
       }
     ]
   }
