@@ -1,5 +1,12 @@
 {
-  "updated": null,
+  "updated": "2026-10-09T11:32:39.084Z",
   "source": "https://mapmyvisitors.com/web/1c8rn",
-  "cities": []
+  "cities": [
+    {
+      "name": "Germany",
+      "lat": 51,
+      "lng": 9,
+      "hits": 3
+    }
+  ]
 }
