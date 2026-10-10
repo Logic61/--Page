@@ -1,0 +1,111 @@
+---
+// ============================================================
+// 中英切换按钮：EN / 中 并排，当前语言一侧压暗，点击整体切换。
+// 挂在各处顶部栏；点击行为与属性文案由 lib/lang.ts 的 initLang 驱动。
+// tone 适配三类顶部栏的配色：
+//   gold —— 玄金令牌栏（GoldNav，/famen、/miwen、/xianwen、/changshi、/zhoufa 各页）
+//   nav  —— 全站默认顶栏（Base 布局）
+//   home —— 首页自绘的黑色鎏金头栏
+// ============================================================
+interface Props {
+  tone?: 'gold' | 'nav' | 'home';
+}
+const { tone = 'gold' } = Astro.props;
+---
+
+<button
+  class:list={['lang-toggle', `t-${tone}`]}
+  type="button"
+  aria-label="切换为英文"
+  data-en-aria="Switch to Chinese"
+  title="EN / 中文 · 切换语言"
+  data-en-title="EN / 中文 · Switch language"
+>
+  <span class="lt-zh kai">中</span>
+  <span class="lt-sep" aria-hidden="true">/</span>
+  <span class="lt-en" aria-hidden="true">EN</span>
+</button>
+
+<style>
+  .lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.28em;
+    height: 38px;
+    padding: 0 0.7em;
+    flex: none;
+    border-radius: 2px;
+    background: transparent;
+    font-size: 0.78rem;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      border-color 0.3s var(--ease-soft, ease),
+      color 0.3s var(--ease-soft, ease),
+      background 0.3s var(--ease-soft, ease),
+      transform 0.2s var(--ease-soft, ease),
+      opacity 0.3s var(--ease-soft, ease);
+  }
+  .lt-sep {
+    opacity: 0.4;
+    font-size: 0.82em;
+  }
+  /* 当前语言一侧常亮，另一侧压暗——两侧都看得见，点击即整体切换 */
+  html[data-lang='en'] .lt-zh,
+  html:not([data-lang='en']) .lt-en {
+    opacity: 0.42;
+  }
+  html[data-lang='en'] .lt-zh {
+    font-size: 0.9em;
+  }
+
+  /* ---------- gold：玄金令牌栏 ---------- */
+  .t-gold {
+    border: 1px solid var(--gn-line, rgba(248, 220, 160, 0.34));
+    color: var(--gn-gold-bright, #fff0cb);
+    font-family: var(--font-kai, 'Kaiti SC', 'STKaiti', 'KaiTi', serif);
+  }
+  .t-gold:hover {
+    border-color: var(--gn-line-strong, rgba(248, 220, 160, 0.58));
+    color: var(--gn-gold-edge, #fffceb);
+    background: rgba(248, 220, 160, 0.08);
+    transform: translateY(-1px);
+  }
+
+  /* ---------- nav：全站默认顶栏（随明暗主题） ---------- */
+  .t-nav {
+    border: 1px solid var(--ink-line);
+    color: var(--bronze-bright);
+    font-family: var(--font-kai, 'Kaiti SC', 'STKaiti', 'KaiTi', serif);
+  }
+  .t-nav:hover {
+    border-color: var(--bronze);
+    color: var(--cinnabar-bright);
+    transform: translateY(-1px);
+  }
+
+  /* ---------- home：首页黑金头栏 ---------- */
+  .t-home {
+    border: 1px solid rgba(201, 165, 94, 0.42);
+    color: #d9b96a;
+    font-family: 'Kaiti SC', 'STKaiti', 'KaiTi', serif;
+    height: 34px;
+  }
+  .t-home:hover {
+    border-color: rgba(240, 217, 160, 0.8);
+    color: #f6e9bd;
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 640px) {
+    .lang-toggle {
+      height: 34px;
+      padding: 0 0.6em;
+      font-size: 0.72rem;
+    }
+  }
+</style>

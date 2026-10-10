@@ -2,17 +2,22 @@
 import Base from '../../layouts/Base.astro';
 import Giscus from '../../components/Giscus.astro';
 import GoldNav from '../../components/GoldNav.astro';
+import Zl from '../../components/Zl.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const title = '传授法门 · 上古祝门';
-const description = '传授法门：咒法、偶景、鏖战、驻颜、真气疗愈五门正传，另立神道法一门以辨明，循门而入。';
+const description =
+  '传授法门：咒法、偶景、鏖战、驻颜、真气疗愈五门正传；另立神道法一门以辨明，通神一门以通神明，循门而入。';
 
 interface Gate {
   glyph: string;
   name: string;
+  nameEn: string;
   subtitle: string;
+  subtitleEn: string;
   desc: string;
+  descEn: string;
   route: string;
   /** 介绍页入口（卡片上暂不展示，保留以便随时恢复小字行） */
   intro: string;
@@ -25,8 +30,12 @@ const gates: Gate[] = [
   {
     glyph: '咒',
     name: '咒法',
+    nameEn: 'Incantation',
     subtitle: '通窍 · 开脉 · 合一',
+    subtitleEn: 'Apertures · Vessels · Oneness',
     desc: '上古祝门之根本。以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。',
+    descEn:
+      'The root of the ancient Zhumen. Through reciting incantations the apertures open and the vessels unblock; spirit and form are tempered, in pursuit of union between Heaven and Man — all things, one incantation.',
     route: '/zhoufa',
     intro: '/zhoufa/jieshao',
     baoming: '/zhoufa/baoming',
@@ -35,8 +44,12 @@ const gates: Gate[] = [
   {
     glyph: '景',
     name: '偶景',
+    nameEn: 'Oujing — Paired Radiance',
     subtitle: '仙偶 · 道侣 · 双修',
+    subtitleEn: 'Immortal Consort · Dao Companion · Dual Cultivation',
     desc: '偶者仙偶，景者影也：偶景，又叫偶影，就是相与为偶，形影不离的意思。',
+    descEn:
+      'Ou is the immortal consort; jing is the shadow. Oujing — also called Ouying — means to be paired as consorts, inseparable as form and shadow.',
     route: '/oujing',
     intro: '/oujing/jieshao',
     baoming: '/oujing/baoming',
@@ -45,8 +58,12 @@ const gates: Gate[] = [
   {
     glyph: '战',
     name: '鏖战',
+    nameEn: 'Aozhan — the Fierce Rite',
     subtitle: '丹基 · 房中 · 养生',
+    subtitleEn: 'Elixir Foundation · Bedchamber · Nourishing Life',
     desc: '源自人元丹法筑基，交而不泄，养生配套，非邪法，养身以续其道。',
+    descEn:
+      'Grounded in the human-elixir method of laying the foundation: union without discharge, with its companion health practices — no wicked art; the body is nourished so the Way may continue.',
     route: '/aozhan',
     intro: '/aozhan/jieshao',
     baoming: '/aozhan/baoming',
@@ -55,8 +72,12 @@ const gates: Gate[] = [
   {
     glyph: '颜',
     name: '驻颜',
+    nameEn: 'Zhuyan — Preserving the Countenance',
     subtitle: '驻容 · 养容 · 生发',
+    subtitleEn: 'Keeping the Visage · Nourishing the Face · Hair Growth',
     desc: '以气血温养为本，驻容颜于岁月之中，养容仪于日常之间。',
+    descEn:
+      'Built on the warm nourishment of qi and blood: hold the countenance fast through the passing years, tend one’s appearance amid the common days.',
     route: '/zhuyanshu',
     intro: '/zhuyanshu/jieshao',
     baoming: '/zhuyanshu/baoming',
@@ -65,8 +86,12 @@ const gates: Gate[] = [
   {
     glyph: '气',
     name: '真气疗愈',
+    nameEn: 'True-Qi Healing',
     subtitle: '外气 · 神气 · 激发',
+    subtitleEn: 'Outer Qi · Spirit-Qi · Quickening',
     desc: '外气疗愈机理之辨：激发潜力、赋予精气、移除恶气，真气外发而愈人疾。',
+    descEn:
+      'On the workings of outer-qi healing: quickening latent power, bestowing essential qi, removing noxious qi — the true qi is sent forth to mend others’ ills.',
     route: '/zhenqi',
     intro: '/zhenqi/jieshao',
     baoming: '/zhenqi/baoming',
@@ -75,11 +100,28 @@ const gates: Gate[] = [
   {
     glyph: '神',
     name: '神道法',
+    nameEn: 'Shendao — the Way of Gods',
     subtitle: '香火 · 封神 · 下种',
+    subtitleEn: 'Incense-Fire · Enthroning Gods · Sowing the Seed',
     desc: '由香火念力衍生之法门：聚念、拜神、下种、带功、灌顶、附身。其利在易，其弊在受制，故此门以辨明为归。',
+    descEn:
+      'A gate born of incense-fire and the power of gathered thought: gathering the mind, worshipping gods, sowing seeds, carrying power, initiation, possession. Its advantage is ease; its flaw is subjection — hence this gate ends in discernment.',
     route: '/shendao',
     intro: '/shendao/jieshao',
     accent: '#cf8a52',
+  },
+  {
+    glyph: '通',
+    name: '通神',
+    nameEn: 'Tongshen — Communing with the Divine',
+    subtitle: '神择 · 秘技 · 四途',
+    subtitleEn: 'The Divine Choice · A Secret Art · Four Paths',
+    desc: '通神即与神相通：巫师萨满之属，或学得，或被选。通神者、侍神者、神使、密修者，四途分流。',
+    descEn:
+      'Tongshen is communion with the gods: wizards and shamans, some who learned the skill, some chosen. Four paths branch from it — Communicant, Servant, Emissary, Esoteric Cultivator.',
+    route: '/tongshen',
+    intro: '/tongshen/jieshao',
+    accent: '#a292c9',
   },
 ];
 ---
@@ -111,31 +153,43 @@ const gates: Gate[] = [
 
         <div class="famen-hero-text reveal" data-d="2">
           <a class="famen-back kai" href={`${base}/famen`}>
-            <span class="famen-back-arrow" aria-hidden="true">←</span> 返回法门
+            <span class="famen-back-arrow" aria-hidden="true">←</span> <Zl zh="返回法门" en="Back to Paths" />
           </a>
-          <p class="famen-eyebrow kai">法 门 · 五 门 正 传 · 一 门 以 辨</p>
-          <h1 id="famen-hero-title" class="famen-title kai">传授法门</h1>
+          <p class="famen-eyebrow kai">
+            <Zl zh="法 门 · 五 门 正 传 · 一 门 以 辨 · 一 门 通 神" en="Paths · Five Transmitted Gates · One to Discern · One to Commune" />
+          </p>
+          <h1 id="famen-hero-title" class="famen-title kai"><Zl zh="传授法门" en="Transmitted Paths" /></h1>
           <div class="famen-rule" aria-hidden="true"></div>
-          <p class="famen-sub">诸法之门，循门而入。上古祝门之法分作五支，各承一脉；另立神道法一门，以辨香火之途。门门有径，径径通幽。</p>
-          <p class="famen-meta kai">分支目录 · 五门正传 · 另立一门以辨</p>
+          <p class="famen-sub">
+            <Zl
+              zh="诸法之门，循门而入。上古祝门之法分作五支，各承一脉；另立神道法一门，以辨香火之途；复立通神一门，以通神明。门门有径，径径通幽。"
+              en="Many are the gates of the arts — enter each by its own path. The methods of the ancient Zhumen divide into five branches, each keeping a lineage; set apart are Shendao, to discern the way of incense-fire, and Tongshen, to commune with the divine. Every gate has its path; every path leads into the hidden."
+            />
+          </p>
+          <p class="famen-meta kai"><Zl zh="分支目录 · 五门正传 · 另立两门 · 一辨一通" en="Branch Index · Five Transmitted Gates · Two Set Apart · One to Discern, One to Commune" /></p>
         </div>
       </div>
     </section>
 
     <section class="gates" aria-labelledby="gates-title">
       <div class="wrap">
-        <h2 id="gates-title" class="visually-hidden">六门目录</h2>
+        <h2 id="gates-title" class="visually-hidden"><Zl zh="七门目录" en="Seven Gates" /></h2>
 
         <div class="gate-grid">
           {
             gates.map((g, i) => (
               <article class="gate reveal" style={`--c:${g.accent};`} data-d={i + 1}>
-                <a class="gate-cover" href={`${base}${g.route}`} aria-label={`进入${g.name}`}></a>
+                <a
+                  class="gate-cover"
+                  href={`${base}${g.route}`}
+                  aria-label={`进入${g.name}`}
+                  data-en-aria={`Enter ${g.nameEn}`}
+                />
                 <span class="gate-glyph zhuan" aria-hidden="true">{g.glyph}</span>
                 <div class="gate-body">
-                  <h3 class="gate-name kai">{g.name}</h3>
-                  <p class="gate-sub">{g.subtitle}</p>
-                  <p class="gate-desc">{g.desc}</p>
+                  <h3 class="gate-name kai"><Zl zh={g.name} en={g.nameEn} /></h3>
+                  <p class="gate-sub"><Zl zh={g.subtitle} en={g.subtitleEn} /></p>
+                  <p class="gate-desc"><Zl zh={g.desc} en={g.descEn} /></p>
                 </div>
               </article>
             ))

@@ -2,22 +2,28 @@
 import Base from '../../layouts/Base.astro';
 import Giscus from '../../components/Giscus.astro';
 import GoldNav from '../../components/GoldNav.astro';
+import Zl from '../../components/Zl.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const title = '法门 · 上古祝门';
-const description = '法门二目：古往今来的体系，梳理法脉源流、支派与次第；传授法门，五门各承一脉，另立神道法一门以辨明，循门而入。';
+const description =
+  '法门二目：古往今来的体系，梳理法脉源流、支派与次第；传授法门，五门各承一脉，另立神道法一门以辨明、通神一门以通神明，循门而入。';
 
 /* 法门总览：一页两目，并立如双扉。
    一曰「古往今来的体系」——源流、支派、次第与图谱；
-   二曰「传授法门」——咒法、偶景、鏖战、驻颜、真气五门，另立神道法一门以辨明。 */
+   二曰「传授法门」——咒法、偶景、鏖战、驻颜、真气五门，另立神道法、通神二门。 */
 const doors = [
   {
     numeral: '一',
     glyph: '系',
     name: '古往今来的体系',
+    nameEn: 'The Systems of the Ages',
     subtitle: '源流 · 支派 · 次第 · 图谱',
+    subtitleEn: 'Origins · Branches · Stages · Charts',
     desc: '古往今来之法门总目：存思、存神、导引、服食、咒音、内丹、采炁诸般体系，内求外求之别，自力它力之分，皆归此门。',
+    descEn:
+      'A general index of the methods through the ages — visualization, spirit-abiding, guiding-and-pulling, ingesting, incantation, inner elixir, qi-gathering: inner seeking and outer seeking, self-power and other-power, all return to this gate.',
     route: '/famen/tixi',
     accent: '#93a7c2',
   },
@@ -25,8 +31,12 @@ const doors = [
     numeral: '二',
     glyph: '传',
     name: '传授法门',
-    subtitle: '咒法 · 偶景 · 鏖战 · 驻颜 · 真气 · 神道',
-    desc: '诸法之门，循门而入。上古祝门之法分作五支，各承一脉；另立神道法一门，以辨香火之途。',
+    nameEn: 'Transmitted Paths',
+    subtitle: '咒法 · 偶景 · 鏖战 · 驻颜 · 真气 · 神道 · 通神',
+    subtitleEn: 'Incantation · Oujing · Aozhan · Zhuyan · True-Qi · Shendao · Tongshen',
+    desc: '诸法之门，循门而入。上古祝门之法分作五支，各承一脉；另立神道法一门以辨香火之途，通神一门以通神明。',
+    descEn:
+      'Many are the gates of the arts — enter each by its own path. The ancient Zhumen divides into five branches, each keeping a lineage; set apart are Shendao, to discern the way of incense-fire, and Tongshen, to commune with the divine.',
     route: '/famen/chuanshou',
     accent: '#c9a86a',
   },
@@ -58,11 +68,16 @@ const doors = [
         </div>
 
         <div class="famen-hero-text reveal" data-d="2">
-          <p class="famen-eyebrow kai">法 门 · 一 页 二 目</p>
-          <h1 id="famen-hero-title" class="famen-title kai">法门</h1>
+          <p class="famen-eyebrow kai"><Zl zh="法 门 · 一 页 二 目" en="Paths · One Page · Two Doors" /></p>
+          <h1 id="famen-hero-title" class="famen-title kai"><Zl zh="法门" en="Paths" /></h1>
           <div class="famen-rule" aria-hidden="true"></div>
-          <p class="famen-sub">诸法之门，循门而入。一门之内复分二目：一曰古往今来之体系，一曰传授之法门。</p>
-          <p class="famen-meta kai">体系 · 传法</p>
+          <p class="famen-sub">
+            <Zl
+              zh="诸法之门，循门而入。一门之内复分二目：一曰古往今来之体系，一曰传授之法门。"
+              en="Many are the gates of the arts — enter each by its own path. Within this one gate lie two doors: the systems of the ages, and the transmitted paths."
+            />
+          </p>
+          <p class="famen-meta kai"><Zl zh="体系 · 传法" en="Systems · Transmissions" /></p>
         </div>
       </div>
     </section>
@@ -71,7 +86,7 @@ const doors = [
       <div class="wrap">
         <h2 id="doors-title" class="doors-head">
           <span class="doors-head-line" aria-hidden="true"></span>
-          <span class="doors-head-word kai">法 门 二 目</span>
+          <span class="doors-head-word kai"><Zl zh="法 门 二 目" en="Two Doors of the Path" /></span>
           <span class="doors-head-line" aria-hidden="true"></span>
         </h2>
 
@@ -79,7 +94,12 @@ const doors = [
           {
             doors.map((d, i) => (
               <article class="door reveal" style={`--c:${d.accent};`} data-d={i + 1}>
-                <a class="door-cover" href={`${base}${d.route}`} aria-label={`进入${d.name}`}></a>
+                <a
+                  class="door-cover"
+                  href={`${base}${d.route}`}
+                  aria-label={`进入${d.name}`}
+                  data-en-aria={`Enter ${d.nameEn}`}
+                />
 
                 <div class="door-lintel">
                   <span class="door-numeral zhuan" aria-hidden="true">{d.numeral}</span>
@@ -91,21 +111,21 @@ const doors = [
                     <span class="door-glyph zhuan">{d.glyph}</span>
                   </span>
                   <div class="door-text">
-                    <h3 class="door-name kai">{d.name}</h3>
-                    <p class="door-sub kai">{d.subtitle}</p>
-                    <p class="door-desc">{d.desc}</p>
+                    <h3 class="door-name kai"><Zl zh={d.name} en={d.nameEn} /></h3>
+                    <p class="door-sub kai"><Zl zh={d.subtitle} en={d.subtitleEn} /></p>
+                    <p class="door-desc"><Zl zh={d.desc} en={d.descEn} /></p>
                   </div>
                 </div>
 
                 <div class="door-foot">
-                  <span class="door-enter kai" aria-hidden="true">入 ›</span>
+                  <span class="door-enter kai" aria-hidden="true"><Zl zh="入 ›" en="Enter ›" /></span>
                 </div>
               </article>
             ))
           }
         </div>
 
-        <p class="doors-foot kai">法未择人，人自择法 · 二目同归一门</p>
+        <p class="doors-foot kai"><Zl zh="法未择人，人自择法 · 二目同归一门" en="The path chooses none; each chooses their own · Two doors, one gate" /></p>
 
         <Giscus />
       </div>

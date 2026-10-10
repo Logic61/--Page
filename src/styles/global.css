@@ -761,3 +761,22 @@ html[data-theme='light'] .btn--primary:hover {
   white-space: nowrap;
   border: 0;
 }
+
+/* ============================================================
+   中英双语显隐（配合 lib/lang.ts 与 LangToggle 按钮）
+   data-lang 缺省（未挂属性）时一律按中文处理；
+   正文双写用 bi(zh, en) 生成 .zl-zh / .zl-en 一对 span。
+   未翻译的段落不要包类名——两态下都原样显示，不破版。
+   ============================================================ */
+html[data-lang='en'] .zl-zh {
+  display: none !important;
+}
+html:not([data-lang='en']) .zl-en {
+  display: none !important;
+}
+
+/* 中文排版常配宽字距（0.2–0.5em），英文照搬会散架：给英文侧一档适度字距，
+   压过从父级继承来的宽字距；个别位置想另调可用更具体的选择器覆盖。 */
+html[data-lang='en'] .zl-en {
+  letter-spacing: 0.06em;
+}

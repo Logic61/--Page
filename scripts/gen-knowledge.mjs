@@ -180,6 +180,13 @@ const PAGES = [
     url: '/shendao/jieshao',
   },
   {
+    id: 'tongshen-famen',
+    title: '《通神》',
+    snippet: '通神即与神相通，一门古老秘技：神有所择，人有所学；神明有等级、血脉有亲疏；四途分流——通神者、侍神者、神使、密修者。',
+    category: '法门 · 通神',
+    url: '/tongshen/jieshao',
+  },
+  {
     id: 'zhuyanshu-yuanwen',
     title: '《驻颜术》',
     snippet: '古往今来，多少人追求容颜不老？却苦求无果？——驻颜术原文与作用五项。',

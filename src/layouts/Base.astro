@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Analytics from '../components/Analytics.astro';
 import Atmosphere from '../components/Atmosphere.astro';
 import GoldNav from '../components/GoldNav.astro';
+import LangToggle from '../components/LangToggle.astro';
 import SearchOverlay from '../components/SearchOverlay.astro';
 import SeoHead from '../components/SeoHead.astro';
 
@@ -44,13 +45,13 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const path = (Astro.url.pathname.replace(/\/$/, '') || '/').replace(base, '') || '/';
 
 const nav = [
-  { href: '/', label: '总目录', aliases: ['/four-veins'] },
-  { href: '/zhoufa/mailuo', label: '巫祝脉络', aliases: ['/zhoufa/yuanqi', '/zhoufa/tixi'] },
-  { href: '/miwen', label: '秘闻', aliases: ['/zhoufa/wenzhang'] },
-  { href: '/changshi', label: '修炼常识', aliases: ['/zhoufa/zhishi', '/zhoufa/wenda', '/zhoufa/yangsheng'] },
-  { href: '/zhoufa/xuexi', label: '体系学习', aliases: ['/zhoufa/chuancheng'] },
-  { href: '/zhoufa/kecheng', label: '课程介绍', aliases: [] },
-  { href: '/zhoufa/baoming', label: '报名须知', aliases: [] },
+  { href: '/', label: '总目录', en: 'Index', aliases: ['/four-veins'] },
+  { href: '/zhoufa/mailuo', label: '巫祝脉络', en: 'Wu-Zhu Lineage', aliases: ['/zhoufa/yuanqi', '/zhoufa/tixi'] },
+  { href: '/miwen', label: '秘闻', en: 'Records', aliases: ['/zhoufa/wenzhang'] },
+  { href: '/changshi', label: '修炼常识', en: 'Essentials', aliases: ['/zhoufa/zhishi', '/zhoufa/wenda', '/zhoufa/yangsheng'] },
+  { href: '/zhoufa/xuexi', label: '体系学习', en: 'Study', aliases: ['/zhoufa/chuancheng'] },
+  { href: '/zhoufa/kecheng', label: '课程介绍', en: 'Courses', aliases: [] },
+  { href: '/zhoufa/baoming', label: '报名须知', en: 'Enrollment', aliases: [] },
 ];
 
 const isActive = (item: (typeof nav)[number]) =>
@@ -63,6 +64,16 @@ const isActive = (item: (typeof nav)[number]) =>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <SeoHead title={title} description={description} keywords={keywords} />
+    <script is:inline>
+      (function () {
+        // 中英语言：早置 data-lang，先于首帧执行，避免闪档（缺省即中文）
+        var l = null;
+        try { l = localStorage.getItem('zhumen-lang'); } catch (e) {}
+        var r = document.documentElement;
+        if (l === 'en') { r.setAttribute('data-lang', 'en'); r.lang = 'en'; }
+        else r.setAttribute('data-lang', 'zh');
+      })();
+    </script>
     <script>
       (function () {
         var root = document.documentElement;
@@ -90,23 +101,26 @@ const isActive = (item: (typeof nav)[number]) =>
           <a class="brand" href={`${base}/`}>
             <span class="brand-seal"><img src={`${base}/巫字.png`} alt="巫" width="155" height="153" /></span>
             <span class="brand-name">
-              <b>上古祝门</b>
-              <small>古巫祝脉</small>
+              <b><span class="zl-zh">上古祝门</span><span class="zl-en">Ancient Zhumen</span></b>
+              <small><span class="zl-zh">古巫祝脉</span><span class="zl-en">Wu-Zhu Lineage</span></small>
             </span>
           </a>
-          <nav class="nav-links" aria-label="主导航">
+          <nav class="nav-links" aria-label="主导航" data-en-aria="Main navigation">
             {
               nav.map((n) => (
-                <a href={`${base}${n.href}`} class:list={{ active: isActive(n) }}>{n.label}</a>
+                <a href={`${base}${n.href}`} class:list={{ active: isActive(n) }}>
+                  <span class="zl-zh">{n.label}</span><span class="zl-en">{n.en}</span>
+                </a>
               ))
             }
           </nav>
-          <button class="nav-search" id="searchToggle" type="button" aria-label="全局搜索" title="搜索（Ctrl+K）">搜</button>
-          <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换明暗模式" title="切换明暗模式">
+          <button class="nav-search" id="searchToggle" type="button" aria-label="全局搜索" data-en-aria="Search site" title="搜索（Ctrl+K）" data-en-title="Search (Ctrl+K)">搜</button>
+          <LangToggle tone="nav" />
+          <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换明暗模式" data-en-aria="Toggle light/dark mode" title="切换明暗模式" data-en-title="Toggle light/dark mode">
             <span class="theme-symbol theme-symbol--dark" aria-hidden="true">月</span>
             <span class="theme-symbol theme-symbol--light" aria-hidden="true">日</span>
           </button>
-          <button class="nav-burger" id="navBurger" type="button" aria-label="打开菜单" aria-expanded="false" aria-controls="mobileMenu">
+          <button class="nav-burger" id="navBurger" type="button" aria-label="打开菜单" data-en-aria="Open menu" aria-expanded="false" aria-controls="mobileMenu">
             <span></span><span></span><span></span>
           </button>
         </div>
@@ -115,10 +129,12 @@ const isActive = (item: (typeof nav)[number]) =>
 
     {showDefaultNav && (
       <div class="drawer" id="mobileMenu" aria-hidden="true">
-        <nav class="drawer-links" aria-label="移动端导航">
+        <nav class="drawer-links" aria-label="移动端导航" data-en-aria="Mobile navigation">
           {
             nav.map((n) => (
-                <a href={`${base}${n.href}`} class:list={{ active: isActive(n) }}>{n.label}</a>
+                <a href={`${base}${n.href}`} class:list={{ active: isActive(n) }}>
+                  <span class="zl-zh">{n.label}</span><span class="zl-en">{n.en}</span>
+                </a>
             ))
           }
         </nav>
@@ -142,6 +158,9 @@ const isActive = (item: (typeof nav)[number]) =>
     <Analytics />
 
     <script>
+      import { initLang } from '../lib/lang';
+      initLang();
+
       const rootEl = document.documentElement;
       const toggle = document.getElementById('themeToggle');
 

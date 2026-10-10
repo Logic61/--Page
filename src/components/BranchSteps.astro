@@ -7,10 +7,14 @@
 //   最后一页（报名）：返回法门目录 · 介绍
 // 缺省按当前路径自判分脉与所在页，页面直接 <BranchSteps /> 即可；
 // 页序不同、或想换结尾去处时再传 steps / current / exitHref 覆盖。
+// 各步可带 en 字段（英文标签），缺省只显中文。
 // ============================================================
+import Zl from './Zl.astro';
+
 interface Step {
   label: string;
   href: string;
+  en?: string;
 }
 
 interface Props {
@@ -20,6 +24,7 @@ interface Props {
   current?: number;
   /** 最后一页的收尾去处，缺省回法门目录 */
   exitLabel?: string;
+  exitLabelEn?: string;
   exitHref?: string;
 }
 
@@ -27,6 +32,7 @@ const {
   steps: stepsProp,
   current: currentProp,
   exitLabel = '返回法门目录',
+  exitLabelEn = 'Back to All Paths',
   exitHref = '/famen/chuanshou',
 } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -37,9 +43,9 @@ const steps: Step[] =
   stepsProp ??
   (branch
     ? [
-        { label: '总览', href: `/${branch}` },
-        { label: '介绍', href: `/${branch}/jieshao` },
-        { label: '报名', href: `/${branch}/baoming` },
+        { label: '总览', href: `/${branch}`, en: 'Overview' },
+        { label: '介绍', href: `/${branch}/jieshao`, en: 'Introduction' },
+        { label: '报名', href: `/${branch}/baoming`, en: 'Enrollment' },
       ]
     : []);
 
@@ -53,14 +59,14 @@ const withBase = (h: string) => {
   if (base && (h === base || h.startsWith(`${base}/`))) return h;
   return `${base}${h}`;
 };
-const pick = (s?: Step) => (s ? { label: s.label, href: withBase(s.href) } : null);
+const pick = (s?: Step) => (s ? { label: s.label, href: withBase(s.href), en: s.en } : null);
 
 const lastIndex = steps.length - 1;
 const slots =
   current <= 0
     ? [pick(steps[1]), pick(steps[2])]
     : current >= lastIndex
-      ? [pick({ label: exitLabel, href: exitHref }), pick(steps[current - 1])]
+      ? [pick({ label: exitLabel, href: exitHref, en: exitLabelEn }), pick(steps[current - 1])]
       : [pick(steps[current - 1]), pick(steps[current + 1])];
 
 const links = slots.filter((s): s is Step => s !== null);
@@ -68,9 +74,11 @@ const links = slots.filter((s): s is Step => s !== null);
 
 {
   links.length > 0 && (
-    <nav class="branch-steps kai" aria-label="本脉前后页">
+    <nav class="branch-steps kai" aria-label="本脉前后页" data-en-aria="Pages in this path">
       {links.map((l) => (
-        <a class="branch-step" href={l.href}>{l.label}</a>
+        <a class="branch-step" href={l.href}>
+          <Zl zh={l.label} en={l.en} />
+        </a>
       ))}
     </nav>
   )

@@ -1,0 +1,206 @@
+---
+import BranchLayout from '../../layouts/BranchLayout.astro';
+import BranchSteps from '../../components/BranchSteps.astro';
+import GateIntro from '../../components/GateIntro.astro';
+import Giscus from '../../components/Giscus.astro';
+import Treatise from '../../components/Treatise.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const title = '通神 · 法门介绍';
+const description =
+  '通神之详说：巫师萨满与通灵者，或习得，或被选；神明有等级，血脉有亲疏；通神者不拘于群；通神成功只是起步，四途由此分流——通神者、侍神者、神使、密修者。';
+
+// 本脉页序：总览 → 介绍 → 联系我们（与总览页一致）
+const steps = [
+  { label: '总览', href: '/tongshen', en: 'Overview' },
+  { label: '介绍', href: '/tongshen/jieshao', en: 'Introduction' },
+  { label: '联系我们', href: '/lianxi', en: 'Contact Us' },
+];
+
+const navItems = [
+  { href: '/', label: '返回总目录', en: 'Index' },
+  { href: '/tongshen/jieshao', label: '课程介绍', en: 'Course' },
+  { href: '/lianxi', label: '联系我们', en: 'Contact' },
+];
+
+const chapters = [
+  {
+    blocks: [
+      {
+        t: 'p',
+        text: '通神，字面之义便是与神相通、与神明相接，是一门古老而隐秘的方术。',
+        en: 'Tongshen — literally, to commune with the gods — is an ancient and secret art.',
+      },
+      {
+        t: 'p',
+        text: '古往今来，世间有一类似乎身怀异术的人，被称为巫师、萨满、通灵者等等。除这些群体与宗教团体之外，亦有独行者，或以少数几人结群而与神沟通者——各地对他们的称呼不一，而其身份、本领与名声，则远近皆知。',
+        en: 'Down the ages there have been beings who seemed to command strange powers — wizards, shamans, psychics, and the like. Beyond these circles and religious bodies, there have also been solitary individuals, or small bands of a few, who commune with the gods. The names for them differ from land to land, yet their identity, their abilities, and their renown travel far and wide.',
+      },
+      {
+        t: 'p',
+        text: '能通神者，其来由不一：有人习得了与神沟通的技艺，有人则是被选中而能通神，如此种种。',
+        en: 'The reasons one comes to commune with the gods are various: some have mastered the skill of communion; some are chosen for it; and so on.',
+      },
+      {
+        t: 'p',
+        text: '此类人中，自不排除有大量欺世盗名之徒——但亦有极少数真正通神者，只因各人本领确有高下之别。',
+        en: 'Among such people there are, to be sure, many who cheat the world and steal its praise — but also a very few who truly commune, for abilities do differ.',
+      },
+      {
+        t: 'p',
+        text: '就修行界而言，这里要说的，确切地说，是一门古老的技艺。',
+        en: 'As for the communities of practice — what is spoken of here is, precisely, an ancient craft.',
+      },
+    ],
+  },
+  {
+    title: '何谓通神',
+    titleEn: 'What It Means',
+    blocks: [
+      {
+        t: 'p',
+        text: '为何说它古老而隐秘？因为这门技艺的核心便是「通神」。通神何意？字面之义，便是与神相通。据说，所谓上帝、耶稣、观音、释迦牟尼，乃至所谓撒旦、路西法、切西亚之类，凡属神明之列，皆可沟通。',
+        en: 'Why call it ancient and secret? Because the core of this craft is Tongshen itself — and what does that mean? Literally: to commune with God. It is said that whether the so-called God, Jesus, Guanyin, Shakyamuni — or the so-called Satan, Lucifer, Chesia, and the like — so long as they belong among the gods, they can be communed with.',
+      },
+      {
+        t: 'p',
+        text: '这门古技自古只在少数人之间传承。换言之，是被上面选中之人方能与神明沟通——犹如神明在呼叫他，而他并不能随时主动回拨；而所谓通神之技，就好似你已握有神明这边的对应号码，可以由你主动拨通。',
+        en: 'From of old this ancient craft has been handed down among a mere handful. Put another way: the one chosen from above can commune with the gods — as though the god were calling that person, while the person cannot at will call back. The art of communion is like holding the god’s own number: with that call in hand, you may dial through yourself.',
+      },
+      {
+        t: 'p',
+        text: '正因如此，此技珍贵；学它的门槛不止于钱财，还需经过筛选与考验。',
+        en: 'That is why this craft is precious; the requirements for learning it are not money alone — one must pass screening and trials.',
+      },
+    ],
+  },
+  {
+    title: '神有等级 · 血脉有别',
+    titleEn: 'Ranks Among Gods · Differences of Bloodline',
+    blocks: [
+      {
+        t: 'p',
+        text: '神明之间，亦有等级之别。较好的，是固定的血脉：古时或为皇室，或为贵族，或为某一脉固定之存在；其余寻常之人，则无缘得识。',
+        en: 'Among the gods themselves there are ranks and degrees. The better cases rest on a fixed bloodline: in older days, perhaps the royal house, the nobility, or a fixed line of some certain strain — while for the rest, among the common folk, there is no way to be recognized.',
+      },
+      {
+        t: 'p',
+        text: '同一血脉之中，各人与神沟通的程度亦不相同：假设甲能与神沟通并得其部分力量，乙则只能沟通而不得力量；或甲乙所受的福泽各有不同。（其中其实包含许多内容：神明对此人的认可、神明与此人的契合程度，乃至家族曾令神明不悦等等。）',
+        en: 'Within one and the same bloodline, the degree of communion differs from person to person. Say A can commune with the god and receive part of its power, while B can only commune and receives no power — or the blessings A and B receive are not the same. (Much is in fact involved here: the god’s recognition of the person, the degree of accord between god and person — even the possibility that the family once displeased the god.)',
+      },
+    ],
+  },
+  {
+    title: '不拘于群 · 未必信徒',
+    titleEn: 'Not Bound to Any Group',
+    blocks: [
+      {
+        t: 'p',
+        text: '神明的存在，并不限于某些群体。譬如甲神的通神者，未必是甲神的信徒，更未必身在甲神的宗教之中；可能是任何别的行当，甚至可能是与甲神敌对的甲神信徒——所以，不要把思维定死。',
+        en: 'The gods’ communicants are not confined to any certain group. The communicant of God A, for instance, is not necessarily a believer of God A, still less necessarily within God A’s religion. They may be of any other calling — they may even be a believer of God A who is hostile to God A. So do not freeze your thinking.',
+      },
+      {
+        t: 'p',
+        text: '当然，通常而言，甲神的通神者，在甲神的宗教内、或甲的信徒中，出现的概率或许更高。',
+        en: 'Of course, in the ordinary run of things, God A’s communicants are perhaps more likely to appear within God A’s religion, or among A’s faithful.',
+      },
+    ],
+  },
+  {
+    title: '入门只是起步',
+    titleEn: 'The Beginning Is Only a Beginning',
+    blocks: [
+      {
+        t: 'p',
+        text: '关于通神，十成之中我不过略说一分，给大家一个概念；真正明白的人，自然明白我在说什么。',
+        en: 'Of all there is in Tongshen, I tell but one part in ten, to give everyone a sense of it. Those who truly understand will understand what I am saying.',
+      },
+      {
+        t: 'p',
+        text: '当甲通神成功，不过是踏上此路的起步，后面的路还远；然而许多通神者，不论信徒还是教门，方才起步便已止步——只因身后再无指引。许多人过了十几年、乃至一生，才发觉自己的能力全无长进，或只长进了一点点。',
+        en: 'When A first attains communion, it is only the start of the road; the way beyond is still long. Yet many — believers and orders alike — have hardly begun when they stop, for no guidance follows them. Many may spend a dozen years, or a whole lifetime, before realizing their ability has not grown at all, or grown but a little.',
+      },
+      {
+        t: 'p',
+        text: '这里要讲的，是更深入、更长远、也更系统的选择。',
+        en: 'What is set out here is a deeper, longer-term, and more systematic choice.',
+      },
+    ],
+  },
+  {
+    title: '四途 · 以职业为喻',
+    titleEn: 'The Four Paths — in the Form of Callings',
+    blocks: [
+      {
+        t: 'p',
+        text: '为便于理解，我以职业划分的形式，大略表述如下：',
+        en: 'To make it easier to grasp, let it be put roughly in the form of callings:',
+      },
+      { t: 'h4', text: '一、通神者', en: 'I. The Communicant' },
+      {
+        t: 'p',
+        text: '与神沟通。其发展的上限，随机而定，并无定数。',
+        en: 'One who communes with the god. The ceiling of their development is random — no fixed measure.',
+      },
+      { t: 'h4', text: '二、侍神者', en: 'II. The Servant' },
+      {
+        t: 'p',
+        text: '侍奉神明，并与之签约；至于签约的具体内容，则视双方商谈而定。',
+        en: 'One who serves the gods and signs a pact with them. As for what the pact contains, it rests on what the two sides agree.',
+      },
+      { t: 'h4', text: '三、神使', en: 'III. The Emissary' },
+      {
+        t: 'p',
+        text: '于修行之中完成神明所托之任务，往来神界，成为神明在人间的使者、神明的化身，并能运用神明部分的能力与权柄。',
+        en: 'One who, while cultivating, completes the tasks the god entrusts; comes and goes between the divine realm; becomes the god’s envoy in the world, an incarnation of the god, and can wield part of the god’s power and authority.',
+      },
+      { t: 'h4', text: '四、密修者', en: 'IV. The Esoteric Cultivator' },
+      {
+        t: 'p',
+        text: '与前三种皆不同：凭自己的努力修行，以自身的能力与神沟通，乃至自修成神。',
+        en: 'Unlike the three above: one who cultivates by their own effort, communes with the gods by their own ability, and may even become a god by themselves.',
+      },
+    ],
+  },
+  {
+    blocks: [
+      {
+        t: 'p',
+        text: '以上，不过是对几种大的分别略作说明；具体情形的许多内容，尚未尽述。',
+        en: 'The above is only a brief account of a few broad distinctions; much of the concrete detail has not been told.',
+      },
+    ],
+  },
+];
+---
+
+<BranchLayout
+  title={title}
+  description={description}
+  glyph="通"
+  label="通神"
+  accent="#a292c9"
+  bgDim={0.22}
+  bg={`${base}/bg/shen-dao-zhenxiang.webp`}
+  navItems={navItems}
+>
+  <GateIntro
+    glyph="通"
+    name="通神"
+    nameEn="Tongshen"
+    subtitle="神择 · 秘技 · 四途"
+    subtitleEn="The Divine Choice · A Secret Art · Four Paths"
+  >
+    <Treatise
+      chapters={chapters}
+      closing="只有真心想学之人，可以联系我详询。"
+      closingEn="Only those who truly wish to learn may contact me for further consultation."
+    />
+  </GateIntro>
+
+  {/* 中间页只给两个去处：总览 · 联系我们 */}
+  <BranchSteps steps={steps} current={1} />
+
+  <Giscus />
+</BranchLayout>

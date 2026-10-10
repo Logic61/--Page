@@ -1,29 +1,42 @@
 ---
+import Zl from './Zl.astro';
+
 interface Block {
   label: string;
+  labelEn?: string;
   title?: string;
+  titleEn?: string;
   paras: string[];
+  parasEn?: string[];
 }
 
 interface Props {
   glyph: string;
   name: string;
+  nameEn?: string;
   subtitle: string;
+  subtitleEn?: string;
   /** 门中提要；只登原文、不写提要时可缺省 */
   lead?: string;
+  leadEn?: string;
   /** 分块提要；只登原文时可缺省 */
   blocks?: Block[];
   note?: string;
+  noteEn?: string;
 }
 
 // 页内不再自设「下一步」动作行：一脉三页的前后跳转统一由 BranchSteps 在页底给两个去处
 const {
   glyph,
   name,
+  nameEn,
   subtitle,
+  subtitleEn,
   lead = '',
+  leadEn = '',
   blocks = [],
   note,
+  noteEn,
 } = Astro.props;
 ---
 
@@ -31,15 +44,15 @@ const {
   <div class="gi-wrap">
     <header class="gi-hero reveal in">
       <span class="gi-glyph zhuan" aria-hidden="true">{glyph}</span>
-      <p class="gi-kicker kai">法门介绍</p>
-      <h1 class="kai">{name}</h1>
-      <p class="gi-subtitle">{subtitle}</p>
+      <p class="gi-kicker kai"><span class="zl-zh">法门介绍</span><span class="zl-en">Path Introduction</span></p>
+      <h1 class="kai"><Zl zh={name} en={nameEn} /></h1>
+      <p class="gi-subtitle"><Zl zh={subtitle} en={subtitleEn} /></p>
     </header>
 
     {
       lead && (
-        <section class="gi-lead" aria-label="门中提要">
-          <p>{lead}</p>
+        <section class="gi-lead" aria-label="门中提要" data-en-aria="Overview">
+          <p><Zl zh={lead} en={leadEn} /></p>
         </section>
       )
     }
@@ -49,9 +62,15 @@ const {
         <div class="gi-blocks">
           {blocks.map((b) => (
             <section class="gi-block">
-              <p class="gi-label kai">{b.label}</p>
-              {b.title && <h2 class="kai">{b.title}</h2>}
-              {b.paras.map((p) => <p>{p}</p>)}
+              <p class="gi-label kai"><Zl zh={b.label} en={b.labelEn} /></p>
+              {b.title && (
+                <h2 class="kai">
+                  <Zl zh={b.title} en={b.titleEn} />
+                </h2>
+              )}
+              {b.paras.map((p, pi) => (
+                <p><Zl zh={p} en={b.parasEn?.[pi]} /></p>
+              ))}
             </section>
           ))}
         </div>
@@ -62,7 +81,7 @@ const {
       note && (
         <aside class="gi-note">
           <span class="gi-note-mark" aria-hidden="true"></span>
-          <p>{note}</p>
+          <p><Zl zh={note} en={noteEn} /></p>
         </aside>
       )
     }

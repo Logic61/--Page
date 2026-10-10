@@ -1,26 +1,31 @@
 ---
+import Zl from './Zl.astro';
+
 interface Props {
   glyph: string;
   title: string;
+  titleEn?: string;
   subtitle: string;
+  subtitleEn?: string;
   description: string;
+  descriptionEn?: string;
 }
 
 // 页内不再自设动作行：一脉三页的前后跳转统一由 BranchSteps 在页底给两个去处
-const { glyph, title, subtitle, description } = Astro.props;
+const { glyph, title, titleEn, subtitle, subtitleEn, description, descriptionEn } = Astro.props;
 ---
 
 <article class="branch-portal">
   <div class="branch-wrap">
     <header class="portal-hero">
       <span class="portal-glyph zhuan" aria-hidden="true">{glyph}</span>
-      <p class="portal-kicker kai">一脉一门</p>
-      <h1 class="kai">{title}</h1>
-      <p class="portal-subtitle">{subtitle}</p>
+      <p class="portal-kicker kai"><span class="zl-zh">一脉一门</span><span class="zl-en">One Lineage, One Gate</span></p>
+      <h1 class="kai"><Zl zh={title} en={titleEn} /></h1>
+      <p class="portal-subtitle"><Zl zh={subtitle} en={subtitleEn} /></p>
     </header>
     <section class="portal-reading" aria-labelledby="portal-reading-title">
-      <p id="portal-reading-title" class="portal-label kai">分脉提要</p>
-      <p>{description}</p>
+      <p id="portal-reading-title" class="portal-label kai"><span class="zl-zh">分脉提要</span><span class="zl-en">Branch Overview</span></p>
+      <p><Zl zh={description} en={descriptionEn} /></p>
     </section>
   </div>
 </article>

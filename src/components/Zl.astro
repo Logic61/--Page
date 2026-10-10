@@ -1,0 +1,15 @@
+---
+// ============================================================
+// 中英双写的最小单元：给定中英两句，输出一对互斥的 span
+// （.zl-zh / .zl-en，显隐由 global.css 按 html[data-lang] 控制）。
+// 只给中文（未给 en）时原样输出——分批补译期间不破版。
+// ============================================================
+interface Props {
+  zh: string;
+  en?: string;
+}
+
+const { zh, en } = Astro.props;
+---
+
+{en ? (<><span class="zl-zh">{zh}</span><span class="zl-en">{en}</span></>) : zh}

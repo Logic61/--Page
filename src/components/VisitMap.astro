@@ -60,6 +60,7 @@ const shapes = world.features.map((f) => {
     key: alpha2 ?? `x-${f.id ?? f.properties?.name ?? 'unknown'}`,
     d: shrink(pathOf(f as any) ?? ''),
     name: (alpha2 ? isoCountries.getName(alpha2, 'zh') ?? alpha2 : f.properties?.name) ?? '',
+    nameEn: (alpha2 ? isoCountries.getName(alpha2, 'en') ?? alpha2 : f.properties?.name) ?? '',
     hit,
     opacity: Number(opacity.toFixed(2)),
   };
@@ -71,7 +72,11 @@ shapes.sort((a, b) => Number(Boolean(a.hit)) - Number(Boolean(b.hit)));
 const rank = [...all.countries]
   .sort((a, b) => b.visitors - a.visitors)
   .slice(0, 10)
-  .map((c) => ({ ...c, name: isoCountries.getName(c.code, 'zh') ?? c.code }));
+  .map((c) => ({
+    ...c,
+    name: isoCountries.getName(c.code, 'zh') ?? c.code,
+    nameEn: isoCountries.getName(c.code, 'en') ?? c.code,
+  }));
 const listMax = Math.max(1, rank[0]?.visitors ?? 1);
 
 const fmt = (n: number) => n.toLocaleString('zh-CN');
@@ -111,17 +116,44 @@ const cityPoints = citySrc
     if (!p || !Number.isFinite(p[0]) || !Number.isFinite(p[1])) return null;
     return {
       name: zhCityNames[c.name] ?? c.name,
+      nameEn: c.name,
       hits: c.hits,
       x: Number(p[0].toFixed(1)),
       y: Number(p[1].toFixed(1)),
     };
   })
-  .filter((c): c is { name: string; hits: number; x: number; y: number } => c !== null);
+  .filter((c): c is { name: string; nameEn: string; hits: number; x: number; y: number } => c !== null);
 const cityR = (hits: number) => Math.min(4.6, 1.6 + 1.15 * Math.log1p(hits));
 
 const citySource = (cityData as { source?: string }).source ?? 'https://mapmyvisitors.com';
 
 /* ---------------- 省州层（中国、美国细化到省级/州级） ---------------- */
+
+// 底数据里的省州名已按中文收录（含美国州名的中文译名），英文侧在此反查
+const adminEnNames: Record<string, string> = {
+  北京: 'Beijing', 天津: 'Tianjin', 河北: 'Hebei', 山西: 'Shanxi', 内蒙古: 'Inner Mongolia',
+  辽宁: 'Liaoning', 吉林: 'Jilin', 黑龙江: 'Heilongjiang', 上海: 'Shanghai', 江苏: 'Jiangsu',
+  浙江: 'Zhejiang', 安徽: 'Anhui', 福建: 'Fujian', 江西: 'Jiangxi', 山东: 'Shandong',
+  河南: 'Henan', 湖北: 'Hubei', 湖南: 'Hunan', 广东: 'Guangdong', 广西: 'Guangxi',
+  海南: 'Hainan', 重庆: 'Chongqing', 四川: 'Sichuan', 贵州: 'Guizhou', 云南: 'Yunnan',
+  西藏: 'Tibet', 陕西: 'Shaanxi', 甘肃: 'Gansu', 青海: 'Qinghai', 宁夏: 'Ningxia',
+  新疆: 'Xinjiang', 台湾: 'Taiwan', 香港: 'Hong Kong', 澳门: 'Macau',
+  阿拉巴马州: 'Alabama', 阿拉斯加州: 'Alaska', 亚利桑那州: 'Arizona', 科罗拉多州: 'Colorado',
+  佛罗里达州: 'Florida', 佐治亚州: 'Georgia', 印第安纳州: 'Indiana', 堪萨斯州: 'Kansas',
+  缅因州: 'Maine', 马萨诸塞州: 'Massachusetts', 明尼苏达州: 'Minnesota', 新泽西州: 'New Jersey',
+  北卡罗来纳州: 'North Carolina', 北达科他州: 'North Dakota', 俄克拉何马州: 'Oklahoma',
+  宾夕法尼亚州: 'Pennsylvania', 南达科他州: 'South Dakota', 得克萨斯州: 'Texas',
+  怀俄明州: 'Wyoming', 康涅狄格州: 'Connecticut', 密苏里州: 'Missouri', 西弗吉尼亚州: 'West Virginia',
+  伊利诺伊州: 'Illinois', 新墨西哥州: 'New Mexico', 阿肯色州: 'Arkansas', 加利福尼亚州: 'California',
+  特拉华州: 'Delaware', 哥伦比亚特区: 'District of Columbia', 夏威夷州: 'Hawaii', 艾奥瓦州: 'Iowa',
+  肯塔基州: 'Kentucky', 马里兰州: 'Maryland', 密歇根州: 'Michigan', 密西西比州: 'Mississippi',
+  蒙大拿州: 'Montana', 新罕布什尔州: 'New Hampshire', 纽约州: 'New York', 俄亥俄州: 'Ohio',
+  俄勒冈州: 'Oregon', 田纳西州: 'Tennessee', 犹他州: 'Utah', 弗吉尼亚州: 'Virginia',
+  华盛顿州: 'Washington', 威斯康星州: 'Wisconsin', 美属萨摩亚: 'American Samoa', 关岛: 'Guam',
+  北马里亚纳群岛: 'Northern Mariana Islands', 内布拉斯加州: 'Nebraska', 南卡罗来纳州: 'South Carolina',
+  波多黎各: 'Puerto Rico', 美属维尔京群岛: 'U.S. Virgin Islands', 爱达荷州: 'Idaho',
+  内华达州: 'Nevada', 佛蒙特州: 'Vermont', 路易斯安那州: 'Louisiana', 罗得岛州: 'Rhode Island',
+};
 
 const adminTopo = admin1Data as unknown as Parameters<typeof feature>[0];
 const adminFC = feature(adminTopo, (adminTopo as any).objects.admin1) as unknown as {
@@ -142,6 +174,7 @@ const geomArea = (g: any): number => {
 
 const adminAreas = adminFC.features.map((f) => ({
   name: f.properties.name,
+  nameEn: adminEnNames[f.properties.name] ?? f.properties.name,
   country: f.properties.country,
   area: geomArea(f.geometry),
   d: shrink(pathOf(f as any) ?? ''),
@@ -174,18 +207,23 @@ const ariaSummary = hasData
     (areaHits.size ? `，${areaHits.size} 个省州亮起` : '') +
     (cityPoints.length ? `，点亮 ${cityPoints.length} 座城市` : '')
   : '访客星图：访问统计尚未接入';
+const ariaSummaryEn = hasData
+  ? `Visitor star map: ${fmt(all.views)} visits from ${all.countries.length} countries and regions` +
+    (areaHits.size ? `, ${areaHits.size} provinces or states lit` : '') +
+    (cityPoints.length ? `, ${cityPoints.length} cities lit` : '')
+  : 'Visitor star map: statistics not connected yet';
 ---
 
-<section class="vp" aria-label="访客星图">
+<section class="vp" aria-label="访客星图" data-en-aria="Visitor star map">
   <header class="vp-head">
-    <p class="vp-kicker">古巫祝脉 · 四海来客</p>
-    <h2 class="vp-title">访客星图</h2>
-    <p class="vp-sub">来客所在，省州城池次第亮起；越亮之处，来访越多</p>
+    <p class="vp-kicker"><span class="zl-zh">古巫祝脉 · 四海来客</span><span class="zl-en">Wu-Zhu Lineage · Guests from the Four Seas</span></p>
+    <h2 class="vp-title"><span class="zl-zh">访客星图</span><span class="zl-en">Visitor Star Map</span></h2>
+    <p class="vp-sub"><span class="zl-zh">来客所在，省州城池次第亮起；越亮之处，来访越多</span><span class="zl-en">Where guests come from, provinces and cities light one by one — the brighter the place, the more the visits</span></p>
   </header>
 
   <div class="vp-grid">
     <div class="vp-mapwrap">
-      <svg class="vp-map" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={ariaSummary}>
+      <svg class="vp-map" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={ariaSummary} data-en-aria={ariaSummaryEn}>
         <defs>
           <radialGradient id="vpGlow" cx="50%" cy="46%" r="64%">
             <stop offset="0%" stop-color="#f6d98a" stop-opacity="0.1" />
@@ -205,6 +243,11 @@ const ariaSummary = hasData
               <path
                 d={s.d}
                 class:list={['vp-c', { 'vp-on': Boolean(s.hit) && !litCountries.has(s.key) }]}
+                data-en-tip={
+                  s.hit
+                    ? `${s.nameEn} · ${fmt(s.hit.visitors)} visitors / ${fmt(s.hit.views)} views`
+                    : s.nameEn
+                }
                 style={
                   s.hit
                     ? `--o:${s.opacity};--os:${Math.min(1, s.opacity + 0.25).toFixed(2)}`
@@ -230,6 +273,7 @@ const ariaSummary = hasData
                 <path
                   d={a.d}
                   class:list={['vp-a1', { 'vp-on': h > 0, 'vp-ink': ink }]}
+                  data-en-tip={h ? `${a.nameEn} · ${fmt(h)} visits` : a.nameEn}
                   style={h ? `--o:${o.toFixed(2)};--os:${Math.min(1, o + 0.25).toFixed(2)}` : undefined}
                 >
                   <title>{h ? `${a.name} · ${fmt(h)} 次到访` : a.name}</title>
@@ -242,7 +286,7 @@ const ariaSummary = hasData
           cityPoints.length > 0 && (
             <g class="vp-cities">
               {cityPoints.map((c, i) => (
-                <g class="vp-city" style={`--ph:${(i * 0.83).toFixed(2)}s`}>
+                <g class="vp-city" style={`--ph:${(i * 0.83).toFixed(2)}s`} data-en-tip={`${c.nameEn} · ${fmt(c.hits)} visits`}>
                   <circle class="vp-city-glow" cx={c.x} cy={c.y} r={(cityR(c.hits) * 3).toFixed(1)} />
                   <circle class="vp-city-dot" cx={c.x} cy={c.y} r={cityR(c.hits).toFixed(1)} />
                   <title>{`${c.name} · ${fmt(c.hits)} 次到访`}</title>
@@ -252,18 +296,20 @@ const ariaSummary = hasData
           )
         }
       </svg>
-      {!hasData && <p class="vp-pending">统计尚在接入 · 来客渐多之后，此处逐地亮起</p>}
+      {!hasData && (
+        <p class="vp-pending"><span class="zl-zh">统计尚在接入 · 来客渐多之后，此处逐地亮起</span><span class="zl-en">Statistics are coming online — as guests arrive, places here will light up one by one</span></p>
+      )}
     </div>
 
     <aside class="vp-side">
       <dl class="vp-stats">
         <div class="vp-stat">
-          <dt>累计到访</dt>
-          <dd><b>{hasData ? fmt(all.views) : '—'}</b><i>次</i></dd>
+          <dt><span class="zl-zh">累计到访</span><span class="zl-en">Total Visits</span></dt>
+          <dd><b>{hasData ? fmt(all.views) : '—'}</b><i><span class="zl-zh">次</span><span class="zl-en">visits</span></i></dd>
         </div>
         <div class="vp-stat">
-          <dt>足迹所至</dt>
-          <dd><b>{hasData ? fmt(all.countries.length) : '—'}</b><i>地</i></dd>
+          <dt><span class="zl-zh">足迹所至</span><span class="zl-en">Places Reached</span></dt>
+          <dd><b>{hasData ? fmt(all.countries.length) : '—'}</b><i><span class="zl-zh">地</span><span class="zl-en">places</span></i></dd>
         </div>
       </dl>
 
@@ -273,7 +319,7 @@ const ariaSummary = hasData
             {rank.map((c, i) => (
               <li>
                 <span class="vp-rank-no">{i + 1}</span>
-                <span class="vp-rank-name">{c.name}</span>
+                <span class="vp-rank-name"><span class="zl-zh">{c.name}</span><span class="zl-en">{c.nameEn}</span></span>
                 <span class="vp-rank-bar" aria-hidden="true">
                   <i style={`width:${Math.max(4, (c.visitors / listMax) * 100).toFixed(1)}%`} />
                 </span>
@@ -284,20 +330,19 @@ const ariaSummary = hasData
         )
       }
 
-      <p class="vp-note">{hasData ? `数据截至 ${updatedText} · 每日更新` : '数据接入后每日更新'}</p>
+      <p class="vp-note">
+        {hasData ? (<><span class="zl-zh">数据截至 {updatedText} · 每日更新</span><span class="zl-en">Data as of {updatedText} · updated daily</span></>) : (<><span class="zl-zh">数据接入后每日更新</span><span class="zl-en">Updated daily once data is connected</span></>)}
+      </p>
       {
         cityPoints.length > 0 && (
           <p class="vp-note vp-note-city">
-            城市微光 · 数据由{' '}
-            <a href={citySource} target="_blank" rel="noopener">
-              MapMyVisitors
-            </a>{' '}
-            提供
+            <span class="zl-zh">城市微光 · 数据由{' '}<a href={citySource} target="_blank" rel="noopener">MapMyVisitors</a>{' '}提供</span>
+            <span class="zl-en">City glimmers · data by{' '}<a href={citySource} target="_blank" rel="noopener">MapMyVisitors</a></span>
           </p>
         )
       }
 
-      <p class="vp-note vp-note-geo">省州界线 · DataV GeoAtlas / U.S. Census Bureau</p>
+      <p class="vp-note vp-note-geo"><span class="zl-zh">省州界线 · DataV GeoAtlas / U.S. Census Bureau</span><span class="zl-en">Province & state borders · DataV GeoAtlas / U.S. Census Bureau</span></p>
     </aside>
   </div>
 </section>

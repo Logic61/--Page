@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import SeoHead from '../components/SeoHead.astro';
 import Analytics from '../components/Analytics.astro';
+import LangToggle from '../components/LangToggle.astro';
 
 // ============================================================
 // 五脉分支页布局（偶景 / 鏖战 / 驻颜 / 真气 / 神道 …）
@@ -33,7 +34,7 @@ interface Props {
   /** 顶栏「报名须知」入口；缺省即本分支的 /{分支}/baoming，传空串可去掉该入口 */
   baomingHref?: string;
   /** 顶栏右侧入口；给出时整组覆盖上面的缺省三项 */
-  navItems?: { href: string; label: string }[];
+  navItems?: { href: string; label: string; en?: string }[];
 }
 
 const {
@@ -57,9 +58,9 @@ const baomingHref = Astro.props.baomingHref ?? (branch ? `/${branch}/baoming` : 
 
 // 顶栏右侧三项；左上角另设「返回法门列表」（回到五门目录）
 const entries = navItems ?? [
-  { href: '/', label: '返回总目录' },
-  ...(courseHref ? [{ href: courseHref, label: '课程介绍' }] : []),
-  ...(baomingHref ? [{ href: baomingHref, label: '报名须知' }] : []),
+  { href: '/', label: '返回总目录', en: 'Index' },
+  ...(courseHref ? [{ href: courseHref, label: '课程介绍', en: 'Course' }] : []),
+  ...(baomingHref ? [{ href: baomingHref, label: '报名须知', en: 'Enrollment' }] : []),
 ];
 
 // 站内地址统一补 base 前缀；外链、锚点与已带 base 的地址（navItems 里常写成 `${base}/xxx`）原样保留
@@ -84,6 +85,16 @@ const isHere = (href: string) => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
     <SeoHead title={title} description={description} keywords={keywords} />
+    <script is:inline>
+      (function () {
+        // 中英语言：早置 data-lang，先于首帧执行，避免闪档（缺省即中文）
+        var l = null;
+        try { l = localStorage.getItem('zhumen-lang'); } catch (e) {}
+        var r = document.documentElement;
+        if (l === 'en') { r.setAttribute('data-lang', 'en'); r.lang = 'en'; }
+        else r.setAttribute('data-lang', 'zh');
+      })();
+    </script>
   </head>
   <body
     class="branch-page"
@@ -96,9 +107,9 @@ const isHere = (href: string) => {
     <header class="branch-nav">
       <div class="branch-nav-inner">
         <a class="branch-nav-back kai" href={`${base}/famen/chuanshou`}>
-          <span class="branch-nav-arrow" aria-hidden="true">←</span>返回法门列表
+          <span class="branch-nav-arrow" aria-hidden="true">←</span><span class="zl-zh">返回法门列表</span><span class="zl-en">Back to All Paths</span>
         </a>
-        <nav class="branch-nav-links kai" aria-label="全站入口">
+        <nav class="branch-nav-links kai" aria-label="全站入口" data-en-aria="Site links">
           {
             entries.map((e, i) => (
               <>
@@ -108,18 +119,24 @@ const isHere = (href: string) => {
                   class:list={{ 'is-here': isHere(e.href) }}
                   aria-current={isHere(e.href) ? 'page' : undefined}
                 >
-                  {e.label}
+                  {e.en ? (<><span class="zl-zh">{e.label}</span><span class="zl-en">{e.en}</span></>) : e.label}
                 </a>
               </>
             ))
           }
         </nav>
+        <LangToggle tone="gold" />
       </div>
     </header>
 
     <main><slot /></main>
 
     <Analytics />
+
+    <script>
+      import { initLang } from '../lib/lang';
+      initLang();
+    </script>
   </body>
 </html>
 

@@ -4,43 +4,67 @@
 // 只负责排版与分块，不动一字文案。
 // 服务两类页面：分支页（BranchLayout，带 --branch-accent）
 // 与黑金页（Base inkGold，退回 --bronze）。
+// 中英双写：各处以可选的 *En 字段给英文；缺省只显中文。
 // ============================================================
+import Zl from './Zl.astro';
 
 type Block =
-  | { t: 'p'; text: string }
-  | { t: 'items'; items: string[] }
-  | { t: 'office'; pairs: [string, string][] }
-  | { t: 'note'; text: string }
-  | { t: 'quote'; text: string }
-  | { t: 'h4'; text: string };
+  | { t: 'p'; text: string; en?: string }
+  | { t: 'items'; items: string[]; itemsEn?: string[] }
+  | { t: 'office'; pairs: [string, string][]; pairsEn?: [string, string][] }
+  | { t: 'note'; text: string; en?: string }
+  | { t: 'quote'; text: string; en?: string }
+  | { t: 'h4'; text: string; en?: string };
 
 interface Chapter {
   /** 章节序号，如「一」 */
   num?: string;
   /** 章节标题；省略时只排正文，用于承接上文的段落 */
   title?: string;
+  titleEn?: string;
   blocks: Block[];
 }
 
 interface Props {
   /** 文书大标题 */
   headTitle?: string;
+  headTitleEn?: string;
   /** 标题下的小注 */
   headNote?: string;
+  headNoteEn?: string;
   /** 卷首敬告（朱框提示） */
   notice?: { title: string; paras: string[] };
+  noticeEn?: { title: string; paras: string[] };
   /** 敬告之后的提要段 */
   lead?: string[];
+  leadEn?: string[];
   chapters: Chapter[];
   /** 章节之间的过渡句 */
   bridge?: string;
+  bridgeEn?: string;
   /** 收束语 */
   closing?: string;
+  closingEn?: string;
   /** 全文居中排布（缺省即为居中一列，列内文字仍左对齐） */
   center?: boolean;
 }
 
-const { headTitle, headNote, notice, lead = [], chapters, bridge, closing, center = true } = Astro.props;
+const {
+  headTitle,
+  headTitleEn,
+  headNote,
+  headNoteEn,
+  notice,
+  noticeEn,
+  lead = [],
+  leadEn = [],
+  chapters,
+  bridge,
+  bridgeEn,
+  closing,
+  closingEn,
+  center = true,
+} = Astro.props;
 ---
 
 <article class:list={['treatise', { 'is-center': center }]}>
@@ -48,8 +72,16 @@ const { headTitle, headNote, notice, lead = [], chapters, bridge, closing, cente
     {
       (headTitle || headNote) && (
         <header class="treatise-head reveal">
-          {headTitle && <h2 class="kai">{headTitle}</h2>}
-          {headNote && <p>{headNote}</p>}
+          {headTitle && (
+            <h2 class="kai">
+              <Zl zh={headTitle} en={headTitleEn} />
+            </h2>
+          )}
+          {headNote && (
+            <p>
+              <Zl zh={headNote} en={headNoteEn} />
+            </p>
+          )}
         </header>
       )
     }
@@ -57,10 +89,10 @@ const { headTitle, headNote, notice, lead = [], chapters, bridge, closing, cente
     {
       notice && (
         <aside class="treatise-notice reveal" data-d="2">
-          <b class="kai">{notice.title}</b>
+          <b class="kai"><Zl zh={notice.title} en={noticeEn?.title} /></b>
           <div>
-            {notice.paras.map((p) => (
-              <p>{p}</p>
+            {notice.paras.map((p, pi) => (
+              <p><Zl zh={p} en={noticeEn?.paras[pi]} /></p>
             ))}
           </div>
         </aside>
@@ -70,8 +102,8 @@ const { headTitle, headNote, notice, lead = [], chapters, bridge, closing, cente
     {
       lead.length > 0 && (
         <section class="lead-block reveal">
-          {lead.map((p) => (
-            <p>{p}</p>
+          {lead.map((p, pi) => (
+            <p><Zl zh={p} en={leadEn[pi]} /></p>
           ))}
         </section>
       )
@@ -83,36 +115,63 @@ const { headTitle, headNote, notice, lead = [], chapters, bridge, closing, cente
           {(c.num || c.title) && (
             <header class="block-head">
               {c.num && <span class="block-num kai">{c.num}</span>}
-              {c.title && <h3 class="kai">{c.title}</h3>}
+              {c.title && (
+                <h3 class="kai">
+                  <Zl zh={c.title} en={c.titleEn} />
+                </h3>
+              )}
             </header>
           )}
           {c.blocks.map((b) => {
-            if (b.t === 'p') return <p>{b.text}</p>;
-            if (b.t === 'h4') return <h4 class="kai">{b.text}</h4>;
-            if (b.t === 'quote') return <p class="quote kai">{b.text}</p>;
+            if (b.t === 'p')
+              return (
+                <p>
+                  <Zl zh={b.text} en={b.en} />
+                </p>
+              );
+            if (b.t === 'h4')
+              return (
+                <h4 class="kai">
+                  <Zl zh={b.text} en={b.en} />
+                </h4>
+              );
+            if (b.t === 'quote')
+              return (
+                <p class="quote kai">
+                  <Zl zh={b.text} en={b.en} />
+                </p>
+              );
             if (b.t === 'note')
               return (
                 <aside class="note">
-                  <p>{b.text}</p>
+                  <p>
+                    <Zl zh={b.text} en={b.en} />
+                  </p>
                 </aside>
               );
             if (b.t === 'office')
               return (
                 <dl class="office-list">
-                  {b.pairs.map(([k, v]) => (
+                  {b.pairs.map(([k, v], pi) => (
                     <div>
-                      <dt class="kai">{k}</dt>
-                      <dd>{v}</dd>
+                      <dt class="kai">
+                        <Zl zh={k} en={b.pairsEn?.[pi]?.[0]} />
+                      </dt>
+                      <dd>
+                        <Zl zh={v} en={b.pairsEn?.[pi]?.[1]} />
+                      </dd>
                     </div>
                   ))}
                 </dl>
               );
             return (
               <ul class="entries">
-                {b.items.map((it) => (
+                {b.items.map((it, ii) => (
                   <li>
                     <span class="entry-dot" aria-hidden="true"></span>
-                    <p>{it}</p>
+                    <p>
+                      <Zl zh={it} en={b.itemsEn?.[ii]} />
+                    </p>
                   </li>
                 ))}
               </ul>
@@ -122,9 +181,21 @@ const { headTitle, headNote, notice, lead = [], chapters, bridge, closing, cente
       ))
     }
 
-    {bridge && <p class="bridge kai reveal">{bridge}</p>}
+    {
+      bridge && (
+        <p class="bridge kai reveal">
+          <Zl zh={bridge} en={bridgeEn} />
+        </p>
+      )
+    }
 
-    {closing && <p class="closing kai reveal">{closing}</p>}
+    {
+      closing && (
+        <p class="closing kai reveal">
+          <Zl zh={closing} en={closingEn} />
+        </p>
+      )
+    }
   </div>
 </article>
 

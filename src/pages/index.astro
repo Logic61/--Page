@@ -6,6 +6,7 @@
 // 再叠同 filter 链时渲染色像素级一致 → 树与法阵浑然一体）。
 // 法阵保持高亮度鎏金，不做压暗处理。
 import Analytics from '../components/Analytics.astro';
+import LangToggle from '../components/LangToggle.astro';
 import NineStarArray from '../components/ritual/NineStarArray.astro';
 import SeoHead from '../components/SeoHead.astro';
 import VisitMap from '../components/VisitMap.astro';
@@ -17,12 +18,12 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 // 坐标由 Python 在原图上扫描深色矩形 plaque 区域得到（dark connected regions
 // with width/height ratio ≥ 1.5），避开了上方的圆形徽章。
 const branches = [
-  { name: '法门', route: '/famen', x: 19.40, y: 42.85, w: 22, h: 7 },
+  { name: '法门', en: 'Paths', route: '/famen', x: 19.40, y: 42.85, w: 22, h: 7 },
   // 注意：热点必须直连终址。旧路径（/zhoufa/zhishi、/zhoufa/wenzhang 等）是
   // 静态托管上的 meta refresh 跳转桩，点进去会先闪一张空页再跳，多一个来回。
-  { name: '修炼常识', route: '/changshi', x: 80.82, y: 42.85, w: 22, h: 7 },
-  { name: '秘闻', route: '/miwen', x: 19.33, y: 71.21, w: 22, h: 7 },
-  { name: '闲文', route: '/xianwen', x: 80.67, y: 71.21, w: 22, h: 7 },
+  { name: '修炼常识', en: 'Essentials', route: '/changshi', x: 80.82, y: 42.85, w: 22, h: 7 },
+  { name: '秘闻', en: 'Records', route: '/miwen', x: 19.33, y: 71.21, w: 22, h: 7 },
+  { name: '闲文', en: 'Essays', route: '/xianwen', x: 80.67, y: 71.21, w: 22, h: 7 },
 ];
 ---
 
@@ -38,14 +39,27 @@ const branches = [
       description="古巫祝脉，上古祝门法脉总览。一树四枝：法门、修炼常识、秘闻、闲文。祝，咒也——以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。"
       keywords="古巫祝脉, 上古祝门, 祝门, 祝法, 咒法, 祝由, 巫祝, 法门, 修炼常识, 秘闻, 闲文"
     />
+    <script is:inline>
+      (function () {
+        // 中英语言：早置 data-lang，先于首帧执行，避免闪档（缺省即中文）
+        var l = null;
+        try { l = localStorage.getItem('zhumen-lang'); } catch (e) {}
+        var r = document.documentElement;
+        if (l === 'en') { r.setAttribute('data-lang', 'en'); r.lang = 'en'; }
+        else r.setAttribute('data-lang', 'zh');
+      })();
+    </script>
   </head>
   <body>
     <div class="veil" aria-hidden="true"></div>
 
     <header class="top">
       {/* 整页原来没有一个 <h1>，品牌名本身就是页面主标题，直接用它 */}
-      <h1 class="brand kai"><a href={`${base}/`}>古巫祝脉</a></h1>
-      <a class="top-link kai" href={`${base}/lianxi`}>联系我们</a>
+      <h1 class="brand kai"><a href={`${base}/`}><span class="zl-zh">古巫祝脉</span><span class="zl-en">Wu-Zhu Lineage</span></a></h1>
+      <div class="top-right">
+        <a class="top-link kai" href={`${base}/lianxi`}><span class="zl-zh">联系我们</span><span class="zl-en">Contact</span></a>
+        <LangToggle tone="home" />
+      </div>
     </header>
 
     <main>
@@ -174,7 +188,9 @@ const branches = [
               class="map-hotspot"
               href={`${base}${b.route}`}
               aria-label={`进入${b.name}`}
+              data-en-aria={`Enter ${b.en}`}
               data-name={b.name}
+              data-en-name={b.en}
               style={`left:${b.x}%; top:${b.y}%; width:${b.w}%; --hs-h:${b.h}%;`}
             >
               {/* 牌匾上的字烧进图片里了，热点自身不渲染文字；只画发光的椭圆环，
@@ -202,19 +218,20 @@ const branches = [
         这里补成「分支文字导航 + 一句简介」：外观仍是页脚细字，
         但首页从此有了可抓取的正文与带关键词的内链锚文本。 */}
     <footer class="foot kai">
-      <nav class="foot-branches" aria-label="法脉分支">
+      <nav class="foot-branches" aria-label="法脉分支" data-en-aria="Branches">
         {branches.map((b, i) => (
           <>
             {i > 0 && <span class="foot-sep" aria-hidden="true">·</span>}
-            <a href={`${base}${b.route}`}>{b.name}</a>
+            <a href={`${base}${b.route}`}><span class="zl-zh">{b.name}</span><span class="zl-en">{b.en}</span></a>
           </>
         ))}
       </nav>
-      <p class="foot-line">诸枝同源 · 各有所传</p>
+      <p class="foot-line"><span class="zl-zh">诸枝同源 · 各有所传</span><span class="zl-en">One Root, Four Branches · Each Its Own Transmission</span></p>
       <p class="foot-desc">
-        古巫祝脉，上古祝门传承总览。祝，咒也；以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。
-        循脉而入：法门承咒法、偶景、鏖战、驻颜、真气疗愈五支，各有所传，另立神道法一门以辨香火；修炼常识辑录修炼基础、师承传承、
-        修行境界与祝法养生问答；秘闻《神机秘闻》十一篇，辨神道、法界、轮回之实；闲文闲言散语，聊备一格。
+        <span class="zl-zh">古巫祝脉，上古祝门传承总览。祝，咒也；以诵咒通窍开脉，锻炼神形，追求天人合一，万物一咒。
+        循脉而入：法门承咒法、偶景、鏖战、驻颜、真气疗愈五支，各有所传，另立神道法一门以辨香火，复有通神一脉以通神明；修炼常识辑录修炼基础、师承传承、
+        修行境界与祝法养生问答；秘闻《神机秘闻》十一篇，辨神道、法界、轮回之实；闲文闲言散语，聊备一格。</span>
+        <span class="zl-en">An overview of the heritage of the Ancient Gate of Zhu. Zhu is invocation: by chanting, the apertures open and the meridians unblock; body and spirit are tempered, seeking the union of Heaven and Man and the one invocation of all things. Enter by branch — the Paths carry five orthodox transmissions, Zhufa, Oujing, Aozhan, Zhuyanshu and Zhenqi Healing, each with its own teaching; Shendao is set apart to discern the way of incense faith, and Tongshen to commune with the divine. Cultivation Essentials gathers cultivation basics, lineages, realms, and answers on practice and health. Hidden Records: eleven revelations discerning the spirit way, the dharma-realm and rebirth. Essays: idle words, kept as they are.</span>
       </p>
     </footer>
 
@@ -239,6 +256,11 @@ const branches = [
         if (document.readyState === 'complete') measure();
         else window.addEventListener('load', measure, { once: true });
       })();
+    </script>
+
+    <script>
+      import { initLang } from '../lib/lang';
+      initLang();
     </script>
   </body>
 </html>
@@ -304,6 +326,13 @@ const branches = [
   }
   .brand:hover, .top-link:hover { color: #f6e9bd; }
   .top-link { justify-self: end; }
+
+  /* 头栏右侧：联系我们 + 中英切换 */
+  .top-right {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
 
   /* 品牌名现在是 <h1>（整页主标题），抹掉 h1 默认的字号/加粗/外边距，
      外观与原来的 <a> 完全一致；字号字距仍由上面的 .brand 规则给出，
@@ -606,6 +635,11 @@ const branches = [
 </style>
 
 <style is:global>
+  /* ---- 中英双语显隐（配合 LangToggle；与 global.css 同一套规则，首页独立文档需自带） ---- */
+  html[data-lang='en'] .zl-zh { display: none !important; }
+  html:not([data-lang='en']) .zl-en { display: none !important; }
+  html[data-lang='en'] .zl-en { letter-spacing: 0.06em; }
+
   /* ---- 云雷祭阵背景：树金 #efcc57 分层 ----
      整体与树同 filter 链（sepia + hue-rotate + saturate），但 brightness 调到 0.88
      让法阵比树略暗一档，使树保有主体性而不分离。 */

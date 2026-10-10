@@ -1,0 +1,49 @@
+---
+import BranchLayout from '../../layouts/BranchLayout.astro';
+import BranchPortal from '../../components/BranchPortal.astro';
+import BranchSteps from '../../components/BranchSteps.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const title = '通神 · 神择之途';
+const description =
+  '通神：与神相通之古秘技。神有所择，人有所学；通神者、侍神者、神使、密修者四途分流。真心向学之人，可来问询。';
+
+// 本脉页序：总览 → 介绍 → 联系我们（无报名页，末站归到联系页）
+const steps = [
+  { label: '总览', href: '/tongshen', en: 'Overview' },
+  { label: '介绍', href: '/tongshen/jieshao', en: 'Introduction' },
+  { label: '联系我们', href: '/lianxi', en: 'Contact Us' },
+];
+
+// 顶栏三项：返回总目录 · 课程介绍 · 联系我们
+const navItems = [
+  { href: '/', label: '返回总目录', en: 'Index' },
+  { href: '/tongshen/jieshao', label: '课程介绍', en: 'Course' },
+  { href: '/lianxi', label: '联系我们', en: 'Contact' },
+];
+---
+
+<BranchLayout
+  title={title}
+  description={description}
+  glyph="通"
+  label="通神"
+  accent="#a292c9"
+  bgDim={0.22}
+  bg={`${base}/bg/shen-dao-zhenxiang.webp`}
+  navItems={navItems}
+>
+  <BranchPortal
+    glyph="通"
+    title="通神"
+    titleEn="Tongshen"
+    subtitle="神择 · 秘技 · 四途"
+    subtitleEn="The Divine Choice · A Secret Art · Four Paths"
+    description="通神，即与神相通，一门古老而隐秘的方术。神有所择，人有所学；学得者与被选者，代有其人。此门所讲，是通神的源流与四途分流——通神者、侍神者、神使、密修者；真心向学之人，可在门中寻到问询之处。"
+    descriptionEn="Tongshen — communing with the divine — is an ancient and secret art. The gods choose; people learn; of both kinds there have always been. This gate tells of Tongshen's origins and of the four paths it divides into — the Communicant, the Servant, the Emissary, and the Esoteric Cultivator — and where those who truly wish to learn may ask."
+  />
+
+  {/* 第一页只给两个去处：介绍 · 联系我们 */}
+  <BranchSteps steps={steps} current={0} />
+</BranchLayout>
