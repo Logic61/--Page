@@ -33,6 +33,9 @@ const branches = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    {/* 树贴图是首屏最大资源（约 1MB）：head 里预载，与 HTML 解析并行下载；
+        带 crossorigin 会另起一个请求破坏复用，故不加 */}
+    <link rel="preload" as="image" href={`${base}/分支图-final-gold.png`} fetchpriority="high" />
     {/* 首页是独立文档（不走 Base 布局），SEO head 由 SeoHead 组件统一提供 */}
     <SeoHead
       title="古巫祝脉 · 法脉总览 · 上古祝门"
@@ -181,8 +184,10 @@ const branches = [
             <NineStarArray structureDim={0} />
           </div>
           <!-- 树贴图（真 alpha 版）：树体遮挡阵纹，四处节点圆盘镂空透阵。
-               PNG 源色为 #fce18c 等比缩放后的金梯度，与 .a-rune 源色同 → 叠同 filter 后像素级一致 -->
-          <img class="map-img" src={`${base}/分支图-final-gold.png`} alt="古巫祝脉分支图：法门、修炼常识、秘闻、闲文" loading="eager" />
+               PNG 源色为 #fce18c 等比缩放后的金梯度，与 .a-rune 源色同 → 叠同 filter 后像素级一致。
+               width/height 不可删：PNG 头到达前浏览器靠它预留 1366×2049 占位，
+               否则 .map-frame 塌缩为 0——法阵/热区/访客星图会整块叠到页首（CLS 0.87 的根因） -->
+          <img class="map-img" src={`${base}/分支图-final-gold.png`} width="1366" height="2049" alt="古巫祝脉分支图：法门、修炼常识、秘闻、闲文" loading="eager" fetchpriority="high" />
           {branches.map((b) => (
             <a
               class="map-hotspot"
