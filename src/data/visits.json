@@ -1,18 +1,18 @@
 {
-  "updated": "2026-10-10T12:57:25.548Z",
+  "updated": "2026-10-10T22:37:38.673Z",
   "all": {
-    "visitors": 120,
-    "views": 120,
+    "visitors": 172,
+    "views": 172,
     "countries": [
       {
         "code": "CN",
-        "visitors": 83,
-        "views": 83
+        "visitors": 125,
+        "views": 125
       },
       {
         "code": "AU",
-        "visitors": 15,
-        "views": 15
+        "visitors": 21,
+        "views": 21
       },
       {
         "code": "DE",
@@ -21,8 +21,8 @@
       },
       {
         "code": "US",
-        "visitors": 5,
-        "views": 5
+        "visitors": 9,
+        "views": 9
       },
       {
         "code": "SG",
@@ -43,8 +43,13 @@
     "regions": [
       {
         "country": "CN",
+        "name": "Guangdong",
+        "views": 30
+      },
+      {
+        "country": "CN",
         "name": "Zhejiang",
-        "views": 16
+        "views": 17
       },
       {
         "country": "CN",
@@ -52,14 +57,14 @@
         "views": 14
       },
       {
-        "country": "CN",
-        "name": "Shanghai",
+        "country": "US",
+        "name": "California",
         "views": 9
       },
       {
-        "country": "US",
-        "name": "California",
-        "views": 5
+        "country": "CN",
+        "name": "Shanghai",
+        "views": 9
       },
       {
         "country": "CN",
@@ -74,18 +79,18 @@
     ]
   },
   "d30": {
-    "visitors": 120,
-    "views": 120,
+    "visitors": 172,
+    "views": 172,
     "countries": [
       {
         "code": "CN",
-        "visitors": 83,
-        "views": 83
+        "visitors": 125,
+        "views": 125
       },
       {
         "code": "AU",
-        "visitors": 15,
-        "views": 15
+        "visitors": 21,
+        "views": 21
       },
       {
         "code": "DE",
@@ -94,8 +99,8 @@
       },
       {
         "code": "US",
-        "visitors": 5,
-        "views": 5
+        "visitors": 9,
+        "views": 9
       },
       {
         "code": "SG",
@@ -116,8 +121,13 @@
     "regions": [
       {
         "country": "CN",
+        "name": "Guangdong",
+        "views": 30
+      },
+      {
+        "country": "CN",
         "name": "Zhejiang",
-        "views": 16
+        "views": 17
       },
       {
         "country": "CN",
@@ -125,14 +135,14 @@
         "views": 14
       },
       {
-        "country": "CN",
-        "name": "Shanghai",
+        "country": "US",
+        "name": "California",
         "views": 9
       },
       {
-        "country": "US",
-        "name": "California",
-        "views": 5
+        "country": "CN",
+        "name": "Shanghai",
+        "views": 9
       },
       {
         "country": "CN",
