@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import PageIntro from '../../components/PageIntro.astro';
 import Treatise from '../../components/Treatise.astro';
+import Zl from '../../components/Zl.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -11,39 +12,135 @@ const description = '巫之总体宏观与巫祝之体系：从氏族时代处�
 const chapters = [
   {
     num: '一：',
+    numEn: 'I.',
     title: '巫之总体宏观',
+    titleEn: 'The Wu in the Broad Sweep',
     blocks: [
-      { t: 'p', text: '巫自古神秘，在氏族时代便依然开始许久，处于社会权力之巅，不单引领部落且掌控“神明”与“先祖”的沟通。' },
-      { t: 'p', text: '岁月无情，事无长恒，随着变迁与发展，发生了一些重大的变故，则世间存于巫祝者的地位则开始下降，不过依然处于权力圈核心成员，但流转无情，越往后的时代显世巫祝地位越发危机，直到断崖式爆发。' },
-      { t: 'p', text: '至秦之后，参与世间显世巫祝开始巫道合流，最后一部分被五斗米教收纳【现道教】，一部分融于儒教，大体如此，小体则更惨，如流入民间称为所谓的巫医，现在需多巫祝相关以及遗留便原至于此。' },
-      { t: 'note', text: '【上面的儒教和后世所谓的儒家有区别，具体的就不说了免得招恨，其次在古代儒这称呼其实代表说有学问的巫，简单理解一下比如说，我们叫博士，就是这个人的学问，而在那个时候，我们叫儒，大儒，意思就是有学问的巫，大学问的巫。毕竟大巫小巫各有不同，比如孔子是巫、老子是巫、孙思邈是巫，但他们各有不同，所以儒和所谓后面读书的那行儒是有本质区别的】' },
+      {
+        t: 'p',
+        text: '巫自古神秘，在氏族时代便依然开始许久，处于社会权力之巅，不单引领部落且掌控“神明”与“先祖”的沟通。',
+        en: 'The wu has been mysterious since antiquity: present from the clan age, at the summit of social power — not only leading the tribe but holding the communion with the "gods" and the "ancestors."',
+      },
+      {
+        t: 'p',
+        text: '岁月无情，事无长恒，随着变迁与发展，发生了一些重大的变故，则世间存于巫祝者的地位则开始下降，不过依然处于权力圈核心成员，但流转无情，越往后的时代显世巫祝地位越发危机，直到断崖式爆发。',
+        en: 'Time is merciless; nothing endures. As ages changed and things developed, grave upheavals came: the standing of the openly active wu-zhu in the world began to fall. They remained core members of the circles of power, yet the turning was relentless — in later ages the openly active wu-zhu grew ever more precarious, until the cliff-edge collapse.',
+      },
+      {
+        t: 'p',
+        text: '至秦之后，参与世间显世巫祝开始巫道合流，最后一部分被五斗米教收纳【现道教】，一部分融于儒教，大体如此，小体则更惨，如流入民间称为所谓的巫医，现在需多巫祝相关以及遗留便原至于此。',
+        en: 'After the Qin, the openly active wu-zhu who took part in the world began their merge with the Dao: one part was gathered in by the Way of the Five Pecks of Rice [today\'s Daoism], another part dissolved into Ruism — broadly so; the smaller part fared worse still, flowing into the common world as the so-called healer-shamans. Much that is wu-zhu-related, and much of what remains today, stems from this.',
+      },
+      {
+        t: 'note',
+        text: '【上面的儒教和后世所谓的儒家有区别，具体的就不说了免得招恨，其次在古代儒这称呼其实代表说有学问的巫，简单理解一下比如说，我们叫博士，就是这个人的学问，而在那个时候，我们叫儒，大儒，意思就是有学问的巫，大学问的巫。毕竟大巫小巫各有不同，比如孔子是巫、老子是巫、孙思邈是巫，但他们各有不同，所以儒和所谓后面读书的那行儒是有本质区别的】',
+        en: '[The Ruism above differs from the so-called Confucianism of later ages — the specifics I will not explain, lest I invite grudges. In old times, "ru" actually named the wu of learning; to put it simply, just as we now call a learned person "Doctor," in those days a man of learning was called "ru" — a great ru was a wu of great learning. After all, great wu and lesser wu differ: Confucius was a wu, Laozi was a wu, Sun Simiao was a wu — yet each differed from the others. So "ru" and the "Confucians" of the later reading class are in essence different.]',
+      },
     ],
   },
   {
     num: '二：',
+    numEn: 'II.',
     title: '巫祝之体系',
+    titleEn: 'The System of the Wu-Zhu',
     blocks: [
-      { t: 'p', text: '巫祝之中有两大体系，分别为“祭祀”体系、“巫医”体系。' },
-      { t: 'h4', text: '【一】：祭祀体系。' },
-      { t: 'p', text: '也就是后世人们所了解到的一些内容，比如古代大到天地的祭祀、中到国家的宗庙、小到世家、门阀的宗祠，末到个人家中的牌位，里面规矩之严、内容之多非一句两句能描述，即使现在某些地区祠堂也是当地重中之重。' },
-      { t: 'p', text: '祭祀之规格等级如：《礼记·王制》中载：“天子七庙、诸侯五庙、大夫三庙，士一庙。”' },
-      { t: 'p', text: '不同的规格不可僭越，同时也决定了各自先祖得到自我发展程度限制。' },
-      { t: 'p', text: '而祭祀之次序首先则是天地，如天的象征——“天帝”，昊天上帝等。【昊天上帝也就是古代老百姓口中所谓的“老天爷”和所谓的玉皇没什么关系】' },
-      { t: 'p', text: '而天帝的选取则为死区的人皇。' },
-      { t: 'p', text: '人皇则是为：华夏各个氏族的首领。' },
-      { t: 'p', text: '他们生为人皇，开辟四方，为子民安乐；死为天帝，继续庇佑者子民。' },
-      { t: 'p', text: '古来天帝列如：伏羲、炎帝、黄帝等等。' },
-      { t: 'p', text: '而完整的祭祀他们，则是为——“先祖神道”。' },
-      { t: 'p', text: '神道有诸多种，先祖神道则为神道之中人与神之间互相影响最小的一条路。' },
-      { t: 'p', text: '至于其余的一些神道，则难以言喻，其中充满了人神互役，后遗症诸多。' },
-      { t: 'note', text: '【举列：xx神大慈大悲，长相英俊、手持神枪，战恶敌，利于不败之地，此为正面祷祝，若所有人都如此认同且心念纯粹无尽岁月也许互创找这么一个壳子；但是若有一个批纯正说xx神恶贯满盈，长相丑陋，独臂残疾，见敌则跑路，实在垃圾，此为所谓负面祷祝，所以则会对这xx神的创造造成改变】' },
-      { t: 'p', text: '先祖神道则不然，因多为子孙祭拜先人，单纯敬仰，亦或缅怀，没有太多约束。' },
-      { t: 'p', text: '而先祖的祭祀，自古流传至今，比如些许民俗：清明、中原、过年的上坟，些许地区的祠堂，大祭，牌位，族谱等等。' },
-      { t: 'p', text: '但随着岁月的变化，内容的流失，现代社会人逐渐崇拜宗教鬼神而忽视或者遗忘，使得先祖神道宏观日渐衰弱。' },
-      { t: 'h4', text: '【二】：“巫医”体系。' },
-      { t: 'p', text: '巫之中，除了祭祀体系浩大之外，“医”也是巫祝的一大类，巫医当然也分高低，有如上面例子给尧帝治病的。' },
-      { t: 'p', text: '如：《世本》记载：巫咸，尧臣也，以鸿术为帝尧之医，能祝延人之福，愈人之病；祝树树枯，祝鸟鸟坠。（大巫巫咸，对着树祝祷，树则枯死，对着鸟祝祷，鸟则坠落，对着人祝祷，则人添加福寿，疾病疗愈，身体健康。）' },
-      { t: 'p', text: '也有给民间百姓治病的，皆受人尊敬无比，而后世所流传的某些东西其实则是处于民间巫医地位存在的流传。' },
+      {
+        t: 'p',
+        text: '巫祝之中有两大体系，分别为“祭祀”体系、“巫医”体系。',
+        en: 'Within the wu-zhu there are two great systems: the "rites" system and the "healer-shaman" system.',
+      },
+      { t: 'h4', text: '【一】：祭祀体系。', en: '[I] The Rites System.' },
+      {
+        t: 'p',
+        text: '也就是后世人们所了解到的一些内容，比如古代大到天地的祭祀、中到国家的宗庙、小到世家、门阀的宗祠，末到个人家中的牌位，里面规矩之严、内容之多非一句两句能描述，即使现在某些地区祠堂也是当地重中之重。',
+        en: 'This is what later ages came to know: sacrifices great as Heaven and Earth, middling as the state\'s ancestral temples, small as the clan halls of great houses and gate-valve clans, down to the spirit tablets in a single home. The strictness of rule and abundance of content defy a phrase or two — even now, in some regions the clan hall is the weightiest thing in the locality.',
+      },
+      {
+        t: 'p',
+        text: '祭祀之规格等级如：《礼记·王制》中载：“天子七庙、诸侯五庙、大夫三庙，士一庙。”',
+        en: 'The ranks of sacrifice, as recorded in the Book of Rites, "Royal Regulations": "The Son of Heaven, seven temples; the feudal lords, five; the grand officers, three; the knights, one."',
+      },
+      {
+        t: 'p',
+        text: '不同的规格不可僭越，同时也决定了各自先祖得到自我发展程度限制。',
+        en: 'To overstep one\'s rank was not permitted; the rank also set the limit of how far each one\'s ancestors might develop on their own.',
+      },
+      {
+        t: 'p',
+        text: '而祭祀之次序首先则是天地，如天的象征——“天帝”，昊天上帝等。【昊天上帝也就是古代老百姓口中所谓的“老天爷”和所谓的玉皇没什么关系】',
+        en: 'The order of sacrifice begins with Heaven and Earth — the symbol of Heaven: the "Heavenly Emperor", Haotian Shangdi, and the like. [Haotian Shangdi is what the common folk called "Old Man Heaven" — and has nothing to do with the so-called Jade Emperor.]',
+      },
+      {
+        t: 'p',
+        text: '而天帝的选取则为死区的人皇。',
+        en: 'And the Heavenly Emperor is chosen from the Human Emperors who have died.',
+      },
+      {
+        t: 'p',
+        text: '人皇则是为：华夏各个氏族的首领。',
+        en: 'The Human Emperors were the chiefs of the various clans of Huaxia.',
+      },
+      {
+        t: 'p',
+        text: '他们生为人皇，开辟四方，为子民安乐；死为天帝，继续庇佑者子民。',
+        en: 'In life they were Human Emperors, opening the four quarters and bringing peace to their people; in death they were Heavenly Emperors, continuing to shelter their people.',
+      },
+      {
+        t: 'p',
+        text: '古来天帝列如：伏羲、炎帝、黄帝等等。',
+        en: 'Heavenly Emperors through the ages: Fuxi, Yandi, Huangdi, and others.',
+      },
+      {
+        t: 'p',
+        text: '而完整的祭祀他们，则是为——“先祖神道”。',
+        en: 'To sacrifice to them in full is what is called the "ancestral divine way."',
+      },
+      {
+        t: 'p',
+        text: '神道有诸多种，先祖神道则为神道之中人与神之间互相影响最小的一条路。',
+        en: 'There are many kinds of divine way; the ancestral divine way is the one among them in which man and god influence each other least.',
+      },
+      {
+        t: 'p',
+        text: '至于其余的一些神道，则难以言喻，其中充满了人神互役，后遗症诸多。',
+        en: 'Other divine ways are harder to speak of: they brim with the mutual enslavement of man and god, and their aftereffects are many.',
+      },
+      {
+        t: 'note',
+        text: '【举列：xx神大慈大悲，长相英俊、手持神枪，战恶敌，利于不败之地，此为正面祷祝，若所有人都如此认同且心念纯粹无尽岁月也许互创找这么一个壳子；但是若有一个批纯正说xx神恶贯满盈，长相丑陋，独臂残疾，见敌则跑路，实在垃圾，此为所谓负面祷祝，所以则会对这xx神的创造造成改变】',
+        en: '[For example: the god X is greatly kind and compassionate, handsome of face, a divine spear in hand, defeating wicked foes, unshaken on the field of victory — this is positive invocation; if all people agree so, with pure hearts, perhaps over countless ages a shell of this sort is jointly created. But if one man of pure faith declares the god X to be full of evil, ugly of face, one-armed and maimed, fleeing at the sight of foes, utterly worthless — this is so-called negative invocation, and it will change the making of that god X.]',
+      },
+      {
+        t: 'p',
+        text: '先祖神道则不然，因多为子孙祭拜先人，单纯敬仰，亦或缅怀，没有太多约束。',
+        en: 'The ancestral divine way is not so: it is mostly descendants sacrificing to forebears, in simple veneration or remembrance, with few constraints.',
+      },
+      {
+        t: 'p',
+        text: '而先祖的祭祀，自古流传至今，比如些许民俗：清明、中原、过年的上坟，些许地区的祠堂，大祭，牌位，族谱等等。',
+        en: 'The sacrifice to ancestors has flowed from antiquity to today: customs such as Qingming, the Zhongyuan, and grave-visiting at the New Year; clan halls, great sacrifices, spirit tablets, genealogy registers in some regions, and more.',
+      },
+      {
+        t: 'p',
+        text: '但随着岁月的变化，内容的流失，现代社会人逐渐崇拜宗教鬼神而忽视或者遗忘，使得先祖神道宏观日渐衰弱。',
+        en: 'But as the years turned and contents were lost, modern people came to worship religious gods and ghosts while neglecting or forgetting this, so that the ancestral divine way in its broad sweep wanes day by day.',
+      },
+      { t: 'h4', text: '【二】：“巫医”体系。', en: '[II] The "Healer-Shaman" System.' },
+      {
+        t: 'p',
+        text: '巫之中，除了祭祀体系浩大之外，“医”也是巫祝的一大类，巫医当然也分高低，有如上面例子给尧帝治病的。',
+        en: 'Within the wu, besides the vast rites system, "medicine" is another great class of the wu-zhu. Healer-shamans of course differ in level — such as the one above who healed Emperor Yao.',
+      },
+      {
+        t: 'p',
+        text: '如：《世本》记载：巫咸，尧臣也，以鸿术为帝尧之医，能祝延人之福，愈人之病；祝树树枯，祝鸟鸟坠。（大巫巫咸，对着树祝祷，树则枯死，对着鸟祝祷，鸟则坠落，对着人祝祷，则人添加福寿，疾病疗愈，身体健康。）',
+        en: 'As the Shiben records: Wu Xian, a minister of Yao, physician to Emperor Yao by great arts, could invoke blessings upon a man to lengthen his fortune and heal his illness; he invoked upon a tree and the tree withered, upon a bird and the bird fell. (The great wu Wu Xian — he invoked over a tree and the tree died; over a bird and the bird fell; over a man and the man gained fortune and longevity, illness healed, body in health.)',
+      },
+      {
+        t: 'p',
+        text: '也有给民间百姓治病的，皆受人尊敬无比，而后世所流传的某些东西其实则是处于民间巫医地位存在的流传。',
+        en: 'Others healed the common folk, and were revered beyond measure; certain things that circulated in later ages were in fact transmissions that existed at the level of folk healer-shamans.',
+      },
     ],
   },
 ];
@@ -53,8 +150,11 @@ const chapters = [
   <PageIntro
     mark="脉"
     title="巫祝脉络"
+    titleEn="The Wu-Zhu Lineage"
     sub="巫自古神秘，处于社会权力之巅，不单引领部落，且掌控“神明”与“先祖”的沟通。"
+    subEn="The wu has been mysterious since antiquity, at the summit of social power — not only leading the tribe, but holding the communion with the “gods” and the “ancestors.”"
     meta="巫祝传承内容，未经科学证实，切勿迷信"
+    metaEn="The transmitted lore of the wu-zhu is not confirmed by science — do not fall into superstition."
   />
 
   <Treatise
@@ -62,8 +162,8 @@ const chapters = [
   />
 
   <nav class="zhoufa-next kai" aria-label="下一步">
-    <a class="btn btn--primary" href={`${base}/zhoufa/yinmi`}>继续读 · 隐秘传承</a>
-    <a class="btn" href={`${base}/zhoufa/jieshao`}>回看 · 祝法介绍</a>
+    <a class="btn btn--primary" href={`${base}/zhoufa/yinmi`}><Zl zh="继续读 · 隐秘传承" en="Continue · The Secret Transmission" /></a>
+    <a class="btn" href={`${base}/zhoufa/jieshao`}><Zl zh="回看 · 祝法介绍" en="Back · Introduction to the Zhu Method" /></a>
   </nav>
 </Base>
 

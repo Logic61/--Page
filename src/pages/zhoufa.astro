@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import Treatise from '../components/Treatise.astro';
+import Zl from '../components/Zl.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -16,15 +17,34 @@ const lead = [
   '此脉自古隐秘，外界难知。',
 ];
 
+const leadEn = [
+  'Taiyi Zhi Yin is the Zhu method transmitted by the ancient wu-zhu and the Zhumen — another great independent, secret, and complete system within the wu-zhu cultivation tradition, alongside such things as the Heaven-Reaching Jianmu and the elixir of deathlessness.',
+  'Zhu is invocation. This way is chiefly one of chanting: the apertures open, the meridians unblock, body and spirit are tempered; it makes the body healthy and extends the years, and then seeks the union of Heaven and Man — the highest reach of invocation: all things, one incantation.',
+  'This lineage has been secret since antiquity, little known to the outside world.',
+];
+
 const chapters = [
   {
     title: '前言：【以下为市面可显内容，以及宏观流转】',
+    titleEn: 'Preface: [What Follows Is Material Fit for the Open Market, and the Broad Sweep of Its Passage]',
     blocks: [
-      { t: 'h4', text: '祝的由来：' },
-      { t: 'p', text: '巫祝，巫，祝也。' },
-      { t: 'p', text: '巫的传说古来已久，巫为定义沟通天地、先祖的人。' },
-      { t: 'p', text: '比如在殷商时期，巫承担着沟通“天帝”与“人帝”的任务，传达相关的意志，但是随着时间的流转因为某些人碰瓷等行为逐渐成为大家眼中装神弄鬼、招摇撞骗存在。' },
-      { t: 'p', text: '巫祝在以前可以算是地位、身份，因为在某些时代“公务员”就是巫，只是因为时代叫法不同所以现代叫我们叫公务员古代叫巫。' },
+      { t: 'h4', text: '祝的由来：', en: 'Where Zhu Comes From:' },
+      { t: 'p', text: '巫祝，巫，祝也。', en: 'Wu-zhu: wu is zhu.' },
+      {
+        t: 'p',
+        text: '巫的传说古来已久，巫为定义沟通天地、先祖的人。',
+        en: 'The lore of the wu is ancient: wu is the name for those who commune between Heaven and Earth and the ancestors.',
+      },
+      {
+        t: 'p',
+        text: '比如在殷商时期，巫承担着沟通“天帝”与“人帝”的任务，传达相关的意志，但是随着时间的流转因为某些人碰瓷等行为逐渐成为大家眼中装神弄鬼、招摇撞骗存在。',
+        en: 'In the Yin-Shang period, for instance, the wu bore the task of communing between the "Heavenly Emperor" and the "Human Emperor", relaying their wills; but as time turned, and through the conduct of certain pretenders, they gradually came to be seen as tricksters who put on ghost-and-god shows.',
+      },
+      {
+        t: 'p',
+        text: '巫祝在以前可以算是地位、身份，因为在某些时代“公务员”就是巫，只是因为时代叫法不同所以现代叫我们叫公务员古代叫巫。',
+        en: 'Wu-zhu was once a status and an office: in certain ages the "civil servant" simply was the wu — a difference of naming only. What we now call a civil servant, the ancients called a wu.',
+      },
     ],
   },
 ];
@@ -34,26 +54,38 @@ const chapters = [
   <Hero
     seal="巫"
     titleLead="太易"
+    titleLeadEn="Taiyi "
     titleAccent="之音"
+    titleAccentEn="Zhi Yin"
     lines={[
       '太易之音为上古巫祝、祝门传承祝法之道。',
       '祝，咒也——此道以诵咒为主，通窍开脉、锻炼神形，',
       '令人身体健康，延年益寿，',
       '继而追求天人合一，万物一咒的咒法至高境界。',
     ]}
+    linesEn={[
+      'Taiyi Zhi Yin is the Zhu method handed down by the ancient wu-zhu — the Zhumen.',
+      'Zhu is invocation: this way is chiefly one of chanting — the apertures open, the meridians unblock, body and spirit are tempered;',
+      'it makes the body healthy, extends the years and lengthens life,',
+      'and then seeks the union of Heaven and Man — the highest reach of invocation: all things, one incantation.',
+    ]}
     leftSide="巫祝巫祝 · 巫，祝也"
+    leftSideEn="Wu-Zhu · Wu Is Zhu"
     rightSide="祝，咒也 · 通窍开脉 · 锻炼神形 · 延年益寿"
+    rightSideEn="Zhu Is Invocation · Opening the Apertures · Tempering Body and Spirit · Long Life"
     primaryHref={`${base}/zhoufa/jieshao`}
     primaryLabel="太易之音 · 详说"
+    primaryLabelEn="Taiyi Zhi Yin · In Detail"
     secondaryHref={`${base}/zhoufa/baoming`}
     secondaryLabel="报名须知"
+    secondaryLabelEn="Enrollment"
   />
 
-  <Treatise lead={lead} chapters={chapters} />
+  <Treatise lead={lead} leadEn={leadEn} chapters={chapters} />
 
   <nav class="zhoufa-next kai" aria-label="下一步">
-    <a class="btn btn--primary" href={`${base}/zhoufa/jieshao`}>祝法介绍</a>
-    <a class="btn" href={`${base}/zhoufa/mailuo`}>巫祝脉络</a>
+    <a class="btn btn--primary" href={`${base}/zhoufa/jieshao`}><Zl zh="祝法介绍" en="Introduction to the Zhu Method" /></a>
+    <a class="btn" href={`${base}/zhoufa/mailuo`}><Zl zh="巫祝脉络" en="The Wu-Zhu Lineage" /></a>
   </nav>
 </Base>
 

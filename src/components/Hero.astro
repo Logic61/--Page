@@ -1,20 +1,29 @@
 ---
+import Zl from './Zl.astro';
+
 interface Props {
   /** 印面字 */
   seal?: string;
   /** 主标题前半 */
   titleLead?: string;
+  titleLeadEn?: string;
   /** 主标题强调部分 */
   titleAccent?: string;
+  titleAccentEn?: string;
   /** 副题各行（逐行断行） */
   lines?: string[];
+  linesEn?: string[];
   /** 左右竖排小字 */
   leftSide?: string;
+  leftSideEn?: string;
   rightSide?: string;
+  rightSideEn?: string;
   primaryHref?: string;
   primaryLabel?: string;
+  primaryLabelEn?: string;
   secondaryHref?: string;
   secondaryLabel?: string;
+  secondaryLabelEn?: string;
 }
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -22,14 +31,21 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const {
   seal = '巫',
   titleLead = '上古',
+  titleLeadEn = 'Ancient',
   titleAccent = '祝门',
+  titleAccentEn = 'Zhumen',
   lines = ['古巫祝脉，隐传至今。', '祝，咒也。以诵咒通窍开脉，锻炼神形，', '追求天人合一，万物一咒。'],
+  linesEn = ['The ancient Wu-Zhu lineage, secretly passed to this day.', 'Zhu is invocation: by chanting, the apertures open and the meridians unblock; body and spirit are tempered,', 'seeking the union of Heaven and Man — all things, one invocation.'],
   leftSide = '巫祝巫祝 · 巫，祝也',
+  leftSideEn = 'Wu-Zhu · Wu Is Zhu',
   rightSide = '祝，咒也 · 通窍开脉 · 锻炼神形 · 延年益寿',
+  rightSideEn = 'Zhu Is Invocation · Opening the Apertures · Tempering Body and Spirit · Long Life',
   primaryHref = `${base}/zhoufa/mailuo`,
   primaryLabel = '阅览传承',
+  primaryLabelEn = 'The Transmission',
   secondaryHref = `${base}/zhoufa/baoming`,
   secondaryLabel = '报名须知',
+  secondaryLabelEn = 'Enrollment',
 } = Astro.props;
 
 // 八卦 (trigrams) radiating outward around the ring.
@@ -76,24 +92,24 @@ const trigrams = patterns.map((p, i) => {
       <span class="seal" style="font-size:1.6rem;padding:0.5em 0.7em;">{seal}</span>
     </div>
     <h1 class="hero-title kai">
-      {titleLead}<span>{titleAccent}</span>
+      <Zl zh={titleLead} en={titleLeadEn} /><span><Zl zh={titleAccent} en={titleAccentEn} /></span>
     </h1>
     <p class="hero-sub">
       {lines.map((line, i) => (
         <>
-          {line}
+          <Zl zh={line} en={linesEn[i]} />
           {i < lines.length - 1 && <br />}
         </>
       ))}
     </p>
     <div class="hero-cta">
-      <a class="btn btn--primary" href={primaryHref}>{primaryLabel}</a>
-      <a class="btn" href={secondaryHref}>{secondaryLabel}</a>
+      <a class="btn btn--primary" href={primaryHref}><Zl zh={primaryLabel} en={primaryLabelEn} /></a>
+      <a class="btn" href={secondaryHref}><Zl zh={secondaryLabel} en={secondaryLabelEn} /></a>
     </div>
   </div>
 
-  <p class="hero-side left vtext">{leftSide}</p>
-  <p class="hero-side right vtext">{rightSide}</p>
+  <p class="hero-side left vtext"><Zl zh={leftSide} en={leftSideEn} /></p>
+  <p class="hero-side right vtext"><Zl zh={rightSide} en={rightSideEn} /></p>
 
 </section>
 

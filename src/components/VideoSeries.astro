@@ -1,9 +1,12 @@
 ---
+import Zl from './Zl.astro';
 import {
   groups,
   collectionUrl,
   collectionTitle,
+  collectionTitleEn,
   collectionAuthor,
+  collectionAuthorEn,
   kuaishouProfile,
   douyinProfile,
   videoUrl,
@@ -26,12 +29,19 @@ const fmtDur = (secs: number) => {
 const totalHours = Math.floor(totalSecs / 3600);
 const totalMinutes = Math.round((totalSecs % 3600) / 60);
 const totalText = totalHours ? `${totalHours} 小时 ${totalMinutes} 分` : `${totalMinutes} 分钟`;
+const totalTextEn = totalHours ? `${totalHours} hr ${totalMinutes} min` : `${totalMinutes} min`;
+
+// 分组短标是单字序号，英文转罗马数字
+const tagEnMap: Record<string, string> = { 序: 'I.', 二: 'II.', 三: 'III.', 四: 'IV.', 申: 'V.' };
 
 let serial = 0;
 const rows = groups.map((group) => ({
   tag: group.tag,
+  tagEn: tagEnMap[group.tag] ?? group.tag,
   name: group.name,
+  nameEn: group.nameEn,
   note: group.note,
+  noteEn: group.noteEn,
   items: group.videos.map((video) => ({ ...video, no: two(++serial) })),
 }));
 
@@ -42,23 +52,25 @@ const douyinCount = all.filter((video) => video.douyin).length;
 <section class="study-video" id="video" aria-labelledby="study-video-title">
   <div class="wrap">
     <header class="video-head reveal">
-      <span class="eyebrow">视频合集</span>
-      <h1 id="study-video-title" class="section-title">体系认知 · 二十八讲</h1>
+      <span class="eyebrow"><Zl zh="视频合集" en="Video Collection" /></span>
+      <h1 id="study-video-title" class="section-title"><Zl zh="体系认知 · 二十八讲" en="Understanding the System · Twenty-Eight Talks" /></h1>
       <p class="video-sub">
-        《{collectionTitle}》自道家源流讲至道法体系，共 {total} 讲，约 {totalText}。依课程次序排列，每讲列出各平台观看入口：
-        哔哩哔哩收录全 {total} 讲{douyinCount ? `，抖音同步 ${douyinCount} 讲` : ''}，快手作品请见上方快手主页。
+        <Zl
+          zh={`《${collectionTitle}》自道家源流讲至道法体系，共 ${total} 讲，约 ${totalText}。依课程次序排列，每讲列出各平台观看入口：哔哩哔哩收录全 ${total} 讲${douyinCount ? `，抖音同步 ${douyinCount} 讲` : ''}，快手作品请见上方快手主页。`}
+          en={`"${collectionTitleEn}" runs from the origins of the Daoist school to the system of Dao-methods — ${total} talks in all, about ${totalTextEn}. Arranged in course order; every talk lists its viewing entrances on each platform: Bilibili carries all ${total}${douyinCount ? `, Douyin syncs ${douyinCount}` : ''}, and Kuaishou works are gathered at the Kuaishou profile above.`}
+        />
       </p>
       <div class="video-actions">
         <a class="video-all" href={collectionUrl} target="_blank" rel="noopener noreferrer">
-          在 B 站看完整合集<span class="video-arrow" aria-hidden="true">↗</span>
+          <Zl zh="在 B 站看完整合集" en="Watch the Full Collection on Bilibili" /><span class="video-arrow" aria-hidden="true">↗</span>
         </a>
         <a class="video-home" href={douyinProfile} target="_blank" rel="noopener noreferrer">
-          访问抖音主页<span class="plat-arrow" aria-hidden="true">↗</span>
+          <Zl zh="访问抖音主页" en="Visit the Douyin Profile" /><span class="plat-arrow" aria-hidden="true">↗</span>
         </a>
         <a class="video-home" href={kuaishouProfile} target="_blank" rel="noopener noreferrer">
-          访问快手主页<span class="plat-arrow" aria-hidden="true">↗</span>
+          <Zl zh="访问快手主页" en="Visit the Kuaishou Profile" /><span class="plat-arrow" aria-hidden="true">↗</span>
         </a>
-        <span class="video-author">UP：{collectionAuthor}</span>
+        <span class="video-author"><Zl zh={`UP：${collectionAuthor}`} en={`Channel: ${collectionAuthorEn}`} /></span>
       </div>
     </header>
 
@@ -67,10 +79,10 @@ const douyinCount = all.filter((video) => video.douyin).length;
         rows.map((group) => (
           <div class="video-group reveal">
             <header class="video-group-head">
-              <span class="video-tag kai">{group.tag}</span>
-              <h3 class="kai">{group.name}</h3>
-              <span class="video-count">{group.items.length} 讲</span>
-              <p>{group.note}</p>
+              <span class="video-tag kai"><Zl zh={group.tag} en={group.tagEn} /></span>
+              <h3 class="kai"><Zl zh={group.name} en={group.nameEn} /></h3>
+              <span class="video-count"><Zl zh={`${group.items.length} 讲`} en={`${group.items.length} talks`} /></span>
+              <p><Zl zh={group.note} en={group.noteEn} /></p>
             </header>
             <ol class="video-list">
               {group.items.map((video) => (
@@ -78,10 +90,10 @@ const douyinCount = all.filter((video) => video.douyin).length;
                   <article class="video-item">
                     <span class="video-no kai">{video.no}</span>
                     <div class="video-text">
-                      <b class="kai">{video.title}</b>
+                      <b class="kai"><Zl zh={video.title} en={video.titleEn} /></b>
                       <span class="video-meta">
                         {fmtDur(video.secs)} · {video.date}
-                        {video.badge ? ` · ${video.badge}` : ''}
+                        {video.badge ? <> · <Zl zh={video.badge} en={video.badgeEn} /></> : ''}
                       </span>
                       <div class="video-links">
                         <a
@@ -90,9 +102,11 @@ const douyinCount = all.filter((video) => video.douyin).length;
                           target="_blank"
                           rel="noopener noreferrer"
                           title={`${video.raw}（哔哩哔哩）`}
+                          data-en-title={`${video.raw} (Bilibili)`}
                           aria-label={`${video.title} — 哔哩哔哩（新窗口打开）`}
+                          data-en-aria={`${video.titleEn} — Bilibili (opens in a new window)`}
                         >
-                          B 站<span class="plat-arrow" aria-hidden="true">↗</span>
+                          <Zl zh="B 站" en="Bilibili" /><span class="plat-arrow" aria-hidden="true">↗</span>
                         </a>
                         {video.douyin && (
                           <a
@@ -101,9 +115,11 @@ const douyinCount = all.filter((video) => video.douyin).length;
                             target="_blank"
                             rel="noopener noreferrer"
                             title={`${video.title}（抖音）`}
+                            data-en-title={`${video.title} (Douyin)`}
                             aria-label={`${video.title} — 抖音（新窗口打开）`}
+                            data-en-aria={`${video.titleEn} — Douyin (opens in a new window)`}
                           >
-                            抖音<span class="plat-arrow" aria-hidden="true">↗</span>
+                            <Zl zh="抖音" en="Douyin" /><span class="plat-arrow" aria-hidden="true">↗</span>
                           </a>
                         )}
                         {video.kuaishou && (
@@ -113,9 +129,11 @@ const douyinCount = all.filter((video) => video.douyin).length;
                             target="_blank"
                             rel="noopener noreferrer"
                             title={`${video.title}（快手）`}
+                            data-en-title={`${video.title} (Kuaishou)`}
                             aria-label={`${video.title} — 快手（新窗口打开）`}
+                            data-en-aria={`${video.titleEn} — Kuaishou (opens in a new window)`}
                           >
-                            快手<span class="plat-arrow" aria-hidden="true">↗</span>
+                            <Zl zh="快手" en="Kuaishou" /><span class="plat-arrow" aria-hidden="true">↗</span>
                           </a>
                         )}
                       </div>
@@ -130,7 +148,10 @@ const douyinCount = all.filter((video) => video.douyin).length;
     </div>
 
     <p class="video-foot reveal">
-      B 站原标题多附「仅供娱乐，无不良引导」等语，此处为便阅读略作精简，原题可悬停查看。各平台收录进度不一，抖音未同步的讲次不显示抖音入口，快手作品统一见页首「访问快手主页」。视频所述未经科学证实，切勿迷信。
+      <Zl
+        zh="B 站原标题多附「仅供娱乐，无不良引导」等语，此处为便阅读略作精简，原题可悬停查看。各平台收录进度不一，抖音未同步的讲次不显示抖音入口，快手作品统一见页首「访问快手主页」。视频所述未经科学证实，切勿迷信。"
+        en='The original Bilibili titles often carry lines such as "for entertainment only; no harmful guidance" — abbreviated here for easier reading; hover to see the originals. Platform coverage differs: talks not synced to Douyin show no Douyin entrance, and Kuaishou works are gathered under "Visit the Kuaishou Profile" at the top of the page. Nothing in the videos is scientifically verified; do not be superstitious.'
+      />
     </p>
   </div>
 </section>

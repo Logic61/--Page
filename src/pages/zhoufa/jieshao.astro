@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Giscus from '../../components/Giscus.astro';
 import PageIntro from '../../components/PageIntro.astro';
 import Treatise from '../../components/Treatise.astro';
+import Zl from '../../components/Zl.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -12,9 +13,18 @@ const description = '巫，祝也：而祝则祭主，沟通神明、世间。�
 const chapters = [
   {
     title: '祝之相关：',
+    titleEn: 'Concerning the Zhu:',
     blocks: [
-      { t: 'p', text: '巫，祝也：而祝则祭主，沟通神明、世间。' },
-      { t: 'p', text: '祝就巫中的大主祭，为巫的中一种，当然，巫祝也分为很多，比如：大祝、小祝、丧祝、甸祝、诅祝、司祝、男巫、女巫、神仕等。且当时从中央到地方各级官府都有配置。' },
+      {
+        t: 'p',
+        text: '巫，祝也：而祝则祭主，沟通神明、世间。',
+        en: 'Wu is zhu: the zhu is the chief sacrificer, communing between the gods and the world.',
+      },
+      {
+        t: 'p',
+        text: '祝就巫中的大主祭，为巫的中一种，当然，巫祝也分为很多，比如：大祝、小祝、丧祝、甸祝、诅祝、司祝、男巫、女巫、神仕等。且当时从中央到地方各级官府都有配置。',
+        en: 'The zhu was the great chief sacrificer among the wu — one kind of wu. Wu-zhu, of course, has many kinds: the Great Zhu, the Lesser Zhu, the Mourning Zhu, the Hunt Zhu, the Curse Zhu, the Temple Zhu, the male wu, the female wu, the spirit-officiants, and more. From the central court down to every level of local government, such posts were assigned.',
+      },
       {
         t: 'office',
         pairs: [
@@ -27,10 +37,32 @@ const chapters = [
           ['男巫：', '主为男性巫官，祭祀多舞以悦鬼神者'],
           ['女巫：', '主为女性巫官，祭祀歌舞迎神祈祷者'],
         ],
+        pairsEn: [
+          ['Great Zhu:', 'In charge of sacrifices and prayers'],
+          ['Lesser Zhu:', 'In charge of lesser sacrificial invocations'],
+          ['Mourning Zhu:', 'In charge of funeral sacrifice and invocation'],
+          ['Hunt Zhu:', 'In charge of hunt sacrifice and invocation'],
+          ['Curse Zhu:', 'In charge of invocations to punish enemies'],
+          ['Temple Zhu:', 'In charge of temple prayers and invocations'],
+          ['Male Wu:', 'The male wu-officials, who in sacrifice mostly danced to please the ghosts and gods'],
+          ['Female Wu:', 'The female wu-officials, who in sacrifice sang and danced to welcome the gods and pray'],
+        ],
       },
-      { t: 'p', text: '1：祝祷：我们现在种种的祝福语，只是口头形式，而在上古时期则并非如此，如：《世本》记载：巫咸，尧臣也，以鸿术为帝尧之医，能祝延人之福，愈人之病；祝树树枯，祝鸟鸟坠。（大巫巫咸，对着树祝祷，树则枯死，对着鸟祝祷，鸟则坠落，对着人祝祷，则人添加福寿，疾病疗愈，身体健康。' },
-      { t: 'note', text: '【听起来很玄幻，单并非是无稽之谈，修行人修为到了一定程度，精神精纯，是具有无形力量的，可以映照现实。】' },
-      { t: 'p', text: '2：祝由：通过祝祷的方式来至于疾病，中医的医字，古字“毉”，其下乃巫，中医演化有源于巫。如：《世本》：“古者巫膨处作医”；在《皇帝内经》中记载些许中医“祝由”之术，通过祝祷疾病根因来疗愈相关病情。除此之外，某些地方也用相关内容解决某些事情，如冲撞guishen、魂魄丢失等等，至于祝祷是否有效，则与自身修为密切相关，当然不排除诸多骗子。' },
+      {
+        t: 'p',
+        text: '1：祝祷：我们现在种种的祝福语，只是口头形式，而在上古时期则并非如此，如：《世本》记载：巫咸，尧臣也，以鸿术为帝尧之医，能祝延人之福，愈人之病；祝树树枯，祝鸟鸟坠。（大巫巫咸，对着树祝祷，树则枯死，对着鸟祝祷，鸟则坠落，对着人祝祷，则人添加福寿，疾病疗愈，身体健康。',
+        en: '1. Zhu-Dao — Invoking Blessings: Our many blessing words today are only spoken form; in high antiquity it was not so. The Shiben records: Wu Xian, a minister of Yao, physician to Emperor Yao by great arts, could invoke blessings upon a man to lengthen his fortune and heal his illness; he invoked upon a tree and the tree withered, upon a bird and the bird fell. (The great wu Wu Xian — he invoked over a tree and the tree died; over a bird and the bird fell; over a man and the man gained fortune and longevity, illness healed, body in health.)',
+      },
+      {
+        t: 'note',
+        text: '【听起来很玄幻，单并非是无稽之谈，修行人修为到了一定程度，精神精纯，是具有无形力量的，可以映照现实。】',
+        en: '[This sounds fantastical, but it is no idle talk: when a cultivator\'s attainments reach a certain point, the spirit is pure and possesses an invisible force that can be reflected into reality.]',
+      },
+      {
+        t: 'p',
+        text: '2：祝由：通过祝祷的方式来至于疾病，中医的医字，古字“毉”，其下乃巫，中医演化有源于巫。如：《世本》：“古者巫膨处作医”；在《皇帝内经》中记载些许中医“祝由”之术，通过祝祷疾病根因来疗愈相关病情。除此之外，某些地方也用相关内容解决某些事情，如冲撞guishen、魂魄丢失等等，至于祝祷是否有效，则与自身修为密切相关，当然不排除诸多骗子。',
+        en: '2. Zhu-You — Invoking the Cause: healing illness through invocation. The character for medicine, yi 医 — anciently written 毉, with wu beneath — shows that Chinese medicine evolved partly from the wu. The Shiben says: "In old times Wu Peng made medicine." The Yellow Emperor\'s Inner Canon records certain zhuyou arts of the physicians: healing the illness by invoking its root cause. Beyond this, in some places such arts were used to settle other matters, such as offending ghosts and gods, or a lost soul. Whether the invocation works depends closely on one\'s own attainments — and, of course, swindlers abound.',
+      },
     ],
   },
 ];
@@ -40,18 +72,22 @@ const chapters = [
   <PageIntro
     mark="祝"
     title="祝法介绍"
+    titleEn="An Introduction to the Zhu Method"
     sub="巫，祝也：而祝则祭主，沟通神明、世间。祝为巫中的大主祭，为巫的中一种。"
+    subEn="Wu is zhu: the zhu is the chief sacrificer, communing between the gods and the world. The zhu is the great chief sacrificer among the wu — one kind of wu."
     meta="巫祝巫祝，巫，祝也"
+    metaEn="Wu-zhu, wu-zhu: wu is zhu"
   />
 
   <Treatise
     chapters={chapters}
     bridge="巫祝巫祝，巫，祝也。祝就巫中的大主祭，为巫的中一种，那么难免不得提到神秘已久的巫！"
+    bridgeEn="Wu-zhu, wu-zhu: wu is zhu. The zhu is the great chief sacrificer among the wu — one kind of wu. So one cannot but speak of the long-mysterious wu!"
   />
 
   <nav class="zhoufa-next kai" aria-label="下一步">
-    <a class="btn btn--primary" href={`${base}/zhoufa/mailuo`}>继续读 · 巫祝脉络</a>
-    <a class="btn" href={`${base}/zhoufa`}>返回太易之音</a>
+    <a class="btn btn--primary" href={`${base}/zhoufa/mailuo`}><Zl zh="继续读 · 巫祝脉络" en="Continue · The Wu-Zhu Lineage" /></a>
+    <a class="btn" href={`${base}/zhoufa`}><Zl zh="返回太易之音" en="Back · Taiyi Zhi Yin" /></a>
   </nav>
 
   <Giscus />

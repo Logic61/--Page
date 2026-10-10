@@ -1,36 +1,42 @@
 ---
+import Zl from './Zl.astro';
+
 const levels = [
   {
     tag: '基础课',
+    tagEn: 'Foundation',
     desc: '通窍开脉 · 强身健体',
+    descEn: 'Opening the Apertures · Strengthening the Body',
     courses: [
-      { name: '开启脉门', line: '通脉养生、补益身体，养练精神，挖掘潜能，为全面提升自己而做基础。' },
-      { name: '脉门升华', line: '提升健康状态，驱除风寒湿邪，打通瘀滞经脉，促进气血转化。' },
-      { name: '经门升华', line: '打通奇经八脉，壮大十二正经，令经脉恢复少年之态。愿你出走半生，归来仍是少年。' },
+      { name: '开启脉门', nameEn: 'Opening the Gate of the Vessels', line: '通脉养生、补益身体，养练精神，挖掘潜能，为全面提升自己而做基础。', lineEn: 'Unblocking the vessels for health, replenishing the body, cultivating the spirit, drawing out potential — a foundation for raising oneself in every respect.' },
+      { name: '脉门升华', nameEn: 'Raising the Gate of the Vessels', line: '提升健康状态，驱除风寒湿邪，打通瘀滞经脉，促进气血转化。', lineEn: 'Elevating one\'s state of health, dispelling wind, cold and damp evils, clearing congested vessels, promoting the transformation of qi and blood.' },
+      { name: '经门升华', nameEn: 'Raising the Gates of the Meridians', line: '打通奇经八脉，壮大十二正经，令经脉恢复少年之态。愿你出走半生，归来仍是少年。', lineEn: 'Opening the eight extraordinary vessels, strengthening the twelve regular meridians, restoring the meridians to their youthful state. May you wander half a lifetime, and return still young.' },
     ],
   },
   {
     tag: '特殊课',
+    tagEn: 'Special',
     desc: '正法护道 · 打牢根基',
+    descEn: 'True Methods Guarding the Way · Laying the Foundation',
     courses: [
-      { name: '吐纳六字诀', line: '细讲咒法核心秘密，调理症状、消除病根，摆脱亚健康，打下坚实基础。' },
-      { name: '辟邪护道咒', line: '咒法修炼，震动内外，为鬼神所妒忌。先学辟邪之咒，保吾安康。' },
-      { name: '玄黄贯力咒', line: '修炼之人，岂可孱弱如鸡仔？若孱弱如鸡仔，己岂不危矣？' },
+      { name: '吐纳六字诀', nameEn: 'The Six-Word Breath Refrain', line: '细讲咒法核心秘密，调理症状、消除病根，摆脱亚健康，打下坚实基础。', lineEn: 'A close telling of the invocation\'s core secret: regulating symptoms, dissolving the roots of illness, leaving sub-health behind, laying a firm foundation.' },
+      { name: '辟邪护道咒', nameEn: 'The Ward-Off-Evil, Guard-the-Way Invocation', line: '咒法修炼，震动内外，为鬼神所妒忌。先学辟邪之咒，保吾安康。', lineEn: 'Invocation practice shakes within and without, and draws the envy of ghosts and gods. First learn the ward-off-evil invocation — keep me in peace.' },
+      { name: '玄黄贯力咒', nameEn: 'The Xuanhuang Power-Piercing Invocation', line: '修炼之人，岂可孱弱如鸡仔？若孱弱如鸡仔，己岂不危矣？', lineEn: 'Can one who cultivates be frail as a chick? Frail as a chick — is one not then in peril?' },
     ],
   },
 ];
 
 const advanced = [
-  { zi: '韵', name: '音韵', line: '晓祝咒之音韵，入祝法之大道' },
-  { zi: '源', name: '本命源咒', line: '筑本命之源咒，明己道之根本' },
-  { zi: '音', name: '祝咒本音', line: '祝咒本音，晓之根本，不偏不离' },
-  { zi: '神', name: '养化之神', line: '晓神之根本，养己之本源' },
-  { zi: '理', name: '祝咒原理', line: '知祝咒原理，晓其运用' },
-  { zi: '脏', name: '脏腑秘咒', line: '明脏腑之密，其升华之道' },
-  { zi: '声', name: '祝咒的发声', line: '懂发声之道，纠无形根基' },
-  { zi: '形', name: '祝咒炼形', line: '绝传之密，生命升华' },
-  { zi: '气', name: '声气处理', line: '减少损亏，敛生命精华' },
-  { zi: '道', name: '咒音合道', line: '聚散自如，与道长存' },
+  { zi: '韵', name: '音韵', nameEn: 'Sound and Rhyme', line: '晓祝咒之音韵，入祝法之大道', lineEn: 'Knowing the sound and rhyme of Zhu-invocation, entering the great way of Zhu.' },
+  { zi: '源', name: '本命源咒', nameEn: 'The Origin Invocation of the Natal Mandate', line: '筑本命之源咒，明己道之根本', lineEn: 'Building the origin invocation of one\'s natal mandate, clarifying the root of one\'s way.' },
+  { zi: '音', name: '祝咒本音', nameEn: 'The True Tone of Zhu-Invocation', line: '祝咒本音，晓之根本，不偏不离', lineEn: 'The true tone of Zhu-invocation: knowing its root, never straying from it.' },
+  { zi: '神', name: '养化之神', nameEn: 'The Spirit of Nourishing and Transforming', line: '晓神之根本，养己之本源', lineEn: 'Knowing the root of spirit, nourishing one\'s own source.' },
+  { zi: '理', name: '祝咒原理', nameEn: 'Principles of Zhu-Invocation', line: '知祝咒原理，晓其运用', lineEn: 'Knowing the principles of Zhu-invocation, understanding its uses.' },
+  { zi: '脏', name: '脏腑秘咒', nameEn: 'Secret Invocations of the Organs', line: '明脏腑之密，其升华之道', lineEn: 'Understanding the secrets of the organs and the way of their raising.' },
+  { zi: '声', name: '祝咒的发声', nameEn: 'The Voicing of Zhu-Invocation', line: '懂发声之道，纠无形根基', lineEn: 'Understanding the way of voicing, correcting the formless foundation.' },
+  { zi: '形', name: '祝咒炼形', nameEn: 'Zhu-Invocation Tempering the Form', line: '绝传之密，生命升华', lineEn: 'A secret cut off from transmission — the raising of life.' },
+  { zi: '气', name: '声气处理', nameEn: 'Handling Voice and Qi', line: '减少损亏，敛生命精华', lineEn: 'Lessening loss and depletion, gathering the essence of life.' },
+  { zi: '道', name: '咒音合道', nameEn: 'The Invocation-Tone Joining the Way', line: '聚散自如，与道长存', lineEn: 'Gathering and releasing at will, enduring together with the Way.' },
 ];
 ---
 
@@ -38,12 +44,15 @@ const advanced = [
   <div class="wrap">
     <header class="s-head reveal">
       <div class="title-row">
-        <span class="eyebrow">祝法课程</span>
-        <h2 class="section-title">上古祝法 · 三类课程</h2>
+        <span class="eyebrow"><Zl zh="祝法课程" en="Zhu-Method Courses" /></span>
+        <h2 class="section-title"><Zl zh="上古祝法 · 三类课程" en="The Zhu Method of High Antiquity · Three Kinds of Course" /></h2>
       </div>
       <div class="rule"></div>
       <p class="sub">
-        上古祝法共分三类课程：基础课、特殊课、高级课。课程可学，不对外售卖；高级课不作直接售卖，需实修入境界后循序而进。
+        <Zl
+          zh="上古祝法共分三类课程：基础课、特殊课、高级课。课程可学，不对外售卖；高级课不作直接售卖，需实修入境界后循序而进。"
+          en="The ancient Zhu method divides into three kinds of course: foundation, special, and advanced. The courses can be learned, but are not sold; the advanced course is not sold directly — one must enter the realms through true practice and advance step by step."
+        />
       </p>
     </header>
 
@@ -52,16 +61,16 @@ const advanced = [
         levels.map((lv, li) => (
           <div class={['lvl-block', 'reveal'].join(' ')}>
             <header class="lvl-head">
-              <span class="lvl-tag kai">{lv.tag}</span>
-              <span class="lvl-desc">{lv.desc}</span>
+              <span class="lvl-tag kai"><Zl zh={lv.tag} en={lv.tagEn} /></span>
+              <span class="lvl-desc"><Zl zh={lv.desc} en={lv.descEn} /></span>
             </header>
             <div class="lvl-grid">
               {
                 lv.courses.map((c, ci) => (
                   <article class="course-card">
-                    <span class="course-idx">{lv.tag}{ci + 1}</span>
-                    <h3 class="kai">{c.name}</h3>
-                    <p>{c.line}</p>
+                    <span class="course-idx"><Zl zh={`${lv.tag}${ci + 1}`} en={`${lv.tagEn} ${ci + 1}`} /></span>
+                    <h3 class="kai"><Zl zh={c.name} en={c.nameEn} /></h3>
+                    <p><Zl zh={c.line} en={c.lineEn} /></p>
                   </article>
                 ))
               }
@@ -73,16 +82,16 @@ const advanced = [
 
     <div class="adv reveal">
       <header class="lvl-head">
-        <span class="lvl-tag kai">高级课</span>
-        <span class="lvl-desc">祝法隐秘十课 · 不直接售卖</span>
+        <span class="lvl-tag kai"><Zl zh="高级课" en="Advanced" /></span>
+        <span class="lvl-desc"><Zl zh="祝法隐秘十课 · 不直接售卖" en="Ten Hidden Courses of the Zhu Method · Not Sold Directly" /></span>
       </header>
       <ul class="adv-list">
         {
           advanced.map((a) => (
             <li>
               <span class="adv-zi kai">{a.zi}</span>
-              <span class="adv-name kai">{a.name}</span>
-              <span class="adv-line">{a.line}</span>
+              <span class="adv-name kai"><Zl zh={a.name} en={a.nameEn} /></span>
+              <span class="adv-line"><Zl zh={a.line} en={a.lineEn} /></span>
             </li>
           ))
         }
@@ -92,7 +101,10 @@ const advanced = [
     <aside class="course-note reveal">
       <span class="course-note-mark zhuan">学</span>
       <p>
-        报名之前请通读群内内容，加群交流满一月，考察而进。道贵师传，法贵专精，请勿自我脑补。
+        <Zl
+          zh="报名之前请通读群内内容，加群交流满一月，考察而进。道贵师传，法贵专精，请勿自我脑补。"
+          en="Before enrolling, read through the group's contents; join the group and converse for a full month, then advance on review. The Dao is prized as passed from teacher to student; the method is prized for single-minded mastery. Do not embellish on your own."
+        />
       </p>
     </aside>
   </div>

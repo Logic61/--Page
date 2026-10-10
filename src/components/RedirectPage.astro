@@ -24,6 +24,17 @@ const canonical = new URL(to, Astro.site ?? Astro.url).href;
     <meta http-equiv="refresh" content={`0;url=${to}`} />
     <meta name="robots" content="noindex" />
     <link rel="canonical" href={canonical} />
+    <script is:inline>
+      // 跳转页不进主站脚本：自行读语言偏好，秒换文案与标题
+      (function () {
+        try {
+          if (localStorage.getItem('zhumen-lang') === 'en') {
+            document.documentElement.dataset.lang = 'en';
+            document.title = 'Redirecting to ' + location.pathname.replace(/^.*\//, '');
+          }
+        } catch (e) {}
+      })();
+    </script>
     <style>
       html,
       body {
@@ -53,9 +64,21 @@ const canonical = new URL(to, Astro.site ?? Astro.url).href;
         color: #c0a975;
         font-size: 0.78rem;
       }
+      .t-en { display: none; }
+      html[data-lang='en'] .t-zh { display: none; }
+      html[data-lang='en'] .t-en { display: inline; }
     </style>
   </head>
   <body>
-    <p>正在前往 <a href={to}>{to}</a>{from ? <span class="from">（原地址 {from}）</span> : null}</p>
+    <p>
+      <span class="t-zh">正在前往</span><span class="t-en">Redirecting to</span>
+      <a href={to}>{to}</a>
+      {from ? (
+        <>
+          <span class="from t-zh">（原地址 {from}）</span>
+          <span class="from t-en"> (from {from})</span>
+        </>
+      ) : null}
+    </p>
   </body>
 </html>

@@ -1,21 +1,23 @@
 ---
+import Zl from './Zl.astro';
+
 const notTeach = [
-  '先天、后天大疾病者：心脏病、内脏病、身体某处问题、精神病等。',
-  '沉迷幻境，无法自拔，过分追求功感者。',
-  '引经据典、空谈阔论、好高骛远、心性不定，自创自悟、想一步登天者。',
-  '好奇、新鲜感，无恒心、无毅力者。',
-  '偏执狂热的宗教分子，有门有派者。',
-  '急功近利，追求神通，心术不正者。',
-  '脑补家、空说家、研究家、科学家、考据家、理论家、小说家、悟道者。',
+  { zh: '先天、后天大疾病者：心脏病、内脏病、身体某处问题、精神病等。', en: 'Grave congenital or acquired illnesses: heart disease, organ disease, disorders of any part of the body, mental illness, and the like.' },
+  { zh: '沉迷幻境，无法自拔，过分追求功感者。', en: 'Those lost in visionary states, unable to pull free, chasing sensations of practice to excess.' },
+  { zh: '引经据典、空谈阔论、好高骛远、心性不定，自创自悟、想一步登天者。', en: 'Those who quote classics and spin empty talk, aim too high, waver in temperament, invent their own insights, and wish to ascend in a single step.' },
+  { zh: '好奇、新鲜感，无恒心、无毅力者。', en: 'The merely curious, chasing novelty, with neither constancy nor resolve.' },
+  { zh: '偏执狂热的宗教分子，有门有派者。', en: 'Obsessive, fanatical religious adherents — those with a sect and a faction.' },
+  { zh: '急功近利，追求神通，心术不正者。', en: 'Those hungry for quick gain, chasing supernatural powers, of crooked intent.' },
+  { zh: '脑补家、空说家、研究家、科学家、考据家、理论家、小说家、悟道者。', en: 'The fancy-spinners, empty talkers, researchers, scientists, textual critics, theorists, novelists, enlightenment-claimers.' },
 ];
 
 const mustKnow = [
-  '所授为上古巫祝养生之道：不练金丹，不出阳神，没有男女限制。',
-  '不开神通，不沉迷神通。想追求神通的，还是算了，何必浪费钱财。',
-  '学习前，请通读群内文件。修炼如同逆水行舟，不努力很容易退转。',
-  '道贵师传，法贵专精。请按操作修炼，不要自我脑补、加或减。',
-  '一切内容，未经报备、允许，不得外泄。无论现实还是网络，甚至父母亲人也不可。',
-  '愿者来，不强迫，不强求。请考虑清楚，再决定是否报名。',
+  { zh: '所授为上古巫祝养生之道：不练金丹，不出阳神，没有男女限制。', en: 'What is taught is the ancient Wu-Zhu way of nourishing life: no golden elixir, no yang-spirit projection, no distinction of men and women.' },
+  { zh: '不开神通，不沉迷神通。想追求神通的，还是算了，何必浪费钱财。', en: 'No opening of supernatural powers, no obsession with them. If powers are what you seek, better not — why waste your money?' },
+  { zh: '学习前，请通读群内文件。修炼如同逆水行舟，不努力很容易退转。', en: 'Before studying, read the group\'s documents through. Cultivation is like rowing against the current — without effort, one easily slides back.' },
+  { zh: '道贵师传，法贵专精。请按操作修炼，不要自我脑补、加或减。', en: 'The Dao is prized as passed from teacher to student; the method is prized for single-minded mastery. Practice as instructed — do not embellish, add, or subtract on your own.' },
+  { zh: '一切内容，未经报备、允许，不得外泄。无论现实还是网络，甚至父母亲人也不可。', en: 'Nothing of what is taught may be divulged without first reporting and obtaining permission — not in the physical world, not online, not even to parents or close kin.' },
+  { zh: '愿者来，不强迫，不强求。请考虑清楚，再决定是否报名。', en: 'The willing come; none are coerced, none pressed. Think it through, then decide whether to enroll.' },
 ];
 ---
 
@@ -23,8 +25,8 @@ const mustKnow = [
   <div class="wrap">
     <header class="s-head reveal">
       <div class="title-row">
-        <span class="eyebrow">报名必读</span>
-        <h2 class="section-title">自古多不传，此间亦同</h2>
+        <span class="eyebrow"><Zl zh="报名必读" en="Required Reading Before Enrolling" /></span>
+        <h2 class="section-title"><Zl zh="自古多不传，此间亦同" en="Of Old, Much Was Not Transmitted — It Is the Same Here" /></h2>
       </div>
       <div class="rule"></div>
     </header>
@@ -33,12 +35,12 @@ const mustKnow = [
       <article class="bidu-panel bidu--warn reveal">
         <header class="bidu-head">
           <span class="bidu-mark kai">忌</span>
-          <h3>不传类</h3>
+          <h3><Zl zh="不传类" en="Not to Be Transmitted" /></h3>
         </header>
         <ul>
           {
             notTeach.map((n) => (
-              <li><span class="bidu-dot"></span><p>{n}</p></li>
+              <li><span class="bidu-dot"></span><p><Zl zh={n.zh} en={n.en} /></p></li>
             ))
           }
         </ul>
@@ -47,12 +49,12 @@ const mustKnow = [
       <article class="bidu-panel bidu--know reveal" data-d="2">
         <header class="bidu-head">
           <span class="bidu-mark kai">诫</span>
-          <h3>必知类</h3>
+          <h3><Zl zh="必知类" en="What You Must Know" /></h3>
         </header>
         <ul>
           {
             mustKnow.map((m) => (
-              <li><span class="bidu-dot"></span><p>{m}</p></li>
+              <li><span class="bidu-dot"></span><p><Zl zh={m.zh} en={m.en} /></p></li>
             ))
           }
         </ul>
@@ -61,7 +63,10 @@ const mustKnow = [
 
     <aside class="bidu-note reveal">
       <p>
-        本人不做生意，也不是卖内容。本着花钱求取捷径没有必要。有那些钱，不如自己留着，或者孝顺父母。
+        <Zl
+          zh="本人不做生意，也不是卖内容。本着花钱求取捷径没有必要。有那些钱，不如自己留着，或者孝顺父母。"
+          en="I do not do business, nor do I sell content. Paying money for shortcuts is pointless. That money is better kept for yourself — or spent in honor of your parents."
+        />
       </p>
     </aside>
   </div>
