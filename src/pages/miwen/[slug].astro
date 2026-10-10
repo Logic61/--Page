@@ -3,36 +3,49 @@ import Base from '../../layouts/Base.astro';
 import Giscus from '../../components/Giscus.astro';
 import GoldNav from '../../components/GoldNav.astro';
 import LikeButton from '../../components/LikeButton.astro';
+import Zl from '../../components/Zl.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const nums = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一'];
 
 export async function getStaticPaths() {
   const modules = import.meta.glob('../../../巫/*.md', { eager: true });
+  // 英文版同题文章放在 巫-en/，以 frontmatter.slug 与中文版配对；
+  // 缺英文版时按「只有中文」处理（两态下都显示中文，与 Zl 的缺省一致）。
+  const modulesEn = import.meta.glob('../../../巫-en/*.md', { eager: true });
+  const enBySlug = new Map(Object.values(modulesEn).map((mod) => [mod.frontmatter.slug, mod]));
+
   const all = Object.entries(modules)
-    .map(([path, mod]) => ({
-      params: { slug: mod.frontmatter.slug },
-      props: {
-        mod,
-        order: mod.frontmatter.order,
-        title: mod.frontmatter.title,
-        summary: mod.frontmatter.summary,
-      },
-    }))
+    .map(([path, mod]) => {
+      const modEn = enBySlug.get(mod.frontmatter.slug) ?? null;
+      return {
+        params: { slug: mod.frontmatter.slug },
+        props: {
+          mod,
+          modEn,
+          order: mod.frontmatter.order,
+          title: mod.frontmatter.title,
+          titleEn: modEn?.frontmatter.title ?? undefined,
+          summary: mod.frontmatter.summary,
+          summaryEn: modEn?.frontmatter.summary ?? undefined,
+        },
+      };
+    })
     .sort((a, b) => a.props.order - b.props.order);
 
   return all.map((entry, i) => ({
     ...entry,
     props: {
       ...entry.props,
-      prev: i > 0 ? { slug: all[i - 1].params.slug, title: all[i - 1].props.title } : null,
-      next: i < all.length - 1 ? { slug: all[i + 1].params.slug, title: all[i + 1].props.title } : null,
+      prev: i > 0 ? { slug: all[i - 1].params.slug, title: all[i - 1].props.title, titleEn: all[i - 1].props.titleEn } : null,
+      next: i < all.length - 1 ? { slug: all[i + 1].params.slug, title: all[i + 1].props.title, titleEn: all[i + 1].props.titleEn } : null,
     },
   }));
 }
 
-const { mod, order, title, summary, prev, next } = Astro.props;
+const { mod, modEn, order, title, titleEn, summary, summaryEn, prev, next } = Astro.props;
 const { Content } = mod;
+const ContentEn = modEn?.Content;
 const num = nums[order - 1] || String(order);
 
 // 每篇可自带整页背景（frontmatter：bg / bgPos / bgDim），缺省沿用「金树灵光」
@@ -67,39 +80,47 @@ const bgDim = Number(mod.frontmatter.bgDim || 0);
         <header class="post-head reveal">
           <p class="post-series kai">
             <span class="post-series-mark">秘</span>
-            <span>神机秘闻 · 第 {num} 篇</span>
+            <Zl zh={`神机秘闻 · 第 ${num} 篇`} en={`Shenji Miwen · No. ${order}`} />
           </p>
-          <h1 id="post-title" class="kai">{title}</h1>
+          <h1 id="post-title" class="kai"><Zl zh={title} en={titleEn} /></h1>
           <div class="post-rule"></div>
-          <p class="post-summary">{summary}</p>
+          <p class="post-summary"><Zl zh={summary} en={summaryEn} /></p>
         </header>
 
         <aside class="post-notice reveal" data-d="2">
-          <b class="kai">敬告</b>
-          <p>本文内容纯属虚构，如有雷同，纯属雷同。公众版相较内群版删减大量内容，以□代替；请理性阅读，不要沉浸其中，不要尝试文中内容。</p>
+          <b class="kai"><Zl zh="敬告" en="Notice" /></b>
+          <p><Zl
+            zh="本文内容纯属虚构，如有雷同，纯属雷同。公众版相较内群版删减大量内容，以□代替；请理性阅读，不要沉浸其中，不要尝试文中内容。"
+            en="This article is entirely fiction; any resemblance is pure coincidence. The public version cuts much from the in-group version, marking omissions with the □ sign. Read it with reason — do not sink into it, do not attempt anything in it."
+          /></p>
         </aside>
 
-        <div class="prose reveal" data-d="3">
+        <div class="prose zl-zh reveal" data-d="3">
           <Content />
         </div>
+        {ContentEn && (
+          <div class="prose zl-en reveal" data-d="3">
+            <ContentEn />
+          </div>
+        )}
 
-        <nav class="post-nav reveal" data-d="3" aria-label="秘闻导航">
+        <nav class="post-nav reveal" data-d="3" aria-label="秘闻导航" data-en-aria="Article navigation">
           {
             prev ? (
               <a class="post-pager" href={base + '/miwen/' + prev.slug}>
-                <span class="pager-label kai">上一篇</span>
-                <span class="pager-title kai">{prev.title}</span>
+                <span class="pager-label kai"><Zl zh="上一篇" en="Previous" /></span>
+                <span class="pager-title kai"><Zl zh={prev.title} en={prev.titleEn} /></span>
               </a>
-            ) : <span class="post-pager is-empty"><span class="pager-label kai">上一篇</span><span class="pager-title kai">已是首篇</span></span>
+            ) : <span class="post-pager is-empty"><span class="pager-label kai"><Zl zh="上一篇" en="Previous" /></span><span class="pager-title kai"><Zl zh="已是首篇" en="First article" /></span></span>
           }
-          <a class="post-back btn" href={base + '/miwen'}>返回秘闻列表</a>
+          <a class="post-back btn" href={base + '/miwen'}><Zl zh="返回秘闻列表" en="Back to the Records" /></a>
           {
             next ? (
               <a class="post-pager is-next" href={base + '/miwen/' + next.slug}>
-                <span class="pager-label kai">下一篇</span>
-                <span class="pager-title kai">{next.title}</span>
+                <span class="pager-label kai"><Zl zh="下一篇" en="Next" /></span>
+                <span class="pager-title kai"><Zl zh={next.title} en={next.titleEn} /></span>
               </a>
-            ) : <span class="post-pager is-next is-empty"><span class="pager-label kai">下一篇</span><span class="pager-title kai">已是末篇</span></span>
+            ) : <span class="post-pager is-next is-empty"><span class="pager-label kai"><Zl zh="下一篇" en="Next" /></span><span class="pager-title kai"><Zl zh="已是末篇" en="Last article" /></span></span>
           }
         </nav>
 

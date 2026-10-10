@@ -1,0 +1,61 @@
+---
+title: The Truth of Possession
+order: 5
+slug: truth-of-possession
+summary: Any external spirit that enters one's body or keeps at one's side to exert influence counts, broadly, as possession. Its purposes, media, methods, signs, and counters — all told in this piece.
+bg: /bg/fu-ti-zhenxiang.webp
+bgPos: 50% 50%
+bgDim: 0.18
+---
+
+Speaking of possession, there are in fact many kinds.
+
+Possession in the ordinary sense means ghosts, demons, and other spirit-beings entering a human body or keeping at a person's side, to seize or wait to seize part or whole control of a person's spirit and body. That is possession in the narrow sense.
+
+The possession I speak of covers a wider range. Any external spirit that enters the body or keeps at one's side, exerting influence on a person's spirit and body, belongs to the broad category of possession. Whether it be a ghost or demon, a split-spirit of a god or Buddha, an ancestral spirit or dharma-protector, a god-qi seed, a dharma object or artifact, or merely a mass of yin-qi or sha-qi affecting a person's body or mental health — any external thing falls, broadly, under possession.
+
+Cases like being bumped by filth, household-guarding spirits of the chuma tradition, incense-carrying seers, certain ritualist schools — all involve possession, whether by an old ghost or a demon. Worshippers of deities may also have possessions on them: a god's or Buddha's split-spirit, or a dispatched dharma-protector or wild-troop. □□□□□□□□□.
+
+Of course, since the orthodox gods do not possess, god- and Buddha-possession is not called possession; it is called blessing, or following-along, or empowerment, seeding, and enlightening — pleasanter names. Anyone not too sensitive feels nothing. This has nothing to do with karma or debt, nothing to do with karmic creditors or the retribution of cause and effect. □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□. The spirit world and dharma-realm are bitter cold lands both — exile to Ningguta, so to speak. □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□ — to come into the human world and mooch a meal needs no reason at all.
+
+Possession is not necessarily a bad thing. Some dharma objects and dharma-protectors protect a person, keeping other ghosts and gods from harming him. With a god's or Buddha's protector on you, you are territory they have staked out, a little brother under their wing; □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□ — otherwise they must weigh whether they can win the fight.
+
+For another example, seen from the angle of science: some are information ancients left between Heaven and Earth, or collective consciousness, or brain waves recorded like audio and video — like a radio broadcast that happens to match your band and be received by you. In fact it is bumping into remnant souls that get absorbed by the person.
+
+Each of us has in fact met many possessions. Small children, for instance: each illness grows their wits a good deal. Many of these illnesses are caused by possession — mostly by broken, unconscious scraps of information; children are quasi-prenatal beings and digest these scraps, growing fast.
+
+Possession may enter the human body with the following purposes, or more besides: 1. Dull instinct. 2. Body-seizure. 3. Harvesting spirit and soul. 4. Becoming the spirit-qi core of a cultivator. 5. Exerting mental influence or control. 6. Manufacturing hallucinations or qi-sensations. 7. Just playing around, for no reason.
+
+Possession always has a medium; media of possession include: 1. Direct contact. 2. Speech or writing carrying the information. 3. Contact through dharma objects, talismans, dharma-power. 4. Sincere connection by chanting sutras or names. 4. God-communication incantations. 5. God-communication hand-seals, and so on.
+
+The ways possession enters the body include: 1. Wild plunging in — common with muddled spirits. 2. Via the meridians, step by step □□□□□□□□□□□□□□□□. 3. Through apertures: one kind where the brow-point and crown have been opened, letting a spirit enter directly; another with special constitutions whose certain apertures can house yin-spirits. 4. First by yin-qi invasion, then entering along with it, no fixed route. 5. Summoned, seeded, or empowered — one opens body and mind and a person or god guides the route.
+
+Sensations of a sensitive person when a yin-spirit nears or possesses: □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□ 3. Face like cobwebs, itching or slight needle-prick on the head, face, or temples. 4. Coolness or heaviness at the brow-point. 5. □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□ 8. Images or voices arising in the mind for no reason.
+
+Possession is highly aggressive; spell attacks are generally possession attacks too. Chatting in our group, there are often things on certain people that feel offended and attack me. The effect is not great — just a waste of time and energy. After all, two fists are no match for four hands; being harassed constantly wears one down. Not that they are so formidable — but a mop dipped in filth is invincible, you know? Even terrorists cannot afford to provoke that. These things attack your essence-qi to harm your □□□□□□□□□□□□□□□□, affecting the seven emotions and six desires; the stronger ones try directly to affect a person's thought. So having already offended them, I have offended them; you who have not — best offend as little as possible. Some possessions attack through dreams, when consciousness is thin in sleep; I have experienced this myself. □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□. Some of you feel protected from evil spirits by gods and Buddhas — it is not that you have backing; it is that newcomers find gods and Buddhas already lodged in you and dare not strike, or come, see an acquaintance, and are embarrassed to strike.
+
+After being possessed, one shows one or more of the following: 1. Temperament transformed, unrecognizable as the same person, even mad or imbecilic. 2. Memory problems. 3. □□□□□□□□□□□□□□□□□□□□□□□□□□□□□. 5. Loving idleness, greedy and lazy. 6. Animal habits appearing. 7. Moveable lumps on the body. 8. Inconceivable hallucinations. 9. Split spirit, often talking to oneself or conversing with oneself in the mind. 10. Special powers appearing, and so on.
+
+Those with special powers □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□, so you had best hope you have none. Without hard cultivation, where do powers come from? Many gain powers without years of toil and think they have cultivated them out — but their nature grows chaotic from it. Those were not cultivated; those are possession. What one cultivates oneself, held under one's own spirit-qi, never goes wrong. The so-called people of special powers are in fact a band of chuma mediums who do not compete with other chuma mediums for food, having walked out a special track. So-called powers are all chuma — precisely, all possession. Only demon-spirits' wits □□□□□□□□□□□□□□□□□□□□□□□□□□. The Dao has no ghosts or gods — come alone, go alone! Old Huangdi's words you do not believe; everywhere else you dig pits to fall in.
+
+Cultivation with results brings powers, but having powers does not mean one has cultivated well. To truly gain powers through cultivation needs at least the yin-spirit stage for a bare minimum eye-power; the rest require ghost-immortal, human-immortal, even earthly-immortal level.
+
+At the yin-spirit stage, one can after death exist with clear consciousness, the soul lasting a long time without dispersing. There are clairvoyance and the heavenly eye — the simplest powers. At ghost-immortal: after death no dispersion, fully clear consciousness, able to affect physical objects, able to carry objects of some weight.
+
+On counters to possession: according to its strength, the following work with varying force; ranked without order. 1. Fulfil its wish — some depart once their obsession is resolved. 2. Threats and curses — some can be cursed away. 3. Killing intent, sha-qi — butchers, pig-killing knives □□□□□□□□□□□□□□□. 4. Abundant qi and blood with firm belief — in oneself, or together with a throng of vigorous and firm-believing people. 5. Yang substances, dharma objects and artifacts, moxa, thunder and fire, dog, deer, and tiger blood. 6. Filth — like pouring night-soil; excepting dog-demons, many such folk methods work well against these things. 7. Pain — as with electrotherapy, or gua-sha, scraping with coins, taking the mass-mind of the coin and the pain of the scraping. 8. Exhaustion — like hauling bricks; many spirits love ease and hate work. 9. Medicine and needles — certain drugs, medicinal baths, pine and cypress incense, acupuncture.
+
+10. □□□□□□□□□□□□□□□□ and the like — using Buddha statues, temples, dharma objects, chuma mediums. 11. Waking — some muddy ones possess and leave once woken. 12. Self-power counters — various restraining exercises.
+
+Some evil-warding things — cinnabar, ebony, coal — are yang by nature. But fresh-dug ones do not work; only after full drying in sun do they ward evil, and weakly — enough against remnant scraps, very limited against real ghosts. Peach wood, bluefish stones and the like are likewise limited, better than nothing.
+
+Some religious believers ask about religious evil-warding artifacts: □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□ — driving a tiger to eat a wolf, that is all. □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□, the thug making trouble is driven off, but the protection money you owe is not one cent less, □□□□□□□□□□□□□□□.
+
+Chanting spells to ward evil is the same — the Golden Light Spell, the Heart Sutra and such. □□□□□□□□□□□□□□□□. That Golden Light Spell sends down □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□ into you; chant long and you have Daoist deity seeds or dharma-protectors possessing you. If you are religious, or do not care, then chant. If you still hope to attain something by self-power, do not chant. Though if you do not intend pure self-power, a god's or Buddha's split-spirit on you does no harm either. After all, believing in something is believing in something.
+
+How to guard: 1. Do not watch horror films or read horror fiction; do not play horror games or horror video games. 2. Do not contact chuma mediums or possessed persons. 3. Do not practice spells at random or touch ritualist schools at random. 4. Do not read spell-books; do not touch dharma objects and artifacts of unknown origin. 5. Visit the Dao and enter the mountains as little as possible. 6. Do not worship or believe in gods and ghosts at random. 7. Do not linger in grim houses, caves, temples, ruins, dense woods, or places where many people or animals have died. 8. Wear some yang-natured ornament.
+
+Lastly, sleep paralysis. Ninety percent of it is the body and spirit not tightly joined — body-spirit disharmony. Some are born to it; those born with eye-power, prone to leaving the body — a kind of disability — are also easily marked by possession. Likewise those weak or weary in body or spirit, or both. Staying up late, indulgence, excess tobacco and drink, overuse of the brain can all bring it on.
+
+Most of this is body-spirit disharmony, unrelated to possession. Only a very small part is truly pressed by a ghost — a ghost affecting your spirit and essence, blocking the link between spirit and form, leaving you unable to move. If this happens, just lie back and be lazy — you will not die. It is only sleep paralysis; press if it must press, it kills no one. Let it press its fill; when you are familiar it will be embarrassed to press further. Have you ever heard of anyone pressed to death? Do you not know that the more you struggle the less you can rise, the calmer you are the faster you recover? To press you also costs those things greatly. If you will not lie back, move your eyeballs, blink, move your fingers — so spirit and body talk to each other, and after a while you can move. Gathering strength and forcing yourself up by main effort is also worth trying. The main thing is not to panic, not to hurry.
+
+In this piecemeal analysis, interleaving and unfolding — it is a bit of a jumble. And not unfolded in much detail either, or there would be far too much to write. So bear with it, everyone.

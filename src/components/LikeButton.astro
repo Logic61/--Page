@@ -56,11 +56,14 @@ const eventPath = `like/${rel}`;
 
     let count = -1;
 
+    const isEn = () => document.documentElement.getAttribute('data-lang') === 'en';
+
     const paint = () => {
       const liked = readLiked();
+      const en = isEn();
       el.classList.toggle('is-liked', liked);
       btn.setAttribute('aria-pressed', String(liked));
-      textEl.textContent = liked ? '已赞' : '赞';
+      textEl.textContent = liked ? (en ? 'Liked' : '已赞') : (en ? 'Like' : '赞');
       // 取数成功即常显数字（0 也显示），只有取数失败（count = -1）才隐藏
       if (count >= 0) {
         numEl.hidden = false;
@@ -103,6 +106,12 @@ const eventPath = `like/${rel}`;
 
     paint();
     fetchCount();
+
+    // 语言切换时同步按钮文案（data-lang 由 lib/lang.ts 在 documentElement 上改写）
+    new MutationObserver(paint).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-lang'],
+    });
   })();
 </script>
 
