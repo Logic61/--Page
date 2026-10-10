@@ -15,41 +15,51 @@ const description = '真气疗愈法门介绍：真龙虎合气法——锻炼�
 const chapters = [
   {
     blocks: [
-      { t: 'p', text: '真龙虎合气法是一套用于锻炼真气外发的法门，可用于发气调病、驱邪、沟通自然。' },
+      { t: 'p', text: '真龙虎合气法是一套用于锻炼真气外发的法门，可用于发气调病、驱邪、沟通自然。', en: 'The True Dragon-Tiger Qi-Merging Method is a set of practices for training the outward emission of true qi; it can be used to emit qi to regulate illness, to drive off malevolence, and to commune with nature.' },
     ],
   },
   {
     num: '一',
+    numEn: 'I.',
     title: '合气八法',
+    titleEn: 'The Eight Methods of Merging Qi',
     blocks: [
-      { t: 'p', text: '什么是真气，真气是人体中维持生命所需各种气的统称，真气外发所说的真气，主要是脉中的营气，也包括一部分脉外的卫气。每一个人体内都是有真气的，但要想把体内的真气外发出去，必须经过有效的、高强度的锻炼。而合气八法是一套行之有效的锻炼方法。' },
-      { t: 'p', text: '以上方法循序渐进，每天至少1-4小时，即有望在3-6个月内做到熟练的、高效的真气外发。1-2个月，可以做到初步的真气外发。' },
+      { t: 'p', text: '什么是真气，真气是人体中维持生命所需各种气的统称，真气外发所说的真气，主要是脉中的营气，也包括一部分脉外的卫气。每一个人体内都是有真气的，但要想把体内的真气外发出去，必须经过有效的、高强度的锻炼。而合气八法是一套行之有效的锻炼方法。', en: 'What is true qi? True qi is the collective name for the various qi in the human body that sustain life. The true qi spoken of in "outward emission of true qi" is chiefly the nutrient qi within the vessels, including also part of the guardian qi outside them. Every person has true qi within the body; but to send the body\'s true qi outward, one must pass through effective, high-intensity training. The Eight Methods of Merging Qi are just such a proven training method.' },
+      { t: 'p', text: '以上方法循序渐进，每天至少1-4小时，即有望在3-6个月内做到熟练的、高效的真气外发。1-2个月，可以做到初步的真气外发。', en: 'Follow the above method step by step, at least one to four hours a day, and within three to six months one may hope for skilled, efficient outward emission of true qi. In one to two months, an initial outward emission can be achieved.' },
     ],
   },
   {
     num: '二',
+    numEn: 'II.',
     title: '移精变气法',
+    titleEn: 'The Method of Shifting Essence and Transforming Qi',
     blocks: [
-      { t: 'p', text: '发气调病的运用有很多种，但无论哪一种，它的起效原理和作用效果都是一样的，就是移精变气，通过转移、改变受气者身体气机，让手术者身体状态自然恢复。' },
+      { t: 'p', text: '发气调病的运用有很多种，但无论哪一种，它的起效原理和作用效果都是一样的，就是移精变气，通过转移、改变受气者身体气机，让手术者身体状态自然恢复。', en: 'There are many applications of emitting qi to regulate illness, but whichever the kind, the principle by which it works and its effect are the same: shifting essence and transforming qi — by shifting and changing the movement of qi in the receiver\'s body, the one treated naturally recovers.' },
     ],
   },
   {
     num: '三',
+    numEn: 'III.',
     title: '弊端的消除',
+    titleEn: 'Eliminating the Drawbacks',
     blocks: [
-      { t: 'p', text: '合气法治病具有下列弊端，一是耗费精气；二是沾染病气。这些弊端是不可能完全避免的，但可以尽量去减轻。' },
+      { t: 'p', text: '合气法治病具有下列弊端，一是耗费精气；二是沾染病气。这些弊端是不可能完全避免的，但可以尽量去减轻。', en: 'The qi-merging method of healing has the following drawbacks: first, it consumes essence-qi; second, one is tainted by the qi of illness. These drawbacks cannot be wholly avoided, but they can be reduced as far as possible.' },
     ],
   },
   {
     num: '四',
+    numEn: 'IV.',
     title: '善后的处理',
+    titleEn: 'Aftercare',
     blocks: [
-      { t: 'p', text: '做好弊端的解决和善后工作，可以把气功治病的弊端减小到忽略不计，甚至可以反过来起到养生效果也是可能的。' },
+      { t: 'p', text: '做好弊端的解决和善后工作，可以把气功治病的弊端减小到忽略不计，甚至可以反过来起到养生效果也是可能的。', en: 'With the drawbacks properly addressed and the aftercare well done, the harms of healing by qigong can be reduced until they may be ignored — it is even possible for it to turn around and serve the nourishing of life.' },
     ],
   },
   {
     num: '五',
+    numEn: 'V.',
     title: '其他',
+    titleEn: 'Other Matters',
     blocks: [],
   },
 ];
@@ -69,10 +79,13 @@ const chapters = [
   <GateIntro
     glyph="气"
     name="真气疗愈"
+    nameEn="True-Qi Healing"
     subtitle="外气 · 神气 · 激发"
+    subtitleEn="Outer Qi · Spirit-Qi · Quickening"
   >
     <Treatise
       headTitle="真龙虎合气法"
+      headTitleEn="The True Dragon-Tiger Qi-Merging Method"
       chapters={chapters}
     />
   </GateIntro>

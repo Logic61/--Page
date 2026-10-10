@@ -1,22 +1,29 @@
 ---
+// 分支页题头：字形题眼（mark）+ 标题 + 副题 + 小注
+// 中英双写：可选的 *En 字段给英文；mark 为书法字形，两态同显不译。
+import Zl from './Zl.astro';
+
 interface Props {
   mark: string;
   title: string;
+  titleEn?: string;
   sub: string;
+  subEn?: string;
   meta?: string;
+  metaEn?: string;
 }
 
-const { mark, title, sub, meta } = Astro.props;
+const { mark, title, titleEn, sub, subEn, meta, metaEn } = Astro.props;
 ---
 
 <section class="page-intro">
   <div class="wrap">
     <div class="reveal">
       <div class="pi-mark">{mark}</div>
-      <h1>{title}</h1>
+      <h1><Zl zh={title} en={titleEn} /></h1>
       <div class="pi-rule"></div>
-      <p class="pi-sub">{sub}</p>
-      {meta && <p class="pi-meta">{meta}</p>}
+      <p class="pi-sub"><Zl zh={sub} en={subEn} /></p>
+      {meta && <p class="pi-meta"><Zl zh={meta} en={metaEn} /></p>}
     </div>
   </div>
 </section>

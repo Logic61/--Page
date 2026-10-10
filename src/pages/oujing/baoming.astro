@@ -3,6 +3,7 @@ import BranchLayout from '../../layouts/BranchLayout.astro';
 import BranchSteps from '../../components/BranchSteps.astro';
 import PageIntro from '../../components/PageIntro.astro';
 import Treatise from '../../components/Treatise.astro';
+import Zl from '../../components/Zl.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -11,21 +12,31 @@ const description = '偶景报名准备、报名要求、注意事项与报名�
 
 // 顶栏入口：与分脉首页一致
 const navItems = [
-  { href: '/', label: '返回总目录' },
-  { href: `${base}/oujing`, label: '总览' },
-  { href: `${base}/oujing/jieshao`, label: '功法内容' },
-  { href: `${base}/oujing/baoming`, label: '报名须知' },
+  { href: '/', label: '返回总目录', en: 'Index' },
+  { href: `${base}/oujing`, label: '总览', en: 'Overview' },
+  { href: `${base}/oujing/jieshao`, label: '功法内容', en: 'Method' },
+  { href: `${base}/oujing/baoming`, label: '报名须知', en: 'Enrollment' },
 ];
 
 const chapters = [
   {
     num: '二：',
+    numEn: 'II.',
     title: '报名准备',
-    blocks: [{ t: 'items', items: ['1：时常交流', '2：真心修行'] }],
+    titleEn: 'Preparing to Enroll',
+    blocks: [
+      {
+        t: 'items',
+        items: ['1：时常交流', '2：真心修行'],
+        itemsEn: ['1: Stay in regular contact', '2: Practice with a sincere heart'],
+      },
+    ],
   },
   {
     num: '四：',
+    numEn: 'IV.',
     title: '报名要求：',
+    titleEn: 'Enrollment Requirements:',
     blocks: [
       {
         t: 'items',
@@ -33,11 +44,16 @@ const chapters = [
           '1：一切内容，未经报备、允许的情况下，不得外泄，（无论现实还是网络，甚至父母亲人也不可），若有违反，报名费不退，一旦泄露，情况严重者，情况依盗法处理，后果自负。',
           '2：修法可学，课程不卖（不理解什么意思，可以认为是——你有学习的权利，却没有归属权利、拥有权、传播的权利），不接受买功法，买课程，如不实修，请勿开口【你付法金，只是得到了一个学艺被指导的机会。而非买卖资料】',
         ],
+        itemsEn: [
+          '1: Nothing of what is taught may be divulged without first reporting and obtaining permission — not in the physical world, not online, not even to parents or close kin. Violations forfeit the enrollment fee without refund; in serious cases of leakage it is dealt with as theft of the Dharma, and the consequences are borne by the offender.',
+          '2: The method can be learned; the course is not for sale. (If that is unclear, take it this way — you have the right to learn, but no right of possession, ownership, or dissemination.) We do not sell methods or courses; if you will not practice in earnest, do not ask. [Your payment secures not materials but a chance to learn a craft under guidance — it is not a sale of documents.]',
+        ],
       },
     ],
   },
   {
     title: '注意事项：',
+    titleEn: 'Points to Note:',
     blocks: [
       {
         t: 'items',
@@ -46,22 +62,39 @@ const chapters = [
           '2：报名后请实修，请务必经常与本人或同路者道友交流，有什么发内部群',
           '3：请按修法操作，谢绝自我脑补',
         ],
+        itemsEn: [
+          '1: Consider enrollment carefully. Once enrolled: no refunds, no discounts, no price adjustments, no installment plans — spare yourself the asking. (If we already know each other, some help may be offered as circumstances allow.) [After enrolling, should you regret it, there is no refund; moreover the Dao-methods may no longer be practiced, nor spread or divulged. Violations are dealt with as theft of the Dharma; the consequences are borne by the offender.]',
+          '2: After enrolling, practice in earnest, and be sure to stay in frequent contact with me or with fellow cultivators on the same road; post any questions in the internal group.',
+          '3: Follow the method exactly as instructed; no improvising or embellishing of your own.',
+        ],
       },
     ],
   },
   {
     num: '五：',
+    numEn: 'V.',
     title: '报名办法',
+    titleEn: 'How to Enroll',
     blocks: [
-      { t: 'p', text: '与群主沟通，填写相关信息，且愿意报名后，按相关流程进行。确定好课程之后，通过微信或支付宝付款。' },
+      {
+        t: 'p',
+        text: '与群主沟通，填写相关信息，且愿意报名后，按相关流程进行。确定好课程之后，通过微信或支付宝付款。',
+        en: 'Speak with the group owner, fill in the relevant information, and once you are willing to enroll, the process proceeds accordingly. After the course is settled, payment is made via WeChat or Alipay.',
+      },
     ],
   },
   {
     num: '六：',
+    numEn: 'VI.',
     title: '报名学习，必读！！！！',
+    titleEn: 'Enrolling to Learn — Required Reading!!!!',
     blocks: [
-      { t: 'p', text: '自古有多不传，我这也一样！！！' },
-      { t: 'h4', text: '不传类！！！' },
+      {
+        t: 'p',
+        text: '自古有多不传，我这也一样！！！',
+        en: 'Since ancient times, many things have not been passed on — it is the same here!!!',
+      },
+      { t: 'h4', text: '不传类！！！', en: 'Not to Be Transmitted!!!' },
       {
         t: 'items',
         items: [
@@ -74,8 +107,18 @@ const chapters = [
           '7：“脑补家”、“空说家”、“研究家”、“科学家”、“考据家”、“理论家”、“宗教家”、“小说家”、“学者”、“悟道者”、“创法者等',
           '8:本人不做生意、也不是卖资料，本着花钱买资料目没必要，还是那句话，有那些钱你不如自己留着，或者孝顺父母。',
         ],
+        itemsEn: [
+          '1: Those with grave congenital or acquired illnesses — heart disease, organ disease, disorders of any part of the body, mental illness, and the like.',
+          '2: Those lost in visionary states, unable to pull free, chasing after sensations of practice.',
+          '3: Those who quote classics and spin empty talk, aim too high, waver in temperament, invent their own insights, and wish to ascend in a single step.',
+          '4: The merely curious, chasing novelty, with neither constancy nor resolve.',
+          '5: Obsessive, fanatical adherents of some lineage — those with a sect and a faction.',
+          '6: Those hungry for quick gain, chasing supernatural powers, of crooked intent.',
+          '7: The "fancy-spinners", "empty talkers", "researchers", "scientists", "textual critics", "theorists", "religionists", "novelists", "scholars", "enlightenment-claimers", "method-inventors", and the like.',
+          '8: I do not do business, nor do I sell documents; paying money for documents is pointless — again, that money is better kept for yourself, or spent in honor of your parents.',
+        ],
       },
-      { t: 'h4', text: '必知类' },
+      { t: 'h4', text: '必知类', en: 'What You Must Know' },
       {
         t: 'items',
         items: [
@@ -95,12 +138,31 @@ const chapters = [
           '14：虽然不建议大家冲动什么的，但是真有想报名学习的，经过考核、双方认同后可以学习，毕竟我不能一杆子打死真心想求道修炼的人，所以说全凭自愿吧。',
           '15：练习此法：不得与伴侣淫乐！',
         ],
+        itemsEn: [
+          '1: Before studying, read the documents through.',
+          '2: What I teach is the way of nourishing life — no distinction of men and women, no famous names borrowed to gild the legend with so-called patriarchs, nothing more than the ancient art of nourishing life. Learn it or not as you please; no one is coerced, no one is forced!!',
+          '3: No opening of supernatural powers, no obsession with them. If that is what you seek, better not — here it is simply wasting your money; keep it for yourself instead. Otherwise you will enroll and then feel cheated; what would be the point?',
+          '5: If you practice, practice plainly and honestly. Those aiming too high had better not.',
+          '6: Practice is no guarantee of anything; and once you enter, practice in earnest. Cultivation is like rowing against the current — without effort, one slides back.',
+          '7: Those who enroll, follow the instructions exactly. Do not add or subtract by your own imagining. In the beginning, practice just as you are told — do not think of running before you can walk.',
+          '8: The Dao is prized as passed from teacher to student; the method is prized for single-minded mastery. Do not secretly practice other things, and do not come to me with problems that arise after you exceed what was instructed.',
+          '9: The "fancy-spinners", "empty talkers", "researchers", "scientists", "textual critics", "theorists", "religionists", "novelists", "scholars", "enlightenment-claimers", "method-inventors" and the like had best not enter — unless you can gradually change yourself.',
+          '10: Those who cannot learn with an open mind, who arrive with a head full of their own theories, who will not listen, who look down on or disbelieve what I teach, and come in a skeptical spirit to criticize, absorb, research and so on — keep your distance. Such people cannot practice well; do not practice at all. What is mine does not need your criticism. Those pursuing elixir-path alchemy, ghosts and spirits, Daoist religion, or Buddhism, please also keep away — I cannot satisfy you, so do not pester me with such things. (A passing remark: the marketplace holds only religion and things religiously tinged. The Daoist school is the Daoist school and has nothing to do with Daoist religion; the Buddhist school is the Buddhist school and has nothing to do with Buddhist religion. As for why people take them to be the same, I do not care — it is not that I misunderstand. Rather, the very elixir-path that people chase is itself cultivation content — so think it over carefully: you seek cultivation in a place that has nothing to do with cultivation. If trouble comes, who else would it come to? Trouble is only a matter of time. A few can catch on, but only a few; most remain inside it to the end of their days.)',
+          '11: Cultivation is no single day\'s work; perhaps a lifetime will yield nothing. Enrolling does not guarantee success — see point 6 above, it says so plainly. If you come demanding certain success, better not; go seek someone more illustrious.',
+          '12: To learn a thing is to keep its rules. Nowadays you can buy directly, unlike the old days when one first waited decades, serving the master like a bondsman for years on end — struck without reply, scolded without response, as the saying goes. But the rules that should be kept must still be kept, and the most fundamental of them is: do not leak. This is in fact a protection for yourself, for learning requires an oath, and breaking it is very serious — though of course some do not believe. To that I only smile, and say nothing.',
+          '13: The documents, and what the internal group states — I have already made all of it clear.',
+          'The willing come; no coercion, no compulsion — please think it through carefully.',
+          '14: I do not recommend impulsive decisions, but if you truly wish to enroll and learn, then after review and mutual agreement you may study — after all, I cannot strike down everyone who sincerely seeks the Dao and cultivation. So it rests entirely on your own will.',
+          '15: In practicing this method: no carnal pleasure with your partner!',
+        ],
       },
     ],
   },
   {
     num: '七：',
+    numEn: 'VII.',
     title: '学法需发誓，遵守规矩，诸位看自己能不能接受，能则学，不能则散，不强迫，不诱导。',
+    titleEn: 'Learning the method requires an oath and the keeping of its rules. See for yourselves whether you can accept it — if you can, study; if not, part ways. No coercion, no persuasion.',
     blocks: [],
   },
 ];
@@ -119,8 +181,11 @@ const chapters = [
   <PageIntro
     mark="缘"
     title="愿者自来"
+    titleEn="The Willing Come"
     sub="愿者来，不强迫，不强求，请大家考虑清楚。各位在参加学习之前，请务必仔细阅读本文件，如不认可，请勿报名，免生不快。"
+    subEn="The willing come — no coercion, no pressure; please consider carefully. Before joining to study, read this document through. If you do not accept it, do not enroll, so that no unpleasantness arises."
     meta="报名请谨慎考虑，一旦报名概不退款，不打折，不调价，不分期，免开尊口。"
+    metaEn="Consider enrollment carefully. Once enrolled: no refunds, no discounts, no price adjustments, no installment plans — spare yourself the asking."
   />
 
   <Treatise chapters={chapters} center />
@@ -129,12 +194,20 @@ const chapters = [
     <div class="wrap contact-inner">
       <div class="contact-qr">
         <div class="qr-frame">
-          <img src={`${base}/公众号二维码.jpg`} alt="公众号二维码" loading="lazy" />
+          <img
+            src={`${base}/公众号二维码.jpg`}
+            alt="公众号二维码"
+            data-en-alt="WeChat Official Account QR code"
+            loading="lazy"
+          />
         </div>
-        <p>扫码关注 · 联系巫恒先生</p>
+        <p><Zl zh="扫码关注 · 联系巫恒先生" en="Scan to follow · Contact Master Wuheng" /></p>
       </div>
       <p class="contact-line">
-        与群主沟通，填写相关信息，且愿意报名后，按相关流程进行。确定好课程之后，通过微信或支付宝付款。
+        <Zl
+          zh="与群主沟通，填写相关信息，且愿意报名后，按相关流程进行。确定好课程之后，通过微信或支付宝付款。"
+          en="Speak with the group owner, fill in the relevant information, and once you are willing to enroll, the process proceeds accordingly. After the course is settled, payment is made via WeChat or Alipay."
+        />
       </p>
     </div>
   </section>

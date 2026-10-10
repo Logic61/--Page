@@ -4,6 +4,7 @@ import BranchSteps from '../../components/BranchSteps.astro';
 import GateIntro from '../../components/GateIntro.astro';
 import Giscus from '../../components/Giscus.astro';
 import Treatise from '../../components/Treatise.astro';
+import Zl from '../../components/Zl.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -15,12 +16,12 @@ const description = '驻颜术法门介绍：以气血温养为本，驻容颜�
 const chapters = [
   {
     blocks: [
-      { t: 'p', text: '古往今来，多少人追求容颜不老？却苦求无果？' },
-      { t: 'p', text: '难道神奇的驻颜之法真的不存在么？及时到如今科技发达，也有无数存在前仆后继，各种延缓衰老的内容与研发。' },
-      { t: 'p', text: '那么这个神奇的东西真的存在么？' },
-      { t: 'p', text: '答:其实是存在的，但并非一般人所想的那边一直不变化衰老，而是延缓衰老，比同龄看起来更年轻，甚至十到二十几岁。' },
-      { t: 'p', text: '应大众之所求，如今公开传法相关驻颜之术，有缘者可求。' },
-      { t: 'p', text: '作用：' },
+      { t: 'p', text: '古往今来，多少人追求容颜不老？却苦求无果？', en: 'Down the ages, how many have sought a face that never ages? And sought in vain?' },
+      { t: 'p', text: '难道神奇的驻颜之法真的不存在么？及时到如今科技发达，也有无数存在前仆后继，各种延缓衰老的内容与研发。', en: 'Could the wondrous art of preserving the countenance truly not exist? Even today, with science and technology advanced, countless people press on in its pursuit — all manner of anti-aging work and research.' },
+      { t: 'p', text: '那么这个神奇的东西真的存在么？', en: 'So does this wondrous thing truly exist?' },
+      { t: 'p', text: '答:其实是存在的，但并非一般人所想的那边一直不变化衰老，而是延缓衰老，比同龄看起来更年轻，甚至十到二十几岁。', en: 'Answer: it does exist — but not as most imagine, a face that never changes or ages at all. Rather, it delays aging: one looks younger than one\'s peers — by ten, even twenty-odd years.' },
+      { t: 'p', text: '应大众之所求，如今公开传法相关驻颜之术，有缘者可求。', en: 'Answering the request of the many, the art of preserving the countenance is now openly transmitted; those with the affinity may seek it.' },
+      { t: 'p', text: '作用：', en: 'Effects:' },
       {
         t: 'items',
         items: [
@@ -30,8 +31,15 @@ const chapters = [
           '4;此术极有益于女性健康，男性锻炼同样有效。',
           '5:依法坚持锻炼一两月内可以明显见效，一年内身体可达到年轻数年状态，长期坚持，身体面貌最多可达到比实际年龄年轻十岁左右的程度。（二十几岁以下除外，二十几岁，只能做预防和延缓肌肤衰老。）',
         ],
+        itemsEn: [
+          '1: This art nourishes yin and the countenance, moistening and enlivening the facial skin, delaying the aging of the skin and the decline of appearance.',
+          '2: It frees the movement of qi; ears and eyes grow keen, the body light and strong, the complexion young; the hair is slow to whiten.',
+          '3: This art dispels wind-evil from the head, dissolving fatigue and the decline of qi and blood. It lowers fire and removes dryness, balancing yin and yang in the body — nourishing life and lengthening years.',
+          '4: This art greatly benefits women\'s health; practiced by men, it is effective as well.',
+          '5: Practicing steadily by the method, evident results may come within one or two months; within a year the body may reach a state years younger. With long persistence, body and face may reach the extent of looking about ten years younger than one\'s actual age. (Those in their twenties or younger excepted — in the twenties it can only prevent and delay the aging of the skin.)',
+        ],
       },
-      { t: 'p', text: '除此之外还有形体美化等诸多秘传手诀等内容，具体请入相关群。公众号二维码：' },
+      { t: 'p', text: '除此之外还有形体美化等诸多秘传手诀等内容，具体请入相关群。公众号二维码：', en: 'Beyond this there are many secret hand-mudras and the like for beautifying the form — details in the relevant group. Official account QR code:' },
     ],
   },
 ];
@@ -51,7 +59,9 @@ const chapters = [
   <GateIntro
     glyph="颜"
     name="驻颜术"
+    nameEn="Zhuyan — Preserving the Countenance"
     subtitle="驻容 · 养容 · 生发"
+    subtitleEn="Keeping the Visage · Nourishing the Face · Hair Growth"
   >
     <Treatise chapters={chapters} />
 
@@ -60,9 +70,14 @@ const chapters = [
       <div class="contact-inner">
         <div class="contact-qr">
           <div class="qr-frame">
-            <img src={`${base}/公众号二维码.jpg`} alt="公众号二维码" loading="lazy" />
+            <img
+              src={`${base}/公众号二维码.jpg`}
+              alt="公众号二维码"
+              data-en-alt="WeChat Official Account QR code"
+              loading="lazy"
+            />
           </div>
-          <p>扫码关注 · 联系巫恒先生</p>
+          <p><Zl zh="扫码关注 · 联系巫恒先生" en="Scan to follow · Contact Master Wuheng" /></p>
         </div>
       </div>
     </section>

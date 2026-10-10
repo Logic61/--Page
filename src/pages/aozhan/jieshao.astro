@@ -4,6 +4,7 @@ import BranchSteps from '../../components/BranchSteps.astro';
 import GateIntro from '../../components/GateIntro.astro';
 import Giscus from '../../components/Giscus.astro';
 import Treatise from '../../components/Treatise.astro';
+import Zl from '../../components/Zl.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -11,17 +12,17 @@ const title = '鏖战之法 · 法门介绍';
 
 const description = '鏖战之法法门介绍：源自人元丹法筑基，交而不泄，养生配套，非邪法。循门而入，先识其门，再问其径。';
 
-// 正文：源文件《男子房中术》全篇，由 .qa/gzh-gen.mjs 机械生成，逐字未改
+// 正文：源文件《男子房中术》全篇，由 .qa/gzh-gen.mjs 机械生成，中文逐字未改；英文为对照翻译
 const chapters = [
   {
     blocks: [
-      { t: 'p', text: '应诸多需求，及古往今来之热烈，现在推出男子房中方面内容，提高男性幸福，促进夫妻和谐，再者让现在男性拜托因过度不良习惯、或相关内容而造成的一些负面表现，从而促进健康。' },
-      { t: 'p', text: '售卖内容，分为数个方面，有还阳补虚之内容、止遗精法之内容、养阳固本之方面，以及鏖战之法【鏖战之法为主要法门，其余为养生配套】，可满足不同人群的需求，让其更加健康。' },
-      { t: 'p', text: '鏖战之法：此法其实就是一般男性渴望可求的床事内容，练成之后可交而不泄，畅享床事之快乐，古代达官显贵，世家门阀无不对其欢喜。' },
-      { t: 'p', text: '此法来源于人元丹法，筑基内容，练成身体健康、百病不易生，附带强壮男性功能，非邪门歪道之法。' },
-      { t: 'p', text: '今面市，传法，主为解决人身体亚健康，关于男性方面提高，促进夫妻和谐等只是附带。' },
-      { t: 'p', text: '注：是正统丹法，非邪法！！！【男子可正常生育】' },
-      { t: 'p', text: '不传：' },
+      { t: 'p', text: '应诸多需求，及古往今来之热烈，现在推出男子房中方面内容，提高男性幸福，促进夫妻和谐，再者让现在男性拜托因过度不良习惯、或相关内容而造成的一些负面表现，从而促进健康。', en: 'Answering many requests, and a keen interest old as the ages, we now present men\'s bedchamber material — to raise men\'s well-being, promote harmony between spouses, and free men from certain negative conditions brought on by excessive bad habits or such content — thereby fostering health.' },
+      { t: 'p', text: '售卖内容，分为数个方面，有还阳补虚之内容、止遗精法之内容、养阳固本之方面，以及鏖战之法【鏖战之法为主要法门，其余为养生配套】，可满足不同人群的需求，让其更加健康。', en: 'The curriculum is offered in several parts: restoring-yang and replenishing-deficiency work, methods for stopping nocturnal emission, nourishing-yang and consolidating-the-root — and the Fierce Rite itself. [The Fierce Rite is the principal method; the rest are supporting regimen.] Together they meet the needs of different people, and make them healthier.' },
+      { t: 'p', text: '鏖战之法：此法其实就是一般男性渴望可求的床事内容，练成之后可交而不泄，畅享床事之快乐，古代达官显贵，世家门阀无不对其欢喜。', en: 'The Fierce Rite: in essence, the bedchamber art ordinary men long for. Once mastered, one may unite without emission and fully enjoy the pleasures of the bedchamber — the grandees and nobles, great houses and gate-clans of old were all fond of it.' },
+      { t: 'p', text: '此法来源于人元丹法，筑基内容，练成身体健康、百病不易生，附带强壮男性功能，非邪门歪道之法。', en: 'This method comes from the human-primordial elixir path — its foundation work. Practiced to success, the body grows healthy, the hundred ailments find it hard to take root, and male function is strengthened in the bargain. It is no crooked art.' },
+      { t: 'p', text: '今面市，传法，主为解决人身体亚健康，关于男性方面提高，促进夫妻和谐等只是附带。', en: 'It now comes to market and is transmitted chiefly to address the body\'s sub-health; the improvements in male capacity and the harmony of spouses are but incidental.' },
+      { t: 'p', text: '注：是正统丹法，非邪法！！！【男子可正常生育】', en: 'Note: this is orthodox elixir practice, not a crooked art!!! [Men remain able to father children normally.]' },
+      { t: 'p', text: '不传：', en: 'Not taught to:' },
       {
         t: 'items',
         items: [
@@ -30,11 +31,17 @@ const chapters = [
           '3：轻命之人',
           '4：特殊嗜好',
         ],
+        itemsEn: [
+          '1: The ill-intentioned.',
+          '2: The lewd and licentious.',
+          '3: Those who trifle with life.',
+          '4: Those of peculiar appetites.',
+        ],
       },
-      { t: 'p', text: '鏖战之法相关问题，请与对应群观看文件' },
-      { t: 'p', text: '其余相关养生配套：' },
-      { t: 'p', text: '还阳补虚：是为桩法，但轻松简单、不累，可疏通下肢经络、调补肾阳、活血益气、安神助眠、改善上热下寒体质。【合适身体亏虚，还阳之人】' },
-      { t: 'p', text: '止遗精法：' },
+      { t: 'p', text: '鏖战之法相关问题，请与对应群观看文件', en: 'For questions on the Fierce Rite, see the documents in the corresponding group.' },
+      { t: 'p', text: '其余相关养生配套：', en: 'The supporting regimen in full:' },
+      { t: 'p', text: '还阳补虚：是为桩法，但轻松简单、不累，可疏通下肢经络、调补肾阳、活血益气、安神助眠、改善上热下寒体质。【合适身体亏虚，还阳之人】', en: 'Restoring Yang and Replenishing Deficiency: a standing-post method — easy and simple, not tiring. It clears the vessels of the lower limbs, regulates and supplements kidney yang, quickens blood and boosts qi, calms the spirit and aids sleep, and improves the constitution of "heat above, cold below". [Suited to those whose bodies are depleted and who need their yang restored.]' },
+      { t: 'p', text: '止遗精法：', en: 'Methods for Stopping Nocturnal Emission:' },
       {
         t: 'items',
         items: [
@@ -44,9 +51,16 @@ const chapters = [
           '4：调理频繁遗精、小便白浊、肾阳不足，虚寒少精。',
           '5：可以固精，身心安康。',
         ],
+        itemsEn: [
+          '1: Restores the normal movement of blood, vessels and qi; prevents damage to yin and yang; regulates frequent nocturnal emission.',
+          '2: Regulates kidney deficiency and frequent nocturnal emission.',
+          '3: Disperses genital pain from strain and injury, coldness of the knees, and the gauntness of deficient spleen and kidney.',
+          '4: Regulates frequent emission, turbid urine, insufficiency of kidney yang, and the cold-deficient scarcity of essence.',
+          '5: Consolidates the essence; body and mind at peace.',
+        ],
       },
-      { t: 'p', text: '【合适相关，以及过度亏虚，甚至因为不良习惯而造成的相关表现内容】' },
-      { t: 'p', text: '养阳固本：' },
+      { t: 'p', text: '【合适相关，以及过度亏虚，甚至因为不良习惯而造成的相关表现内容】', en: '[Suited to such cases — to excessive depletion, even the conditions brought about by bad habits.]' },
+      { t: 'p', text: '养阳固本：', en: 'Nourishing Yang and Consolidating the Root:' },
       {
         t: 'items',
         items: [
@@ -57,9 +71,17 @@ const chapters = [
           '5、调理生殖泌尿系统。',
           '6、恢复、提升男性健康状态',
         ],
+        itemsEn: [
+          '1. Nourish yin and yang.',
+          '2. Strengthen the waist and benefit the kidneys.',
+          '3. Harmonize cold and heat.',
+          '4. Increase vigor.',
+          '5. Regulate the reproductive and urinary systems.',
+          '6. Restore and elevate men\'s health.',
+        ],
       },
-      { t: 'p', text: '在此额外赠送养阳与壮阳具有根本区别。' },
-      { t: 'p', text: '壮阳：' },
+      { t: 'p', text: '在此额外赠送养阳与壮阳具有根本区别。', en: 'One point given gratis here: nourishing yang and "fortifying" yang are fundamentally different.' },
+      { t: 'p', text: '壮阳：', en: '"Fortifying" Yang:' },
       {
         t: 'items',
         items: [
@@ -67,8 +89,13 @@ const chapters = [
           '2、壮阳对肾功能的提升是一时的，不是长久的。',
           '3、壮阳极易伤身，往往形成壮阳-欲望炽盛-纵欲-阳虚-壮阳的恶性循环。',
         ],
+        itemsEn: [
+          '1. The effect is quick and focused on kidney function — mostly heightening desire rather than supplementing the body.',
+          '2. Its lift to kidney function is temporary, not lasting.',
+          '3. It easily harms the body, tending to form a vicious cycle: fortify — desire ablaze — indulgence — yang depleted — fortify again.',
+        ],
       },
-      { t: 'p', text: '养阳：' },
+      { t: 'p', text: '养阳：', en: 'Nourishing Yang:' },
       {
         t: 'items',
         items: [
@@ -77,9 +104,15 @@ const chapters = [
           '3、养阳补益五脏六腑元气，对人的体质有一个整体的提升。',
           '4、养阳对身体是有利益而没有弊端的。',
         ],
+        itemsEn: [
+          '1. A gentle supplement that treats the root, not the symptom; slower — clear results in about ten days.',
+          '2. Not limited to kidney and reproductive function, but raising one\'s yang qi as a whole.',
+          '3. Supplements the primal qi of the five viscera and six bowels, elevating the constitution as a whole.',
+          '4. It benefits the body, with no drawback.',
+        ],
       },
-      { t: 'p', text: '便于大家方便，特设有QQ群、微信群【添加本人后邀请入群】' },
-      { t: 'p', text: '公众号二维码：' },
+      { t: 'p', text: '便于大家方便，特设有QQ群、微信群【添加本人后邀请入群】', en: 'For everyone\'s convenience, a QQ group and a WeChat group are provided. [Add me personally, and you will be invited in.]' },
+      { t: 'p', text: '公众号二维码：', en: 'Official-account QR code:' },
     ],
   },
 ];
@@ -99,7 +132,9 @@ const chapters = [
   <GateIntro
     glyph="战"
     name="鏖战之法"
+    nameEn="Aozhan — the Fierce Rite"
     subtitle="丹基 · 房中 · 养生"
+    subtitleEn="Elixir Foundation · Bedchamber · Nourishing Life"
   >
     <Treatise chapters={chapters} />
 
@@ -108,9 +143,9 @@ const chapters = [
       <div class="contact-inner">
         <div class="contact-qr">
           <div class="qr-frame">
-            <img src={`${base}/公众号二维码.jpg`} alt="公众号二维码" loading="lazy" />
+            <img src={`${base}/公众号二维码.jpg`} alt="公众号二维码" data-en-alt="WeChat Official Account QR code" loading="lazy" />
           </div>
-          <p>扫码关注 · 联系巫恒先生</p>
+          <p><Zl zh="扫码关注 · 联系巫恒先生" en="Scan to follow · Contact Master Wuheng" /></p>
         </div>
       </div>
     </section>

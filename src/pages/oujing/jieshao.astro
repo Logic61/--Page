@@ -12,17 +12,18 @@ const description = '偶景课程功法次序与步骤：神妃降世、结成�
 
 // 顶栏入口：与分脉首页一致
 const navItems = [
-  { href: '/', label: '返回总目录' },
-  { href: `${base}/oujing`, label: '总览' },
-  { href: `${base}/oujing/jieshao`, label: '功法内容' },
-  { href: `${base}/oujing/baoming`, label: '报名须知' },
+  { href: '/', label: '返回总目录', en: 'Index' },
+  { href: `${base}/oujing`, label: '总览', en: 'Overview' },
+  { href: `${base}/oujing/jieshao`, label: '功法内容', en: 'Method' },
+  { href: `${base}/oujing/baoming`, label: '报名须知', en: 'Enrollment' },
 ];
 
 const chapters = [
   {
     title: '偶景课程【解密方面在下面】',
+    titleEn: 'The Oujing Course [the decryption follows below]',
     blocks: [
-      { t: 'p', text: '一：总结功法次序简介：' },
+      { t: 'p', text: '一：总结功法次序简介：', en: 'I: Summary of the method\'s stages:' },
       {
         t: 'items',
         items: [
@@ -30,18 +31,24 @@ const chapters = [
           '2、相与为偶，形影不离。【12w能到这一步可以开始准备孕胎阳神进阶】',
           '3、神气双修，神仙眷侣。【X能练到这一步者已经凤毛麟角，已至阳神，价格就不展示了】',
         ],
+        itemsEn: [
+          '1. The goddess-consort descends; the dao-companionship is formed. [At ¥60k per person, half-full-time diligent practice — a dozen-odd years to great attainment should be no great problem.]',
+          '2. Paired as one, form and shadow never parted. [At ¥120k, reaching this stage, one may begin preparing for the embryo-yang-spirit advance.]',
+          '3. Spirit and qi cultivated in pair — immortal companions. [Those who practice to this stage are phoenix-feathers and qilin-horns, already at the yang spirit; the price is not shown.]',
+        ],
       },
-      { t: 'note', text: '【偶景最后功法简介其实是一个需要解密的诗，就和丹诗一样需要解密，会随着修炼者到达一定程度从而分段讲解】' },
-      { t: 'note', text: '【第一步坚持修炼半年后颇有家资的存在，若想更系统化的学习，一次性讲透彻80w，体系化进阶，秘传式学艺，则一次性付清180w，且需要遵守规矩！】' },
+      { t: 'note', text: '【偶景最后功法简介其实是一个需要解密的诗，就和丹诗一样需要解密，会随着修炼者到达一定程度从而分段讲解】', en: '[The final method overview of oujing is in fact a poem that must be deciphered — as with alchemical poems, decrypted as the practitioner reaches each stage, explained section by section.]' },
+      { t: 'note', text: '【第一步坚持修炼半年后颇有家资的存在，若想更系统化的学习，一次性讲透彻80w，体系化进阶，秘传式学艺，则一次性付清180w，且需要遵守规矩！】', en: '[For those of some means who persist in the first stage for half a year: for more systematic study, a one-time full exposition is ¥800k; for systematic advancement with transmission-style tutelage, a one-time payment of ¥1.8M — and the rules must be observed!]' },
     ],
   },
   {
     title: '功法步骤：',
+    titleEn: 'The Stages of the Method:',
     blocks: [
-      { t: 'p', text: '偶者仙偶，景者影也，偶景，又叫偶影，就是相与为偶，形影不离的意思。' },
-      { t: 'p', text: '解密：' },
-      { t: 'h4', text: '一：神妃降世，结成道侣' },
-      { t: 'p', text: '部分步骤透露：' },
+      { t: 'p', text: '偶者仙偶，景者影也，偶景，又叫偶影，就是相与为偶，形影不离的意思。', en: 'Ou is the immortal consort; jing is the shadow. Oujing, also called ouying — to be paired as one, form and shadow never parted.' },
+      { t: 'p', text: '解密：', en: 'The decryption:' },
+      { t: 'h4', text: '一：神妃降世，结成道侣', en: 'I. The Goddess-Consort Descends; the Dao-Companionship Is Formed' },
+      { t: 'p', text: '部分步骤透露：', en: 'Some stages revealed:' },
       {
         t: 'items',
         items: [
@@ -50,9 +57,15 @@ const chapters = [
           '3：如何与神妃或者天君结成道侣【道侣为异性，男求女仙，女择男神】',
           '4：在结成道侣之后约法几章',
         ],
+        itemsEn: [
+          '1: How to pray for the descent of a goddess-consort or a heavenly lord. [Companions are of the opposite sex: men seek a female immortal; women choose a god.]',
+          '2: How to confirm the companion\'s principal identity.',
+          '3: How to form the dao-companionship with the goddess-consort or heavenly lord. [Opposite sex: men seek a female immortal; women choose a god.]',
+          '4: The several articles of pact agreed after the companionship is formed.',
+        ],
       },
-      { t: 'h4', text: '二：相与为偶，形影不离' },
-      { t: 'p', text: '部分步骤透露：' },
+      { t: 'h4', text: '二：相与为偶，形影不离', en: 'II. Paired as One, Form and Shadow Never Parted' },
+      { t: 'p', text: '部分步骤透露：', en: 'Some stages revealed:' },
       {
         t: 'items',
         items: [
@@ -67,16 +80,28 @@ const chapters = [
           '9：如何孕育养胎',
           '10：如何诞胎脱凡',
         ],
+        itemsEn: [
+          '1: The companion life with the goddess-consort or heavenly lord.',
+          '2: How to adapt to that companion life. [Opposite sex: men seek a female immortal; women choose a god.]',
+          '3: How to refine the spirit with precision.',
+          '4: How to maintain spirit and mind.',
+          '5: How to guard against outer evils.',
+          '6: How to consolidate spirit and form.',
+          '7: How to communicate two-way with the goddess-consort or heavenly lord. [Opposite sex: men seek a female immortal; women choose a god.]',
+          '8: How to stay, form and shadow, with the goddess-consort or heavenly lord. [Opposite sex: men seek a female immortal; women choose a god.]',
+          '9: How to conceive and gestate the embryo.',
+          '10: How to deliver the embryo and shed the mortal.',
+        ],
       },
-      { t: 'h4', text: '三：神气双修，神仙眷侣' },
-      { t: 'p', text: '部分透露步骤：' },
-      { t: 'items', items: ['1：如何神气双修', '2：如何任游千山', '3：如何飞升相成'] },
-      { t: 'note', text: '【第一步坚持修炼半年后颇有家资的存在，若想更系统化的学习，一次性讲透彻80w，体系化进阶，秘传式学艺，则一次性付清180w，且需要遵守规矩！】' },
+      { t: 'h4', text: '三：神气双修，神仙眷侣', en: 'III. Spirit and Qi Cultivated in Pair — Immortal Companions' },
+      { t: 'p', text: '部分透露步骤：', en: 'Some stages revealed:' },
+      { t: 'items', items: ['1：如何神气双修', '2：如何任游千山', '3：如何飞升相成'], itemsEn: ['1: How spirit and qi are cultivated in pair.', '2: How to roam the thousand mountains at will.', '3: How to ascend together.'] },
+      { t: 'note', text: '【第一步坚持修炼半年后颇有家资的存在，若想更系统化的学习，一次性讲透彻80w，体系化进阶，秘传式学艺，则一次性付清180w，且需要遵守规矩！】', en: '[For those of some means who persist in the first stage for half a year: for more systematic study, a one-time full exposition is ¥800k; for systematic advancement with transmission-style tutelage, a one-time payment of ¥1.8M — and the rules must be observed!]' },
     ],
   },
   {
     blocks: [
-      { t: 'p', text: '自古道法有诸多限制，但本法除了遵守不得 泄规矩之外，剩下的限制较少。' },
+      { t: 'p', text: '自古道法有诸多限制，但本法除了遵守不得 泄规矩之外，剩下的限制较少。', en: 'The ways have had many restrictions since old, but apart from the rule against leaking, this method bears few.' },
       {
         t: 'items',
         items: [
@@ -86,13 +111,21 @@ const chapters = [
           '4:不限制正常生活以及工作',
           '5：不限制行业，无论是上至王候将相、下至贩 夫走卒，一视同仁',
         ],
+        itemsEn: [
+          '1: No dietary restriction.',
+          '2: No restriction of race (the self-power system excepted).',
+          '3: No restriction on marriage or children.',
+          '4: No restriction on normal life or work.',
+          '5: No restriction of station — from princes and ministers above, to peddlers and runners below, all treated alike.',
+        ],
       },
     ],
   },
   {
     title: '注：',
+    titleEn: 'Note:',
     blocks: [
-      { t: 'items', items: ['1：师父领进门修行在个人，不包票成功。', '2：修炼需要坚定的毅力与恒心，两天打鱼，三天晒网者，勿扰。'] },
+      { t: 'items', items: ['1：师父领进门修行在个人，不包票成功。', '2：修炼需要坚定的毅力与恒心，两天打鱼，三天晒网者，勿扰。'], itemsEn: ['1: The master leads you to the gate; the practice is your own. Success is not guaranteed.', '2: Cultivation demands firm resolve and constancy. Two days fishing, three days drying the nets — do not trouble us.'] },
     ],
   },
 ];
@@ -111,8 +144,11 @@ const chapters = [
   <PageIntro
     mark="解"
     title="功法内容"
+    titleEn="The Method"
     sub="偶者仙偶，景者影也。偶景，又叫偶影，就是相与为偶，形影不离的意思。"
+    subEn="Ou is the immortal consort; jing is the shadow. Oujing, also called ouying — to be paired as one, form and shadow never parted."
     meta="不包票成功；修行理论内容，未经科学证实，切勿迷信"
+    metaEn="Success is not guaranteed; cultivation-theory material, not scientifically verified — take nothing on faith"
   />
 
   <Treatise chapters={chapters} center />
