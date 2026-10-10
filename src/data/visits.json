@@ -1,13 +1,13 @@
 {
-  "updated": "2026-10-10T12:36:54.268Z",
+  "updated": "2026-10-10T12:57:25.548Z",
   "all": {
-    "visitors": 116,
-    "views": 116,
+    "visitors": 120,
+    "views": 120,
     "countries": [
       {
         "code": "CN",
-        "visitors": 82,
-        "views": 82
+        "visitors": 83,
+        "views": 83
       },
       {
         "code": "AU",
@@ -21,16 +21,16 @@
       },
       {
         "code": "US",
-        "visitors": 3,
-        "views": 3
-      },
-      {
-        "code": "GE",
-        "visitors": 1,
-        "views": 1
+        "visitors": 5,
+        "views": 5
       },
       {
         "code": "SG",
+        "visitors": 2,
+        "views": 2
+      },
+      {
+        "code": "GE",
         "visitors": 1,
         "views": 1
       },
@@ -40,16 +40,47 @@
         "views": 1
       }
     ],
-    "regions": []
+    "regions": [
+      {
+        "country": "CN",
+        "name": "Zhejiang",
+        "views": 16
+      },
+      {
+        "country": "CN",
+        "name": "Beijing",
+        "views": 14
+      },
+      {
+        "country": "CN",
+        "name": "Shanghai",
+        "views": 9
+      },
+      {
+        "country": "US",
+        "name": "California",
+        "views": 5
+      },
+      {
+        "country": "CN",
+        "name": "Hunan",
+        "views": 2
+      },
+      {
+        "country": "CN",
+        "name": "Jiangsu",
+        "views": 1
+      }
+    ]
   },
   "d30": {
-    "visitors": 116,
-    "views": 116,
+    "visitors": 120,
+    "views": 120,
     "countries": [
       {
         "code": "CN",
-        "visitors": 82,
-        "views": 82
+        "visitors": 83,
+        "views": 83
       },
       {
         "code": "AU",
@@ -63,16 +94,16 @@
       },
       {
         "code": "US",
-        "visitors": 3,
-        "views": 3
-      },
-      {
-        "code": "GE",
-        "visitors": 1,
-        "views": 1
+        "visitors": 5,
+        "views": 5
       },
       {
         "code": "SG",
+        "visitors": 2,
+        "views": 2
+      },
+      {
+        "code": "GE",
         "visitors": 1,
         "views": 1
       },
@@ -82,6 +113,37 @@
         "views": 1
       }
     ],
-    "regions": []
+    "regions": [
+      {
+        "country": "CN",
+        "name": "Zhejiang",
+        "views": 16
+      },
+      {
+        "country": "CN",
+        "name": "Beijing",
+        "views": 14
+      },
+      {
+        "country": "CN",
+        "name": "Shanghai",
+        "views": 9
+      },
+      {
+        "country": "US",
+        "name": "California",
+        "views": 5
+      },
+      {
+        "country": "CN",
+        "name": "Hunan",
+        "views": 2
+      },
+      {
+        "country": "CN",
+        "name": "Jiangsu",
+        "views": 1
+      }
+    ]
   }
 }
