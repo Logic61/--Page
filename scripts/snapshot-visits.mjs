@@ -1,17 +1,19 @@
 #!/usr/bin/env node
 /**
- * 每日访问数据快照：从 GoatCounter 拉取各国来客数，写入 src/data/visits.json。
+ * 每日访问数据快照：从 GoatCounter 拉取各国来客数与省州级明细，写入 src/data/visits.json。
  *
  * 由 .github/workflows/visits.yml 每日调用；本地亦可手动运行：
  *   GOATCOUNTER_SITE=xxx GOATCOUNTER_TOKEN=... node scripts/snapshot-visits.mjs
  *
  * 输出结构（首页「访客星图」直接消费）：
- *   { updated, all: {visitors, views, countries:[{code,visitors,views}],
- *                    regions:[{code,name,visitors,views}]}, d30: {...} }
- * 位置码为 ISO-3166-2（国家为两位如 CN，地区形如 CN-SH）。
- * countries 按国家前缀聚合（旧口径不变）；regions 保留地区级条目——
- * GoatCounter 的 collect_regions 默认对美国/俄罗斯/中国采集到省州级
- * （settings.go 默认 ["US","RU","CN"]），首页「访客星图」据此点亮省州。
+ *   { updated, all: {visitors, views,
+ *                    countries:[{code,visitors,views}],
+ *                    regions:[{country,name,views}]}, d30: {...} }
+ * countries 由国家列表接口得到，code 为两字母国家码；regions 是逐国下钻的省州
+ * 明细——国家级列表的 SQL 会把地区码 substr(location,0,3) 折掉（分组即国家），
+ * 地区行只出现在 /api/v0/stats/locations/{CC} 明细里，且只给地区英文名（如 Shanghai）
+ * 而非 ISO 码。站点需在后台 Settings → Data collection 勾选 "Region"，且国家在
+ * collect_regions 名单内（默认美国/俄罗斯/中国）才会有明细；没有时不报错，只返回空数组。
  */
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -43,54 +45,77 @@ console.log(`取数站点：https://${SITE}.goatcounter.com`);
 
 const iso = (d) => d.toISOString().slice(0, 10);
 const daysAgo = (n) => iso(new Date(Date.now() - n * 86400000));
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/** 请求一页统计；网络抖动与 5xx/404 属瞬时故障（2026-10-10 实遇一次偶发 404），重试；400/401/403 是配置类错误，立即抛。 */
+async function fetchPage(url) {
+  const waits = [0, 3000, 8000, 15000];
+  let lastErr;
+  for (let i = 0; i < waits.length; i++) {
+    if (waits[i]) await sleep(waits[i]);
+    let res;
+    try {
+      res = await fetch(url, { headers: { Authorization: `Bearer ${TOKEN}` } });
+    } catch (err) {
+      lastErr = err instanceof Error ? err : new Error(String(err));
+      console.log(`::warning::GoatCounter 请求失败（网络层），稍后重试（${i + 1}/${waits.length}）：${lastErr.message.slice(0, 160)}`);
+      continue;
+    }
+    if (res.ok) return res;
+    // 失败时多为 HTML 错误页（如 token 缺 "Read statistics" 权限的 403），
+    // 提取可读信息再抛出，方便在 Actions 日志里直接看到原因
+    const text = await res.text();
+    let msg = '';
+    try {
+      msg = JSON.parse(text).error || '';
+    } catch {}
+    if (!msg) {
+      // 错误页多为「<h1>Error 401</h1><p>error 401: …</p>」或 404 的
+      // 「<h1>Not found</h1><p>This page doesn't exist.</p>」；
+      // 先整段去掉 <style>/<script>，否则内联 css 会混进摘要
+      const clean = text.replace(/<(style|script)\b[\s\S]*?<\/\1>/gi, ' ');
+      const pair = clean.match(/<h1[^>]*>([\s\S]*?)<\/h1>\s*<p[^>]*>([\s\S]*?)<\/p>/i);
+      msg =
+        (pair ? `${pair[1]} — ${pair[2]}` : '') ||
+        clean.match(/<p[^>]*>([\s\S]*?)<\/p>/i)?.[1] ||
+        clean;
+      msg = msg.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      msg = msg
+        .replace(/&#39;|&#x27;/gi, "'")
+        .replace(/&#34;|&quot;/gi, '"')
+        .replace(/&lt;/gi, '<')
+        .replace(/&gt;/gi, '>')
+        .replace(/&amp;/g, '&');
+    }
+    const hint =
+      res.status === 404 || res.status === 400
+        ? '（若反复如此，多半是 GOATCOUNTER_SITE 填得不对：应填站点代码如 logic，而不是整条网址）'
+        : '';
+    lastErr = new Error(`GoatCounter ${res.status}: ${msg.slice(0, 200)}${hint}`);
+    if (res.status === 400 || res.status === 401 || res.status === 403) throw lastErr;
+    console.log(`::warning::${lastErr.message.slice(0, 180)}——稍后重试（${i + 1}/${waits.length}）`);
+  }
+  throw lastErr;
+}
+
+/** 取一页 /api/v0/stats/{endpoint}（endpoint 亦可是 "locations/CN" 这样的明细路径）。 */
+async function fetchStatsPage(endpoint, start, offset) {
+  const url = new URL(`https://${SITE}.goatcounter.com/api/v0/stats/${endpoint}`);
+  url.searchParams.set('start', start);
+  url.searchParams.set('limit', '200');
+  url.searchParams.set('offset', String(offset));
+  const res = await fetchPage(url);
+  return res.json();
+}
 
 async function fetchLocations(start) {
   const agg = new Map();
-  const regions = new Map();
   let offset = 0;
   for (;;) {
-    const url = new URL(`https://${SITE}.goatcounter.com/api/v0/stats/locations`);
-    url.searchParams.set('start', start);
-    url.searchParams.set('limit', '200');
-    url.searchParams.set('offset', String(offset));
-    const res = await fetch(url, { headers: { Authorization: `Bearer ${TOKEN}` } });
-    if (!res.ok) {
-      // 失败时多为 HTML 错误页（如 token 缺 "Read statistics" 权限的 403），
-      // 提取可读信息再抛出，方便在 Actions 日志里直接看到原因
-      const text = await res.text();
-      let msg = '';
-      try {
-        msg = JSON.parse(text).error || '';
-      } catch {}
-      if (!msg) {
-        // 错误页多为「<h1>Error 401</h1><p>error 401: …</p>」或 404 的
-        // 「<h1>Not found</h1><p>This page doesn't exist.</p>」；
-        // 先整段去掉 <style>/<script>，否则内联 css 会混进摘要
-        const clean = text.replace(/<(style|script)\b[\s\S]*?<\/\1>/gi, ' ');
-        const pair = clean.match(/<h1[^>]*>([\s\S]*?)<\/h1>\s*<p[^>]*>([\s\S]*?)<\/p>/i);
-        msg =
-          (pair ? `${pair[1]} — ${pair[2]}` : '') ||
-          clean.match(/<p[^>]*>([\s\S]*?)<\/p>/i)?.[1] ||
-          clean;
-        msg = msg.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-        msg = msg
-          .replace(/&#39;|&#x27;/gi, "'")
-          .replace(/&#34;|&quot;/gi, '"')
-          .replace(/&lt;/gi, '<')
-          .replace(/&gt;/gi, '>')
-          .replace(/&amp;/g, '&');
-      }
-      const hint =
-        res.status === 404 || res.status === 400
-          ? '（多半是 GOATCOUNTER_SITE 填得不对：应填站点代码如 logic，而不是整条网址）'
-          : '';
-      throw new Error(`GoatCounter ${res.status}: ${msg.slice(0, 200)}${hint}`);
-    }
-    const body = await res.json();
+    const body = await fetchStatsPage('locations', start, offset);
     const stats = Array.isArray(body.stats) ? body.stats : [];
     for (const s of stats) {
-      const code = String(s.id || s.name || '').toUpperCase();
-      const m = /^([A-Z]{2})(?:$|-)/.exec(code);
+      const m = /^([A-Z]{2})(?:$|-)/.exec(String(s.id || s.name || '').toUpperCase());
       if (!m) continue;
       const views = Number(s.count) || 0;
       const visitors = Number(s.count_unique ?? s.countUnique ?? 0) || views;
@@ -98,13 +123,6 @@ async function fetchLocations(start) {
       cur.views += views;
       cur.visitors += visitors;
       agg.set(m[1], cur);
-      if (code.includes('-')) {
-        // 地区级条目（如 CN-SH、US-TX）：单独留档，供首页点亮省州
-        const r = regions.get(code) ?? { name: String(s.name ?? ''), visitors: 0, views: 0 };
-        r.views += views;
-        r.visitors += visitors;
-        regions.set(code, r);
-      }
     }
     if (!body.more || stats.length === 0) break;
     offset += stats.length;
@@ -113,13 +131,41 @@ async function fetchLocations(start) {
   const countries = [...agg.entries()]
     .map(([code, v]) => ({ code, visitors: v.visitors, views: v.views }))
     .sort((a, b) => b.visitors - a.visitors || b.views - a.views);
+
+  // 省州明细：逐国下钻。明细行形如 {id:"Shanghai", name:"Shanghai", count:N}
+  // （SQL 只选 name/count，id 为空时由 API 回填成 name），地区为空的来客
+  // 合并成一行 name=""（或 "(unknown)"），跳过。
+  const regions = [];
+  for (const c of countries) {
+    let off = 0;
+    for (;;) {
+      let body;
+      try {
+        body = await fetchStatsPage(`locations/${c.code}`, start, off);
+      } catch (err) {
+        // 明细属锦上添花：单国失败不拖垮整次快照，留下警告继续
+        console.log(`::warning::省州明细取数失败（${c.code}），跳过：${err?.message?.slice(0, 140) ?? err}`);
+        break;
+      }
+      const stats = Array.isArray(body.stats) ? body.stats : [];
+      for (const s of stats) {
+        const name = String(s.name ?? s.id ?? '').trim();
+        if (!name || /^\(unknown\)$/i.test(name)) continue;
+        regions.push({ country: c.code, name, views: Number(s.count) || 0 });
+      }
+      if (!body.more || stats.length === 0) break;
+      off += stats.length;
+      if (off > 2000) break;
+    }
+    await sleep(350); // 官方限流 4 次/秒，留出余量
+  }
+  regions.sort((a, b) => b.views - a.views || a.name.localeCompare(b.name));
+
   return {
     visitors: countries.reduce((n, c) => n + c.visitors, 0),
     views: countries.reduce((n, c) => n + c.views, 0),
     countries,
-    regions: [...regions.entries()]
-      .map(([code, v]) => ({ code, ...v }))
-      .sort((a, b) => b.visitors - a.visitors || b.views - a.views),
+    regions,
   };
 }
 
@@ -138,10 +184,19 @@ if (prev && JSON.stringify(prev.all) === JSON.stringify(all) && JSON.stringify(p
 await writeFile(OUT, JSON.stringify({ updated: new Date().toISOString(), all, d30 }, null, 2) + '\n');
 console.log(`已写入 ${OUT}：全部 ${all.visitors} 人 / ${all.countries.length} 地；近三十日 ${d30.visitors} 人`);
 if (all.regions.length) {
+  const byCountry = new Map();
+  for (const r of all.regions) {
+    byCountry.set(r.country, [...(byCountry.get(r.country) ?? []), r]);
+  }
   console.log(
     `省州级位置 ${all.regions.length} 条：` +
-      all.regions.slice(0, 20).map((r) => `${r.code}(${r.name}·${r.visitors})`).join('、'),
+      [...byCountry]
+        .map(
+          ([cc, rs]) =>
+            `${cc} ${rs.length} 条（${rs.slice(0, 6).map((r) => `${r.name} ${r.views}`).join('、')}${rs.length > 6 ? '…' : ''}）`,
+        )
+        .join('；'),
   );
 } else {
-  console.log('未取得省州级位置（collect_regions 未覆盖或尚无对应来客）');
+  console.log('未取得省州级位置：站点可能尚未勾选 Region（GoatCounter 后台 Settings → Data collection，默认覆盖美国/俄罗斯/中国）');
 }

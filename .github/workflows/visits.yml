@@ -1,7 +1,6 @@
 name: Snapshot visitor stats
 
-# 每日把 GoatCounter 的国别访问数快照进 src/data/visits.json，
-# 以及 MapMyVisitors 的城市级来客快照进 src/data/cities.json，
+# 每日把 GoatCounter 的国别与省州级访问数快照进 src/data/visits.json，
 # 提交后手动唤起 Pages 重建（GITHUB_TOKEN 的推送不会自动触发 deploy.yml）。
 # 接入前（未配置变量/密钥）脚本会打一条 warning 后正常退出。
 
@@ -25,22 +24,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: 拉取 GoatCounter 国别数据
+      - name: 拉取 GoatCounter 访问数据（国家 + 省州明细）
         run: node scripts/snapshot-visits.mjs
         env:
           # 填站点代码（如 logic，见 https://<代码>.goatcounter.com）；
           # 放 Variables 或 Secrets 均可，大小写不限，误填整条网址也会自动归一化
           GOATCOUNTER_SITE: ${{ vars.GOATCOUNTER_SITE || secrets.GOATCOUNTER_SITE }}
           GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
-      - name: 拉取 MapMyVisitors 城市数据
-        run: node scripts/snapshot-cities.mjs
       - name: 提交数据，有更新则触发站点重建
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/data/visits.json src/data/cities.json
+          git add src/data/visits.json
           if git diff --cached --quiet; then
             echo "数据无变化，跳过提交与重建"
             exit 0

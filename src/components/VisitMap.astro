@@ -1,19 +1,19 @@
 ---
 /**
  * 访客星图：世界地图按来客所在逐地亮起，「亮起程度 = 来客多寡」；
- * 中国与美国细化到省州：省州界线常显，来客城市所在的省州点亮（取代整国涂色），
- * 再叠加城市光点（MapMyVisitors 城市级数据）。
- * 构建时静态生成，数据来自 src/data/visits.json、cities.json 与 admin1-cn-us.json ——
- * 前两者由 .github/workflows/visits.yml 每日从 GoatCounter / MapMyVisitors 快照；
- * admin1-cn-us.json 为固定底数据（中国 DataV GeoAtlas 省级 + 美国 us-atlas 州界，
- * 绕向归一、分档简化后合成），如无特需不必更新。
+ * 中国与美国细化到省州：省州界线常显，来客所在的省州点亮（取代整国涂色）。
+ * 构建时静态生成，数据来自 src/data/visits.json（GoatCounter 快照：国家列表 +
+ * 逐国下钻的省州明细，由 .github/workflows/visits.yml 每日更新）与
+ * admin1-cn-us.json（固定底数据：中国 DataV GeoAtlas 省级 + 美国 us-atlas
+ * 州界，绕向归一、分档简化后合成，如无特需不必更新）。
+ * 省州明细需 GoatCounter 站点勾选 Region 采集（默认覆盖美国/俄罗斯/中国，
+ * 见 scripts/snapshot-visits.mjs）；无明细时退回整国涂色、省界画墨线。
  * 数据未接入时只画一层暗金底图并给出提示，页面照常可用。
  */
 import visits from '../data/visits.json';
-import cityData from '../data/cities.json';
 import admin1Data from '../data/admin1-cn-us.json';
 import { feature } from 'topojson-client';
-import { geoNaturalEarth1, geoPath, geoContains } from 'd3-geo';
+import { geoNaturalEarth1, geoPath } from 'd3-geo';
 import isoCountries from 'i18n-iso-countries';
 import zhLocale from 'i18n-iso-countries/langs/zh.json';
 import worldData from 'world-atlas/countries-110m.json';
@@ -22,7 +22,8 @@ const W = 960;
 const H = 500;
 
 type CountryHit = { code: string; visitors: number; views: number };
-type RangeStats = { visitors: number; views: number; countries: CountryHit[] };
+type RegionHit = { country: string; name: string; views: number };
+type RangeStats = { visitors: number; views: number; countries: CountryHit[]; regions?: RegionHit[] };
 
 const all: RangeStats = visits.all ?? { visitors: 0, views: 0, countries: [] };
 
@@ -82,51 +83,6 @@ const listMax = Math.max(1, rank[0]?.visitors ?? 1);
 const fmt = (n: number) => n.toLocaleString('zh-CN');
 const updatedText = visits.updated ? String(visits.updated).slice(0, 10) : '';
 
-/* ---------------- 城市光点（MapMyVisitors 城市级来客） ---------------- */
-
-type CityHit = { name: string; lat: number; lng: number; hits: number };
-
-// 数据侧返回英文城市名，这里做常用城市的中文对照；未收录的保持原文
-const zhCityNames: Record<string, string> = {
-  Beijing: '北京', Shanghai: '上海', Guangzhou: '广州', Shenzhen: '深圳',
-  Hangzhou: '杭州', Nanjing: '南京', Suzhou: '苏州', Chengdu: '成都',
-  Chongqing: '重庆', Wuhan: '武汉', "Xi'an": '西安', Xian: '西安',
-  Tianjin: '天津', Changsha: '长沙', Zhengzhou: '郑州', Qingdao: '青岛',
-  Jinan: '济南', Shenyang: '沈阳', Dalian: '大连', Harbin: '哈尔滨',
-  Xiamen: '厦门', Fuzhou: '福州', Kunming: '昆明', Hefei: '合肥',
-  Nanchang: '南昌', Guiyang: '贵阳', Nanning: '南宁', Taiyuan: '太原',
-  Shijiazhuang: '石家庄', Changchun: '长春', Urumqi: '乌鲁木齐', Lanzhou: '兰州',
-  Haikou: '海口', Ningbo: '宁波', Wuxi: '无锡', Foshan: '佛山',
-  Dongguan: '东莞', Zhuhai: '珠海', Wenzhou: '温州', Xuzhou: '徐州',
-  Changzhou: '常州', Yantai: '烟台', Luoyang: '洛阳',
-  'Hong Kong': '香港', Macau: '澳门', Taipei: '台北',
-  Singapore: '新加坡', Tokyo: '东京', Osaka: '大阪', Seoul: '首尔',
-  'New York': '纽约', 'Los Angeles': '洛杉矶', 'San Francisco': '旧金山',
-  'San Jose': '圣何塞', Seattle: '西雅图', Chicago: '芝加哥', Boston: '波士顿',
-  Toronto: '多伦多', Vancouver: '温哥华', London: '伦敦', Paris: '巴黎',
-  Berlin: '柏林', Amsterdam: '阿姆斯特丹', Sydney: '悉尼', Melbourne: '墨尔本',
-  Moscow: '莫斯科', Dubai: '迪拜', Bangkok: '曼谷',
-  'Kuala Lumpur': '吉隆坡', 'Ho Chi Minh City': '胡志明市', Hanoi: '河内',
-};
-
-const citySrc = (cityData as { cities?: CityHit[]; source?: string }).cities ?? [];
-const cityPoints = citySrc
-  .map((c) => {
-    const p = projection([c.lng, c.lat]);
-    if (!p || !Number.isFinite(p[0]) || !Number.isFinite(p[1])) return null;
-    return {
-      name: zhCityNames[c.name] ?? c.name,
-      nameEn: c.name,
-      hits: c.hits,
-      x: Number(p[0].toFixed(1)),
-      y: Number(p[1].toFixed(1)),
-    };
-  })
-  .filter((c): c is { name: string; nameEn: string; hits: number; x: number; y: number } => c !== null);
-const cityR = (hits: number) => Math.min(4.6, 1.6 + 1.15 * Math.log1p(hits));
-
-const citySource = (cityData as { source?: string }).source ?? 'https://mapmyvisitors.com';
-
 /* ---------------- 省州层（中国、美国细化到省级/州级） ---------------- */
 
 // 底数据里的省州名已按中文收录（含美国州名的中文译名），英文侧在此反查
@@ -160,41 +116,37 @@ const adminFC = feature(adminTopo, (adminTopo as any).objects.admin1) as unknown
   features: Array<{ properties: { name: string; country: string }; geometry: any }>;
 };
 
-const ringArea = (ring: number[][]) => {
-  let a = 0;
-  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-    a += ring[j][0] * ring[i][1] - ring[i][0] * ring[j][1];
-  }
-  return Math.abs(a / 2);
-};
-const geomArea = (g: any): number => {
-  const polys: number[][][][] = g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
-  return polys.reduce((s, p) => s + ringArea(p[0]), 0);
-};
-
 const adminAreas = adminFC.features.map((f) => ({
   name: f.properties.name,
   nameEn: adminEnNames[f.properties.name] ?? f.properties.name,
   country: f.properties.country,
-  area: geomArea(f.geometry),
   d: shrink(pathOf(f as any) ?? ''),
-  f,
 }));
 
-// 城市点落进哪个省州：省界简化后相邻区域会轻微重叠，多点命中时取面积最小的
+// 来客省州（GoatCounter 地区明细）：API 只给地区英文名（Shanghai / California 等），
+// 经别名表（含 MaxMind 的变体拼写）归一到 admin1 底数据的中文名
+const regionAliases: Record<string, string> = {
+  'nei mongol': '内蒙古', xizang: '西藏', tibet: '西藏',
+  'ningxia hui': '宁夏', 'xinjiang uygur': '新疆', 'guangxi zhuang': '广西',
+  macao: '澳门', 'hong kong sar': '香港',
+};
+const normName = (s: string) => s.trim().toLowerCase().replace(/\s+/g, ' ');
+const zhByRegionName = new Map<string, string>();
+for (const [zh, en] of Object.entries(adminEnNames)) zhByRegionName.set(normName(en), zh);
+for (const [en, zh] of Object.entries(regionAliases)) zhByRegionName.set(normName(en), zh);
+const areaByKey = new Map(adminAreas.map((a) => [`${a.country}:${a.name}`, a]));
+
 const areaHits = new Map<(typeof adminAreas)[number], number>();
-for (const c of citySrc) {
-  let best: (typeof adminAreas)[number] | null = null;
-  for (const a of adminAreas) {
-    if (!geoContains(a.f as any, [c.lng, c.lat])) continue;
-    if (!best || a.area < best.area) best = a;
-  }
-  if (best) areaHits.set(best, (areaHits.get(best) ?? 0) + c.hits);
+for (const r of all.regions ?? []) {
+  const zh = zhByRegionName.get(normName(r.name));
+  const a = zh ? areaByKey.get(`${r.country}:${zh}`) : undefined;
+  if (!a) continue;
+  areaHits.set(a, (areaHits.get(a) ?? 0) + r.views);
 }
 
 // 该国的省州已亮起时，整国不再涂色（美国领土划归各州同理）
 const litCountries = new Set([...areaHits.keys()].map((a) => a.country));
-// 是否整国涂色可见：国家有数据且省州层还没接住它（此时省界改画墨线，压在亮金上）
+// 是否整国涂色可见：国家有数据且省州明细还没接住它（此时省界改画墨线，压在亮金上）
 const wholeLit = (code: string) => Boolean(hits.get(code)?.visitors) && !litCountries.has(code);
 const maxAdminHits = Math.max(1, ...areaHits.values());
 const adminOpacity = (h: number) => 0.1 + 0.82 * (Math.log1p(h) / Math.log1p(maxAdminHits));
@@ -204,13 +156,11 @@ const adminList = [...adminAreas].sort((x, y) => Number(areaHits.has(x)) - Numbe
 
 const ariaSummary = hasData
   ? `访客星图：累计 ${fmt(all.views)} 次到访，来自 ${all.countries.length} 个国家和地区` +
-    (areaHits.size ? `，${areaHits.size} 个省州亮起` : '') +
-    (cityPoints.length ? `，点亮 ${cityPoints.length} 座城市` : '')
+    (areaHits.size ? `，${areaHits.size} 个省州亮起` : '')
   : '访客星图：访问统计尚未接入';
 const ariaSummaryEn = hasData
   ? `Visitor star map: ${fmt(all.views)} visits from ${all.countries.length} countries and regions` +
-    (areaHits.size ? `, ${areaHits.size} provinces or states lit` : '') +
-    (cityPoints.length ? `, ${cityPoints.length} cities lit` : '')
+    (areaHits.size ? `, ${areaHits.size} provinces or states lit` : '')
   : 'Visitor star map: statistics not connected yet';
 ---
 
@@ -218,7 +168,7 @@ const ariaSummaryEn = hasData
   <header class="vp-head">
     <p class="vp-kicker"><span class="zl-zh">古巫祝脉 · 四海来客</span><span class="zl-en">Wu-Zhu Lineage · Guests from the Four Seas</span></p>
     <h2 class="vp-title"><span class="zl-zh">访客星图</span><span class="zl-en">Visitor Star Map</span></h2>
-    <p class="vp-sub"><span class="zl-zh">来客所在，省州城池次第亮起；越亮之处，来访越多</span><span class="zl-en">Where guests come from, provinces and cities light one by one — the brighter the place, the more the visits</span></p>
+    <p class="vp-sub"><span class="zl-zh">来客所在，省州次第亮起；越亮之处，来访越多</span><span class="zl-en">Where guests come from, provinces and states light one by one — the brighter the place, the more the visits</span></p>
   </header>
 
   <div class="vp-grid">
@@ -228,11 +178,6 @@ const ariaSummaryEn = hasData
           <radialGradient id="vpGlow" cx="50%" cy="46%" r="64%">
             <stop offset="0%" stop-color="#f6d98a" stop-opacity="0.1" />
             <stop offset="60%" stop-color="#f6d98a" stop-opacity="0.032" />
-            <stop offset="100%" stop-color="#f6d98a" stop-opacity="0" />
-          </radialGradient>
-          <radialGradient id="vpCityGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#ffe9ad" stop-opacity="0.9" />
-            <stop offset="35%" stop-color="#f6d98a" stop-opacity="0.38" />
             <stop offset="100%" stop-color="#f6d98a" stop-opacity="0" />
           </radialGradient>
         </defs>
@@ -282,19 +227,6 @@ const ariaSummaryEn = hasData
             })
           }
         </g>
-        {
-          cityPoints.length > 0 && (
-            <g class="vp-cities">
-              {cityPoints.map((c, i) => (
-                <g class="vp-city" style={`--ph:${(i * 0.83).toFixed(2)}s`} data-en-tip={`${c.nameEn} · ${fmt(c.hits)} visits`}>
-                  <circle class="vp-city-glow" cx={c.x} cy={c.y} r={(cityR(c.hits) * 3).toFixed(1)} />
-                  <circle class="vp-city-dot" cx={c.x} cy={c.y} r={cityR(c.hits).toFixed(1)} />
-                  <title>{`${c.name} · ${fmt(c.hits)} 次到访`}</title>
-                </g>
-              ))}
-            </g>
-          )
-        }
       </svg>
       {!hasData && (
         <p class="vp-pending"><span class="zl-zh">统计尚在接入 · 来客渐多之后，此处逐地亮起</span><span class="zl-en">Statistics are coming online — as guests arrive, places here will light up one by one</span></p>
@@ -333,14 +265,6 @@ const ariaSummaryEn = hasData
       <p class="vp-note">
         {hasData ? (<><span class="zl-zh">数据截至 {updatedText} · 每日更新</span><span class="zl-en">Data as of {updatedText} · updated daily</span></>) : (<><span class="zl-zh">数据接入后每日更新</span><span class="zl-en">Updated daily once data is connected</span></>)}
       </p>
-      {
-        cityPoints.length > 0 && (
-          <p class="vp-note vp-note-city">
-            <span class="zl-zh">城市微光 · 数据由{' '}<a href={citySource} target="_blank" rel="noopener">MapMyVisitors</a>{' '}提供</span>
-            <span class="zl-en">City glimmers · data by{' '}<a href={citySource} target="_blank" rel="noopener">MapMyVisitors</a></span>
-          </p>
-        )
-      }
 
       <p class="vp-note vp-note-geo"><span class="zl-zh">省州界线 · DataV GeoAtlas / U.S. Census Bureau</span><span class="zl-en">Province & state borders · DataV GeoAtlas / U.S. Census Bureau</span></p>
     </aside>
@@ -447,7 +371,7 @@ const ariaSummaryEn = hasData
     pointer-events: none;
     transition: fill 0.25s ease, stroke 0.25s ease, filter 0.25s ease;
   }
-  /* 整国仍涂亮金时（尚无城市数据），省界改画深色墨线才看得见 */
+  /* 整国仍涂亮金时（该国尚无省州级数据），省界改画深色墨线才看得见 */
   .vp-a1.vp-ink {
     stroke: rgba(88, 60, 14, 0.55);
     stroke-width: 0.6;
@@ -462,26 +386,6 @@ const ariaSummaryEn = hasData
     fill: #ffeaa6;
     stroke: #fff5cf;
     filter: drop-shadow(0 0 6px rgba(255, 224, 138, 0.55));
-  }
-
-  /* 城市光点：亮心 + 金色光晕，大小随来客多寡；呼吸动画错相，像星子眨眼 */
-  .vp-city-glow {
-    fill: url(#vpCityGlow);
-    animation: vp-breath 4.8s ease-in-out infinite;
-    animation-delay: calc(var(--ph, 0s) * -1);
-  }
-  .vp-city-dot {
-    fill: #fff3c9;
-    filter: drop-shadow(0 0 3px rgba(255, 232, 160, 0.9));
-  }
-  @keyframes vp-breath {
-    0%,
-    100% {
-      opacity: 0.55;
-    }
-    50% {
-      opacity: 1;
-    }
   }
 
   .vp-pending {
@@ -586,19 +490,6 @@ const ariaSummaryEn = hasData
     font-size: 0.68rem;
     letter-spacing: 0.14em;
   }
-  .vp-note-city {
-    margin-top: 0.3rem;
-  }
-  .vp-note a {
-    color: #c9a95e;
-    text-decoration: none;
-    border-bottom: 1px solid rgba(201, 169, 94, 0.4);
-    transition: color 0.3s ease, border-color 0.3s ease;
-  }
-  .vp-note a:hover {
-    color: #ffeaa6;
-    border-bottom-color: rgba(255, 234, 166, 0.7);
-  }
 
   @media (max-width: 920px) {
     .vp-grid {
@@ -625,12 +516,6 @@ const ariaSummaryEn = hasData
   @media (prefers-reduced-motion: reduce) {
     .vp-c,
     .vp-a1 {
-      transition: none;
-    }
-    .vp-city-glow {
-      animation: none;
-    }
-    .vp-note a {
       transition: none;
     }
   }
