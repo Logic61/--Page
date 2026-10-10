@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Giscus from '../../components/Giscus.astro';
 import GoldNav from '../../components/GoldNav.astro';
 import Treatise from '../../components/Treatise.astro';
+import Zl from '../../components/Zl.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -10,99 +11,104 @@ const title = '古往今来的体系 · 法门';
 const description =
   '法门二目之一：古往今来的体系。修炼分炼神、炼形、培养道心三大方面；法门有存思、存神、精思、导引、服食、咒音、内丹、采炁等；依得炁来源又分内求与外求，依力量归属再分自力与它力。';
 
-// 正文：源文件《古往今来的体系》全篇，由 .qa/gzh-gen.mjs 机械生成，逐字未改
+// 正文：源文件《古往今来的体系》全篇，由 .qa/gzh-gen.mjs 机械生成，中文逐字未改；英文为对照翻译
 const chapters = [
   {
     blocks: [
-      { t: 'p', text: '修炼包括：炼神、炼形、培养道心三大方面' },
-      { t: 'p', text: '【养炼神形，提升神形品质，最终实现神形合一、神形俱妙、互化有无、长生久视的成就】' },
-      { t: 'p', text: '古往今来具体体系方面大致包括有：存思、存神、精思、导引、服食、咒音、内丹、采炁等等。' },
-      { t: 'p', text: '【以上体系之法，每一种都有修炼到最高境界成体系的法门，但是现实大部分的存在不是没有传承，就是已残缺、已断绝，或有少许些许零星传承，甚至对它们懂都不懂什么意思。】' },
-      { t: 'p', text: '存思：想象事物形象、外观，以养炼神炁。【存思之中，有一种存想xxx神灵、某个物品，或者等等形象的神道法门也叫存神。】' },
-      { t: 'p', text: '存神：就是存养精神、存我之神、凝练魂魄，精一魂魄的法门。' },
-      { t: 'p', text: '精思：精神守一，纯粹思想，干净简洁，用来养炼神气的法门。' },
-      { t: 'p', text: '导引：是利用身体动作，来导引内外神炁，炼养神形的法门。' },
-      { t: 'p', text: '服食：是通过服食某些存在，如：草木、金石、药材、物质、丹药、炁体等等，来辅助主要功法修炼。【又称食饵，后来慢慢发展为丹鼎一派，此派后世称作外丹法】（其本质是内丹法的老祖）' },
-      { t: 'p', text: '咒音：是发出特定频率、声音等音律，用以炼形炼神，或寄托精神的法门。【自力祝法便是教此内容】' },
-      { t: 'p', text: '内丹：是外丹法中的炼炁部分，中途发展期间由于环境历史原因，又融合了部分佛家法门和一些其他道家法门形成的一类修炼方法，最后独成一系。' },
-      { t: 'p', text: '【好在人家也算是创业成功了，后世之中到目前2023年来看，算是成为大众所知最广的存在，丹道随着宗教传播，逐渐广为人知，但核心传承依然，隐传、秘传、师寻徒传。】' },
-      { t: 'p', text: '采炁：是利用动作、精神采取先天炁、地炁、罡煞等等外炁，用来养炼神形的法门。 当中也有利用呼吸、吐纳法、采炁、吞气的服气法。 【丹道随着宗教传播，逐渐广为人知，但传承依然，隐传、秘传、师寻徒传。】' },
+      { t: 'p', text: '修炼包括：炼神、炼形、培养道心三大方面', en: 'Cultivation comprises three great aspects: refining the spirit, refining the form, and nurturing the Dao-heart.' },
+      { t: 'p', text: '【养炼神形，提升神形品质，最终实现神形合一、神形俱妙、互化有无、长生久视的成就】', en: '[To nourish and refine spirit and form, raise their quality, and at last achieve the union of spirit and form, the mutual wonder of spirit and form, the interchange of being and non-being — the attainment of long life and enduring sight.]' },
+      { t: 'p', text: '古往今来具体体系方面大致包括有：存思、存神、精思、导引、服食、咒音、内丹、采炁等等。', en: 'The concrete systems, ancient and modern, broadly include: cunsi (visualizing), cunshen (preserving the spirit), jingsi (pure thought), daoyin (guiding-and-leading), fushi (ingesting substances), incantation tones, inner alchemy, qi-gathering, and more.' },
+      { t: 'p', text: '【以上体系之法，每一种都有修炼到最高境界成体系的法门，但是现实大部分的存在不是没有传承，就是已残缺、已断绝，或有少许些许零星传承，甚至对它们懂都不懂什么意思。】', en: '[Each of these systems has its methods — a complete path to the highest realm — but in reality most of them are either without transmission, or already broken, or severed outright; or only a scattered fragment remains; or their very meaning is not understood.]' },
+      { t: 'p', text: '存思：想象事物形象、外观，以养炼神炁。【存思之中，有一种存想xxx神灵、某个物品，或者等等形象的神道法门也叫存神。】', en: 'Cunsi: imagining the forms and appearances of things, to nourish and refine spirit-qi. [Within visualization, the divine-way method of visualizing a deity, an object, or other such forms is also called cunshen.]' },
+      { t: 'p', text: '存神：就是存养精神、存我之神、凝练魂魄，精一魂魄的法门。', en: 'Cunshen: preserving and nourishing spirit and mind, preserving one\'s own spirit, condensing the hun and po souls, refining the souls into oneness — a method of this.' },
+      { t: 'p', text: '精思：精神守一，纯粹思想，干净简洁，用来养炼神气的法门。', en: 'Jingsi: keeping the spirit on the one, pure thought, clean and simple — a method for nourishing and refining spirit-qi.' },
+      { t: 'p', text: '导引：是利用身体动作，来导引内外神炁，炼养神形的法门。', en: 'Daoyin: using bodily movement to guide inner and outer spirit-qi — a method of refining and nourishing spirit and form.' },
+      { t: 'p', text: '服食：是通过服食某些存在，如：草木、金石、药材、物质、丹药、炁体等等，来辅助主要功法修炼。【又称食饵，后来慢慢发展为丹鼎一派，此派后世称作外丹法】（其本质是内丹法的老祖）', en: 'Fushi: ingesting certain things — plants and herbs, metals and minerals, medicinal substances, matter, elixirs, qi-bodies and the like — to assist the main practice. [Also called food-bait; it later slowly grew into the elixir-cauldron school, known in later ages as outer-alchemy methods.] (In essence, it is the forefather of inner-alchemy methods.)' },
+      { t: 'p', text: '咒音：是发出特定频率、声音等音律，用以炼形炼神，或寄托精神的法门。【自力祝法便是教此内容】', en: 'Incantation tones: emitting sounds of specific frequency, voice and tone, to refine form and spirit, or to lodge the spirit — a method of this. [The self-power blessing rites teach exactly this.]' },
+      { t: 'p', text: '内丹：是外丹法中的炼炁部分，中途发展期间由于环境历史原因，又融合了部分佛家法门和一些其他道家法门形成的一类修炼方法，最后独成一系。', en: 'Inner alchemy: the qi-refining part of the outer-alchemy methods; in mid-course, owing to environment and history, it absorbed portions of Buddhist methods and some other Daoist methods, forming a class of cultivation that finally stood as a lineage of its own.' },
+      { t: 'p', text: '【好在人家也算是创业成功了，后世之中到目前2023年来看，算是成为大众所知最广的存在，丹道随着宗教传播，逐渐广为人知，但核心传承依然，隐传、秘传、师寻徒传。】', en: '[Fortunately, one might call its startup a success: by 2023, looking at posterity, it stands among the most widely known of these traditions. Alchemy spread with religion and gradually became common knowledge — yet the core transmission remains as ever: concealed transmission, secret transmission, masters seeking disciples.]' },
+      { t: 'p', text: '采炁：是利用动作、精神采取先天炁、地炁、罡煞等等外炁，用来养炼神形的法门。 当中也有利用呼吸、吐纳法、采炁、吞气的服气法。 【丹道随着宗教传播，逐渐广为人知，但传承依然，隐传、秘传、师寻徒传。】', en: 'Qi-gathering: using movement and spirit to take in prenatal qi, earth qi, gang-sha energies and other outer qi — a method for nourishing and refining spirit and form. Within it there are also qi-breathing methods using breath, exhaling-and-inhaling, gathering, and swallowing qi. [Alchemy spread with religion and became gradually known; but the transmission remains: concealed, secret, masters seeking disciples.]' },
     ],
   },
   {
     num: '二：',
+    numEn: 'II.',
     title: '内求法与外求法',
+    titleEn: 'Inner-Seeking and Outer-Seeking',
     blocks: [
-      { t: 'p', text: '除了修炼法门体系外，根据得炁来源的不同，可以把修炼法门分为内求法和外求法。' },
-      { t: 'p', text: '内求法：就是通过自身的阴阳转化，或开玄关，自内虚空得炁的方法，所以有句话叫，先天一炁自虚无中来。' },
-      { t: 'p', text: '这里面就包括自力修炼、内丹等。' },
-      { t: 'p', text: '优点：内求法得炁品质高、地点要求较低，对财侣要求不高，有地方就能修炼，可以移动，可以跑路。' },
-      { t: 'p', text: '缺点：大部分人难以入门、得炁的体量少。' },
-      { t: 'p', text: '外求法：意思就是除去自己诞生求得的方式，比如采取天地间自然产生的先天炁。' },
-      { t: 'p', text: '什么采炁、导引、存思等等。' },
-      { t: 'p', text: '优点：量大管饱、门槛低到可谓没有门槛' },
-      { t: 'p', text: '缺点：质量不如内求之法，对地方有严格限制，而且需要大毅力，大有钱。（甚至某些外求法要在一个地方一直呆着，不能随意外出，否则修为转退，甚至一朝回到解放前，甚至危机性命，所以遇见个什么地震啊，相关部门伸出搬移援助啊什么的也是有苦说不出，只能承受后果了。可谓束地啊~）' },
-      { t: 'p', text: '另说：' },
-      { t: 'p', text: '外求法看起来是苦逼，但是香也是真的香，因为它是特别容易出成就的法门。' },
-      { t: 'p', text: '同等的情况和努力下，能把内求法远远甩在身后。' },
-      { t: 'p', text: '但是！！！！' },
-      { t: 'p', text: '他实在是太束地了，太依赖环境了，而且深山老林里面的日子长时间没谁受得了，其次，想要摆脱这种束缚得到先天或者人仙境了。' },
-      { t: 'p', text: '而且，一旦修外求法的话，在没有达到一定程度之前，你很难和内修一起修，真发生环境变化，你除了罚站挨打，接受后果外没什么办法，真想兼修内求，得到一定程度了。' },
-      { t: 'p', text: '不过外求法的诞生历史比较早，算是初始的一种存在了，只不过随着现实情况的转变，慢慢合适要求的地方减少，然后大部分修士就开始了内修。' },
-      { t: 'p', text: '【外求法现在完整的全法全诀难得一见，和断绝快媲美了，现在流出的部分碎片也就导引、服气、站桩等等了。】' },
+      { t: 'p', text: '除了修炼法门体系外，根据得炁来源的不同，可以把修炼法门分为内求法和外求法。', en: 'Beyond the systems of methods, cultivation can be divided, according to where the qi comes from, into inner-seeking and outer-seeking methods.' },
+      { t: 'p', text: '内求法：就是通过自身的阴阳转化，或开玄关，自内虚空得炁的方法，所以有句话叫，先天一炁自虚无中来。', en: 'Inner-seeking: obtaining qi through your own yin-yang transformation, or by opening the mysterious pass, drawing from the inner void — hence the saying: the one prenatal qi comes from within the void.' },
+      { t: 'p', text: '这里面就包括自力修炼、内丹等。', en: 'This includes self-power practice, inner alchemy, and the like.' },
+      { t: 'p', text: '优点：内求法得炁品质高、地点要求较低，对财侣要求不高，有地方就能修炼，可以移动，可以跑路。', en: 'Strengths: the qi obtained is of high quality; demands on place are low; the requirements of wealth and companions are modest — any place will do for practice; you can move, you can slip away.' },
+      { t: 'p', text: '缺点：大部分人难以入门、得炁的体量少。', en: 'Weaknesses: most people find it hard to enter; the quantity of qi obtained is small.' },
+      { t: 'p', text: '外求法：意思就是除去自己诞生求得的方式，比如采取天地间自然产生的先天炁。', en: 'Outer-seeking: ways other than what you generate yourself — for example, taking the prenatal qi naturally produced between heaven and earth.' },
+      { t: 'p', text: '什么采炁、导引、存思等等。', en: 'Things like qi-gathering, daoyin, visualization, and the rest.' },
+      { t: 'p', text: '优点：量大管饱、门槛低到可谓没有门槛', en: 'Strengths: plentiful, filling portions; the threshold so low it may be called no threshold at all.' },
+      { t: 'p', text: '缺点：质量不如内求之法，对地方有严格限制，而且需要大毅力，大有钱。（甚至某些外求法要在一个地方一直呆着，不能随意外出，否则修为转退，甚至一朝回到解放前，甚至危机性命，所以遇见个什么地震啊，相关部门伸出搬移援助啊什么的也是有苦说不出，只能承受后果了。可谓束地啊~）', en: 'Weaknesses: the quality is inferior to inner-seeking; strict limits on place; and it demands great perseverance and great money. (Some outer-seeking methods require staying in one place all along, unable to go out at will — otherwise your attainment slides back, in one morning back to before liberation, your very life at risk. So when an earthquake comes, or the authorities reach out with relocation aid, you cannot voice your bitterness — you can only bear the consequences. Truly bound-to-place.~)' },
+      { t: 'p', text: '另说：', en: 'A further word:' },
+      { t: 'p', text: '外求法看起来是苦逼，但是香也是真的香，因为它是特别容易出成就的法门。', en: 'Outer-seeking looks like a miserable lot — but fragrant it truly is, for it is a method that yields attainment with special ease.' },
+      { t: 'p', text: '同等的情况和努力下，能把内求法远远甩在身后。', en: 'Under equal conditions and effort, it leaves inner-seeking far behind.' },
+      { t: 'p', text: '但是！！！！', en: 'But!!!!' },
+      { t: 'p', text: '他实在是太束地了，太依赖环境了，而且深山老林里面的日子长时间没谁受得了，其次，想要摆脱这种束缚得到先天或者人仙境了。', en: 'It is too bound-to-place, too dependent on its environment; and days in deep mountains and old forests — nobody endures them for long. And to shake off this bondage, you must reach the prenatal or human-immortal realm.' },
+      { t: 'p', text: '而且，一旦修外求法的话，在没有达到一定程度之前，你很难和内修一起修，真发生环境变化，你除了罚站挨打，接受后果外没什么办法，真想兼修内求，得到一定程度了。', en: 'Moreover, once you practice outer-seeking — until you reach a certain level — it is very hard to cultivate inner ways alongside. If the environment truly changes, there is nothing you can do but stand in punishment, take the beating, and accept the aftermath. To truly cultivate both, you must first reach a certain degree.' },
+      { t: 'p', text: '不过外求法的诞生历史比较早，算是初始的一种存在了，只不过随着现实情况的转变，慢慢合适要求的地方减少，然后大部分修士就开始了内修。', en: 'Still, outer-seeking was born early in history — among the original forms. Only, as circumstances shifted, places fitting its requirements dwindled, and most cultivators turned to inner practice.' },
+      { t: 'p', text: '【外求法现在完整的全法全诀难得一见，和断绝快媲美了，现在流出的部分碎片也就导引、服气、站桩等等了。】', en: '[A complete outer-seeking method with all its formulae is now a rare sight, rivaling the severed and extinct; the fragments that circulate amount to daoyin, qi-breathing, standing-post, and the like.]' },
     ],
   },
   {
     num: '三：',
+    numEn: 'III.',
     title: '又有自力与它力',
+    titleEn: 'Of Self-Power and Other-Power',
     blocks: [
-      { t: 'p', text: '除了体系、得气从修炼的宏观来说，又有自力与它力一说。' },
-      { t: 'p', text: '起头，总结核心：基本来说，只有两个区别，一：自力，二：它力。' },
-      { t: 'p', text: '自力：说白了，修出来的力量是完完全全，百分百属于自己的，这叫自力。' },
-      { t: 'p', text: '它力：说白了和自力相反，是通过别的手段得到力量。（有人可能觉得这很不错啊，但是我只说一句，别人给你的，随时都能收回去。）' },
-      { t: 'p', text: '接下来具体说大概内容。' },
-      { t: 'p', text: '其实，核心已经说的很清楚了，就是上面的核心总结，能吃透那么就很好区别了。' },
-      { t: 'p', text: '从宏观本质上来说，就是上面那些，两个点，一个点，力量是你自己的，另一个点，力量不是你自己的，但是可以用。' },
-      { t: 'p', text: '自力法' },
-      { t: 'p', text: '通过自己努力修炼，靠传承指导，到达结果的一个过程，期间不接受任何外力，比如下种、灌顶、附体、透支等等行为。' },
-      { t: 'p', text: '好处：力量完完全全百分百属于自己，生死由自我掌控。' },
-      { t: 'p', text: '难处：自力之路难走，且不说你是否有真东西，有了真东西之后你还得辛辛苦苦才修炼，很难，很多存在练了几十年可能才一点反应。' },
-      { t: 'p', text: '它力：' },
-      { t: 'p', text: '非自己努力的结果，依靠一些东西到达的程度，这里我们拿香火神道举例。' },
-      { t: 'p', text: '比如，依靠万民信念信仰以及香火达到某种地步。' },
-      { t: 'p', text: '比如，拜入宗教得到种子被种子带上去的地步。' },
-      { t: 'p', text: '好处：不用自己辛辛苦苦的修炼，随着种子信息自我运转，逐渐达到某种地步，甚至可以出现一些神通功能。' },
-      { t: 'p', text: '难处：力量不是你的，你如同一件衣服，可以随时被换掉，力量可以随时被收回，这个时候有宗教或者什么法教的朋友，可能听说过xxx因为什么什么事情，然后什么修为被废掉了，或者什么神通或者什么能力被上面收掉，封掉了等等情况。' },
-      { t: 'p', text: '其次，种子的高度就是你的上限，种子不同，修炼的成果也不一样，最主要的是，你有了种子也得有操作办法才是。' },
-      { t: 'p', text: '有了办法后，说白了就是拿你的一切去喂养这个种子，让它茁壮成长，如果不知道一切是什么意思，你可以理解为拿你的命去养。' },
-      { t: 'p', text: '很多时候，播撒种子，只是为了回收果实而已，就算有种子，平平无奇的存在也多如沙漠之粒。' },
-      { t: 'p', text: '一句话，这种它力存在如同案板上的肉，对方什么时候想吃你了，你就自求多福吧。' },
-      { t: 'p', text: '生前为工具，死后为备用干粮，说的就是这种。' },
-      { t: 'p', text: '问' },
-      { t: 'p', text: 'XXX:我修炼只是想成为神仙神佛那种的啊~' },
-      { t: 'p', text: '答：很不好意思，人家那种是自力行为，力量是完完全全属于自己的，自力之法，自古瘾传、秘传，师寻徒传，口口相传，甚至不记文字，不载外物。' },
-      { t: 'p', text: '注：经过几千年的演变发展，现在世面不是宗教，就是宗教相关，至于真正的传承历来都是隐传，秘传，师寻徒传，不记文字，不载外物，外界难知。' },
-      { t: 'p', text: '没有真东西就是进不去，任你把话说破，任你身上有多么耀眼的光环，任你社会上多么牛逼的身份，哪怕是皇帝，你也进不去。' },
-      { t: 'p', text: '而没有真东西的，出事只是早晚问题，有的能反应过来，被拉出来，但这都是稀有的少数。' },
+      { t: 'p', text: '除了体系、得气从修炼的宏观来说，又有自力与它力一说。', en: 'Beyond systems and the obtaining of qi, viewed at the macro level of cultivation, there is also the matter of self-power and other-power.' },
+      { t: 'p', text: '起头，总结核心：基本来说，只有两个区别，一：自力，二：它力。', en: 'To begin — the core in sum: fundamentally there are only two distinctions. One: self-power. Two: other-power.' },
+      { t: 'p', text: '自力：说白了，修出来的力量是完完全全，百分百属于自己的，这叫自力。', en: 'Self-power: plainly put, the power you cultivate is wholly, one hundred percent your own — this is self-power.' },
+      { t: 'p', text: '它力：说白了和自力相反，是通过别的手段得到力量。（有人可能觉得这很不错啊，但是我只说一句，别人给你的，随时都能收回去。）', en: 'Other-power: the opposite — power obtained through other means. (Some may think this rather good; but I will say only this: what others give you, they can take back at any time.)' },
+      { t: 'p', text: '接下来具体说大概内容。', en: 'Next, the broad content in detail.' },
+      { t: 'p', text: '其实，核心已经说的很清楚了，就是上面的核心总结，能吃透那么就很好区别了。', en: 'In truth the core has been stated clearly — the summary above; digest it thoroughly and the distinction is easy.' },
+      { t: 'p', text: '从宏观本质上来说，就是上面那些，两个点，一个点，力量是你自己的，另一个点，力量不是你自己的，但是可以用。', en: 'Macroscopically and in essence, it is as above: two points. One — the power is your own. The other — the power is not your own, but can be used.' },
+      { t: 'p', text: '自力法', en: 'Self-Power Methods' },
+      { t: 'p', text: '通过自己努力修炼，靠传承指导，到达结果的一个过程，期间不接受任何外力，比如下种、灌顶、附体、透支等等行为。', en: 'A process of reaching the result through your own diligent practice and the guidance of a transmission, accepting no external force along the way — no seed-planting, empowerment, possession, overdraft, or the like.' },
+      { t: 'p', text: '好处：力量完完全全百分百属于自己，生死由自我掌控。', en: 'Benefits: the power is wholly, one hundred percent your own; life and death are in your own grasp.' },
+      { t: 'p', text: '难处：自力之路难走，且不说你是否有真东西，有了真东西之后你还得辛辛苦苦才修炼，很难，很多存在练了几十年可能才一点反应。', en: 'Difficulties: the self-power road is hard to walk. Never mind whether you possess the real thing — having it, you must still toil bitterly in practice; very hard. Many beings practice for decades with barely a glimmer of response.' },
+      { t: 'p', text: '它力：', en: 'Other-Power:' },
+      { t: 'p', text: '非自己努力的结果，依靠一些东西到达的程度，这里我们拿香火神道举例。', en: 'Attainment not the fruit of your own effort, but reached by relying on something — here we take the incense-fire divine way as example.' },
+      { t: 'p', text: '比如，依靠万民信念信仰以及香火达到某种地步。', en: 'For example: relying on the belief and faith of the myriad people, and on incense and offerings, to reach a certain station.' },
+      { t: 'p', text: '比如，拜入宗教得到种子被种子带上去的地步。', en: 'For example: entering a religion, receiving a seed, and being carried upward by that seed.' },
+      { t: 'p', text: '好处：不用自己辛辛苦苦的修炼，随着种子信息自我运转，逐渐达到某种地步，甚至可以出现一些神通功能。', en: 'Benefits: no bitter practice of your own — as the seed\'s information runs itself, you gradually reach a certain station, and may even manifest some supernatural faculties.' },
+      { t: 'p', text: '难处：力量不是你的，你如同一件衣服，可以随时被换掉，力量可以随时被收回，这个时候有宗教或者什么法教的朋友，可能听说过xxx因为什么什么事情，然后什么修为被废掉了，或者什么神通或者什么能力被上面收掉，封掉了等等情况。', en: 'Difficulties: the power is not yours — you are like a garment, changeable at any time; the power recallable at any time. If you have friends in religions or dharma-teachings, you may have heard how so-and-so\'s cultivation was voided over some matter, or how some power or ability was taken back, sealed away, from above.' },
+      { t: 'p', text: '其次，种子的高度就是你的上限，种子不同，修炼的成果也不一样，最主要的是，你有了种子也得有操作办法才是。', en: 'Second: the seed\'s height is your ceiling. Different seeds, different fruits. Above all, having the seed, you still need a method to operate it.' },
+      { t: 'p', text: '有了办法后，说白了就是拿你的一切去喂养这个种子，让它茁壮成长，如果不知道一切是什么意思，你可以理解为拿你的命去养。', en: 'With the method in hand — plainly put, you feed the seed with your everything, that it may grow strong. If you do not know what everything means, understand it as feeding it with your life.' },
+      { t: 'p', text: '很多时候，播撒种子，只是为了回收果实而已，就算有种子，平平无奇的存在也多如沙漠之粒。', en: 'Often the scattering of seeds is only for harvesting fruit. Even with a seed, the unremarkable are as many as grains of sand in the desert.' },
+      { t: 'p', text: '一句话，这种它力存在如同案板上的肉，对方什么时候想吃你了，你就自求多福吧。', en: 'In one sentence: such other-power beings are like meat on the chopping block — when the other decides it wants to eat you, best wish yourself luck.' },
+      { t: 'p', text: '生前为工具，死后为备用干粮，说的就是这种。', en: 'Tools in life, reserve rations in death — this is exactly the case.' },
+      { t: 'p', text: '问', en: 'A Question' },
+      { t: 'p', text: 'XXX:我修炼只是想成为神仙神佛那种的啊~', en: 'XXX: I only practice so I can become one of those immortals and buddhas~' },
+      { t: 'p', text: '答：很不好意思，人家那种是自力行为，力量是完完全全属于自己的，自力之法，自古瘾传、秘传，师寻徒传，口口相传，甚至不记文字，不载外物。', en: 'Answer: My apologies — that kind is a self-power undertaking; the power is wholly their own. Self-power methods have, since old, been concealed and secret transmissions: masters seeking disciples, mouth to ear, never set in writing, never lodged in objects.' },
+      { t: 'p', text: '注：经过几千年的演变发展，现在世面不是宗教，就是宗教相关，至于真正的传承历来都是隐传，秘传，师寻徒传，不记文字，不载外物，外界难知。', en: 'Note: after millennia of evolution, what stands before the world today is religion, or religion-adjacent. As for the true transmissions — concealed, secret, masters seeking disciples, unwritten, unentrusted to objects, hard for the outside world to know.' },
+      { t: 'p', text: '没有真东西就是进不去，任你把话说破，任你身上有多么耀眼的光环，任你社会上多么牛逼的身份，哪怕是皇帝，你也进不去。', en: 'Without the real thing, you simply do not get in. Argue till your words give out; wear the most dazzling haloes; hold the most formidable rank in society — even an emperor — you do not get in.' },
+      { t: 'p', text: '而没有真东西的，出事只是早晚问题，有的能反应过来，被拉出来，但这都是稀有的少数。', en: 'And for those without the real thing, trouble is only a matter of time. Some manage to realize it in time and are pulled out — but these are the rare few.' },
     ],
   },
   {
     title: '神道法',
+    titleEn: 'The Divine Way',
     blocks: [
-      { t: 'p', text: '神道法有两种，一种是汇聚万民心念自身修成神佛；一种是通过传播宗教，获取神道功德，死后受封成为神官；一种是依靠附庸神明祖师仙佛，以自身神气或修炼来壮大神明种子，最终修成有一定自我意识的神佛化身。' },
-      { t: 'p', text: '第一种，要修成有自我意识的神佛，并不是只是获取香火心念就可以的，其中有特别的修法，而且这条路也并不十分好走。修这个，要么是死后修，要么是修了以后会早死。就算修成了，神人互役的大缺陷，也是摆脱不了的。' },
-      { t: 'p', text: '第二种，无论权柄还是神炁，皆来自于神明封赐，予取予夺，没什么好说的。' },
-      { t: 'p', text: '第三种情况比较复杂，其中有很多种类。' },
-      { t: 'p', text: '首先是神明种子的获取就有几种情况，有的是通过下种灌顶过法等师门师传、祖传的种子；有的是通过入门仪式获取；有的是练功过程中有涉及神佛祖师的神道内容，通过感召获取，例如观想神灵、念咒呼名；有的是通过长期把玩佩戴法器法物获得；有的是通过诚心供奉膜拜神佛，通过信力与神佛建立联系获得的。这里面前三种还是要挑剔一下人选的，后两种不挑人，必然获得，狗都可以获得。' },
-      { t: 'p', text: '所谓种子，其实就是神佛祖师一点神炁，也可以说是一点分神。因这神炁在品质上高于你自身，所以这种子会成为你的神炁核心，你的修炼，就是用你自身或你所采取的神炁，来养大种子，壮大这个神炁核心。这就是将自身神炁转化为高品质神炁的过程，也可以说是高品质神炁同化你的过程。也因此，种子的神炁品质就是你修炼的极限。当然这里面还有更复杂一些的神炁道理，在此不细讲，总之受种的修炼是无法超越下种者的。受种者的修炼可能对下种者有所补益，也可能仅仅壮大法力，但也无法令下种者超越自身层次。' },
-      { t: 'p', text: '其中不同的种子，修炼获得的成果也不一样。' },
-      { t: 'p', text: '神明一类，有的类似阳属层次的正神，有的是阴神下鬼附体护法出马一类。因受香火而成就的仙佛，虽然名为仙佛，从归类上也属于神明。这类种子，修炼有成，就是去做神仆天官，乃至护法阴兵，最高可以做个仆从神，为上神服务，做神佛的高级电池。你的神炁，或说你的法身的所有权是属于神明的，但你还是有使用权的，只要上神不收回，你就可以一直使用。你本身也有一定的自主权，但因为思维受到侵蚀影响，你自己会认为你是完全有自主权的，而意识不到你的思想是受到一定影响和控制的。' },
-      { t: 'p', text: '真正有成就的仙佛是另一类，他们有了真正的自身神炁上的大成就，可以做到不沾香火心念。根据自身的选择，他们可以将香火完全隔离消灭，也可以置之不理让他自然汇聚成神，或者作为一个神明分身替自己处理事务，甚至可以拿香火来做个法器。如果获得的是被隔离的神或者神分身的种子，那情况和上一种无异。如果是获取的真正仙佛的种子，那你也可以有很高的成就，虽然受控于仙佛，也相当于仙佛分身，但真正的仙佛未必有兴趣控制你，因为你对他来说未必有用，最多拿你当个后手备胎之类。' },
-      { t: 'p', text: '祖师种子有不同情况，有的祖师已经成就仙佛，有的祖师可能已归入神道成就神明或加入神明体系成为神官，有的祖师可能还只是阴神下鬼，形神俱灭，只是被拜出来的灵。根据不同情况，受种者最高可以获得不同成果。' },
-      { t: 'p', text: '仙人和祖师相对靠谱一点，可能有提携后辈的想法，未必怀有恶意。' },
-      { t: 'p', text: '优缺点' },
-      { t: 'p', text: '尺有所短，寸有所长，说自力法或者神道法，不能只说他的好处或者坏处。自力虽好，伟力归于自身。但完全依靠自己的努力，即便不求形神聚妙，那也是非常困难的。并且自力法基本不修法术神通，不是没有，而是纯靠自身神炁的法术神通修起来比正路子神形修炼一点也不省劲，有那个功夫，好好修炼也出成就了。神道法受控，生死操于神手，但是你在生活中，又何尝不是受控于人呢？最起码神道法有神佛祖师带你飞，要容易得多，成功的几率大得多。而且神道可以借用上神法力，可以使用部分法术神通，像什么符箓啊咒法啊印决啊，简单的一入门就可以使用。但也并不是就不需要努力了完全靠阿姨就上位了，神佛也不养闲人的，他们只是对你提供一些帮助给你一些便利条件，依旧需要你自身努力才能达成成就。即便有神明提携，其实成功率只是相对较高，能有成就的依然是极少数人。如果等你死的时候一点成就都没有，下种者直接收回自身神炁，连同你魂魄作为利息，阴兵也做不成。' },
-      { t: 'p', text: '人各有志，不能强求。神道笑话自力不可能成就，但人家逍遥自在你生死由人；自力笑话神道做奴隶做电池，但可能你骨头都腐朽了他还在乐呵呵笑话你。选什么修炼路子，在于自身选择。自由选择，自己承担后果。只是在做这个选择之前，能够知晓前因后果，明明白白的就行了。' },
+      { t: 'p', text: '神道法有两种，一种是汇聚万民心念自身修成神佛；一种是通过传播宗教，获取神道功德，死后受封成为神官；一种是依靠附庸神明祖师仙佛，以自身神气或修炼来壮大神明种子，最终修成有一定自我意识的神佛化身。', en: 'The divine way has two kinds. One: gathering the heart-thoughts of the myriad people, cultivating oneself into a god or buddha. One: spreading religion to gain divine merit, and after death being enfeoffed as a divine official. One: attaching to gods, patriarchs, immortals or buddhas, strengthening the divine seed with your own spirit-qi or practice, and at last cultivating into an avatar of god or buddha with some degree of self-awareness.' },
+      { t: 'p', text: '第一种，要修成有自我意识的神佛，并不是只是获取香火心念就可以的，其中有特别的修法，而且这条路也并不十分好走。修这个，要么是死后修，要么是修了以后会早死。就算修成了，神人互役的大缺陷，也是摆脱不了的。', en: 'The first: to cultivate into a god or buddha with self-awareness is not merely a matter of gathering incense-fire and heart-thoughts — there are special methods, and the road is not at all easy. Practicing it, either you practice after death, or you die early after practicing. Even if successful, the great flaw of god and man enslaving one another cannot be shaken off.' },
+      { t: 'p', text: '第二种，无论权柄还是神炁，皆来自于神明封赐，予取予夺，没什么好说的。', en: 'The second: authority and divine qi alike come from the gods\' conferral — to give or take as they please; nothing more to say.' },
+      { t: 'p', text: '第三种情况比较复杂，其中有很多种类。', en: 'The third is more complex, with many varieties within.' },
+      { t: 'p', text: '首先是神明种子的获取就有几种情况，有的是通过下种灌顶过法等师门师传、祖传的种子；有的是通过入门仪式获取；有的是练功过程中有涉及神佛祖师的神道内容，通过感召获取，例如观想神灵、念咒呼名；有的是通过长期把玩佩戴法器法物获得；有的是通过诚心供奉膜拜神佛，通过信力与神佛建立联系获得的。这里面前三种还是要挑剔一下人选的，后两种不挑人，必然获得，狗都可以获得。', en: 'First, the obtaining of a divine seed has several cases: some receive it through master-lineage or ancestral transmission — seed-planting, empowerment, transmission rites; some obtain it through an initiation ceremony; some encounter, in the course of practice, divine-way content concerning gods, buddhas or patriarchs, and receive it by resonance — visualizing deities, chanting their names; some obtain it by long handling and wearing of ritual implements and objects; some obtain it through sincere offering and worship of gods and buddhas, linking to them by the power of faith. Of these, the first three still are choosy about candidates; the latter two are not — they are obtained by necessity; even a dog can obtain them.' },
+      { t: 'p', text: '所谓种子，其实就是神佛祖师一点神炁，也可以说是一点分神。因这神炁在品质上高于你自身，所以这种子会成为你的神炁核心，你的修炼，就是用你自身或你所采取的神炁，来养大种子，壮大这个神炁核心。这就是将自身神炁转化为高品质神炁的过程，也可以说是高品质神炁同化你的过程。也因此，种子的神炁品质就是你修炼的极限。当然这里面还有更复杂一些的神炁道理，在此不细讲，总之受种的修炼是无法超越下种者的。受种者的修炼可能对下种者有所补益，也可能仅仅壮大法力，但也无法令下种者超越自身层次。', en: 'The so-called seed is in fact a bit of divine qi of a god, buddha or patriarch — one might say a bit of divided spirit. Because this qi is higher in quality than your own, the seed becomes the core of your divine qi; your practice is to use your own qi, or qi you gather, to feed the seed and strengthen this core. This is the process of converting your own divine qi into higher-quality divine qi — one might also say, the process of higher-quality qi assimilating you. Hence the quality of the seed\'s qi is the limit of your cultivation. There are, of course, subtler principles of divine qi here, not detailed now; in sum, the practice of the seeded can never surpass the seeder. The seeded one\'s practice may bring the seeder some benefit, or merely strengthen his power — but can never let the seeder surpass his own level.' },
+      { t: 'p', text: '其中不同的种子，修炼获得的成果也不一样。', en: 'Different seeds yield different fruits in practice.' },
+      { t: 'p', text: '神明一类，有的类似阳属层次的正神，有的是阴神下鬼附体护法出马一类。因受香火而成就的仙佛，虽然名为仙佛，从归类上也属于神明。这类种子，修炼有成，就是去做神仆天官，乃至护法阴兵，最高可以做个仆从神，为上神服务，做神佛的高级电池。你的神炁，或说你的法身的所有权是属于神明的，但你还是有使用权的，只要上神不收回，你就可以一直使用。你本身也有一定的自主权，但因为思维受到侵蚀影响，你自己会认为你是完全有自主权的，而意识不到你的思想是受到一定影响和控制的。', en: 'Among the divine kind: some resemble the yang-class true gods; some are the yin-spirit, low-ghost sort — possession-mediums, dharma-guards, chuma spirit-workers. Immortals and buddhas accomplished through receiving incense-fire, though named immortal or buddha, belong by classification to the divine kind as well. Seeds of this sort, brought to fruition, mean becoming a divine servant, a heavenly official, even a yin soldier of dharma-protection; at the highest, a servant deity attending the higher gods — a high-grade battery for gods and buddhas. The ownership of your divine qi — or of your dharma-body — belongs to the deity; you still hold a right of use: so long as the higher god does not recall it, you may use it without end. You have a degree of autonomy yourself — but because your thinking is eroded and influenced, you will believe yourself wholly autonomous, never realizing your thought is influenced and controlled to a degree.' },
+      { t: 'p', text: '真正有成就的仙佛是另一类，他们有了真正的自身神炁上的大成就，可以做到不沾香火心念。根据自身的选择，他们可以将香火完全隔离消灭，也可以置之不理让他自然汇聚成神，或者作为一个神明分身替自己处理事务，甚至可以拿香火来做个法器。如果获得的是被隔离的神或者神分身的种子，那情况和上一种无异。如果是获取的真正仙佛的种子，那你也可以有很高的成就，虽然受控于仙佛，也相当于仙佛分身，但真正的仙佛未必有兴趣控制你，因为你对他来说未必有用，最多拿你当个后手备胎之类。', en: 'The truly accomplished immortals and buddhas are another class: they have achieved true greatness in their own divine qi, and can remain untouched by incense-fire and heart-thoughts. By their own choosing, they may wholly isolate and extinguish such offerings, or ignore them and let them gather naturally into a god, or use them as a divine avatar to handle affairs, or even make of them a ritual implement. If what you obtained is the seed of an isolated god or a god\'s avatar, the case matches the previous one. If you obtained the seed of a truly accomplished immortal or buddha, you too may reach great heights — controlled by that immortal or buddha, effectively their avatar — but the true immortal may have no interest in controlling you, since you may be of no use to them; at most, a fallback — a spare tire.' },
+      { t: 'p', text: '祖师种子有不同情况，有的祖师已经成就仙佛，有的祖师可能已归入神道成就神明或加入神明体系成为神官，有的祖师可能还只是阴神下鬼，形神俱灭，只是被拜出来的灵。根据不同情况，受种者最高可以获得不同成果。', en: 'Patriarch seeds differ by case: some patriarchs have achieved immortal- or buddhahood; some may have entered the divine way, becoming gods, or joined the divine system as officials; some may still be yin-spirits, low ghosts — form and spirit both extinguished, merely a spirit conjured by worship. By the case, the seeded may attain different fruits at the highest.' },
+      { t: 'p', text: '仙人和祖师相对靠谱一点，可能有提携后辈的想法，未必怀有恶意。', en: 'Immortals and patriarchs are relatively dependable — they may intend to raise up the younger generation, and need not harbor ill will.' },
+      { t: 'p', text: '优缺点', en: 'Merits and Faults' },
+      { t: 'p', text: '尺有所短，寸有所长，说自力法或者神道法，不能只说他的好处或者坏处。自力虽好，伟力归于自身。但完全依靠自己的努力，即便不求形神聚妙，那也是非常困难的。并且自力法基本不修法术神通，不是没有，而是纯靠自身神炁的法术神通修起来比正路子神形修炼一点也不省劲，有那个功夫，好好修炼也出成就了。神道法受控，生死操于神手，但是你在生活中，又何尝不是受控于人呢？最起码神道法有神佛祖师带你飞，要容易得多，成功的几率大得多。而且神道可以借用上神法力，可以使用部分法术神通，像什么符箓啊咒法啊印决啊，简单的一入门就可以使用。但也并不是就不需要努力了完全靠阿姨就上位了，神佛也不养闲人的，他们只是对你提供一些帮助给你一些便利条件，依旧需要你自身努力才能达成成就。即便有神明提携，其实成功率只是相对较高，能有成就的依然是极少数人。如果等你死的时候一点成就都没有，下种者直接收回自身神炁，连同你魂魄作为利息，阴兵也做不成。', en: 'The foot falls short somewhere; the inch excels somewhere. Of self-power or divine way, one cannot speak only of the good, or only of the bad. Self-power is fine: great power returns to oneself. But to rely wholly on your own effort — even without seeking the union and wonder of form and spirit — is very difficult indeed. And self-power methods largely do not cultivate spells and powers — not that they do not exist, but that spells and powers drawn purely from one\'s own divine qi are no less laborious than proper spirit-and-form practice; with that same time and effort, honest cultivation would already have yielded. The divine way is controlled — life and death handled by a god\'s hand. But in your life, are you not also controlled by others? At least the divine way has gods, buddhas and patriarchs carrying you along; it is far easier, the odds of success far greater. And the divine way may borrow a higher god\'s power, wielding some spells and faculties — talismans, incantations, hand-seals — usable simply upon entry. But that does not mean no effort is needed, as if "Auntie" would carry you to the top; gods and buddhas keep no idlers. They merely offer some help and convenience; you still need your own effort to attain. Even with a deity\'s backing, success is only relatively more likely — those who attain anything are still very few. If you die with no attainment at all, the seeder simply recalls his divine qi, your soul and spirit included, as interest — and you cannot even become a yin soldier.' },
+      { t: 'p', text: '人各有志，不能强求。神道笑话自力不可能成就，但人家逍遥自在你生死由人；自力笑话神道做奴隶做电池，但可能你骨头都腐朽了他还在乐呵呵笑话你。选什么修炼路子，在于自身选择。自由选择，自己承担后果。只是在做这个选择之前，能够知晓前因后果，明明白白的就行了。', en: 'Each has their own aspiration; it cannot be forced. The divine way laughs that self-power cannot succeed — yet that one roams unfettered while your life and death rest with another. Self-power laughs that the divine way is slavery, is a battery — yet when your bones have rotted, he may still be laughing merrily at you. Which path to choose rests on your own choice. Choose freely; bear the consequences yourself. Only — before choosing, be able to know the causes and the consequences, and be clear-eyed. That suffices.' },
     ],
   },
 ];
@@ -133,26 +139,26 @@ const chapters = [
 
         <div class="famen-hero-text reveal" data-d="2">
           <a class="famen-back kai" href={`${base}/famen`}>
-            <span class="famen-back-arrow" aria-hidden="true">←</span> 返回法门
+            <span class="famen-back-arrow" aria-hidden="true">←</span> <Zl zh="返回法门" en="Back to Paths" />
           </a>
-          <p class="famen-eyebrow kai">法 门 · 其 一</p>
-          <h1 id="famen-hero-title" class="famen-title kai">体系</h1>
+          <p class="famen-eyebrow kai"><Zl zh="法 门 · 其 一" en="Paths · Part One" /></p>
+          <h1 id="famen-hero-title" class="famen-title kai"><Zl zh="体系" en="The System" /></h1>
           <div class="famen-rule" aria-hidden="true"></div>
-          <p class="famen-sub">古往今来，法脉相承。源流所自，支派所分，修行次第与传承图谱，皆归此门。</p>
-          <p class="famen-meta kai">体系 · 内求外求 · 自力它力 · 神道另说</p>
+          <p class="famen-sub"><Zl zh="古往今来，法脉相承。源流所自，支派所分，修行次第与传承图谱，皆归此门。" en="From antiquity to the present, the lineages pass the flame. Where the streams arise, how the branches divide — the stages of practice and the charts of transmission all return to this gate." /></p>
+          <p class="famen-meta kai"><Zl zh="体系 · 内求外求 · 自力它力 · 神道另说" en="System · Inner and Outer Seeking · Self-Power and Other-Power · A Word on the Divine Way" /></p>
         </div>
       </div>
     </section>
 
     {/* 正文：全篇照录，只作分章排版 */}
-    <section class="tixi-body" aria-label="正文">
+    <section class="tixi-body" aria-label="正文" data-en-aria="Main text">
       <div class="wrap">
         <Treatise chapters={chapters} />
 
-        <nav class="tixi-actions kai" aria-label="法门其余入口">
-          <a class="tixi-btn is-primary" href={`${base}/shendao/jieshao`}>神道法 · 法门介绍</a>
-          <a class="tixi-btn" href={`${base}/famen/chuanshou`}>前往传授法门 ›</a>
-          <a class="tixi-btn" href={`${base}/famen`}>← 返回法门</a>
+        <nav class="tixi-actions kai" aria-label="法门其余入口" data-en-aria="Other entries of the Paths">
+          <a class="tixi-btn is-primary" href={`${base}/shendao/jieshao`}><Zl zh="神道法 · 法门介绍" en="The Divine Way · Introduction" /></a>
+          <a class="tixi-btn" href={`${base}/famen/chuanshou`}><Zl zh="前往传授法门 ›" en="To the Transmitted Paths ›" /></a>
+          <a class="tixi-btn" href={`${base}/famen`}><Zl zh="← 返回法门" en="← Back to Paths" /></a>
         </nav>
 
         <Giscus />

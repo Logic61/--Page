@@ -19,6 +19,7 @@ type Block =
 interface Chapter {
   /** 章节序号，如「一」 */
   num?: string;
+  numEn?: string;
   /** 章节标题；省略时只排正文，用于承接上文的段落 */
   title?: string;
   titleEn?: string;
@@ -114,7 +115,11 @@ const {
         <section class="block reveal" data-d={ci % 3 === 0 ? undefined : String((ci % 3) + 1)}>
           {(c.num || c.title) && (
             <header class="block-head">
-              {c.num && <span class="block-num kai">{c.num}</span>}
+              {c.num && (
+                <span class="block-num kai">
+                  <Zl zh={c.num} en={c.numEn} />
+                </span>
+              )}
               {c.title && (
                 <h3 class="kai">
                   <Zl zh={c.title} en={c.titleEn} />
