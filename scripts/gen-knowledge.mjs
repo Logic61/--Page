@@ -1,12 +1,16 @@
 // 生成知识点结构化数据（knowledge.json）与全局搜索索引（search-index.json）
-import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const text = readFileSync(join(root, '巫', '知识点.txt'), 'utf8').replace(/\r\n/g, '\n');
 const lines = text.split('\n');
 const outData = join(root, 'src', 'data');
+
+// 英文侧数据（TypeScript 模块，Node 22.18+/24 默认 type-strip，可直接 import）
+const { knowledgeEn } = await import(pathToFileURL(join(root, 'src', 'data', 'knowledge.en.ts')).href);
+const { essaysEn } = await import(pathToFileURL(join(root, 'src', 'data', 'xianwen.en.ts')).href);
 
 const nums = { 一:1,二:2,三:3,四:4,五:5,六:6,七:7,八:8,九:9,十:10,十一:11,十二:12,十三:13,十四:14,十五:15,十六:16,十七:17,十八:18,十九:19,二十:20,二十一:21,二十二:22,二十三:23,二十四:24,二十五:25,二十六:26,二十七:27,二十八:28,二十九:29,三十:30,三十一:31,三十二:32,三十三:33,三十四:34,三十五:35,三十六:36,三十七:37,三十八:38,三十九:39,四十:40,四十一:41,四十二:42,四十三:43,四十四:44,四十五:45,四十六:46,四十七:47,四十八:48,四十九:49,五十:50,五十一:51,五十二:52,五十三:53,五十四:54,五十五:55,五十六:56,五十七:57,五十八:58,五十九:59,六十:60 };
 
@@ -151,7 +155,34 @@ const knowledge = { notice: noticeLines.join('\n'), preface: prefaceLines, categ
 writeFileSync(join(outData, 'knowledge.json'), JSON.stringify(knowledge, null, 2), 'utf8');
 
 const index = [];
-for (const it of allItems) index.push({ type: 'knowledge', id: it.id, title: it.title, snippet: it.excerpt, category: CATS.find(c => c.id === it.category)?.name || '', url: '/changshi#k-' + it.id });
+// 英文检索字段：与页面同规则按数组下标对齐（中文源存在重复 id）；缺失回落中文
+if (knowledgeEn.items.length !== allItems.length) {
+  console.warn('[gen-knowledge] knowledge.en.ts 条目数不匹配: ' + knowledgeEn.items.length + ' vs ' + allItems.length);
+}
+for (let i = 0; i < allItems.length; i++) {
+  const it = allItems[i];
+  const en = knowledgeEn.items[i];
+  index.push({
+    type: 'knowledge', id: it.id, title: it.title, snippet: it.excerpt,
+    category: CATS.find(c => c.id === it.category)?.name || '',
+    titleEn: en?.title || '', snippetEn: en?.excerpt || '',
+    categoryEn: knowledgeEn.categories[it.category] || '',
+    url: '/changshi#k-' + it.id,
+  });
+}
+// 秘闻十一篇的英文标题/摘要：巫-en/*.md 按 slug 对应
+const enDir = join(root, '巫-en');
+const articleEnBySlug = {};
+if (existsSync(enDir)) {
+  for (const f of readdirSync(enDir).filter(f => f.endsWith('.md')).sort()) {
+    const md = readFileSync(join(enDir, f), 'utf8');
+    const fm = md.match(/^---\n([\s\S]*?)\n---/);
+    if (!fm) continue;
+    const get = (k) => { const m = fm[1].match(new RegExp('^' + k + ':\\s*(.+)$', 'm')); return m ? m[1].trim() : ''; };
+    const slug = get('slug');
+    if (slug) articleEnBySlug[slug] = { title: get('title'), summary: get('summary').replace(/^["']|["']$/g, '') };
+  }
+}
 for (const f of readdirSync(join(root, '巫')).filter(f => f.endsWith('.md')).sort()) {
   const md = readFileSync(join(root, '巫', f), 'utf8');
   const fm = md.match(/^---\n([\s\S]*?)\n---/);
@@ -159,7 +190,12 @@ for (const f of readdirSync(join(root, '巫')).filter(f => f.endsWith('.md')).so
   const get = (k) => { const m = fm[1].match(new RegExp('^' + k + ':\s*(.+)$', 'm')); return m ? m[1].trim() : ''; };
   const slug = get('slug');
   if (!slug) continue;
-  index.push({ type: 'article', id: slug, title: '《' + (get('title') || f) + '》', snippet: get('summary'), category: '神机秘闻', url: '/miwen/' + slug });
+  const en = articleEnBySlug[slug];
+  index.push({
+    type: 'article', id: slug, title: '《' + (get('title') || f) + '》', snippet: get('summary'), category: '神机秘闻',
+    titleEn: en ? '《' + en.title + '》' : '', snippetEn: en ? en.summary : '', categoryEn: 'Shenji Miwen',
+    url: '/miwen/' + slug,
+  });
 }
 // ---------- 法门与闲文的独立篇章 ----------
 // 这些页面正文直接写在 .astro 里，没有 frontmatter 可读，故在此登记条目，
@@ -369,7 +405,41 @@ const PAGES = [
     url: '/xianwen/aimless-musing',
   },
 ];
-for (const p of PAGES) index.push({ type: 'page', ...p });
+// 英文侧：法门五个篇章手写；闲文二十四篇从 xianwen.en.ts 按 slug 取（id 去掉 'xianwen-' 前缀）
+const PAGES_EN = {
+  'famen-tixi': {
+    titleEn: '《The Systems of Past and Present》',
+    snippetEn: 'Cultivation divides into refining the spirit, refining the form and nurturing the dao-heart; methods include cunsi, cunshen, jingsi, daoyin, fushi, incantation tones, inner alchemy and qi-gathering; by qi-source, inner-seeking and outer-seeking; by power, self-power and other-power.',
+    categoryEn: 'Paths',
+  },
+  'shendao-famen': {
+    titleEn: '《Shendao — the Way of Gods》',
+    snippetEn: 'The divine way divides into self-power and other-power: the ancestral divine way and the Three Imperishables, the patriarchal way, the enfeoffing rite of the incense-fire divine way, spreading religion to be enfeoffed a divine official, and vassal gods or patriarchs to swell the seed. Incense-fire is poison — it severs the path.',
+    categoryEn: 'Paths · Shendao',
+  },
+  'tongshen-famen': {
+    titleEn: '《Tongshen》',
+    snippetEn: 'Tongshen is communication with the gods, an ancient secret art: the gods choose, people learn; gods have ranks, bloodlines have kinship and distance; four paths branch — the communicant, the serving attendant, the divine envoy, the hidden cultivator.',
+    categoryEn: 'Paths · Tongshen',
+  },
+  'zhuyanshu-yuanwen': {
+    titleEn: '《Zhuyan — Preserving the Countenance》',
+    snippetEn: 'Down the ages, how many have sought a face that never ages, and sought in vain? — The Zhuyan text and its five effects.',
+    categoryEn: 'Paths · Zhuyanshu',
+  },
+  'aozhan-yuanwen': {
+    titleEn: '《Aozhan — the Fierce Rite》',
+    snippetEn: 'The fierce rite is the main method of the gate, with three supporting nourishing-life arts — restoring yang and tonifying deficiency, stopping nocturnal loss, and nourishing yang to firm the root — and a distinction drawn between nourishing yang and strengthening yang.',
+    categoryEn: 'Paths · Aozhan',
+  },
+};
+const essayEnById = Object.fromEntries(essaysEn.map((e) => [e.id, e]));
+for (const p of PAGES) {
+  let extra = PAGES_EN[p.id] || {};
+  const essay = p.id.startsWith('xianwen-') ? essayEnById[p.id.slice('xianwen-'.length)] : null;
+  if (essay) extra = { titleEn: '《' + essay.title + '》', snippetEn: essay.summary, categoryEn: 'Essays' };
+  index.push({ type: 'page', ...p, titleEn: '', snippetEn: '', categoryEn: '', ...extra });
+}
 writeFileSync(join(outData, 'search-index.json'), JSON.stringify(index, null, 2), 'utf8');
 
 console.log('条目: ' + allItems.length + '（基础 ' + itemsA.length + ' + 祝法 ' + itemsB.length + '） FAQ: ' + faqIds.length + ' 索引: ' + index.length);

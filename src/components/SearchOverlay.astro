@@ -86,23 +86,29 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       const en = isEn();
       const q = si.value.trim().toLowerCase();
       if (!q) { sr.innerHTML = HINT(); return; }
-      const hits = searchIndex.filter((x) => (x.title + x.snippet + x.category).toLowerCase().includes(q))
-        .sort((a, b) => (b.title.toLowerCase().includes(q) ? 1 : 0) - (a.title.toLowerCase().includes(q) ? 1 : 0));
+      // 语种字段：en 模式下优先 titleEn/snippetEn/categoryEn，缺失回落中文；
+      // 过滤时中英两套字段都参与匹配，任一侧能搜到都算命中
+      const ttl = (h) => (en && h.titleEn ? h.titleEn : h.title);
+      const snp = (h) => (en && h.snippetEn ? h.snippetEn : h.snippet);
+      const cat = (h) => (en && h.categoryEn ? h.categoryEn : h.category);
+      const hay = (h) => (h.title + ' ' + h.titleEn + ' ' + h.snippet + ' ' + h.snippetEn + ' ' + h.category + ' ' + h.categoryEn).toLowerCase();
+      const hits = searchIndex.filter((x) => hay(x).includes(q))
+        .sort((a, b) => (ttl(b).toLowerCase().includes(q) ? 1 : 0) - (ttl(a).toLowerCase().includes(q) ? 1 : 0));
       const kw = hits.filter((h) => h.type === 'knowledge');
       const art = hits.filter((h) => h.type === 'article');
       const pg = hits.filter((h) => h.type === 'page');
       let html = '';
       if (kw.length) {
         html += '<h4 class="search-group-title">' + (en ? 'Cultivation Essentials' : '修炼常识') + '（' + kw.length + '）</h4>';
-        html += kw.slice(0, 12).map((h) => '<a class="search-hit" href="' + base + h.url + '"><b>' + esc(h.title) + '</b><span>' + esc(h.category) + ' · ' + esc(h.snippet) + '</span></a>').join('');
+        html += kw.slice(0, 12).map((h) => '<a class="search-hit" href="' + base + h.url + '"><b>' + esc(ttl(h)) + '</b><span>' + esc(cat(h)) + ' · ' + esc(snp(h)) + '</span></a>').join('');
       }
       if (art.length) {
         html += '<h4 class="search-group-title">' + (en ? 'Records' : '秘闻') + '（' + art.length + '）</h4>';
-        html += art.slice(0, 6).map((h) => '<a class="search-hit" href="' + base + h.url + '"><b>' + esc(h.title) + '</b><span>' + esc(h.snippet) + '</span></a>').join('');
+        html += art.slice(0, 6).map((h) => '<a class="search-hit" href="' + base + h.url + '"><b>' + esc(ttl(h)) + '</b><span>' + esc(snp(h)) + '</span></a>').join('');
       }
       if (pg.length) {
         html += '<h4 class="search-group-title">' + (en ? 'Paths & Essays' : '法门与闲文') + '（' + pg.length + '）</h4>';
-        html += pg.slice(0, 6).map((h) => '<a class="search-hit" href="' + base + h.url + '"><b>' + esc(h.title) + '</b><span>' + esc(h.category) + ' · ' + esc(h.snippet) + '</span></a>').join('');
+        html += pg.slice(0, 6).map((h) => '<a class="search-hit" href="' + base + h.url + '"><b>' + esc(ttl(h)) + '</b><span>' + esc(cat(h)) + ' · ' + esc(snp(h)) + '</span></a>').join('');
       }
       if (!html) html = en
         ? '<p class="search-hint">No results for “' + esc(q) + '”</p>'

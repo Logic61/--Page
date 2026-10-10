@@ -2,17 +2,24 @@
 import Base from '../layouts/Base.astro';
 import Giscus from '../components/Giscus.astro';
 import GoldNav from '../components/GoldNav.astro';
+import Zl from '../components/Zl.astro';
 import knowledge from '../data/knowledge.json';
+import { knowledgeEn } from '../data/knowledge.en';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const cats = knowledge.categories;
-const catName = (id) => cats.find((c) => c.id === id)?.name || '';
+const catEn = knowledgeEn.categories;
 const faqSet = new Set(knowledge.faqIds);
+// 中英按数组下标严格对齐（中文源存在重复 id，不以 id 对齐）；未译条目回落中文
+const items = knowledge.items.map((zh, i) => ({
+  zh,
+  en: knowledgeEn.items[i] as (typeof knowledgeEn.items)[number] | undefined,
+}));
 const groups = cats.map((c) => ({
   ...c,
-  items: knowledge.items.filter((i) => i.category === c.id),
+  items: items.filter((m) => m.zh.category === c.id),
 }));
-const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
+const countOf = (id) => items.filter((m) => m.zh.category === id).length;
 ---
 
 <Base title="修炼常识 · 上古祝门" description="按修炼基础、师承传承、修行境界、祝法养生、宗教神道等类别整理的上古祝门问答与修炼常识，支持全文检索。" hideNav={true} search="gold">
@@ -41,11 +48,20 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
         </div>
 
         <div class="changshi-hero-text reveal" data-d="2">
-          <p class="changshi-eyebrow kai">修 炼 常 识 · {cats.length} 类 {knowledge.items.length} 条</p>
-          <h1 id="changshi-hero-title" class="changshi-title kai">修炼常识</h1>
+          <p class="changshi-eyebrow kai"><Zl
+            zh={`修 炼 常 识 · ${cats.length} 类 ${knowledge.items.length} 条`}
+            en={`CULTIVATION ESSENTIALS · ${cats.length} CATEGORIES · ${knowledge.items.length} ENTRIES`}
+          /></p>
+          <h1 id="changshi-hero-title" class="changshi-title kai"><Zl zh="修炼常识" en="Cultivation Essentials" /></h1>
           <div class="changshi-rule" aria-hidden="true"></div>
-          <p class="changshi-sub">由「修炼基础认知」与「祝法与修行」两份问答整理而来，分门别类，可检索、可展开全文。</p>
-          <p class="changshi-meta kai">修行、修炼理论内容，未经科学证实，切勿迷信</p>
+          <p class="changshi-sub"><Zl
+            zh="由「修炼基础认知」与「祝法与修行」两份问答整理而来，分门别类，可检索、可展开全文。"
+            en="Compiled from two Q&A collections — “Cultivation Basics” and “Zhu Methods and Practice” — arranged by category, searchable, with full text to expand."
+          /></p>
+          <p class="changshi-meta kai"><Zl
+            zh="修行、修炼理论内容，未经科学证实，切勿迷信"
+            en="Cultivation-theory material, not scientifically verified — take nothing on faith"
+          /></p>
         </div>
       </div>
     </section>
@@ -54,29 +70,38 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
       <div class="wrap">
 
         <div class="kb-notice reveal">
-          <b class="kai">敬告</b>
-          <p>{knowledge.notice.split('\n').filter(Boolean).join('。')}</p>
+          <b class="kai"><Zl zh="敬告" en="Notice" /></b>
+          <p><Zl zh={knowledge.notice.split('\n').filter(Boolean).join('。')} en={knowledgeEn.notice} /></p>
         </div>
 
         <details class="kb-preface reveal" data-d="2">
-          <summary class="kai">作者前言 <span class="kb-summary-hint">展开阅读</span></summary>
+          <summary class="kai"><Zl zh="作者前言" en="Author’s Preface" /> <span class="kb-summary-hint"><Zl zh="展开阅读" en="Expand" /></span></summary>
           <div class="kb-preface-body">
-            {knowledge.preface.map((p) => <p>{p}</p>)}
+            {knowledge.preface.map((p) => <p class="zl-zh">{p}</p>)}
+            {knowledgeEn.preface.map((p) => <p class="zl-en">{p}</p>)}
           </div>
         </details>
 
         <div class="kb-toolbar reveal" data-d="3">
-          <div class="kb-tabs" role="tablist" aria-label="修炼常识分类">
-            <button class="k-tab active" data-tab="faq" role="tab">常见问题 <em>{knowledge.faqIds.length}</em></button>
-            <button class="k-tab" data-tab="all" role="tab">全部 <em>{knowledge.items.length}</em></button>
+          <div class="kb-tabs" role="tablist" aria-label="修炼常识分类" data-en-aria="Essentials categories">
+            <button class="k-tab active" data-tab="faq" role="tab"><Zl zh="常见问题" en="FAQ" /> <em>{knowledge.faqIds.length}</em></button>
+            <button class="k-tab" data-tab="all" role="tab"><Zl zh="全部" en="All" /> <em>{knowledge.items.length}</em></button>
             {
               cats.map((c) => (
-                <button class="k-tab" data-tab={c.id} role="tab">{c.name} <em>{countOf(c.id)}</em></button>
+                <button class="k-tab" data-tab={c.id} role="tab"><Zl zh={c.name} en={catEn[c.id]} /> <em>{countOf(c.id)}</em></button>
               ))
             }
           </div>
           <div class="kb-search">
-            <input id="kSearch" type="search" placeholder="在当前分类中搜索关键词…" autocomplete="off" aria-label="修炼常识搜索" />
+            <input
+              id="kSearch"
+              type="search"
+              placeholder="在当前分类中搜索关键词…"
+              data-en-ph="Search keywords in current category…"
+              autocomplete="off"
+              aria-label="修炼常识搜索"
+              data-en-aria="Essentials search"
+            />
             <span class="kb-count" id="kCount"></span>
           </div>
         </div>
@@ -85,25 +110,37 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
           {
             groups.map((g) => (
               <div class="k-group" data-cat={g.id}>
-                <h3 class="k-group-title kai">{g.name}<span>{g.items.length} 条</span></h3>
+                <h3 class="k-group-title kai"><Zl zh={g.name} en={catEn[g.id]} /><span><Zl zh={`${g.items.length} 条`} en={`${g.items.length} items`} /></span></h3>
                 {
-                  g.items.map((it) => (
+                  g.items.map(({ zh: it, en }) => (
                     <article class="k-item" id={'k-' + it.id} data-cat={it.category} data-faq={faqSet.has(it.id) ? '1' : '0'}>
                       <button class="k-q" type="button" aria-expanded="false" aria-controls={'k-a-' + it.id}>
                         <span class="k-q-body">
-                          <b>{it.title}</b>
-                          <i>{it.excerpt}</i>
+                          <b><Zl zh={it.title} en={en?.title} /></b>
+                          <i><Zl zh={it.excerpt} en={en?.excerpt} /></i>
                         </span>
                         <span class="k-chevron" aria-hidden="true">＋</span>
                       </button>
                       <div class="k-a" id={'k-a-' + it.id} hidden>
-                        {
+                        {en ? (
+                          it.content.map((p, j) => {
+                            const ep = en.content[j] ?? p;
+                            const mz = p.match(/^【(.+?)】$/);
+                            const me = ep.match(/^【(.+?)】$/);
+                            return (
+                              <>
+                                {mz ? <p class="k-sub zl-zh"><b>{mz[1]}</b></p> : <p class="zl-zh">{p}</p>}
+                                {me ? <p class="k-sub zl-en"><b>{me[1]}</b></p> : <p class="zl-en">{ep}</p>}
+                              </>
+                            );
+                          })
+                        ) : (
                           it.content.map((p) => {
                             const m = p.match(/^【(.+?)】$/);
                             if (m) return <p class="k-sub"><b>{m[1]}</b></p>;
                             return <p>{p}</p>;
                           })
-                        }
+                        )}
                       </div>
                     </article>
                   ))
@@ -113,7 +150,10 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
           }
         </div>
 
-        <p class="kb-trailer kai reveal">依据《知识点》整理 · 修行理论内容，未经科学证实，切勿迷信</p>
+        <p class="kb-trailer kai reveal"><Zl
+          zh="依据《知识点》整理 · 修行理论内容，未经科学证实，切勿迷信"
+          en="Compiled from “Knowledge Points” · Cultivation-theory material, not scientifically verified — take nothing on faith"
+        /></p>
 
         <Giscus />
 
@@ -589,6 +629,7 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
   const tabBtns = Array.from(document.querySelectorAll('.k-tab'));
   const searchInput = document.getElementById('kSearch');
   const countEl = document.getElementById('kCount');
+  const isEn = () => document.documentElement.getAttribute('data-lang') === 'en';
 
   function apply() {
     const tab = document.querySelector('.k-tab.active').dataset.tab;
@@ -608,7 +649,7 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
       g.style.marginBottom = tab === 'faq' ? '0' : '';
       if (head) head.style.display = !q && tab !== 'faq' && gShow ? '' : 'none';
     });
-    countEl.textContent = visible ? '共 ' + visible + ' 条' : '';
+    countEl.textContent = visible ? (isEn() ? visible + (visible === 1 ? ' item' : ' items') : '共 ' + visible + ' 条') : '';
   }
 
   tabBtns.forEach((b) => b.addEventListener('click', () => {
@@ -616,6 +657,10 @@ const countOf = (id) => knowledge.items.filter((i) => i.category === id).length;
     apply();
   }));
   searchInput.addEventListener('input', apply);
+  // EN/CN 切换后重算计数文案（lang.ts 的点击处理先跑，再刷新）
+  document.addEventListener('click', (e) => {
+    if (e.target && e.target.closest && e.target.closest('.lang-toggle')) setTimeout(apply, 0);
+  });
 
   document.querySelectorAll('.k-q').forEach((btn) => btn.addEventListener('click', () => {
     const art = btn.closest('.k-item');
