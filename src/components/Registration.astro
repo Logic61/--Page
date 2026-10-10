@@ -60,7 +60,14 @@ const rules = [
           <p><Zl zh="扫码关注 · 联系巫恒先生" en="Scan to follow · Contact Master Wuheng" /></p>
         </div>
 
-        <aside class="reg-disclaim reveal" data-d="3">
+        <div class="reg-qr reveal" data-d="3">
+          <div class="qr-frame">
+            <img src={`${base}/微信好友二维码.png`} alt="个人微信二维码" data-en-alt="Personal WeChat QR code" loading="lazy" />
+          </div>
+          <p><Zl zh="扫码添加 · 微信好友" en="Scan to add me on WeChat" /></p>
+        </div>
+
+        <aside class="reg-disclaim reveal" data-d="4">
           <span class="reg-disclaim-mark zhuan">敬</span>
           <p>
             <Zl
@@ -159,10 +166,13 @@ const rules = [
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
   }
 
+  /* contain + 白底：方框内仍是完整白卡观感，且两图比例不同时不会被
+     cover 裁掉顶部昵称 / 底部提示字 */
   .qr-frame img {
     width: 180px;
     height: 180px;
-    object-fit: cover;
+    object-fit: contain;
+    background: #fff;
   }
 
   .reg-qr p {

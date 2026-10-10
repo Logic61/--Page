@@ -8,7 +8,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 <Base
   title="联系我们 · 上古祝门"
-  description="上古祝门联系方式：微信公众号与 QQ 群二维码、微信 SGWZWH、QQ 42914407。修行有疑，或欲入群交流，皆可由此联系。"
+  description="上古祝门联系方式：微信公众号、个人微信、QQ 群二维码，以及微信 SGWZWH、QQ 42914407。修行有疑，或欲入群交流，皆可由此联系。"
   hideNav={true}
   search="gold"
 >
@@ -77,6 +77,20 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
               <span><Zl zh="QQ 群 · 太易之道（一群）" en="QQ Group · The Way of Taiyi (Group One)" /></span>
               <small><Zl zh="群号 606517450" en="Group No. 606517450" /></small>
             </figcaption>
+          </figure>
+
+          <figure class="lx-qr reveal" data-d="3">
+            <div class="lx-qr-frame">
+              <img
+                src={`${base}/微信好友二维码.png`}
+                alt="个人微信二维码"
+                data-en-alt="Personal WeChat QR code"
+                loading="lazy"
+                width="888"
+                height="1131"
+              />
+            </div>
+            <figcaption class="kai"><Zl zh="微信 · 扫码添加好友" en="WeChat · Scan to Add Me" /></figcaption>
           </figure>
         </div>
 
@@ -330,9 +344,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
   .lx-qrs {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(1.6rem, 4vw, 3.2rem);
-    max-width: 44rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.4rem, 3vw, 2.6rem);
+    max-width: 62rem;
     margin-inline: auto;
   }
 
@@ -422,12 +436,15 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
      窄屏与减弱动效
      ============================================================ */
 
-  @media (max-width: 640px) {
-    .lx-hero { padding: 2.2rem 0 1.8rem; }
+  @media (max-width: 860px) {
     .lx-qrs {
       grid-template-columns: 1fr;
       max-width: 21rem;
     }
+  }
+
+  @media (max-width: 640px) {
+    .lx-hero { padding: 2.2rem 0 1.8rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {

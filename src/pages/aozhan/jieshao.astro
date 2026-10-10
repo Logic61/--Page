@@ -112,7 +112,7 @@ const chapters = [
         ],
       },
       { t: 'p', text: '便于大家方便，特设有QQ群、微信群【添加本人后邀请入群】', en: 'For everyone\'s convenience, a QQ group and a WeChat group are provided. [Add me personally, and you will be invited in.]' },
-      { t: 'p', text: '公众号二维码：', en: 'Official-account QR code:' },
+      { t: 'p', text: '公众号与微信二维码：', en: 'Official-account and WeChat QR codes:' },
     ],
   },
 ];
@@ -147,6 +147,12 @@ const chapters = [
           </div>
           <p><Zl zh="扫码关注 · 联系巫恒先生" en="Scan to follow · Contact Master Wuheng" /></p>
         </div>
+        <div class="contact-qr">
+          <div class="qr-frame">
+            <img src={`${base}/微信好友二维码.png`} alt="个人微信二维码" data-en-alt="Personal WeChat QR code" loading="lazy" />
+          </div>
+          <p><Zl zh="扫码添加 · 微信好友" en="Scan to add me on WeChat" /></p>
+        </div>
       </div>
     </section>
   </GateIntro>
@@ -174,7 +180,9 @@ const chapters = [
     max-width: 48em;
     margin-inline: auto;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: clamp(1.4rem, 3vw, 2.4rem);
   }
   .contact-qr { text-align: center; }
   .qr-frame {

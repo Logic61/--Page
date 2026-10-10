@@ -192,16 +192,29 @@ const chapters = [
 
   <section class="oujing-contact">
     <div class="wrap contact-inner">
-      <div class="contact-qr">
-        <div class="qr-frame">
-          <img
-            src={`${base}/公众号二维码.jpg`}
-            alt="公众号二维码"
-            data-en-alt="WeChat Official Account QR code"
-            loading="lazy"
-          />
+      <div class="contact-qrs">
+        <div class="contact-qr">
+          <div class="qr-frame">
+            <img
+              src={`${base}/公众号二维码.jpg`}
+              alt="公众号二维码"
+              data-en-alt="WeChat Official Account QR code"
+              loading="lazy"
+            />
+          </div>
+          <p><Zl zh="扫码关注 · 联系巫恒先生" en="Scan to follow · Contact Master Wuheng" /></p>
         </div>
-        <p><Zl zh="扫码关注 · 联系巫恒先生" en="Scan to follow · Contact Master Wuheng" /></p>
+        <div class="contact-qr">
+          <div class="qr-frame">
+            <img
+              src={`${base}/微信好友二维码.png`}
+              alt="个人微信二维码"
+              data-en-alt="Personal WeChat QR code"
+              loading="lazy"
+            />
+          </div>
+          <p><Zl zh="扫码添加 · 微信好友" en="Scan to add me on WeChat" /></p>
+        </div>
       </div>
       <p class="contact-line">
         <Zl
@@ -229,12 +242,19 @@ const chapters = [
     margin-inline: auto;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
     gap: clamp(1.6rem, 4vw, 3rem);
     padding: clamp(1.6rem, 3vw, 2.4rem);
     border: 1px dashed color-mix(in srgb, var(--branch-accent) 32%, transparent);
     border-radius: 3px;
     background: var(--panel-soft);
+  }
+  .contact-qrs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(1rem, 2.5vw, 1.6rem);
   }
   .contact-qr { text-align: center; }
   .qr-frame {
@@ -244,15 +264,19 @@ const chapters = [
     border-radius: 3px;
     background: var(--panel-strong);
   }
-  .qr-frame img { width: 168px; height: 168px; object-fit: cover; }
+  /* contain + 白底：方框内仍是完整白卡观感，且两图比例不同时不会被
+     cover 裁掉顶部昵称 / 底部提示字 */
+  .qr-frame img { width: 150px; height: 150px; object-fit: contain; background: #fff; }
   .contact-qr p {
     margin-top: 0.9rem;
     color: var(--bone-faint);
     font-size: 0.78rem;
     letter-spacing: 0.3em;
   }
+  /* 两枚二维码一行（居中），说明文字整行落到下一行：
+     中英两种题注宽度不同，并排会把英文挤出参差的折行，整行更稳 */
   .contact-line {
-    flex: 1 1 20rem;
+    flex: 1 1 100%;
     color: var(--bone-dim);
     font-size: 0.94rem;
     line-height: 2.1;

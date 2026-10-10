@@ -39,7 +39,7 @@ const chapters = [
           '5: Practicing steadily by the method, evident results may come within one or two months; within a year the body may reach a state years younger. With long persistence, body and face may reach the extent of looking about ten years younger than one\'s actual age. (Those in their twenties or younger excepted — in the twenties it can only prevent and delay the aging of the skin.)',
         ],
       },
-      { t: 'p', text: '除此之外还有形体美化等诸多秘传手诀等内容，具体请入相关群。公众号二维码：', en: 'Beyond this there are many secret hand-mudras and the like for beautifying the form — details in the relevant group. Official account QR code:' },
+      { t: 'p', text: '除此之外还有形体美化等诸多秘传手诀等内容，具体请入相关群。公众号与微信二维码：', en: 'Beyond this there are many secret hand-mudras and the like for beautifying the form — details in the relevant group. Official-account and WeChat QR codes:' },
     ],
   },
 ];
@@ -79,6 +79,17 @@ const chapters = [
           </div>
           <p><Zl zh="扫码关注 · 联系巫恒先生" en="Scan to follow · Contact Master Wuheng" /></p>
         </div>
+        <div class="contact-qr">
+          <div class="qr-frame">
+            <img
+              src={`${base}/微信好友二维码.png`}
+              alt="个人微信二维码"
+              data-en-alt="Personal WeChat QR code"
+              loading="lazy"
+            />
+          </div>
+          <p><Zl zh="扫码添加 · 微信好友" en="Scan to add me on WeChat" /></p>
+        </div>
       </div>
     </section>
   </GateIntro>
@@ -106,7 +117,9 @@ const chapters = [
     max-width: 48em;
     margin-inline: auto;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: clamp(1.4rem, 3vw, 2.4rem);
   }
   .contact-qr { text-align: center; }
   .qr-frame {
