@@ -3,22 +3,38 @@ import Base from '../../layouts/Base.astro';
 import Giscus from '../../components/Giscus.astro';
 import GoldNav from '../../components/GoldNav.astro';
 import LikeButton from '../../components/LikeButton.astro';
+import Zl from '../../components/Zl.astro';
 import { essays } from '../../data/xianwen';
+import { essaysEn } from '../../data/xianwen.en';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 export function getStaticPaths() {
+  const enById = new Map(essaysEn.map((e) => [e.id, e]));
   return essays.map((e, i) => ({
     params: { slug: e.id },
     props: {
       essay: e,
-      prev: i > 0 ? { id: essays[i - 1].id, title: essays[i - 1].title } : null,
-      next: i < essays.length - 1 ? { id: essays[i + 1].id, title: essays[i + 1].title } : null,
+      essayEn: enById.get(e.id) ?? null,
+      prev:
+        i > 0
+          ? { id: essays[i - 1].id, title: essays[i - 1].title, titleEn: enById.get(essays[i - 1].id)?.title }
+          : null,
+      next:
+        i < essays.length - 1
+          ? { id: essays[i + 1].id, title: essays[i + 1].title, titleEn: enById.get(essays[i + 1].id)?.title }
+          : null,
     },
   }));
 }
 
-const { essay, prev, next } = Astro.props;
+const { essay, essayEn, prev, next } = Astro.props;
+
+// 双语正文：两套章节数据在同一文件内渲染，scoped 样式才能覆盖到
+const bodies = [
+  { cls: 'zl-zh', chapters: essay.chapters },
+  ...(essayEn ? [{ cls: 'zl-en', chapters: essayEn.chapters }] : []),
+];
 
 const title = essay.title + ' · 闲文 · 上古祝门';
 const description = essay.summary;
@@ -44,73 +60,75 @@ const description = essay.summary;
         <header class="xw-head reveal">
           <span class="xw-glyph zhuan" aria-hidden="true">{essay.glyph}</span>
           <div class="xw-head-text">
-            <p class="xw-kicker kai">闲 文 · 其 {essay.num}</p>
-            <h1 id="xw-post-title" class="kai">{essay.title}</h1>
-            <p class="xw-summary">{essay.summary}</p>
+            <p class="xw-kicker kai"><Zl zh={`闲 文 · 其 ${essay.num}`} en={`Essays · No. ${essayEn?.num ?? essay.num}`} /></p>
+            <h1 id="xw-post-title" class="kai"><Zl zh={essay.title} en={essayEn?.title} /></h1>
+            <p class="xw-summary"><Zl zh={essay.summary} en={essayEn?.summary} /></p>
           </div>
         </header>
 
-        <div class="xw-body">
-          {
-            essay.chapters.map((c) => (
-              <section class="xw-block reveal">
-                {(c.num || c.title) && (
-                  <header class="xw-block-head">
-                    {c.num && <span class="xw-block-num kai">{c.num}</span>}
-                    {c.title && <h3 class="kai">{c.title}</h3>}
-                  </header>
-                )}
-                {c.blocks.map((b) => {
-                  if (b.t === 'p') return <p>{b.text}</p>;
-                  if (b.t === 'h4') return <h4 class="kai">{b.text}</h4>;
-                  if (b.t === 'quote') return <p class="xw-quote kai">{b.text}</p>;
-                  if (b.t === 'note')
+        {
+          bodies.map(({ cls, chapters }) => (
+            <div class={`xw-body ${cls}`}>
+              {chapters.map((c) => (
+                <section class="xw-block reveal">
+                  {(c.num || c.title) && (
+                    <header class="xw-block-head">
+                      {c.num && <span class="xw-block-num kai">{c.num}</span>}
+                      {c.title && <h3 class="kai">{c.title}</h3>}
+                    </header>
+                  )}
+                  {c.blocks.map((b) => {
+                    if (b.t === 'p') return <p>{b.text}</p>;
+                    if (b.t === 'h4') return <h4 class="kai">{b.text}</h4>;
+                    if (b.t === 'quote') return <p class="xw-quote kai">{b.text}</p>;
+                    if (b.t === 'note')
+                      return (
+                        <aside class="xw-note">
+                          <p>{b.text}</p>
+                        </aside>
+                      );
                     return (
-                      <aside class="xw-note">
-                        <p>{b.text}</p>
-                      </aside>
+                      <ul class="xw-entries">
+                        {b.items?.map((it) => (
+                          <li>
+                            <span class="xw-dot" aria-hidden="true"></span>
+                            <p>{it}</p>
+                          </li>
+                        ))}
+                      </ul>
                     );
-                  return (
-                    <ul class="xw-entries">
-                      {b.items?.map((it) => (
-                        <li>
-                          <span class="xw-dot" aria-hidden="true"></span>
-                          <p>{it}</p>
-                        </li>
-                      ))}
-                    </ul>
-                  );
-                })}
-              </section>
-            ))
-          }
-        </div>
+                  })}
+                </section>
+              ))}
+            </div>
+          ))
+        }
 
-        <nav class="xw-post-nav reveal" aria-label="闲文导航">
+        <nav class="xw-post-nav reveal" aria-label="闲文导航" data-en-aria="Essay navigation">
           {
             prev ? (
               <a class="xw-pager" href={`${base}/xianwen/${prev.id}`}>
-                <span class="xw-pager-label kai">上一篇</span>
-                <span class="xw-pager-title kai">{prev.title}</span>
+                <span class="xw-pager-label kai"><Zl zh="上一篇" en="Previous" /></span>
+                <span class="xw-pager-title kai"><Zl zh={prev.title} en={prev.titleEn} /></span>
               </a>
             ) : (
               <span class="xw-pager is-empty">
-                <span class="xw-pager-label kai">上一篇</span>
-                <span class="xw-pager-title kai">已是首篇</span>
+                <span class="xw-pager-label kai"><Zl zh="上一篇" en="Previous" /></span>
+                <span class="xw-pager-title kai"><Zl zh="已是首篇" en="First essay" /></span>
               </span>
             )
           }
-          <a class="xw-back-btn btn" href={`${base}/xianwen`}>返回闲文列表</a>
+          <a class="xw-back-btn btn" href={`${base}/xianwen`}><Zl zh="返回闲文列表" en="Back to the Essays" /></a>
           {
             next ? (
               <a class="xw-pager is-next" href={`${base}/xianwen/${next.id}`}>
-                <span class="xw-pager-label kai">下一篇</span>
-                <span class="xw-pager-title kai">{next.title}</span>
+                <span class="xw-pager-label kai"><Zl zh="下一篇" en="Next" /></span>
+                <span class="xw-pager-title kai"><Zl zh={next.title} en={next.titleEn} /></span>
               </a>
             ) : (
               <span class="xw-pager is-next is-empty">
-                <span class="xw-pager-label kai">下一篇</span>
-                <span class="xw-pager-title kai">已是末篇</span>
+                <span class="xw-pager-label kai"><Zl zh="下一篇" en="Next" /></span>
+                <span class="xw-pager-title kai"><Zl zh="已是末篇" en="Last essay" /></span>
               </span>
             )
           }

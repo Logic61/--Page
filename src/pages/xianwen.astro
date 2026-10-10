@@ -2,9 +2,13 @@
 import Base from '../layouts/Base.astro';
 import Giscus from '../components/Giscus.astro';
 import GoldNav from '../components/GoldNav.astro';
+import Zl from '../components/Zl.astro';
 import { essays } from '../data/xianwen';
+import { essaysEn } from '../data/xianwen.en';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const enById = new Map(essaysEn.map((e) => [e.id, e]));
 
 const title = '闲文 · 上古祝门';
 const description =
@@ -37,11 +41,11 @@ const description =
         </div>
 
         <div class="xianwen-hero-text reveal" data-d="2">
-          <p class="xianwen-eyebrow kai">闲 文 · 散 墨 有 痕</p>
-          <h1 id="xianwen-hero-title" class="xianwen-title kai">闲文</h1>
+          <p class="xianwen-eyebrow kai"><Zl zh="闲 文 · 散 墨 有 痕" en="Essays · Ink Traces of Scattered Notes" /></p>
+          <h1 id="xianwen-hero-title" class="xianwen-title kai"><Zl zh="闲文" en="Essays" /></h1>
           <div class="xianwen-rule" aria-hidden="true"></div>
-          <p class="xianwen-sub">闲言散语，不成体系，聊备一格。凡不入法门、不列常识、不尽是秘闻者，皆归此枝。</p>
-          <p class="xianwen-meta kai">凡 {essays.length} 篇 · 求道之难 · 师承门户 · 剑仙神通</p>
+          <p class="xianwen-sub"><Zl zh="闲言散语，不成体系，聊备一格。凡不入法门、不列常识、不尽是秘闻者，皆归此枝。" en="Idle words, scattered sayings — no system to them, kept for what they are worth. Whatever enters no dharma-gate, stands in no list of common knowledge, and is not wholly hidden record returns to this branch." /></p>
+          <p class="xianwen-meta kai"><Zl zh={`凡 ${essays.length} 篇 · 求道之难 · 师承门户 · 剑仙神通`} en={`${essays.length} in all · The hardship of seeking the Way · Lineage and doors · Sword immortals and powers`} /></p>
         </div>
       </div>
     </section>
@@ -50,21 +54,21 @@ const description =
       <div class="wrap">
 
         <div class="xw-notice reveal">
-          <b class="kai">闲文散墨</b>
-          <p>闲文栏可见篇目与提要，点击进入该篇全文。文中所述未经实证，请理性阅读，切勿迷信。</p>
+          <b class="kai"><Zl zh="闲文散墨" en="Essays & Scattered Ink" /></b>
+          <p><Zl zh="闲文栏可见篇目与提要，点击进入该篇全文。文中所述未经实证，请理性阅读，切勿迷信。" en="This section shows the essays and their digests; click through to the full text of each. What is written here is not empirically verified — read with reason; fall into no superstition." /></p>
         </div>
 
         <nav class="xw-toc reveal" data-d="2" aria-labelledby="xianwen-toc-title">
-          <h2 id="xianwen-toc-title" class="kai">篇 目</h2>
+          <h2 id="xianwen-toc-title" class="kai"><Zl zh="篇 目" en="Contents" /></h2>
           <ol>
             {
               essays.map((e) => (
                 <li>
                   <a href={`${base}/xianwen/${e.id}`}>
-                    <span class="xw-toc-num kai">{e.num}</span>
+                    <span class="xw-toc-num kai"><Zl zh={e.num} en={enById.get(e.id)?.num} /></span>
                     <span class="xw-toc-body">
-                      <b class="kai">{e.title}</b>
-                      <i>{e.summary}</i>
+                      <b class="kai"><Zl zh={e.title} en={enById.get(e.id)?.title} /></b>
+                      <i><Zl zh={e.summary} en={enById.get(e.id)?.summary} /></i>
                     </span>
                     <span class="xw-toc-go kai" aria-hidden="true">›</span>
                   </a>
@@ -75,7 +79,7 @@ const description =
         </nav>
 
         <div class="xianwen-foot reveal">
-          <a class="xianwen-btn kai" href={`${base}/`}>返回分支图</a>
+          <a class="xianwen-btn kai" href={`${base}/`}><Zl zh="返回分支图" en="Back to the Branch Map" /></a>
         </div>
 
         <Giscus />
