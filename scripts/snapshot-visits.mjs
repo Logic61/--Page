@@ -6,8 +6,12 @@
  *   GOATCOUNTER_SITE=xxx GOATCOUNTER_TOKEN=... node scripts/snapshot-visits.mjs
  *
  * 输出结构（首页「访客星图」直接消费）：
- *   { updated, all: {visitors, views, countries:[{code,visitors,views}]}, d30: {...} }
- * 位置码为 ISO-3166-2（国家为两位如 CN，地区形如 CN-SH），这里按国家聚合。
+ *   { updated, all: {visitors, views, countries:[{code,visitors,views}],
+ *                    regions:[{code,name,visitors,views}]}, d30: {...} }
+ * 位置码为 ISO-3166-2（国家为两位如 CN，地区形如 CN-SH）。
+ * countries 按国家前缀聚合（旧口径不变）；regions 保留地区级条目——
+ * GoatCounter 的 collect_regions 默认对美国/俄罗斯/中国采集到省州级
+ * （settings.go 默认 ["US","RU","CN"]），首页「访客星图」据此点亮省州。
  */
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -42,6 +46,7 @@ const daysAgo = (n) => iso(new Date(Date.now() - n * 86400000));
 
 async function fetchLocations(start) {
   const agg = new Map();
+  const regions = new Map();
   let offset = 0;
   for (;;) {
     const url = new URL(`https://${SITE}.goatcounter.com/api/v0/stats/locations`);
@@ -84,7 +89,8 @@ async function fetchLocations(start) {
     const body = await res.json();
     const stats = Array.isArray(body.stats) ? body.stats : [];
     for (const s of stats) {
-      const m = /^([A-Z]{2})(?:$|-)/.exec(String(s.id || s.name || '').toUpperCase());
+      const code = String(s.id || s.name || '').toUpperCase();
+      const m = /^([A-Z]{2})(?:$|-)/.exec(code);
       if (!m) continue;
       const views = Number(s.count) || 0;
       const visitors = Number(s.count_unique ?? s.countUnique ?? 0) || views;
@@ -92,6 +98,13 @@ async function fetchLocations(start) {
       cur.views += views;
       cur.visitors += visitors;
       agg.set(m[1], cur);
+      if (code.includes('-')) {
+        // 地区级条目（如 CN-SH、US-TX）：单独留档，供首页点亮省州
+        const r = regions.get(code) ?? { name: String(s.name ?? ''), visitors: 0, views: 0 };
+        r.views += views;
+        r.visitors += visitors;
+        regions.set(code, r);
+      }
     }
     if (!body.more || stats.length === 0) break;
     offset += stats.length;
@@ -104,6 +117,9 @@ async function fetchLocations(start) {
     visitors: countries.reduce((n, c) => n + c.visitors, 0),
     views: countries.reduce((n, c) => n + c.views, 0),
     countries,
+    regions: [...regions.entries()]
+      .map(([code, v]) => ({ code, ...v }))
+      .sort((a, b) => b.visitors - a.visitors || b.views - a.views),
   };
 }
 
@@ -121,3 +137,11 @@ if (prev && JSON.stringify(prev.all) === JSON.stringify(all) && JSON.stringify(p
 
 await writeFile(OUT, JSON.stringify({ updated: new Date().toISOString(), all, d30 }, null, 2) + '\n');
 console.log(`已写入 ${OUT}：全部 ${all.visitors} 人 / ${all.countries.length} 地；近三十日 ${d30.visitors} 人`);
+if (all.regions.length) {
+  console.log(
+    `省州级位置 ${all.regions.length} 条：` +
+      all.regions.slice(0, 20).map((r) => `${r.code}(${r.name}·${r.visitors})`).join('、'),
+  );
+} else {
+  console.log('未取得省州级位置（collect_regions 未覆盖或尚无对应来客）');
+}
