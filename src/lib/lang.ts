@@ -12,9 +12,10 @@
 //      元素上写 data-en-xxx，initLang 在切换时把 xxx 本体属性换成英文，
 //      中文原文首次运行时存入 data-zh-xxx，切回时不丢；
 //   4) 切到英文时弹一次英文提示（AI 翻译可能有偏误，详情走 /lianxi）。
-//   5) 境外来客建议（可选整段移除，互不影响）：从未手动选过语言的访客，
-//      浏览器语言非中文、或（中文浏览器时）IP 归属判为非中国 → 弹底部金条
-//      询问是否切英文；点按钮即切（AI 提示随之出现），关闭则本会话不再问。
+//   5) 疑似非中文母语的来客（可选整段移除，互不影响）：从未手动选过语言的
+//      访客，浏览器语言非中文、或（中文浏览器时）IP 归属判为非中国 → 弹底部
+//      金条询问是否切英文；点按钮即切（AI 提示随之出现），关闭则本会话不再问。
+//      文案刻意只说「可能非中文母语」、不提位置——避免暴露「已识别您的所在」。
 //      判定信号说明：浏览器语言是同步的、能赶在首帧，但本站选择了「询问而
 //      不静默切」——IP 接口异步、赶不上首帧，且静默误会误伤国内英文浏览器。
 //      IP 用 api.country.is（免费无密钥、CORS 开放、只回 {ip,country}）。
@@ -117,7 +118,7 @@ const hideLangNotice = () => {
   document.querySelector<HTMLDivElement>('.lang-notice')?.classList.remove('is-on');
 };
 
-/* ---------------- 境外来客：询问是否切换英文 ---------------- */
+/* ---------------- 疑似非中文母语来客：询问是否切换英文 ---------------- */
 
 // 只问「从没手动选过语言」的访客；一个会话问过一次就不再问。
 // 点「English」会写 localStorage（等于手动选择），此后永不打扰；
@@ -149,8 +150,8 @@ const buildSuggest = (): HTMLDivElement => {
   el.setAttribute('role', 'status');
   el.innerHTML =
     '<p class="ls-text">' +
-    '<span class="ls-en">Visiting from outside China? Switch to English?</span>' +
-    '<span class="ls-zh">检测到您可能来自境外，切换为英文界面？</span>' +
+    '<span class="ls-en">It seems you may not be a native Chinese speaker &mdash; switch to English?</span>' +
+    '<span class="ls-zh">检测到您可能为非中文母语用户，是否切换为英文界面？</span>' +
     '</p>' +
     '<div class="ls-actions">' +
     '<button type="button" class="ls-yes">English</button>' +
