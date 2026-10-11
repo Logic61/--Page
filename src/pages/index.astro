@@ -6,8 +6,9 @@
 // 再叠同 filter 链时渲染色像素级一致 → 树与法阵浑然一体）。
 // 法阵保持高亮度鎏金，不做压暗处理。
 import Analytics from '../components/Analytics.astro';
-import LangToggle from '../components/LangToggle.astro';
+import GoldNav from '../components/GoldNav.astro';
 import NineStarArray from '../components/ritual/NineStarArray.astro';
+import SearchOverlay from '../components/SearchOverlay.astro';
 import SeoHead from '../components/SeoHead.astro';
 import VisitMap from '../components/VisitMap.astro';
 
@@ -54,18 +55,16 @@ const branches = [
     </script>
   </head>
   <body>
+    {/* 顶栏：与 /famen、/miwen 等页一致的玄金令牌栏（sticky，占位由自身完成）。
+        首页是独立文档，GoldNav 依赖的全局工具类与令牌在页尾样式块里按 global.css 同值补齐 */}
+    <GoldNav showSearch />
+
     <div class="veil" aria-hidden="true"></div>
 
-    <header class="top">
-      {/* 整页原来没有一个 <h1>，品牌名本身就是页面主标题，直接用它 */}
-      <h1 class="brand kai"><a href={`${base}/`}><span class="zl-zh">古巫祝脉</span><span class="zl-en">Wu-Zhu Lineage</span></a></h1>
-      <div class="top-right">
-        <a class="top-link kai" href={`${base}/lianxi`}><span class="zl-zh">联系我们</span><span class="zl-en">Contact</span></a>
-        <LangToggle tone="home" />
-      </div>
-    </header>
-
     <main>
+      {/* 品牌曾以可见 h1 压在自绘头栏里，换成 GoldNav 后品牌由顶栏印·名校徽承担，
+          主标题语义仍保留（隐藏），读屏与搜索引擎不失 h1 */}
+      <h1 class="sr-only"><span class="zl-zh">古巫祝脉 · 上古祝门</span><span class="zl-en">Wu-Zhu Lineage · Ancient Zhumen</span></h1>
       <!-- 舞台：主体图在底层，法阵压在其上，圆环盖过图面左右展开 -->
       <div class="stage">
         <!-- 法阵 → 树融合层：金线由外向内消隐（不到海报边缘即化入黑），金尘粒子弥散在树与法阵之间 -->
@@ -216,6 +215,9 @@ const branches = [
       </div>
     </main>
 
+    {/* 搜索浮层：z-index 80 压在 GoldNav（70）之上，含 #searchToggle 绑定与 Ctrl+K 快捷键 */}
+    <SearchOverlay gold />
+
     {/* 访客星图：世界地图按来客所在亮起；数据由每日快照写入 src/data/visits.json */}
     <VisitMap />
 
@@ -290,7 +292,6 @@ const branches = [
 
   body {
     min-height: 100dvh;
-    padding-top: clamp(2rem, 5vw, 4.5rem);
     background:
       radial-gradient(ellipse 72% 56% at 50% 45%, rgba(189, 148, 64, 0.08), transparent 72%),
       #030303;
@@ -298,8 +299,6 @@ const branches = [
     font-family: "Songti SC", "STSong", "SimSun", "Noto Serif SC", serif;
     -webkit-font-smoothing: antialiased;
   }
-
-  .kai { font-family: "Kaiti SC", "STKaiti", "KaiTi", serif; }
 
   .veil {
     position: fixed;
@@ -311,39 +310,19 @@ const branches = [
       linear-gradient(90deg, rgba(0,0,0,.38), transparent 12%, transparent 88%, rgba(0,0,0,.38));
   }
 
-  .top {
-    position: relative;
-    z-index: 6;
-    width: 100%;
-    padding: 1.1rem 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(201, 165, 94, 0.26);
+  /* 主标题（h1）视觉隐藏：品牌已由顶栏（GoldNav 印·名）承担 */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
   }
-
-  .brand, .top-link {
-    color: #d9b96a;
-    font-size: 0.9rem;
-    letter-spacing: 0.32em;
-    text-decoration: none;
-    transition: color 0.25s;
-  }
-  .brand:hover, .top-link:hover { color: #f6e9bd; }
-  .top-link { justify-self: end; }
-
-  /* 头栏右侧：联系我们 + 中英切换 */
-  .top-right {
-    display: flex;
-    align-items: center;
-    gap: 0.9rem;
-  }
-
-  /* 品牌名现在是 <h1>（整页主标题），抹掉 h1 默认的字号/加粗/外边距，
-     外观与原来的 <a> 完全一致；字号字距仍由上面的 .brand 规则给出，
-     链接本身只负责继承颜色 */
-  h1.brand { margin: 0; font-weight: 400; }
-  .brand a { color: inherit; text-decoration: none; }
 
   main {
     position: relative;
@@ -610,8 +589,6 @@ const branches = [
   }
 
   @media (max-width: 640px) {
-    .top { padding: 0.9rem 1.1rem; }
-    .brand, .top-link { font-size: 0.8rem; letter-spacing: 0.2em; }
     .map-frame { width: min(100%, 80vh); }
     /* 移动端法阵：只比树略大（约 1.08× 树宽），不再 285% 撑满 */
     .array-layer { width: 86.4vh; opacity: 1; top: 50%; }
@@ -644,6 +621,42 @@ const branches = [
   html[data-lang='en'] .zl-zh { display: none !important; }
   html:not([data-lang='en']) .zl-en { display: none !important; }
   html[data-lang='en'] .zl-en { letter-spacing: 0.06em; }
+
+  /* ---- 全站共享令牌（值同 global.css）----
+     首页是独立文档、不引 global.css，但顶栏 GoldNav 与搜索浮层都用全站工具类
+     与令牌；这里按同值补齐，组件内部元素才拿得到字体、缓动与 .wrap 栅格 */
+  :root {
+    --font-song: "Songti SC", "STSong", "SimSun", "宋体", "Noto Serif SC", "Source Han Serif SC", serif;
+    --font-kai: "Kaiti SC", "STKaiti", "KaiTi", "楷体", "Noto Serif SC", serif;
+    --font-zhuan: "STZhongsong", "FZKai-Z03", "Kaiti SC", "KaiTi", serif;
+    --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+    --z-nav: 20;
+  }
+  .wrap { width: min(100% - 3rem, 76rem); margin-inline: auto; }
+  .kai { font-family: var(--font-kai); }
+  .zhuan { font-family: var(--font-zhuan); }
+  @media (max-width: 1000px) {
+    .wrap { width: min(100% - 2.2rem, 76rem); }
+  }
+  /* 同 global.css 的链接复位：GoldNav 与搜索浮层的链接没料到浏览器默认下划线 */
+  a { color: inherit; text-decoration: none; }
+
+  /* ---- 搜索浮层配色：暖黑鎏金一套 ----
+     浮层组件用的是全站主题色变量，首页底色是黑金而不跟 data-theme，
+     就地给浮层声明一套与玄金顶栏同源的取值 */
+  #searchOverlay {
+    --ink-line: rgba(248, 220, 160, 0.22);
+    --ink-3: #17110a;
+    --bone: #ece2cb;
+    --bone-dim: rgba(240, 214, 142, 0.88);
+    --bone-faint: rgba(240, 214, 142, 0.6);
+    --panel-soft: rgba(248, 220, 160, 0.05);
+    --heading: #f8f3ea;
+    --bronze-dim: #a68f61;
+    --bronze-bright: #ead09a;
+    --cinnabar: #b23a2c;
+    --cinnabar-bright: #cf4b39;
+  }
 
   /* ---- 云雷祭阵背景：树金 #efcc57 分层 ----
      整体与树同 filter 链（sepia + hue-rotate + saturate），但 brightness 调到 0.88

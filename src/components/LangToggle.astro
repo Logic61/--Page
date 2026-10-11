@@ -2,13 +2,12 @@
 // ============================================================
 // 中英切换按钮：EN / 中 并排，当前语言一侧压暗，点击整体切换。
 // 挂在各处顶部栏；点击行为与属性文案由 lib/lang.ts 的 initLang 驱动。
-// tone 适配三类顶部栏的配色：
-//   gold —— 玄金令牌栏（GoldNav，/famen、/miwen、/xianwen、/changshi、/zhoufa 各页）
+// tone 适配两类顶部栏的配色：
+//   gold —— 玄金令牌栏（GoldNav，/famen、/miwen、/xianwen、/changshi、/zhoufa 各页，含首页）
 //   nav  —— 全站默认顶栏（Base 布局）
-//   home —— 首页自绘的黑色鎏金头栏
 // ============================================================
 interface Props {
-  tone?: 'gold' | 'nav' | 'home';
+  tone?: 'gold' | 'nav';
 }
 const { tone = 'gold' } = Astro.props;
 ---
@@ -85,19 +84,6 @@ const { tone = 'gold' } = Astro.props;
   .t-nav:hover {
     border-color: var(--bronze);
     color: var(--cinnabar-bright);
-    transform: translateY(-1px);
-  }
-
-  /* ---------- home：首页黑金头栏 ---------- */
-  .t-home {
-    border: 1px solid rgba(201, 165, 94, 0.42);
-    color: #d9b96a;
-    font-family: 'Kaiti SC', 'STKaiti', 'KaiTi', serif;
-    height: 34px;
-  }
-  .t-home:hover {
-    border-color: rgba(240, 217, 160, 0.8);
-    color: #f6e9bd;
     transform: translateY(-1px);
   }
 
