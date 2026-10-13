@@ -1,13 +1,13 @@
 {
-  "updated": "2026-10-11T22:58:07.241Z",
+  "updated": "2026-10-13T01:24:05.497Z",
   "all": {
-    "visitors": 227,
-    "views": 227,
+    "visitors": 244,
+    "views": 244,
     "countries": [
       {
         "code": "CN",
-        "visitors": 169,
-        "views": 169
+        "visitors": 185,
+        "views": 185
       },
       {
         "code": "AU",
@@ -35,6 +35,11 @@
         "views": 1
       },
       {
+        "code": "JP",
+        "visitors": 1,
+        "views": 1
+      },
+      {
         "code": "TR",
         "visitors": 1,
         "views": 1
@@ -49,7 +54,7 @@
       {
         "country": "CN",
         "name": "Zhejiang",
-        "views": 26
+        "views": 28
       },
       {
         "country": "CN",
@@ -84,13 +89,13 @@
     ]
   },
   "d30": {
-    "visitors": 227,
-    "views": 227,
+    "visitors": 244,
+    "views": 244,
     "countries": [
       {
         "code": "CN",
-        "visitors": 169,
-        "views": 169
+        "visitors": 185,
+        "views": 185
       },
       {
         "code": "AU",
@@ -118,6 +123,11 @@
         "views": 1
       },
       {
+        "code": "JP",
+        "visitors": 1,
+        "views": 1
+      },
+      {
         "code": "TR",
         "visitors": 1,
         "views": 1
@@ -132,7 +142,7 @@
       {
         "country": "CN",
         "name": "Zhejiang",
-        "views": 26
+        "views": 28
       },
       {
         "country": "CN",
