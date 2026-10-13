@@ -14,14 +14,23 @@ permissions:
   contents: write
   actions: write
 
+# 避免定时任务与手动运行同时改写 visits.json，造成非快进推送。
+concurrency:
+  group: visitor-stats-snapshot
+  cancel-in-progress: false
+
 jobs:
   snapshot:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout main
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 0
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
       - name: 拉取 GoatCounter 访问数据（国家 + 省州明细）
@@ -43,5 +52,6 @@ jobs:
             exit 0
           fi
           git commit -m "chore(visits): 每日访问数据快照"
-          git push
-          gh workflow run deploy.yml
+          git pull --rebase origin main
+          git push origin HEAD:main
+          gh workflow run deploy.yml --ref main
