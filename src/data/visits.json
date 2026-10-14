@@ -1,13 +1,13 @@
 {
-  "updated": "2026-10-13T01:24:05.497Z",
+  "updated": "2026-10-14T22:20:20.626Z",
   "all": {
-    "visitors": 244,
-    "views": 244,
+    "visitors": 339,
+    "views": 339,
     "countries": [
       {
         "code": "CN",
-        "visitors": 185,
-        "views": 185
+        "visitors": 279,
+        "views": 279
       },
       {
         "code": "AU",
@@ -26,8 +26,8 @@
       },
       {
         "code": "SG",
-        "visitors": 2,
-        "views": 2
+        "visitors": 3,
+        "views": 3
       },
       {
         "code": "GE",
@@ -48,13 +48,13 @@
     "regions": [
       {
         "country": "CN",
-        "name": "Guangdong",
-        "views": 30
+        "name": "Zhejiang",
+        "views": 67
       },
       {
         "country": "CN",
-        "name": "Zhejiang",
-        "views": 28
+        "name": "Guangdong",
+        "views": 34
       },
       {
         "country": "CN",
@@ -69,7 +69,12 @@
       {
         "country": "CN",
         "name": "Shanghai",
-        "views": 9
+        "views": 10
+      },
+      {
+        "country": "CN",
+        "name": "Hebei",
+        "views": 2
       },
       {
         "country": "CN",
@@ -79,6 +84,21 @@
       {
         "country": "CN",
         "name": "Jiangsu",
+        "views": 2
+      },
+      {
+        "country": "CN",
+        "name": "Shandong",
+        "views": 2
+      },
+      {
+        "country": "CN",
+        "name": "Anhui",
+        "views": 1
+      },
+      {
+        "country": "CN",
+        "name": "Shaanxi",
         "views": 1
       },
       {
@@ -89,13 +109,13 @@
     ]
   },
   "d30": {
-    "visitors": 244,
-    "views": 244,
+    "visitors": 339,
+    "views": 339,
     "countries": [
       {
         "code": "CN",
-        "visitors": 185,
-        "views": 185
+        "visitors": 279,
+        "views": 279
       },
       {
         "code": "AU",
@@ -114,8 +134,8 @@
       },
       {
         "code": "SG",
-        "visitors": 2,
-        "views": 2
+        "visitors": 3,
+        "views": 3
       },
       {
         "code": "GE",
@@ -136,13 +156,13 @@
     "regions": [
       {
         "country": "CN",
-        "name": "Guangdong",
-        "views": 30
+        "name": "Zhejiang",
+        "views": 67
       },
       {
         "country": "CN",
-        "name": "Zhejiang",
-        "views": 28
+        "name": "Guangdong",
+        "views": 34
       },
       {
         "country": "CN",
@@ -157,7 +177,12 @@
       {
         "country": "CN",
         "name": "Shanghai",
-        "views": 9
+        "views": 10
+      },
+      {
+        "country": "CN",
+        "name": "Hebei",
+        "views": 2
       },
       {
         "country": "CN",
@@ -167,6 +192,21 @@
       {
         "country": "CN",
         "name": "Jiangsu",
+        "views": 2
+      },
+      {
+        "country": "CN",
+        "name": "Shandong",
+        "views": 2
+      },
+      {
+        "country": "CN",
+        "name": "Anhui",
+        "views": 1
+      },
+      {
+        "country": "CN",
+        "name": "Shaanxi",
         "views": 1
       },
       {
