@@ -1,13 +1,13 @@
 {
-  "updated": "2026-10-14T22:20:20.626Z",
+  "updated": "2026-10-15T22:24:28.891Z",
   "all": {
-    "visitors": 339,
-    "views": 339,
+    "visitors": 416,
+    "views": 416,
     "countries": [
       {
         "code": "CN",
-        "visitors": 279,
-        "views": 279
+        "visitors": 356,
+        "views": 356
       },
       {
         "code": "AU",
@@ -49,7 +49,7 @@
       {
         "country": "CN",
         "name": "Zhejiang",
-        "views": 67
+        "views": 78
       },
       {
         "country": "CN",
@@ -59,7 +59,12 @@
       {
         "country": "CN",
         "name": "Beijing",
-        "views": 14
+        "views": 21
+      },
+      {
+        "country": "CN",
+        "name": "Guangxi",
+        "views": 21
       },
       {
         "country": "US",
@@ -69,7 +74,7 @@
       {
         "country": "CN",
         "name": "Shanghai",
-        "views": 10
+        "views": 13
       },
       {
         "country": "CN",
@@ -109,13 +114,13 @@
     ]
   },
   "d30": {
-    "visitors": 339,
-    "views": 339,
+    "visitors": 416,
+    "views": 416,
     "countries": [
       {
         "code": "CN",
-        "visitors": 279,
-        "views": 279
+        "visitors": 356,
+        "views": 356
       },
       {
         "code": "AU",
@@ -157,7 +162,7 @@
       {
         "country": "CN",
         "name": "Zhejiang",
-        "views": 67
+        "views": 78
       },
       {
         "country": "CN",
@@ -167,7 +172,12 @@
       {
         "country": "CN",
         "name": "Beijing",
-        "views": 14
+        "views": 21
+      },
+      {
+        "country": "CN",
+        "name": "Guangxi",
+        "views": 21
       },
       {
         "country": "US",
@@ -177,7 +187,7 @@
       {
         "country": "CN",
         "name": "Shanghai",
-        "views": 10
+        "views": 13
       },
       {
         "country": "CN",
