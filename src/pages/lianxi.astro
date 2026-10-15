@@ -8,7 +8,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 <Base
   title="联系我们 · 上古祝门"
-  description="上古祝门联系方式：微信公众号、个人微信、QQ 群二维码，以及微信 SGWZWH、QQ 42914407。修行有疑，或欲入群交流，皆可由此联系。"
+  description="上古祝门联系方式：微信公众号、个人微信、QQ 二维码，以及微信 SGWZWH、QQ 42914407。修行有疑，或欲入群交流，皆可由此联系。"
   hideNav={true}
   search="gold"
 >
@@ -65,18 +65,15 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           <figure class="lx-qr reveal" data-d="2">
             <div class="lx-qr-frame">
               <img
-                src={`${base}/群二维码.webp`}
-                alt="QQ 群二维码：太易之道（一群）"
-                data-en-alt="QQ Group QR code: The Way of Taiyi (Group One)"
+                src={`${base}/QQ好友二维码.jpg`}
+                alt="个人 QQ 二维码"
+                data-en-alt="Personal QQ QR code"
                 loading="lazy"
-                width="720"
-                height="1010"
+                width="1044"
+                height="1838"
               />
             </div>
-            <figcaption class="kai">
-              <span><Zl zh="QQ 群 · 太易之道（一群）" en="QQ Group · The Way of Taiyi (Group One)" /></span>
-              <small><Zl zh="群号 606517450" en="Group No. 606517450" /></small>
-            </figcaption>
+            <figcaption class="kai"><Zl zh="QQ · 扫码添加好友" en="QQ · Scan to Add Me" /></figcaption>
           </figure>
 
           <figure class="lx-qr reveal" data-d="3">
@@ -358,7 +355,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   }
 
   /* 统一白底卡片：图片绝对定位撑满卡面、contain 等比缩放，
-     letterbox 留白即卡片白底（两张图自带边距），两卡严格同尺寸，
+     letterbox 留白即卡片白底（各图自带边距），三卡严格同尺寸，
      且不受图片原始比例反馈影响 */
   .lx-qr-frame {
     position: relative;
@@ -387,13 +384,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     letter-spacing: 0.24em;
     color: var(--bone-faint);
     line-height: 1.9;
-  }
-  .lx-qr figcaption small {
-    display: block;
-    margin-top: 0.25rem;
-    font-size: 0.74rem;
-    letter-spacing: 0.18em;
-    color: rgba(240, 214, 142, 0.66);
   }
 
   /* 微信 / QQ 一行一项；点击即全选，方便复制 */
