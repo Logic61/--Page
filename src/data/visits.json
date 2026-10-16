@@ -1,16 +1,21 @@
 {
-  "updated": "2026-10-15T22:24:28.891Z",
+  "updated": "2026-10-16T22:07:29.645Z",
   "all": {
-    "visitors": 416,
-    "views": 416,
+    "visitors": 467,
+    "views": 467,
     "countries": [
       {
         "code": "CN",
-        "visitors": 356,
-        "views": 356
+        "visitors": 381,
+        "views": 381
       },
       {
         "code": "AU",
+        "visitors": 26,
+        "views": 26
+      },
+      {
+        "code": "HK",
         "visitors": 26,
         "views": 26
       },
@@ -49,7 +54,7 @@
       {
         "country": "CN",
         "name": "Zhejiang",
-        "views": 78
+        "views": 81
       },
       {
         "country": "CN",
@@ -67,14 +72,19 @@
         "views": 21
       },
       {
+        "country": "CN",
+        "name": "Shanghai",
+        "views": 15
+      },
+      {
         "country": "US",
         "name": "California",
         "views": 14
       },
       {
         "country": "CN",
-        "name": "Shanghai",
-        "views": 13
+        "name": "Hainan",
+        "views": 5
       },
       {
         "country": "CN",
@@ -114,16 +124,21 @@
     ]
   },
   "d30": {
-    "visitors": 416,
-    "views": 416,
+    "visitors": 467,
+    "views": 467,
     "countries": [
       {
         "code": "CN",
-        "visitors": 356,
-        "views": 356
+        "visitors": 381,
+        "views": 381
       },
       {
         "code": "AU",
+        "visitors": 26,
+        "views": 26
+      },
+      {
+        "code": "HK",
         "visitors": 26,
         "views": 26
       },
@@ -162,7 +177,7 @@
       {
         "country": "CN",
         "name": "Zhejiang",
-        "views": 78
+        "views": 81
       },
       {
         "country": "CN",
@@ -180,14 +195,19 @@
         "views": 21
       },
       {
+        "country": "CN",
+        "name": "Shanghai",
+        "views": 15
+      },
+      {
         "country": "US",
         "name": "California",
         "views": 14
       },
       {
         "country": "CN",
-        "name": "Shanghai",
-        "views": 13
+        "name": "Hainan",
+        "views": 5
       },
       {
         "country": "CN",
