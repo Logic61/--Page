@@ -27,11 +27,25 @@ type RangeStats = { visitors: number; views: number; countries: CountryHit[]; re
 
 const all: RangeStats = visits.all ?? { visitors: 0, views: 0, countries: [] };
 
-const hits = new Map<string, CountryHit>();
-for (const c of all.countries) hits.set(c.code, c);
+// 香港、澳门、台湾同属中国，不按国家单列：国家计数并入 CN，
+// 省州明细中 country 为 HK / MO / TW 的记录一并归到 CN，随中国省级底数据点亮
+const CN_PARTS = new Set(['HK', 'MO', 'TW']);
+const byCountry = new Map<string, CountryHit>();
+for (const c of all.countries) {
+  const code = CN_PARTS.has(c.code) ? 'CN' : c.code;
+  const prev = byCountry.get(code);
+  if (prev) {
+    prev.visitors += c.visitors;
+    prev.views += c.views;
+  } else {
+    byCountry.set(code, { ...c, code });
+  }
+}
+const countries = [...byCountry.values()];
+const hits = new Map(countries.map((c) => [c.code, c]));
 
-const hasData = all.countries.length > 0;
-const maxVisitors = Math.max(1, ...all.countries.map((c) => c.visitors));
+const hasData = countries.length > 0;
+const maxVisitors = Math.max(1, ...countries.map((c) => c.visitors));
 
 isoCountries.registerLocale(zhLocale as Parameters<typeof isoCountries.registerLocale>[0]);
 
@@ -70,7 +84,7 @@ const shapes = world.features.map((f) => {
 // 有来客的地方后画（压在上层），免得国境描边被邻国盖掉
 shapes.sort((a, b) => Number(Boolean(a.hit)) - Number(Boolean(b.hit)));
 
-const rank = [...all.countries]
+const rank = [...countries]
   .sort((a, b) => b.visitors - a.visitors)
   .slice(0, 10)
   .map((c) => ({
@@ -128,7 +142,7 @@ const adminAreas = adminFC.features.map((f) => ({
 const regionAliases: Record<string, string> = {
   'nei mongol': '内蒙古', xizang: '西藏', tibet: '西藏',
   'ningxia hui': '宁夏', 'xinjiang uygur': '新疆', 'guangxi zhuang': '广西',
-  macao: '澳门', 'hong kong sar': '香港',
+  macao: '澳门', macau: '澳门', 'hong kong': '香港', 'hong kong sar': '香港',
 };
 const normName = (s: string) => s.trim().toLowerCase().replace(/\s+/g, ' ');
 const zhByRegionName = new Map<string, string>();
@@ -139,7 +153,8 @@ const areaByKey = new Map(adminAreas.map((a) => [`${a.country}:${a.name}`, a]));
 const areaHits = new Map<(typeof adminAreas)[number], number>();
 for (const r of all.regions ?? []) {
   const zh = zhByRegionName.get(normName(r.name));
-  const a = zh ? areaByKey.get(`${r.country}:${zh}`) : undefined;
+  const country = CN_PARTS.has(r.country) ? 'CN' : r.country;
+  const a = zh ? areaByKey.get(`${country}:${zh}`) : undefined;
   if (!a) continue;
   areaHits.set(a, (areaHits.get(a) ?? 0) + r.views);
 }
@@ -155,11 +170,11 @@ const adminOpacity = (h: number) => 0.1 + 0.82 * (Math.log1p(h) / Math.log1p(max
 const adminList = [...adminAreas].sort((x, y) => Number(areaHits.has(x)) - Number(areaHits.has(y)));
 
 const ariaSummary = hasData
-  ? `访客星图：累计 ${fmt(all.views)} 次到访，来自 ${all.countries.length} 个国家和地区` +
+  ? `访客星图：累计 ${fmt(all.views)} 次到访，来自 ${countries.length} 个国家和地区` +
     (areaHits.size ? `，${areaHits.size} 个省州亮起` : '')
   : '访客星图：访问统计尚未接入';
 const ariaSummaryEn = hasData
-  ? `Visitor star map: ${fmt(all.views)} visits from ${all.countries.length} countries and regions` +
+  ? `Visitor star map: ${fmt(all.views)} visits from ${countries.length} countries and regions` +
     (areaHits.size ? `, ${areaHits.size} provinces or states lit` : '')
   : 'Visitor star map: statistics not connected yet';
 ---
@@ -241,7 +256,7 @@ const ariaSummaryEn = hasData
         </div>
         <div class="vp-stat">
           <dt><span class="zl-zh">足迹所至</span><span class="zl-en">Places Reached</span></dt>
-          <dd><b>{hasData ? fmt(all.countries.length) : '—'}</b><i><span class="zl-zh">地</span><span class="zl-en">places</span></i></dd>
+          <dd><b>{hasData ? fmt(countries.length) : '—'}</b><i><span class="zl-zh">地</span><span class="zl-en">places</span></i></dd>
         </div>
       </dl>
 
