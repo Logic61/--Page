@@ -1,13 +1,13 @@
 {
-  "updated": "2026-10-17T21:30:36.667Z",
+  "updated": "2026-10-18T21:33:23.483Z",
   "all": {
-    "visitors": 477,
-    "views": 477,
+    "visitors": 487,
+    "views": 487,
     "countries": [
       {
         "code": "CN",
-        "visitors": 391,
-        "views": 391
+        "visitors": 399,
+        "views": 399
       },
       {
         "code": "AU",
@@ -30,17 +30,17 @@
         "views": 13
       },
       {
+        "code": "JP",
+        "visitors": 3,
+        "views": 3
+      },
+      {
         "code": "SG",
         "visitors": 3,
         "views": 3
       },
       {
         "code": "GE",
-        "visitors": 1,
-        "views": 1
-      },
-      {
-        "code": "JP",
         "visitors": 1,
         "views": 1
       },
@@ -89,7 +89,7 @@
       {
         "country": "CN",
         "name": "Jiangsu",
-        "views": 3
+        "views": 5
       },
       {
         "country": "CN",
@@ -124,13 +124,13 @@
     ]
   },
   "d30": {
-    "visitors": 477,
-    "views": 477,
+    "visitors": 487,
+    "views": 487,
     "countries": [
       {
         "code": "CN",
-        "visitors": 391,
-        "views": 391
+        "visitors": 399,
+        "views": 399
       },
       {
         "code": "AU",
@@ -153,17 +153,17 @@
         "views": 13
       },
       {
+        "code": "JP",
+        "visitors": 3,
+        "views": 3
+      },
+      {
         "code": "SG",
         "visitors": 3,
         "views": 3
       },
       {
         "code": "GE",
-        "visitors": 1,
-        "views": 1
-      },
-      {
-        "code": "JP",
         "visitors": 1,
         "views": 1
       },
@@ -212,7 +212,7 @@
       {
         "country": "CN",
         "name": "Jiangsu",
-        "views": 3
+        "views": 5
       },
       {
         "country": "CN",
