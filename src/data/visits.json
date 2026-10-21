@@ -1,13 +1,13 @@
 {
-  "updated": "2026-10-20T22:21:29.891Z",
+  "updated": "2026-10-21T22:24:54.447Z",
   "all": {
-    "visitors": 497,
-    "views": 497,
+    "visitors": 517,
+    "views": 517,
     "countries": [
       {
         "code": "CN",
-        "visitors": 403,
-        "views": 403
+        "visitors": 422,
+        "views": 422
       },
       {
         "code": "HK",
@@ -16,8 +16,8 @@
       },
       {
         "code": "AU",
-        "visitors": 26,
-        "views": 26
+        "visitors": 27,
+        "views": 27
       },
       {
         "code": "US",
@@ -59,7 +59,7 @@
       {
         "country": "CN",
         "name": "Guangdong",
-        "views": 43
+        "views": 44
       },
       {
         "country": "CN",
@@ -70,6 +70,11 @@
         "country": "CN",
         "name": "Guangxi",
         "views": 21
+      },
+      {
+        "country": "CN",
+        "name": "Chongqing",
+        "views": 17
       },
       {
         "country": "CN",
@@ -124,13 +129,13 @@
     ]
   },
   "d30": {
-    "visitors": 497,
-    "views": 497,
+    "visitors": 517,
+    "views": 517,
     "countries": [
       {
         "code": "CN",
-        "visitors": 403,
-        "views": 403
+        "visitors": 422,
+        "views": 422
       },
       {
         "code": "HK",
@@ -139,8 +144,8 @@
       },
       {
         "code": "AU",
-        "visitors": 26,
-        "views": 26
+        "visitors": 27,
+        "views": 27
       },
       {
         "code": "US",
@@ -182,7 +187,7 @@
       {
         "country": "CN",
         "name": "Guangdong",
-        "views": 43
+        "views": 44
       },
       {
         "country": "CN",
@@ -193,6 +198,11 @@
         "country": "CN",
         "name": "Guangxi",
         "views": 21
+      },
+      {
+        "country": "CN",
+        "name": "Chongqing",
+        "views": 17
       },
       {
         "country": "CN",
