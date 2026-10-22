@@ -1,13 +1,13 @@
 {
-  "updated": "2026-10-21T22:24:54.447Z",
+  "updated": "2026-10-22T22:23:39.289Z",
   "all": {
-    "visitors": 517,
-    "views": 517,
+    "visitors": 538,
+    "views": 538,
     "countries": [
       {
         "code": "CN",
-        "visitors": 422,
-        "views": 422
+        "visitors": 443,
+        "views": 443
       },
       {
         "code": "HK",
@@ -54,7 +54,7 @@
       {
         "country": "CN",
         "name": "Zhejiang",
-        "views": 81
+        "views": 97
       },
       {
         "country": "CN",
@@ -74,7 +74,7 @@
       {
         "country": "CN",
         "name": "Chongqing",
-        "views": 17
+        "views": 19
       },
       {
         "country": "CN",
@@ -129,13 +129,13 @@
     ]
   },
   "d30": {
-    "visitors": 517,
-    "views": 517,
+    "visitors": 538,
+    "views": 538,
     "countries": [
       {
         "code": "CN",
-        "visitors": 422,
-        "views": 422
+        "visitors": 443,
+        "views": 443
       },
       {
         "code": "HK",
@@ -182,7 +182,7 @@
       {
         "country": "CN",
         "name": "Zhejiang",
-        "views": 81
+        "views": 97
       },
       {
         "country": "CN",
@@ -202,7 +202,7 @@
       {
         "country": "CN",
         "name": "Chongqing",
-        "views": 17
+        "views": 19
       },
       {
         "country": "CN",
