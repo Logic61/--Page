@@ -1,18 +1,18 @@
 {
-  "updated": "2026-10-22T22:23:39.289Z",
+  "updated": "2026-10-23T22:16:05.974Z",
   "all": {
-    "visitors": 538,
-    "views": 538,
+    "visitors": 544,
+    "views": 544,
     "countries": [
       {
         "code": "CN",
-        "visitors": 443,
-        "views": 443
+        "visitors": 444,
+        "views": 444
       },
       {
         "code": "HK",
-        "visitors": 32,
-        "views": 32
+        "visitors": 37,
+        "views": 37
       },
       {
         "code": "AU",
@@ -129,18 +129,18 @@
     ]
   },
   "d30": {
-    "visitors": 538,
-    "views": 538,
+    "visitors": 544,
+    "views": 544,
     "countries": [
       {
         "code": "CN",
-        "visitors": 443,
-        "views": 443
+        "visitors": 444,
+        "views": 444
       },
       {
         "code": "HK",
-        "visitors": 32,
-        "views": 32
+        "visitors": 37,
+        "views": 37
       },
       {
         "code": "AU",
