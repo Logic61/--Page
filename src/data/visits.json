@@ -1,13 +1,13 @@
 {
-  "updated": "2026-10-31T22:32:23.826Z",
+  "updated": "2026-11-01T22:52:40.742Z",
   "all": {
-    "visitors": 630,
-    "views": 630,
+    "visitors": 640,
+    "views": 640,
     "countries": [
       {
         "code": "CN",
-        "visitors": 517,
-        "views": 517
+        "visitors": 527,
+        "views": 527
       },
       {
         "code": "HK",
@@ -54,7 +54,7 @@
       {
         "country": "CN",
         "name": "Zhejiang",
-        "views": 101
+        "views": 102
       },
       {
         "country": "CN",
@@ -124,6 +124,11 @@
       {
         "country": "CN",
         "name": "Henan",
+        "views": 1
+      },
+      {
+        "country": "CN",
+        "name": "Sichuan",
         "views": 1
       },
       {
@@ -134,13 +139,13 @@
     ]
   },
   "d30": {
-    "visitors": 630,
-    "views": 630,
+    "visitors": 640,
+    "views": 640,
     "countries": [
       {
         "code": "CN",
-        "visitors": 517,
-        "views": 517
+        "visitors": 527,
+        "views": 527
       },
       {
         "code": "HK",
@@ -187,7 +192,7 @@
       {
         "country": "CN",
         "name": "Zhejiang",
-        "views": 101
+        "views": 102
       },
       {
         "country": "CN",
@@ -257,6 +262,11 @@
       {
         "country": "CN",
         "name": "Henan",
+        "views": 1
+      },
+      {
+        "country": "CN",
+        "name": "Sichuan",
         "views": 1
       },
       {
