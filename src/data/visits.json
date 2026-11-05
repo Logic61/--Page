@@ -1,18 +1,18 @@
 {
-  "updated": "2026-11-04T00:00:38.723Z",
+  "updated": "2026-11-05T00:24:47.313Z",
   "all": {
-    "visitors": 653,
-    "views": 653,
+    "visitors": 700,
+    "views": 700,
     "countries": [
       {
         "code": "CN",
-        "visitors": 540,
-        "views": 540
+        "visitors": 583,
+        "views": 583
       },
       {
         "code": "HK",
-        "visitors": 44,
-        "views": 44
+        "visitors": 48,
+        "views": 48
       },
       {
         "code": "AU",
@@ -63,12 +63,12 @@
       },
       {
         "country": "CN",
-        "name": "Beijing",
-        "views": 21
+        "name": "Guangxi",
+        "views": 22
       },
       {
         "country": "CN",
-        "name": "Guangxi",
+        "name": "Beijing",
         "views": 21
       },
       {
@@ -79,7 +79,7 @@
       {
         "country": "CN",
         "name": "Shanghai",
-        "views": 16
+        "views": 18
       },
       {
         "country": "US",
@@ -139,18 +139,18 @@
     ]
   },
   "d30": {
-    "visitors": 653,
-    "views": 653,
+    "visitors": 700,
+    "views": 700,
     "countries": [
       {
         "code": "CN",
-        "visitors": 540,
-        "views": 540
+        "visitors": 583,
+        "views": 583
       },
       {
         "code": "HK",
-        "visitors": 44,
-        "views": 44
+        "visitors": 48,
+        "views": 48
       },
       {
         "code": "AU",
@@ -201,12 +201,12 @@
       },
       {
         "country": "CN",
-        "name": "Beijing",
-        "views": 21
+        "name": "Guangxi",
+        "views": 22
       },
       {
         "country": "CN",
-        "name": "Guangxi",
+        "name": "Beijing",
         "views": 21
       },
       {
@@ -217,7 +217,7 @@
       {
         "country": "CN",
         "name": "Shanghai",
-        "views": 16
+        "views": 18
       },
       {
         "country": "US",
