@@ -1,13 +1,13 @@
 {
-  "updated": "2026-11-10T02:12:25.340Z",
+  "updated": "2026-11-11T00:04:33.233Z",
   "all": {
-    "visitors": 764,
-    "views": 764,
+    "visitors": 770,
+    "views": 770,
     "countries": [
       {
         "code": "CN",
-        "visitors": 642,
-        "views": 642
+        "visitors": 648,
+        "views": 648
       },
       {
         "code": "HK",
@@ -93,6 +93,11 @@
       },
       {
         "country": "CN",
+        "name": "Hebei",
+        "views": 7
+      },
+      {
+        "country": "CN",
         "name": "Hainan",
         "views": 5
       },
@@ -104,11 +109,6 @@
       {
         "country": "CN",
         "name": "Anhui",
-        "views": 2
-      },
-      {
-        "country": "CN",
-        "name": "Hebei",
         "views": 2
       },
       {
@@ -139,13 +139,13 @@
     ]
   },
   "d30": {
-    "visitors": 592,
-    "views": 592,
+    "visitors": 543,
+    "views": 543,
     "countries": [
       {
         "code": "CN",
-        "visitors": 517,
-        "views": 517
+        "visitors": 479,
+        "views": 479
       },
       {
         "code": "HK",
@@ -153,19 +153,19 @@
         "views": 48
       },
       {
-        "code": "US",
-        "visitors": 11,
-        "views": 11
-      },
-      {
         "code": "JP",
         "visitors": 9,
         "views": 9
       },
       {
+        "code": "US",
+        "visitors": 5,
+        "views": 5
+      },
+      {
         "code": "AU",
-        "visitors": 6,
-        "views": 6
+        "visitors": 1,
+        "views": 1
       },
       {
         "code": "SG",
@@ -177,7 +177,7 @@
       {
         "country": "CN",
         "name": "Zhejiang",
-        "views": 98
+        "views": 89
       },
       {
         "country": "CN",
@@ -210,9 +210,9 @@
         "views": 7
       },
       {
-        "country": "US",
-        "name": "California",
-        "views": 5
+        "country": "CN",
+        "name": "Hebei",
+        "views": 7
       },
       {
         "country": "CN",
@@ -231,11 +231,6 @@
       },
       {
         "country": "CN",
-        "name": "Hebei",
-        "views": 2
-      },
-      {
-        "country": "CN",
         "name": "Shandong",
         "views": 2
       },
@@ -247,11 +242,6 @@
       {
         "country": "CN",
         "name": "Sichuan",
-        "views": 1
-      },
-      {
-        "country": "CN",
-        "name": "Tianjin",
         "views": 1
       }
     ]
