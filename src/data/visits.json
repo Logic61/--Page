@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-11T00:04:33.233Z",
+  "updated": "2026-11-12T01:33:42.028Z",
   "all": {
     "visitors": 770,
     "views": 770,
@@ -139,13 +139,13 @@
     ]
   },
   "d30": {
-    "visitors": 543,
-    "views": 543,
+    "visitors": 526,
+    "views": 526,
     "countries": [
       {
         "code": "CN",
-        "visitors": 479,
-        "views": 479
+        "visitors": 463,
+        "views": 463
       },
       {
         "code": "HK",
@@ -154,8 +154,8 @@
       },
       {
         "code": "JP",
-        "visitors": 9,
-        "views": 9
+        "visitors": 8,
+        "views": 8
       },
       {
         "code": "US",
@@ -177,7 +177,7 @@
       {
         "country": "CN",
         "name": "Zhejiang",
-        "views": 89
+        "views": 87
       },
       {
         "country": "CN",
