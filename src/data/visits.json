@@ -1,13 +1,13 @@
 {
-  "updated": "2026-11-13T00:31:46.397Z",
+  "updated": "2026-11-14T00:21:51.447Z",
   "all": {
-    "visitors": 792,
-    "views": 792,
+    "visitors": 794,
+    "views": 794,
     "countries": [
       {
         "code": "CN",
-        "visitors": 670,
-        "views": 670
+        "visitors": 672,
+        "views": 672
       },
       {
         "code": "HK",
@@ -139,13 +139,13 @@
     ]
   },
   "d30": {
-    "visitors": 548,
-    "views": 548,
+    "visitors": 455,
+    "views": 455,
     "countries": [
       {
         "code": "CN",
-        "visitors": 485,
-        "views": 485
+        "visitors": 393,
+        "views": 393
       },
       {
         "code": "HK",
@@ -166,28 +166,18 @@
         "code": "AU",
         "visitors": 1,
         "views": 1
-      },
-      {
-        "code": "SG",
-        "visitors": 1,
-        "views": 1
       }
     ],
     "regions": [
       {
         "country": "CN",
         "name": "Zhejiang",
-        "views": 87
+        "views": 48
       },
       {
         "country": "CN",
         "name": "Guangxi",
         "views": 22
-      },
-      {
-        "country": "CN",
-        "name": "Guangdong",
-        "views": 20
       },
       {
         "country": "CN",
@@ -197,21 +187,21 @@
       {
         "country": "CN",
         "name": "Jiangsu",
-        "views": 18
+        "views": 17
+      },
+      {
+        "country": "CN",
+        "name": "Guangdong",
+        "views": 16
       },
       {
         "country": "CN",
         "name": "Shanghai",
-        "views": 9
+        "views": 8
       },
       {
         "country": "CN",
         "name": "Beijing",
-        "views": 7
-      },
-      {
-        "country": "CN",
-        "name": "Hebei",
         "views": 7
       },
       {
@@ -221,18 +211,18 @@
       },
       {
         "country": "CN",
+        "name": "Hebei",
+        "views": 5
+      },
+      {
+        "country": "CN",
         "name": "Shaanxi",
-        "views": 3
+        "views": 2
       },
       {
         "country": "CN",
         "name": "Anhui",
-        "views": 2
-      },
-      {
-        "country": "CN",
-        "name": "Shandong",
-        "views": 2
+        "views": 1
       },
       {
         "country": "CN",
