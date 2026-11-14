@@ -1,13 +1,13 @@
 {
-  "updated": "2026-11-14T00:21:51.447Z",
+  "updated": "2026-11-14T23:00:27.236Z",
   "all": {
-    "visitors": 794,
-    "views": 794,
+    "visitors": 807,
+    "views": 807,
     "countries": [
       {
         "code": "CN",
-        "visitors": 672,
-        "views": 672
+        "visitors": 685,
+        "views": 685
       },
       {
         "code": "HK",
@@ -64,12 +64,12 @@
       {
         "country": "CN",
         "name": "Guangxi",
-        "views": 22
+        "views": 27
       },
       {
         "country": "CN",
         "name": "Beijing",
-        "views": 21
+        "views": 26
       },
       {
         "country": "CN",
@@ -94,7 +94,7 @@
       {
         "country": "CN",
         "name": "Hebei",
-        "views": 7
+        "views": 10
       },
       {
         "country": "CN",
@@ -139,13 +139,13 @@
     ]
   },
   "d30": {
-    "visitors": 455,
-    "views": 455,
+    "visitors": 468,
+    "views": 468,
     "countries": [
       {
         "code": "CN",
-        "visitors": 393,
-        "views": 393
+        "visitors": 406,
+        "views": 406
       },
       {
         "code": "HK",
@@ -177,7 +177,7 @@
       {
         "country": "CN",
         "name": "Guangxi",
-        "views": 22
+        "views": 27
       },
       {
         "country": "CN",
@@ -196,22 +196,22 @@
       },
       {
         "country": "CN",
+        "name": "Beijing",
+        "views": 12
+      },
+      {
+        "country": "CN",
+        "name": "Hebei",
+        "views": 8
+      },
+      {
+        "country": "CN",
         "name": "Shanghai",
         "views": 8
       },
       {
         "country": "CN",
-        "name": "Beijing",
-        "views": 7
-      },
-      {
-        "country": "CN",
         "name": "Hainan",
-        "views": 5
-      },
-      {
-        "country": "CN",
-        "name": "Hebei",
         "views": 5
       },
       {
