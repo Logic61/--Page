@@ -1,13 +1,13 @@
 {
-  "updated": "2026-11-17T02:30:04.293Z",
+  "updated": "2026-11-18T01:38:31.705Z",
   "all": {
-    "visitors": 809,
-    "views": 809,
+    "visitors": 810,
+    "views": 810,
     "countries": [
       {
         "code": "CN",
-        "visitors": 687,
-        "views": 687
+        "visitors": 688,
+        "views": 688
       },
       {
         "code": "HK",
@@ -73,12 +73,12 @@
       },
       {
         "country": "CN",
-        "name": "Chongqing",
-        "views": 19
+        "name": "Jiangsu",
+        "views": 20
       },
       {
         "country": "CN",
-        "name": "Jiangsu",
+        "name": "Chongqing",
         "views": 19
       },
       {
@@ -139,13 +139,13 @@
     ]
   },
   "d30": {
-    "visitors": 332,
-    "views": 332,
+    "visitors": 323,
+    "views": 323,
     "countries": [
       {
         "code": "CN",
-        "visitors": 296,
-        "views": 296
+        "visitors": 289,
+        "views": 289
       },
       {
         "code": "HK",
@@ -154,8 +154,8 @@
       },
       {
         "code": "JP",
-        "visitors": 8,
-        "views": 8
+        "visitors": 6,
+        "views": 6
       },
       {
         "code": "US",
@@ -182,7 +182,7 @@
       {
         "country": "CN",
         "name": "Jiangsu",
-        "views": 16
+        "views": 15
       },
       {
         "country": "CN",
