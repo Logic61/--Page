@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-19T01:15:55.763Z",
+  "updated": "2026-11-20T01:19:12.723Z",
   "all": {
     "visitors": 819,
     "views": 819,
@@ -139,13 +139,13 @@
     ]
   },
   "d30": {
-    "visitors": 323,
-    "views": 323,
+    "visitors": 322,
+    "views": 322,
     "countries": [
       {
         "code": "CN",
-        "visitors": 295,
-        "views": 295
+        "visitors": 294,
+        "views": 294
       },
       {
         "code": "HK",
