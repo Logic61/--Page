@@ -1,13 +1,13 @@
 {
-  "updated": "2026-11-20T01:19:12.723Z",
+  "updated": "2026-11-21T00:50:18.921Z",
   "all": {
-    "visitors": 819,
-    "views": 819,
+    "visitors": 845,
+    "views": 845,
     "countries": [
       {
         "code": "CN",
-        "visitors": 697,
-        "views": 697
+        "visitors": 723,
+        "views": 723
       },
       {
         "code": "HK",
@@ -94,7 +94,7 @@
       {
         "country": "CN",
         "name": "Hebei",
-        "views": 10
+        "views": 13
       },
       {
         "country": "CN",
@@ -113,6 +113,11 @@
       },
       {
         "country": "CN",
+        "name": "Henan",
+        "views": 2
+      },
+      {
+        "country": "CN",
         "name": "Hunan",
         "views": 2
       },
@@ -120,11 +125,6 @@
         "country": "CN",
         "name": "Shandong",
         "views": 2
-      },
-      {
-        "country": "CN",
-        "name": "Henan",
-        "views": 1
       },
       {
         "country": "CN",
@@ -139,13 +139,13 @@
     ]
   },
   "d30": {
-    "visitors": 322,
-    "views": 322,
+    "visitors": 328,
+    "views": 328,
     "countries": [
       {
         "code": "CN",
-        "visitors": 294,
-        "views": 294
+        "visitors": 301,
+        "views": 301
       },
       {
         "code": "HK",
@@ -161,11 +161,6 @@
         "code": "US",
         "visitors": 5,
         "views": 5
-      },
-      {
-        "code": "AU",
-        "visitors": 1,
-        "views": 1
       }
     ],
     "regions": [
@@ -176,23 +171,18 @@
       },
       {
         "country": "CN",
-        "name": "Chongqing",
-        "views": 19
-      },
-      {
-        "country": "CN",
         "name": "Jiangsu",
         "views": 15
       },
       {
         "country": "CN",
         "name": "Hebei",
-        "views": 8
+        "views": 11
       },
       {
         "country": "CN",
         "name": "Guangdong",
-        "views": 7
+        "views": 6
       },
       {
         "country": "CN",
@@ -211,17 +201,22 @@
       },
       {
         "country": "CN",
+        "name": "Chongqing",
+        "views": 2
+      },
+      {
+        "country": "CN",
+        "name": "Henan",
+        "views": 2
+      },
+      {
+        "country": "CN",
         "name": "Shaanxi",
         "views": 2
       },
       {
         "country": "CN",
         "name": "Anhui",
-        "views": 1
-      },
-      {
-        "country": "CN",
-        "name": "Henan",
         "views": 1
       },
       {
