@@ -348,94 +348,292 @@ const warningEn = 'In the course of writing, these articles drew considerable in
        down through the strokes, reading like running gilt. */
     color: transparent;
     background: linear-gradient(180deg,
-  …8141 tokens truncated…天君形影不离【道侣为异性，男求女仙，女择男神】',
-          '9：如何孕育养胎',
-          '10：如何诞胎脱凡',
-        ],
-        itemsEn: [
-          '1: The companion life with the goddess-consort or heavenly lord.',
-          '2: How to adapt to that companion life. [Opposite sex: men seek a female immortal; women choose a god.]',
-          '3: How to refine the spirit with precision.',
-          '4: How to maintain spirit and mind.',
-          '5: How to guard against outer evils.',
-          '6: How to consolidate spirit and form.',
-          '7: How to communicate two-way with the goddess-consort or heavenly lord. [Opposite sex: men seek a female immortal; women choose a god.]',
-          '8: How to stay, form and shadow, with the goddess-consort or heavenly lord. [Opposite sex: men seek a female immortal; women choose a god.]',
-          '9: How to conceive and gestate the embryo.',
-          '10: How to deliver the embryo and shed the mortal.',
-        ],
-      },
-      { t: 'h4', text: '三：神气双修，神仙眷侣', en: 'III. Spirit and Qi Cultivated in Pair — Immortal Companions' },
-      { t: 'p', text: '部分透露步骤：', en: 'Some stages revealed:' },
-      { t: 'items', items: ['1：如何神气双修', '2：如何任游千山', '3：如何飞升相成'], itemsEn: ['1: How spirit and qi are cultivated in pair.', '2: How to roam the thousand mountains at will.', '3: How to ascend together.'] },
-      { t: 'note', text: '【第一步坚持修炼半年后颇有家资的存在，若想更系统化的学习，一次性讲透彻80w，体系化进阶，秘传式学艺，则一次性付清180w，且需要遵守规矩！】', en: '[For those of some means who persist in the first stage for half a year: for more systematic study, a one-time full exposition is ¥800k; for systematic advancement with transmission-style tutelage, a one-time payment of ¥1.8M — and the rules must be observed!]' },
-    ],
-  },
-  {
-    blocks: [
-      { t: 'p', text: '自古道法有诸多限制，但本法除了遵守不得 泄规矩之外，剩下的限制较少。', en: 'The ways have had many restrictions since old, but apart from the rule against leaking, this method bears few.' },
-      {
-        t: 'items',
-        items: [
-          '1：不限制吃喝',
-          '2:不限制种族（自力体系例外）',
-          '3：不限制结婚生子',
-          '4:不限制正常生活以及工作',
-          '5：不限制行业，无论是上至王候将相、下至贩 夫走卒，一视同仁',
-        ],
-        itemsEn: [
-          '1: No dietary restriction.',
-          '2: No restriction of race (the self-power system excepted).',
-          '3: No restriction on marriage or children.',
-          '4: No restriction on normal life or work.',
-          '5: No restriction of station — from princes and ministers above, to peddlers and runners below, all treated alike.',
-        ],
-      },
-    ],
-  },
-  {
-    title: '注：',
-    titleEn: 'Note:',
-    blocks: [
-      { t: 'items', items: ['1：师父领进门修行在个人，不包票成功。', '2：修炼需要坚定的毅力与恒心，两天打鱼，三天晒网者，勿扰。'], itemsEn: ['1: The master leads you to the gate; the practice is your own. Success is not guaranteed.', '2: Cultivation demands firm resolve and constancy. Two days fishing, three days drying the nets — do not trouble us.'] },
-    ],
-  },
-];
----
-
-<BranchLayout
-  title={title}
-  description={description}
-  glyph="景"
-  label="偶景"
-  accent="#8291b7"
-  bgDim={0.08}
-  bg={`${base}/bg/oujing-shenying.webp`}
-  navItems={navItems}
->
-  <PageIntro
-    mark="解"
-    title="功法内容"
-    titleEn="The Method"
-    sub="偶者仙偶，景者影也。偶景，又叫偶影，就是相与为偶，形影不离的意思。"
-    subEn="Ou is the immortal consort; jing is the shadow. Oujing, also called ouying — to be paired as one, form and shadow never parted."
-    meta="不包票成功；修行理论内容，未经科学证实，切勿迷信"
-    metaEn="Success is not guaranteed; cultivation-theory material, not scientifically verified — take nothing on faith"
-  />
-
-  <Treatise chapters={chapters} center />
-
-  {/* 中间页只给两个去处：上一页名字 · 下一页名字 */}
-  <BranchSteps />
-
-  <Comments />
-</BranchLayout>
-
-<style>
-  /* 文本框居中：题头、正文（Treatise center）、按钮同为一列 48em，列内文字仍左对齐 */
-  :global(.page-intro .wrap > div) {
-    max-width: 48em;
-    margin-inline: auto;
+      var(--gold-edge) 0%,
+      var(--gold-bright) 22%,
+      var(--gold) 50%,
+      var(--gold-deep) 80%,
+      var(--gold) 100%);
+    background-size: 100% 220%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: miwen-title-flow 12s ease-in-out infinite;
+    text-shadow:
+      0 2px 14px rgba(0, 0, 0, 0.8),
+      0 0 22px var(--gold-glow);
+  }
+  @keyframes miwen-title-flow {
+    0%, 100% { background-position: 0% 0%; }
+    50%      { background-position: 0% 100%; }
   }
 
+  .miwen-rule {
+    height: 1px;
+    width: 4.5rem;
+    margin: 1.6rem 0 0;
+    background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+  }
+
+  .miwen-sub {
+    margin: 1.4rem 0 0;
+    max-width: 38em;
+    color: var(--bone-dim);
+    font-size: 1rem;
+    line-height: 2.2;
+  }
+
+  .miwen-meta {
+    margin: 1.2rem 0 0;
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    color: var(--bone-faint);
+  }
+
+  /* ============================================================
+     List section
+     ============================================================ */
+
+  .miwen-list {
+    position: relative;
+    z-index: 1;
+    padding-block: clamp(3rem, 6vw, 5rem);
+    /* 下滑进入目录区后，底部纹样逐渐压暗，正文读起来更稳。
+       数值与「修炼常识」页 .kb 保持一致。 */
+    background: linear-gradient(180deg,
+      rgba(10, 6, 4, 0) 0%,
+      rgba(10, 6, 4, 0.6) 9rem,
+      rgba(10, 6, 4, 0.72) 100%);
+  }
+
+  /* Fictional-declaration strip: neutral, soft */
+  .miwen-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.1rem;
+    padding: 1.1rem 1.4rem;
+    border: 1px solid var(--gold-line);
+    border-left: 2px solid var(--gold);
+    background: var(--panel-soft);
+    border-radius: 2px;
+  }
+  .miwen-notice b {
+    flex: none;
+    color: var(--gold-bright);
+    font-size: 0.86rem;
+    letter-spacing: 0.32em;
+    padding-top: 0.15em;
+  }
+  .miwen-notice p {
+    color: var(--bone-dim);
+    font-size: 0.9rem;
+    line-height: 2;
+  }
+
+  /* Warning: keep cautionary tone via deep amber-gold instead of red */
+  .miwen-warning {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.1rem;
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.4rem;
+    border: 1px solid var(--gold-line-strong);
+    border-left: 3px solid var(--gold-deep);
+    background: linear-gradient(180deg, rgba(138, 111, 46, 0.08), rgba(5, 4, 2, 0.4));
+    border-radius: 2px;
+  }
+  .miwen-warning b {
+    flex: none;
+    color: #fdf7e6;
+    background: color-mix(in srgb, var(--gold-deep) 45%, #241806);
+    padding: 0.28em 0.55em;
+    font-size: 0.82rem;
+    letter-spacing: 0.32em;
+    border-radius: 2px;
+    transform: translateY(0.2em);
+  }
+  .miwen-warning p {
+    color: var(--bone-dim);
+    font-size: 0.9rem;
+    line-height: 2;
+  }
+
+  /* List header */
+  .miwen-list-head {
+    margin: clamp(2.4rem, 5vw, 3.4rem) 0 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+  }
+  .miwen-list-head h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    letter-spacing: 0.3em;
+    color: var(--heading);
+    margin: 0;
+    flex: none;
+  }
+  .miwen-list-rule {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold-line-strong), transparent);
+  }
+
+  /* Article cards */
+  .post-list {
+    border-top: 1px solid var(--gold-line);
+  }
+
+  .post-card {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: 1.4rem;
+    padding: 1.8rem 1.2rem;
+    border-bottom: 1px solid var(--gold-line);
+    transition:
+      background 0.4s var(--ease-soft),
+      padding-left 0.4s var(--ease-soft),
+      border-color 0.4s var(--ease-soft);
+    position: relative;
+  }
+
+  /* Hairline that brightens on hover, hugging the left edge */
+  .post-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: transparent;
+    transition: background 0.4s var(--ease-soft);
+  }
+
+  .post-card:hover {
+    background: var(--panel-soft);
+    padding-left: 1.8rem;
+    border-bottom-color: var(--gold-line-strong);
+  }
+  .post-card:hover::before {
+    background: linear-gradient(180deg, transparent, var(--gold) 30%, var(--gold) 70%, transparent);
+  }
+
+  .post-num {
+    color: var(--gold);
+    font-size: 1.7rem;
+    letter-spacing: 0.1em;
+    line-height: 1.4;
+    padding-top: 0.1em;
+    transition: color 0.4s var(--ease-soft), text-shadow 0.4s var(--ease-soft);
+  }
+  .post-card:hover .post-num {
+    color: var(--gold-bright);
+    text-shadow: 0 0 18px var(--gold-glow);
+  }
+
+  .post-body h3 {
+    color: var(--heading);
+    font-size: clamp(1.25rem, 2.6vw, 1.55rem);
+    letter-spacing: 0.2em;
+    margin: 0;
+    transition: color 0.4s var(--ease-soft);
+  }
+  .post-card:hover .post-body h3 {
+    color: var(--gold-bright);
+  }
+
+  .post-summary {
+    margin-top: 0.55rem;
+    color: var(--bone-dim);
+    font-size: 0.9rem;
+    line-height: 2;
+  }
+
+  .post-meta {
+    margin-top: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.76rem;
+    letter-spacing: 0.22em;
+    color: var(--bone-faint);
+  }
+
+  .post-read {
+    color: var(--gold-bright);
+    transition: letter-spacing 0.3s var(--ease-soft), color 0.3s var(--ease-soft);
+    position: relative;
+    padding-left: 1.2em;
+  }
+  .post-read::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--gold-deep);
+    transition: left 0.3s var(--ease-soft), color 0.3s var(--ease-soft);
+  }
+  .post-card:hover .post-read {
+    letter-spacing: 0.3em;
+    color: var(--gold-bright);
+  }
+  .post-card:hover .post-read::before {
+    left: 0.2em;
+    color: var(--gold-bright);
+  }
+
+  .miwen-trailer {
+    margin-top: 2.2rem;
+    text-align: center;
+    color: var(--bone-faint);
+    font-size: 0.84rem;
+    letter-spacing: 0.28em;
+  }
+
+  /* ============================================================
+     Mobile collapse
+     ============================================================ */
+
+  @media (max-width: 720px) {
+    .miwen-hero { padding: 2.2rem 0 3rem; }
+    .miwen-hero-wrap {
+      grid-template-columns: 1fr;
+      gap: 1.6rem;
+      justify-items: center;
+      text-align: center;
+    }
+    .miwen-mark-block {
+      width: 7rem;
+      height: 7rem;
+    }
+    .miwen-rule {
+      margin-inline: auto;
+    }
+    /* On narrow viewports the mark block + title own the centre.
+       Drop the scrim so the hero is just typography over the 纹样. */
+    .miwen-hero-scrim { display: none; }
+  }
+
+  @media (max-width: 560px) {
+    .post-card {
+      grid-template-columns: 3rem 1fr;
+      gap: 1rem;
+      padding: 1.4rem 0.6rem;
+    }
+    .post-num { font-size: 1.4rem; }
+    .post-card:hover { padding-left: 0.8rem; }
+    .miwen-notice, .miwen-warning { flex-direction: column; gap: 0.5rem; }
+    .miwen-list-head { gap: 1rem; }
+  }
+
+  /* ============================================================
+     Reduced motion: disable grain animation, hover transforms
+     ============================================================ */
+
+  @media (prefers-reduced-motion: reduce) {
+    .miwen-grain { opacity: 0.35; }
+    .miwen-mark,
+    .miwen-title { animation: none; }
+    .post-card,
+    .post-num,
+    .post-body h3,
+    .post-read,
+    .post-read::before { transition: none; }
+  }
 </style>
