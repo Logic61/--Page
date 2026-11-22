@@ -1,6 +1,10 @@
+[CmdletBinding(DefaultParameterSetName = 'Deploy')]
 param(
+    [Parameter(Mandatory, ParameterSetName = 'Verify')]
     [ValidatePattern('\Ahttps://zhumen-comments\.[a-z0-9-]+\.workers\.dev/comments\z')]
-    [string] $VerifyEndpoint
+    [string] $VerifyEndpoint,
+    [Parameter(Mandatory, ParameterSetName = 'Update')]
+    [switch] $UpdateWorker
 )
 
 $ErrorActionPreference = 'Stop'
@@ -17,6 +21,26 @@ function Invoke-Wrangler {
     }
 }
 
+function Get-DeploymentSecret([string] $name) {
+    $value = [Environment]::GetEnvironmentVariable($name)
+    if (-not $value) { $value = [Environment]::GetEnvironmentVariable($name, 'User') }
+    $value
+}
+
+function Set-WorkerSecret([string] $name, [string] $value, [string] $workerConfig) {
+    $value | & $wrangler secret put $name --config $workerConfig | Out-Host
+    if ($LASTEXITCODE -ne 0) { throw "Failed to configure $name on the Worker." }
+}
+
+$agnesKey = Get-DeploymentSecret 'AGNES_API_KEY'
+if ($UpdateWorker) {
+    if (-not $agnesKey) { throw 'AGNES_API_KEY is missing from the environment.' }
+    Invoke-Wrangler deploy --config $sourceConfig | Out-Host
+    Set-WorkerSecret 'AGNES_API_KEY' $agnesKey $sourceConfig
+    Write-Host 'Worker deployed and Agnes fallback configured.'
+    return
+}
+
 function Get-CommentsDatabase {
     $json = (Invoke-Wrangler d1 list --json --config $sourceConfig) -join "`n"
     $json | ConvertFrom-Json | Where-Object { $_.name -eq $databaseName } | Select-Object -First 1
@@ -28,9 +52,8 @@ function New-SmokeTestBody([string] $text) {
 }
 
 if (-not $VerifyEndpoint) {
-    $key = [Environment]::GetEnvironmentVariable('GLM_API_KEY')
-    if (-not $key) { $key = [Environment]::GetEnvironmentVariable('GLM_API_KEY', 'User') }
-    if (-not $key) { throw 'GLM_API_KEY is missing from the environment.' }
+    $glmKey = Get-DeploymentSecret 'GLM_API_KEY'
+    if (-not $glmKey -and -not $agnesKey) { throw 'A moderation provider key is required.' }
 }
 
 $database = Get-CommentsDatabase
@@ -62,10 +85,8 @@ try {
         }
         $endpoint = $Matches[0] + '/comments'
 
-        $key | & $wrangler secret put GLM_API_KEY --config $config | Out-Host
-        if ($LASTEXITCODE -ne 0) {
-            throw 'Failed to configure GLM_API_KEY on the Worker.'
-        }
+        if ($glmKey) { Set-WorkerSecret 'GLM_API_KEY' $glmKey $config }
+        if ($agnesKey) { Set-WorkerSecret 'AGNES_API_KEY' $agnesKey $config }
     }
 
     $testPage = '/miwen/deployment-check-' + [guid]::NewGuid().ToString('N')
@@ -89,7 +110,7 @@ try {
 
         try {
             Invoke-RestMethod @arguments @postArguments -Body $blocked | Out-Null
-            throw 'GLM unexpectedly approved the proselytizing test comment.'
+            throw 'Moderation unexpectedly approved the proselytizing test comment.'
         } catch {
             if (-not $_.Exception.Response -or [int]$_.Exception.Response.StatusCode -ne 422) { throw }
         }
@@ -102,7 +123,7 @@ try {
     if ($hidden.comments) {
         throw 'The hidden test comments are still visible.'
     }
-    Write-Host "Verified public read, GLM approval/rejection, and comment hiding."
+    Write-Host 'Verified public read, moderation approval/rejection, and comment hiding.'
     Write-Output "PUBLIC_COMMENTS_API=$endpoint"
 } finally {
     if (Test-Path -LiteralPath $config) {

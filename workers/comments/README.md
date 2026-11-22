@@ -1,10 +1,10 @@
 # 匿名留言
 
-Astro 站点继续部署到 GitHub Pages。Cloudflare Worker 按页面读取 D1 中的留言，提交时用免费的 `glm-4.7-flash` 审核昵称和正文。智谱返回模型过载（`1305`）时，改用同样免费的 `glm-4-flash-250414` 按相同规则审核一次。留言通过后才写入 D1。`GLM_API_KEY` 只由 Worker 读取。旧的 GitHub Discussions 留言可从评论区底部的存档链接访问。
+Astro 站点继续部署到 GitHub Pages。Cloudflare Worker 依次尝试智谱免费模型 `glm-4.7-flash`、`glm-4-flash-250414` 和 `glm-4.6v-flash`。智谱均不可用时，使用 `agnes-3.0-flash`。第一个有效审核结论即生效，只有获得明确放行时才写入 D1。`GLM_API_KEY` 和 `AGNES_API_KEY` 均由后端读取。旧的 GitHub Discussions 留言可从评论区底部的存档链接访问。
 
 ## 本地运行
 
-从仓库根目录执行以下命令。GLM 密钥可放在本机的 `workers/comments/.dev.vars`，格式为 `GLM_API_KEY=实际密钥`。该文件已被 Git 忽略。没有密钥时仍可读取留言，提交会提示审核服务不可用。
+从仓库根目录执行以下命令。密钥可分别以 `GLM_API_KEY=实际密钥` 和 `AGNES_API_KEY=实际密钥` 写入本机的 `workers/comments/.dev.vars`。该文件已被 Git 忽略。没有密钥时仍可读取留言，提交会提示审核服务不可用。
 
 ```sh
 wrangler d1 migrations apply DB --local --config workers/comments/wrangler.toml
@@ -15,7 +15,9 @@ wrangler dev --config workers/comments/wrangler.toml --var SITE_ORIGIN:http://lo
 
 ## 部署
 
-在已完成 `wrangler login` 的 Windows 终端，可以从仓库根目录运行 `powershell -ExecutionPolicy RemoteSigned -File .\workers\comments\deploy.ps1`。脚本复用或创建同名数据库、应用迁移、部署 Worker，再从 Windows 环境读取 `GLM_API_KEY` 写入 Cloudflare Secret。审核通过和拒绝各验证一条，并隐藏测试留言。成功后复制输出的 `PUBLIC_COMMENTS_API`，接着完成下方第 3 步。
+现有站点可在已完成 `wrangler login` 的 Windows 终端运行 `powershell -ExecutionPolicy RemoteSigned -File .\workers\comments\deploy.ps1 -UpdateWorker`。脚本发布 Worker，并从 Windows 环境读取 `AGNES_API_KEY` 写入 Cloudflare Secret。
+
+首次部署时运行同一脚本，无需加 `-UpdateWorker`。脚本复用或创建同名数据库、应用迁移、部署 Worker，再从 Windows 环境读取审核密钥。审核通过和拒绝各验证一条，并隐藏测试留言。成功后复制输出的 `PUBLIC_COMMENTS_API`，接着完成下方第 3 步。
 
 后端已部署时，给脚本加上 `-VerifyEndpoint <完整留言接口 URL>` 可单独运行验收。
 
@@ -26,6 +28,7 @@ wrangler dev --config workers/comments/wrangler.toml --var SITE_ORIGIN:http://lo
    wrangler d1 migrations apply DB --remote --config workers/comments/wrangler.toml
    wrangler deploy --config workers/comments/wrangler.toml
    wrangler secret put GLM_API_KEY --config workers/comments/wrangler.toml
+   wrangler secret put AGNES_API_KEY --config workers/comments/wrangler.toml
    ```
 
 3. 运行 **Deploy Astro site to GitHub Pages** 工作流。当前默认接口在工作流的 `PUBLIC_COMMENTS_API` 中配置。换用其他后端时，可以在 GitHub 仓库 **Settings → Secrets and variables → Actions → Variables** 设置同名变量来覆盖。
@@ -58,4 +61,4 @@ powershell -ExecutionPolicy RemoteSigned -File .\workers\comments\enable-admin.p
 
 把示例编号 `123` 换成要处理的留言编号。隐藏保留原文，可以随时恢复。暂停只影响新提交，在途审核也会检查开关。审核拒绝时，访客会看到「内容违规，留言未发布。请修改后重试。」审核服务异常会提示稍后再试。
 
-如留言持续显示审核服务不可用，运行 `wrangler tail zhumen-comments --format pretty` 查看 Worker 的错误类别及智谱状态码。日志只记录诊断状态。
+如留言持续显示审核服务不可用，运行 `wrangler tail zhumen-comments --format pretty` 查看每次尝试的模型、错误类别和上游状态码。日志只记录诊断状态。

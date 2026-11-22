@@ -87,7 +87,7 @@ async function publishComment(request, page, env, headers) {
   const paused = () => json({ error: 'paused' }, 503, headers);
   const settings = await env.DB.prepare('SELECT posting_enabled FROM comment_settings WHERE id = 1').first();
   if (!settings?.posting_enabled) return paused();
-  if (!env.GLM_API_KEY) return json({ error: 'unavailable' }, 503, headers);
+  if (!env.GLM_API_KEY && !env.AGNES_API_KEY) return json({ error: 'unavailable' }, 503, headers);
 
   const limited = () => json({ error: 'rate_limit' }, 429, { ...headers, 'Retry-After': '60' });
   const key = request.headers.get('CF-Connecting-IP') || 'unknown';
@@ -105,7 +105,7 @@ async function publishComment(request, page, env, headers) {
   `).bind(minute, MAX_REVIEWS_PER_MINUTE).run();
   if (!quota.meta.changes) return limited();
 
-  const verdict = await moderate(env.GLM_API_KEY, name, body);
+  const verdict = await moderate(env, name, body);
   if (verdict === null) return json({ error: 'unavailable' }, 503, headers);
   if (verdict !== 'allow') return json({ error: 'content_violation' }, 422, headers);
 
