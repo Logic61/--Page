@@ -1,4 +1,4 @@
-name: Verify the miwen production repair
+name: Verify public comments notice
 on:
   pull_request:
     types: [reopened, synchronize]
@@ -23,6 +23,8 @@ jobs:
               const html = await res.text();
               assert.equal([...html.matchAll(/<a\b[^>]*class="post-card\b/g)].length, 11, 'article count');
               assert.ok(html.includes('data-comments'), 'comments');
+              assert.ok(html.includes('昵称和留言正文将交由大模型审核'), 'moderation notice');
+              assert.ok(!html.includes('发给智谱 GLM'), 'old moderation notice');
               const sheets = [...html.matchAll(/<link[^>]*href="([^"]+\.css)"/g)].map(m => new URL(m[1], root));
               const css = (await Promise.all(sheets.map(async uri => (await get(uri)).text()))).join('\n');
               const markupAndCSS = html + css;
