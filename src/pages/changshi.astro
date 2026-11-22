@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import Giscus from '../components/Giscus.astro';
+import Comments from '../components/Comments.astro';
 import GoldNav from '../components/GoldNav.astro';
 import Zl from '../components/Zl.astro';
 import knowledge from '../data/knowledge.json';
@@ -155,7 +155,7 @@ const countOf = (id) => items.filter((m) => m.zh.category === id).length;
           en="Compiled from “Knowledge Points” · Cultivation-theory material, not scientifically verified — take nothing on faith"
         /></p>
 
-        <Giscus />
+        <Comments />
 
       </div>
     </section>

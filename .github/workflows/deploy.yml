@@ -36,6 +36,7 @@ jobs:
           # 构建时会自动注入全站 <head>。未设置即为空，不会输出对应 meta。
           PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
           PUBLIC_BING_SITE_VERIFICATION: ${{ vars.BING_SITE_VERIFICATION }}
+          PUBLIC_COMMENTS_API: ${{ vars.PUBLIC_COMMENTS_API }}
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

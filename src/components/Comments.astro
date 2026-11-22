@@ -1,0 +1,133 @@
+---
+import Giscus from './Giscus.astro';
+import Zl from './Zl.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const pathname = Astro.url.pathname;
+const page = (pathname.startsWith(`${base}/`) ? pathname.slice(base.length) : pathname).replace(/\/$/, '');
+const endpoint = import.meta.env.PUBLIC_COMMENTS_API?.trim()
+  || (import.meta.env.DEV ? 'http://127.0.0.1:8787/comments' : undefined);
+---
+
+{endpoint ? (
+    <section class="cmt" aria-label="留言" data-en-aria="Comments" data-comments data-page={page} data-endpoint={endpoint}>
+      <div class="cmt-head">
+        <h2 class="cmt-title kai"><Zl zh="留言" en="Comments" /></h2>
+        <p class="cmt-hint"><Zl zh="无需登录，留言经审核后公开。可以讨论宗教和民俗，请勿传教或劝人崇拜鬼神。" en="No account needed. Comments are reviewed before publication. Discussion of religion and folklore is welcome. Please refrain from proselytizing or urging others to worship spirits or deities." /></p>
+      </div>
+
+      <form class="cmt-form" method="post">
+        <label class="cmt-field cmt-name">
+          <span><Zl zh="昵称（选填）" en="Display name (optional)" /></span>
+          <input name="nickname" maxlength="32" autocomplete="nickname" />
+        </label>
+        <label class="cmt-field">
+          <span><Zl zh="留言内容" en="Your comment" /></span>
+          <textarea name="body" rows="4" maxlength="1000" required></textarea>
+        </label>
+        <div hidden>
+          <label>Website <input name="website" tabindex="-1" autocomplete="off" /></label>
+        </div>
+        <div class="cmt-actions">
+          <button class="cmt-button" type="submit" disabled><Zl zh="提交留言" en="Submit comment" /></button>
+          <p class="cmt-message" data-submit-status role="status"></p>
+        </div>
+        <p class="cmt-hint"><Zl zh="昵称和正文将发给智谱 GLM 审核，请勿填写个人联络信息。" en="Your display name and comment are sent to Zhipu GLM for review. Please omit personal contact information." /></p>
+      </form>
+
+      <div class="cmt-list" aria-label="已发布留言" data-en-aria="Published comments">
+        <p class="cmt-message" data-list-status role="status"></p>
+        <ol data-comment-list></ol>
+        <button class="cmt-button cmt-more" type="button" data-more hidden>
+          <span data-more-label><Zl zh="较早留言" en="Earlier comments" /></span>
+          <span data-retry-label hidden><Zl zh="重试" en="Retry" /></span>
+        </button>
+      </div>
+      <template data-comment-template>
+        <li class="cmt-entry">
+          <div class="cmt-entry-meta">
+            <span class="cmt-author" data-author><Zl zh="匿名访客" en="Anonymous" /></span>
+            <time data-date-zh class="zl-zh"></time><time data-date-en class="zl-en"></time>
+          </div>
+          <p data-body></p>
+        </li>
+      </template>
+      <p class="cmt-archive"><a href="https://github.com/Logic61/--Page/discussions/categories/announcements"><Zl zh="旧留言存档" en="Archived comments" /></a></p>
+    </section>
+) : <Giscus />}
+
+<script>
+  import { initComments } from '../lib/comments';
+
+  document.querySelectorAll<HTMLElement>('[data-comments][data-endpoint]').forEach(initComments);
+</script>
+
+<style>
+  .cmt {
+    max-width: 46em;
+    margin: clamp(2.6rem, 6vw, 4rem) auto 0;
+    padding-top: clamp(1.6rem, 4vw, 2.4rem);
+    border-top: 1px solid var(--gold-line, rgba(248, 220, 160, 0.32));
+    color: var(--bone, #e8d8b6);
+  }
+  .cmt-head { text-align: center; margin-bottom: 1.3rem; }
+  .cmt-title {
+    margin: 0;
+    color: var(--heading, #fdf4d2);
+    font-size: 1.12rem;
+    font-weight: 500;
+    letter-spacing: 0.5em;
+    text-indent: 0.5em;
+    font-family: var(--font-kai, 'Kaiti SC'), 'STKaiti', 'KaiTi', serif;
+  }
+  .cmt-hint, .cmt-message, .cmt-archive { color: var(--bone-faint, #d0b98a); font-size: 0.875rem; }
+  .cmt-hint { margin: 0.55rem 0 0; }
+  .cmt-form {
+    display: grid;
+    gap: 0.9rem;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    background: rgba(16, 11, 7, 0.72);
+    border: 1px solid var(--gold-line, rgba(248, 220, 160, 0.32));
+    border-radius: 4px;
+  }
+  .cmt-form .cmt-hint { margin: 0; }
+  .cmt-field { display: grid; gap: 0.35rem; font-size: 0.875rem; }
+  .cmt-name { max-width: 16rem; }
+  .cmt-field input, .cmt-field textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--gold-line, rgba(248, 220, 160, 0.32));
+    border-radius: 3px;
+    background: rgba(8, 6, 4, 0.66);
+    color: var(--heading, #fdf4d2);
+    font: inherit;
+    font-size: 1rem;
+  }
+  .cmt-field textarea { resize: vertical; }
+  .cmt-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem 1rem; }
+  .cmt-button {
+    padding: 0.5rem 0.9rem;
+    border: 1px solid rgba(248, 220, 160, 0.55);
+    border-radius: 3px;
+    background: rgba(206, 158, 63, 0.12);
+    color: var(--heading, #fdf4d2);
+    font: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+  .cmt-button:hover:not(:disabled) { background: rgba(206, 158, 63, 0.22); }
+  .cmt-button:disabled { opacity: 0.58; cursor: default; }
+  .cmt :is(input, textarea, button, a):focus-visible { outline: 2px solid #e9c676; outline-offset: 3px; }
+  .cmt-message { margin: 0; }
+  .cmt-list { margin-top: 1.5rem; }
+  .cmt-list ol { margin: 0; padding: 0; list-style: none; }
+  .cmt-entry { padding: 0.85rem 0; border-bottom: 1px solid var(--gold-line, rgba(248, 220, 160, 0.32)); }
+  .cmt-entry-meta { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.2rem 0.8rem; }
+  .cmt-author { color: var(--heading, #fdf4d2); overflow-wrap: anywhere; }
+  .cmt-entry-meta time { color: var(--bone-faint, #d0b98a); font-size: 0.8125rem; }
+  .cmt-entry p { margin: 0.3rem 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .cmt-more { margin-top: 0.8rem; }
+  .cmt-archive { margin: 0.8rem 0 0; text-align: center; }
+  .cmt-archive a { color: inherit; text-decoration: underline; text-underline-offset: 0.2em; }
+</style>

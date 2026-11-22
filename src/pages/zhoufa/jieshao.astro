@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import Giscus from '../../components/Giscus.astro';
+import Comments from '../../components/Comments.astro';
 import PageIntro from '../../components/PageIntro.astro';
 import Treatise from '../../components/Treatise.astro';
 import Zl from '../../components/Zl.astro';
@@ -90,7 +90,7 @@ const chapters = [
     <a class="btn" href={`${base}/zhoufa`}><Zl zh="返回太易之音" en="Back · Taiyi Zhi Yin" /></a>
   </nav>
 
-  <Giscus />
+  <Comments />
 </Base>
 
 <style>

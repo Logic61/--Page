@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import Giscus from '../components/Giscus.astro';
+import Comments from '../components/Comments.astro';
 import GoldNav from '../components/GoldNav.astro';
 import Zl from '../components/Zl.astro';
 import { essays } from '../data/xianwen';
@@ -82,7 +82,7 @@ const description =
           <a class="xianwen-btn kai" href={`${base}/`}><Zl zh="返回分支图" en="Back to the Branch Map" /></a>
         </div>
 
-        <Giscus />
+        <Comments />
 
       </div>
     </section>

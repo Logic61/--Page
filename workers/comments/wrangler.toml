@@ -1,0 +1,17 @@
+name = "zhumen-comments"
+main = "index.mjs"
+compatibility_date = "2026-11-22"
+
+[vars]
+SITE_ORIGIN = "https://logic61.github.io"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "zhumen-comments"
+# 本地可直接使用占位 ID，部署前换成 Cloudflare 返回的数据库 ID。
+database_id = "00000000-0000-0000-0000-000000000000"
+
+[[ratelimits]]
+name = "POST_LIMIT"
+namespace_id = "28413"
+simple = { limit = 4, period = 60 }
