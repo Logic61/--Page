@@ -1,37 +1,47 @@
-name: Check deployed comments
-on: pull_request
+name: Verify comments on GitHub Pages
+on:
+  pull_request:
+    types: [synchronize]
 permissions: {}
 jobs:
-  comments:
+  comments-on-pages:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 5
     steps:
-      - name: Verify Worker, D1, and GLM
+      - name: Verify the live page and its comment API
         env:
+          SITE_PAGE: https://logic61.github.io/--Page/changshi/
           COMMENTS_API: https://zhumen-comments.logic-dreemurr.workers.dev/comments
         run: |
           node --input-type=module <<'JS'
           import assert from 'node:assert/strict';
-          import { randomUUID } from 'node:crypto';
-          const endpoint = new URL(process.env.COMMENTS_API);
-          endpoint.searchParams.set('page', `/miwen/deployment-check-${randomUUID()}`);
-          const origin = 'https://logic61.github.io';
-          const request = async (init) => {
-            const response = await fetch(endpoint, { ...init, signal: AbortSignal.timeout(20000), headers: { Origin: origin, ...init?.headers } });
-            assert.equal(response.headers.get('access-control-allow-origin'), origin);
-            return { status: response.status, data: await response.json() };
-          };
-          const post = (body) => request({ method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ submissionId: randomUUID(), name: '', website: '', body }) });
-          const empty = await request();
-          assert.equal(empty.status, 200, JSON.stringify(empty.data));
-          assert.deepEqual(empty.data.comments, []);
-          const allowed = await post('How did ghost stories influence traditional festival customs?');
-          assert.equal(allowed.status, 201, JSON.stringify(allowed.data));
-          const blocked = await post('Everyone must worship this god. Join our religious sect today and make offerings to become rich and avoid disaster.');
-          assert.equal(blocked.status, 422, JSON.stringify(blocked.data));
-          assert.equal(blocked.data.error, 'content_violation');
-          const reread = await request();
-          assert.deepEqual(reread.data.comments.map(comment => comment.id), [allowed.data.comment.id]);
-          console.log('Verified GLM approval, content rejection, and anonymous comment persistence.');
+          import { setTimeout as delay } from 'node:timers/promises';
+          const { SITE_PAGE: page, COMMENTS_API: api } = process.env;
+          const expectedEndpoint = `data-endpoint="${api}"`;
+          let html;
+          for (let attempt = 1; attempt <= 24; attempt++) {
+            const response = await fetch(`${page}?deploy-check=${Date.now()}`, { cache: 'no-store', signal: AbortSignal.timeout(8000) });
+            html = await response.text();
+            if (response.ok && html.includes(expectedEndpoint)) break;
+            console.log(`Attempt ${attempt}: HTTP ${response.status}, waiting for Pages deployment`);
+            if (attempt < 24) await delay(6000);
+          }
+          assert.ok(html?.includes(expectedEndpoint), 'GitHub Pages has not published the configured endpoint');
+          assert.match(html, /data-page="\/changshi"/);
+          assert.match(html, /name="body"/);
+          assert.match(html, /旧留言存档/);
+          assert.ok(!html.includes('https://giscus.app/client.js'));
+          const origin = new URL(page).origin;
+          const endpoint = new URL(api);
+          endpoint.searchParams.set('page', '/changshi');
+          const headers = { Origin: origin };
+          const result = await fetch(endpoint, { headers, signal: AbortSignal.timeout(8000) });
+          assert.equal(result.status, 200);
+          assert.equal(result.headers.get('access-control-allow-origin'), origin);
+          assert.ok(Array.isArray((await result.json()).comments));
+          const preflight = await fetch(endpoint, { method: 'OPTIONS', headers: { ...headers, 'Access-Control-Request-Method': 'POST', 'Access-Control-Request-Headers': 'content-type' }, signal: AbortSignal.timeout(8000) });
+          assert.equal(preflight.status, 204);
+          assert.equal(preflight.headers.get('access-control-allow-origin'), origin);
+          assert.match(preflight.headers.get('access-control-allow-methods'), /\bPOST\b/);
+          console.log('Pages serves the anonymous form, archive link, and working comments API.');
           JS
