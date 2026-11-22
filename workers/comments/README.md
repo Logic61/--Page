@@ -19,7 +19,7 @@ wrangler dev --config workers/comments/wrangler.toml --var SITE_ORIGIN:http://lo
 
 后端已部署时，给脚本加上 `-VerifyEndpoint <完整留言接口 URL>` 可单独运行验收。
 
-1. 登录 Cloudflare 后，运行 `wrangler d1 create zhumen-comments --config workers/comments/wrangler.toml`。把返回的 `database_id` 填入 `wrangler.toml` 的 D1 绑定。
+1. 当前生产数据库已绑定为 `zhumen-comments`。首次部署到新账号时，运行 `wrangler d1 create zhumen-comments --config workers/comments/wrangler.toml`，再把返回的 `database_id` 填入 D1 绑定。
 2. 应用 D1 迁移并部署 Worker。
 
    ```sh
@@ -45,3 +45,5 @@ wrangler dev --config workers/comments/wrangler.toml --var SITE_ORIGIN:http://lo
 | 恢复全站新留言 | `UPDATE comment_settings SET posting_enabled = 1 WHERE id = 1;` |
 
 把示例编号 `123` 换成要处理的留言编号。隐藏保留原文，可以随时恢复。暂停只影响新提交，在途审核也会检查开关。审核拒绝时，访客会看到「内容违规，留言未发布。请修改后重试。」审核服务异常会提示稍后再试。
+
+如留言持续显示审核服务不可用，运行 `wrangler tail zhumen-comments --format pretty` 查看 Worker 的错误类别及智谱状态码。日志只记录诊断状态。

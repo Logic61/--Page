@@ -152,6 +152,7 @@ export default {
       if (request.method === 'GET') return await listComments(url, page, env.DB, headers);
       return await publishComment(request, page, env, headers);
     } catch {
+      console.warn('Comment database or rate limiter unavailable', { method: request.method });
       return json({ error: 'unavailable' }, 503, headers);
     }
   },
