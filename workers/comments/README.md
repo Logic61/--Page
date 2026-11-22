@@ -17,6 +17,8 @@ wrangler dev --config workers/comments/wrangler.toml --var SITE_ORIGIN:http://lo
 
 在已完成 `wrangler login` 的 Windows 终端，可以从仓库根目录运行 `powershell -ExecutionPolicy RemoteSigned -File .\workers\comments\deploy.ps1`。脚本复用或创建同名数据库、应用迁移、部署 Worker，再从 Windows 环境读取 `GLM_API_KEY` 写入 Cloudflare Secret。审核通过和拒绝各验证一条，并隐藏测试留言。成功后复制输出的 `PUBLIC_COMMENTS_API`，接着完成下方第 3 步。
 
+后端已部署时，给脚本加上 `-VerifyEndpoint <完整留言接口 URL>` 可单独运行验收。
+
 1. 登录 Cloudflare 后，运行 `wrangler d1 create zhumen-comments --config workers/comments/wrangler.toml`。把返回的 `database_id` 填入 `wrangler.toml` 的 D1 绑定。
 2. 应用 D1 迁移并部署 Worker。
 
@@ -26,9 +28,9 @@ wrangler dev --config workers/comments/wrangler.toml --var SITE_ORIGIN:http://lo
    wrangler secret put GLM_API_KEY --config workers/comments/wrangler.toml
    ```
 
-3. 在 GitHub 仓库 **Settings → Secrets and variables → Actions → Variables** 中设置 `PUBLIC_COMMENTS_API` 为 Worker 完整留言接口 URL，例如 `https://zhumen-comments.<子域>.workers.dev/comments`，然后运行 **Deploy Astro site to GitHub Pages** 工作流。
+3. 运行 **Deploy Astro site to GitHub Pages** 工作流。当前默认接口在工作流的 `PUBLIC_COMMENTS_API` 中配置。换用其他后端时，可以在 GitHub 仓库 **Settings → Secrets and variables → Actions → Variables** 设置同名变量来覆盖。
 
-生产构建在 `PUBLIC_COMMENTS_API` 设置后切换到匿名留言。回退时清空这个变量并重新部署 Pages。
+构建时将 `PUBLIC_COMMENTS_API` 留空会使用 Giscus。回退时清空工作流中的默认值以及仓库同名变量，然后重新部署 Pages。
 
 ## 站长管控
 

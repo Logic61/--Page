@@ -8,8 +8,7 @@ SITE_ORIGIN = "https://logic61.github.io"
 [[d1_databases]]
 binding = "DB"
 database_name = "zhumen-comments"
-# 本地可直接使用占位 ID，部署前换成 Cloudflare 返回的数据库 ID。
-database_id = "00000000-0000-0000-0000-000000000000"
+database_id = "8ddfd475-6258-4632-9c4c-4f2b05907d31"
 
 [[ratelimits]]
 name = "POST_LIMIT"
