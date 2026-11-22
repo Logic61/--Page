@@ -1,42 +1,85 @@
-name: Verify public comments notice
+name: Verify threaded comments in production
 on:
   pull_request:
     types: [reopened, synchronize]
 permissions: {}
 jobs:
-  miwen:
+  worker-threads:
     runs-on: ubuntu-latest
-    timeout-minutes: 4
+    timeout-minutes: 5
     steps:
-      - name: Check article cards and deployed CSS
+      - name: Verify new threads, replies, moderation and reload
+        run: |
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import { randomUUID } from 'node:crypto';
+          import { setTimeout as delay } from 'node:timers/promises';
+          const url = new URL('https://zhumen-comments.logic-dreemurr.workers.dev/comments');
+          url.searchParams.set('page', `/miwen/deployment-check-${randomUUID()}`);
+          const replies = new URL(url); replies.pathname += '/replies';
+          const origin = 'https://logic61.github.io';
+          const read = async (address, options = {}) => {
+            const response = await fetch(address, { ...options, signal: AbortSignal.timeout(26000), headers: { Origin: origin, ...options.headers } });
+            assert.equal(response.headers.get('access-control-allow-origin'), origin);
+            return { status: response.status, body: await response.json() };
+          };
+          let fresh;
+          for (let i = 0; i < 24; i++) {
+            fresh = await read(url);
+            if (fresh.status === 200 && fresh.body.threads === true) break;
+            console.log('Waiting for threaded Worker: ' + fresh.status);
+            if (i < 23) await delay(5000);
+          }
+          assert.equal(fresh.status, 200);
+          assert.equal(fresh.body.threads, true);
+          const preflight = await fetch(replies, { method: 'OPTIONS', headers: { Origin: origin, 'Access-Control-Request-Method': 'POST', 'Access-Control-Request-Headers': 'content-type' }, signal: AbortSignal.timeout(8000) });
+          assert.equal(preflight.status, 204);
+          assert.equal(preflight.headers.get('access-control-allow-origin'), origin);
+          const draft = (body, parentId) => ({ name: 'Thread deployment check', body, website: '', submissionId: randomUUID(), ...(parentId === undefined ? {} : { parentId }) });
+          const send = (body, address = url) => read(address, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+          const first = await send(draft('How did ghost stories influence traditional festival customs?'));
+          assert.equal(first.status, 201, JSON.stringify(first.body));
+          const thread = first.body.comment.id;
+          const replyDraft = draft('It would be interesting to compare regional traditions.', thread);
+          const second = await send(replyDraft, replies);
+          assert.equal(second.status, 201, JSON.stringify(second.body));
+          const repeat = await send(replyDraft, replies);
+          assert.equal(repeat.status, 200, JSON.stringify(repeat.body));
+          assert.equal(repeat.body.comment.id, second.body.comment.id);
+          const third = await send(draft('Written sources may help date those differences.', second.body.comment.id), replies);
+          assert.equal(third.status, 201, JSON.stringify(third.body));
+          assert.equal(third.body.comment.thread_id, thread);
+          const blocked = await send(draft('Everyone must worship this god and join our religious sect today.', thread), replies);
+          assert.equal(blocked.status, 422, JSON.stringify(blocked.body));
+          assert.equal(blocked.body.error, 'content_violation');
+          const top = await read(url);
+          assert.deepEqual(top.body.comments.map(c => [c.id, c.reply_count]), [[thread, 2]]);
+          url.searchParams.set('thread', String(thread));
+          const expanded = await read(url);
+          assert.deepEqual(expanded.body.comments.map(c => [c.id, c.parent_id]), [[second.body.comment.id, thread], [third.body.comment.id, second.body.comment.id]]);
+          console.log('Verified new thread, reply, reply-to-reply, deduplication, moderation and reload.');
+          JS
+  pages-threads:
+    needs: worker-threads
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Verify deployed comment controls
         run: |
           node --input-type=module <<'JS'
           import assert from 'node:assert/strict';
           import { setTimeout as delay } from 'node:timers/promises';
-          const root = 'https://logic61.github.io/--Page/miwen/';
-          const get = (url) => fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(8000) });
-          const missing = new Set();
-          for (let i = 0; i < 15; i++) {
-            try {
-              const res = await get(root + '?deployment-check=' + Date.now());
-              assert.equal(res.status, 200);
-              const html = await res.text();
-              assert.equal([...html.matchAll(/<a\b[^>]*class="post-card\b/g)].length, 11, 'article count');
-              assert.ok(html.includes('data-comments'), 'comments');
-              assert.ok(html.includes('昵称和留言正文将交由大模型审核'), 'moderation notice');
-              assert.ok(!html.includes('发给智谱 GLM'), 'old moderation notice');
-              const sheets = [...html.matchAll(/<link[^>]*href="([^"]+\.css)"/g)].map(m => new URL(m[1], root));
-              const css = (await Promise.all(sheets.map(async uri => (await get(uri)).text()))).join('\n');
-              const markupAndCSS = html + css;
-              for (const name of ['miwen-list', 'post-list', 'post-card', 'miwen-notice']) assert.ok(markupAndCSS.includes('.' + name), 'missing CSS for ' + name);
-              assert.doesNotMatch(markupAndCSS, /tokens truncated/);
-              console.log('Live miwen page has 11 cards, restored styles, and anonymous comments.');
+          const page = 'https://logic61.github.io/--Page/changshi/';
+          for (let i = 0; i < 24; i++) {
+            const response = await fetch(page + '?deployment-check=' + Date.now(), { cache: 'no-store', signal: AbortSignal.timeout(8000) });
+            const html = await response.text();
+            if (response.ok && html.includes('data-reply-button') && html.includes('data-thread-button')) {
+              assert.ok(html.includes('data-reply-slot') && html.includes('data-replies'));
+              console.log('GitHub Pages serves the threaded comment and reply controls.');
               process.exit(0);
-            } catch (error) {
-              missing.add(error.message);
-              console.log('Waiting for Pages on attempt ' + (i + 1) + ': ' + error.message);
             }
-            await delay(6000);
+            console.log('Waiting for GitHub Pages: ' + response.status);
+            if (i < 23) await delay(6000);
           }
-          throw new Error([...missing].join('; '));
+          throw new Error('Threaded comment controls not present on GitHub Pages');
           JS
