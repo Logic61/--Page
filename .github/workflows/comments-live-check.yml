@@ -1,0 +1,37 @@
+name: Check deployed comments
+on: pull_request
+permissions: {}
+jobs:
+  comments:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Verify Worker, D1, and GLM
+        env:
+          COMMENTS_API: https://zhumen-comments.logic-dreemurr.workers.dev/comments
+        run: |
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import { randomUUID } from 'node:crypto';
+          const endpoint = new URL(process.env.COMMENTS_API);
+          endpoint.searchParams.set('page', `/miwen/deployment-check-${randomUUID()}`);
+          const origin = 'https://logic61.github.io';
+          const request = async (init) => {
+            const response = await fetch(endpoint, { ...init, signal: AbortSignal.timeout(20000), headers: { Origin: origin, ...init?.headers } });
+            assert.equal(response.headers.get('access-control-allow-origin'), origin);
+            return { status: response.status, data: await response.json() };
+          };
+          const post = (body) => request({ method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ submissionId: randomUUID(), name: '', website: '', body }) });
+          const empty = await request();
+          assert.equal(empty.status, 200, JSON.stringify(empty.data));
+          assert.deepEqual(empty.data.comments, []);
+          const allowed = await post('How did ghost stories influence traditional festival customs?');
+          assert.equal(allowed.status, 201, JSON.stringify(allowed.data));
+          const blocked = await post('Everyone must worship this god. Join our religious sect today and make offerings to become rich and avoid disaster.');
+          assert.equal(blocked.status, 422, JSON.stringify(blocked.data));
+          assert.equal(blocked.data.error, 'content_violation');
+          const reread = await request();
+          assert.deepEqual(reread.data.comments.map(comment => comment.id), [allowed.data.comment.id]);
+          console.log('Verified GLM approval, content rejection, and anonymous comment persistence.');
+          JS
