@@ -1,4 +1,5 @@
 import { moderate } from './moderation.mjs';
+import { handleAdmin } from './admin.mjs';
 
 const PAGE = /^\/(?:changshi|(?:miwen|xianwen)(?:\/[a-z0-9-]{1,80})?|famen(?:\/(?:tixi|chuanshou))?|(?:aozhan|tongshen|oujing|shendao|zhenqi|zhuyanshu|zhoufa)\/jieshao)$/;
 const SUBMISSION_ID = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/;
@@ -124,6 +125,9 @@ async function publishComment(request, page, env, headers) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname === '/admin' || url.pathname.startsWith('/admin/')) {
+      return handleAdmin(request, url, env);
+    }
     const origin = request.headers.get('Origin');
     const headers = {
       'Cache-Control': 'no-store',

@@ -34,7 +34,19 @@ wrangler dev --config workers/comments/wrangler.toml --var SITE_ORIGIN:http://lo
 
 ## 站长管控
 
-登录 Cloudflare，打开 **D1 SQL Database → zhumen-comments → Console**。在控制台执行相应语句。权限由 Cloudflare 账号管理。
+打开 [留言管理](https://zhumen-comments.logic-dreemurr.workers.dev/admin)，输入站长密钥。每条留言旁的「隐藏」开关即时生效，关掉开关可恢复显示。页面上方的「接受新留言」可暂停或恢复提交，暂停后访客仍能阅读已发布的留言。
+
+首次启用时，从项目终端运行下面的 PowerShell 命令。脚本部署 Worker，将新生成的站长密钥写入 Cloudflare Secret，并复制到剪贴板。可保存到自己的密码管理器。再次执行会保留已有密钥。加上 `-RotateKey` 会生成新密钥并让之前的登录失效。
+
+```powershell
+powershell -ExecutionPolicy RemoteSigned -File .\workers\comments\enable-admin.ps1
+```
+
+本地调试时可在 `workers/comments/.dev.vars` 中添加 `COMMENTS_ADMIN_KEY`，值为 64 位小写十六进制字符串。启动 Worker 后打开 `http://localhost:8787/admin`。
+
+### D1 控制台
+
+也可登录 Cloudflare，打开 **D1 SQL Database → zhumen-comments → Console** 执行相应语句。
 
 | 操作 | SQL |
 | --- | --- |
