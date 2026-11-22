@@ -15,7 +15,7 @@ wrangler dev --config workers/comments/wrangler.toml --var SITE_ORIGIN:http://lo
 
 ## 部署
 
-现有站点可在已完成 `wrangler login` 的 Windows 终端运行 `powershell -ExecutionPolicy RemoteSigned -File .\workers\comments\deploy.ps1 -UpdateWorker`。脚本发布 Worker，并从 Windows 环境读取 `AGNES_API_KEY` 写入 Cloudflare Secret。
+现有站点可在已完成 `wrangler login` 的 Windows 终端运行 `powershell -ExecutionPolicy RemoteSigned -File .\workers\comments\deploy.ps1 -UpdateWorker`。脚本应用待部署的 D1 迁移，再发布 Worker，并从 Windows 环境读取 `AGNES_API_KEY` 写入 Cloudflare Secret。
 
 首次部署时运行同一脚本，无需加 `-UpdateWorker`。脚本复用或创建同名数据库、应用迁移、部署 Worker，再从 Windows 环境读取审核密钥。审核通过和拒绝各验证一条，并隐藏测试留言。成功后复制输出的 `PUBLIC_COMMENTS_API`，接着完成下方第 3 步。
 
@@ -37,7 +37,7 @@ wrangler dev --config workers/comments/wrangler.toml --var SITE_ORIGIN:http://lo
 
 ## 站长管控
 
-打开 [留言管理](https://zhumen-comments.logic-dreemurr.workers.dev/admin)，输入站长密钥。每条留言旁的「隐藏」开关即时生效，关掉开关可恢复显示。页面上方的「接受新留言」可暂停或恢复提交，暂停后访客仍能阅读已发布的留言。
+打开 [留言管理](https://zhumen-comments.logic-dreemurr.workers.dev/admin)，输入站长密钥。每条留言旁的「隐藏」开关即时生效，关掉开关可恢复显示。隐藏楼主留言会暂时隐藏整楼。隐藏单条回复时，同楼的其他回复仍可阅读。页面上方的「接受新留言」可暂停或恢复提交，暂停后访客仍能阅读已发布的留言。
 
 首次启用时，从项目终端运行下面的 PowerShell 命令。脚本部署 Worker，将新生成的站长密钥写入 Cloudflare Secret，并复制到剪贴板。可保存到自己的密码管理器。再次执行会保留已有密钥。加上 `-RotateKey` 会生成新密钥并让之前的登录失效。
 

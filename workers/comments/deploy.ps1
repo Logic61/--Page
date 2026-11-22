@@ -35,6 +35,7 @@ function Set-WorkerSecret([string] $name, [string] $value, [string] $workerConfi
 $agnesKey = Get-DeploymentSecret 'AGNES_API_KEY'
 if ($UpdateWorker) {
     if (-not $agnesKey) { throw 'AGNES_API_KEY is missing from the environment.' }
+    Invoke-Wrangler d1 migrations apply DB --remote --config $sourceConfig | Out-Host
     Invoke-Wrangler deploy --config $sourceConfig | Out-Host
     Set-WorkerSecret 'AGNES_API_KEY' $agnesKey $sourceConfig
     Write-Host 'Worker deployed and Agnes fallback configured.'

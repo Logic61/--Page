@@ -48,8 +48,19 @@ const endpoint = import.meta.env.PUBLIC_COMMENTS_API?.trim()
           <div class="cmt-entry-meta">
             <span class="cmt-author" data-author><Zl zh="匿名访客" en="Anonymous" /></span>
             <time data-date-zh class="zl-zh"></time><time data-date-en class="zl-en"></time>
+            <span class="cmt-reply-context" data-reply-context hidden></span>
           </div>
           <p data-body></p>
+          <div class="cmt-thread-actions" data-thread-actions hidden>
+            <button class="cmt-text-action" type="button" data-reply-button aria-expanded="false"><Zl zh="回复" en="Reply" /></button>
+            <button class="cmt-text-action" type="button" data-thread-button aria-expanded="false" hidden></button>
+          </div>
+          <div class="cmt-reply-slot" data-reply-slot></div>
+          <div class="cmt-replies" data-replies hidden>
+            <ol></ol>
+            <p class="cmt-message" data-replies-status role="status"></p>
+            <button class="cmt-text-action" type="button" data-replies-more hidden></button>
+          </div>
         </li>
       </template>
       <p class="cmt-archive"><a href="https://github.com/Logic61/--Page/discussions/categories/announcements"><Zl zh="旧留言存档" en="Archived comments" /></a></p>
@@ -91,6 +102,7 @@ const endpoint = import.meta.env.PUBLIC_COMMENTS_API?.trim()
     border-radius: 4px;
   }
   .cmt-form .cmt-hint { margin: 0; }
+  .cmt [hidden] { display: none; }
   .cmt-field { display: grid; gap: 0.35rem; font-size: 0.875rem; }
   .cmt-name { max-width: 16rem; }
   .cmt-field input, .cmt-field textarea {
@@ -127,6 +139,27 @@ const endpoint = import.meta.env.PUBLIC_COMMENTS_API?.trim()
   .cmt-author { color: var(--heading, #fdf4d2); overflow-wrap: anywhere; }
   .cmt-entry-meta time { color: var(--bone-faint, #d0b98a); font-size: 0.8125rem; }
   .cmt-entry p { margin: 0.3rem 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .cmt .cmt-text-action {
+    border: 0;
+    background: none;
+    padding: 0.35rem 0;
+    color: var(--bone-faint, #d0b98a);
+    font: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+  .cmt .cmt-text-action:hover { text-decoration: underline; text-underline-offset: 0.16em; }
+  .cmt .cmt-text-action:disabled { opacity: 0.58; cursor: default; }
+  .cmt-thread-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .cmt-replies {
+    margin: 0.5rem 0 0.2rem;
+    padding-inline-start: clamp(0.65rem, 3vw, 1.3rem);
+    border-inline-start: 1px solid var(--gold-line, rgba(248, 220, 160, 0.32));
+  }
+  .cmt-replies .cmt-entry:first-child { padding-top: 0.25rem; }
+  .cmt-replies .cmt-entry:last-child { border-bottom: 0; }
+  .cmt-entry-meta .cmt-reply-context { color: var(--bone-faint, #d0b98a); overflow-wrap: anywhere; font-size: 0.875rem; }
+  .cmt-reply-slot .cmt-form { margin: 0.4rem 0 0.65rem; }
   .cmt-more { margin-top: 0.8rem; }
   .cmt-archive { margin: 0.8rem 0 0; text-align: center; }
   .cmt-archive a { color: inherit; text-decoration: underline; text-underline-offset: 0.2em; }
