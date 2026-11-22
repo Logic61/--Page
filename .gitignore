@@ -2,6 +2,7 @@ node_modules/
 dist/
 .astro/
 .wrangler/
+workers/comments/wrangler.deploy-*.toml
 .dev.vars
 .dev.vars.*
 .env

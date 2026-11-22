@@ -15,6 +15,8 @@ wrangler dev --config workers/comments/wrangler.toml --var SITE_ORIGIN:http://lo
 
 ## 部署
 
+在已完成 `wrangler login` 的 Windows 终端，可以从仓库根目录运行 `powershell -ExecutionPolicy RemoteSigned -File .\workers\comments\deploy.ps1`。脚本复用或创建同名数据库、应用迁移、部署 Worker，再从 Windows 环境读取 `GLM_API_KEY` 写入 Cloudflare Secret。审核通过和拒绝各验证一条，并隐藏测试留言。成功后复制输出的 `PUBLIC_COMMENTS_API`，接着完成下方第 3 步。
+
 1. 登录 Cloudflare 后，运行 `wrangler d1 create zhumen-comments --config workers/comments/wrangler.toml`。把返回的 `database_id` 填入 `wrangler.toml` 的 D1 绑定。
 2. 应用 D1 迁移并部署 Worker。
 
