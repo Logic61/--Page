@@ -1,13 +1,13 @@
 {
-  "updated": "2026-11-21T23:49:55.525Z",
+  "updated": "2026-11-23T00:20:38.849Z",
   "all": {
-    "visitors": 851,
-    "views": 851,
+    "visitors": 899,
+    "views": 899,
     "countries": [
       {
         "code": "CN",
-        "visitors": 729,
-        "views": 729
+        "visitors": 777,
+        "views": 777
       },
       {
         "code": "HK",
@@ -63,6 +63,11 @@
       },
       {
         "country": "CN",
+        "name": "Shanghai",
+        "views": 28
+      },
+      {
+        "country": "CN",
         "name": "Guangxi",
         "views": 27
       },
@@ -80,11 +85,6 @@
         "country": "CN",
         "name": "Chongqing",
         "views": 19
-      },
-      {
-        "country": "CN",
-        "name": "Shanghai",
-        "views": 18
       },
       {
         "country": "US",
@@ -139,18 +139,18 @@
     ]
   },
   "d30": {
-    "visitors": 334,
-    "views": 334,
+    "visitors": 355,
+    "views": 355,
     "countries": [
       {
         "code": "CN",
-        "visitors": 307,
-        "views": 307
+        "visitors": 333,
+        "views": 333
       },
       {
         "code": "HK",
-        "visitors": 16,
-        "views": 16
+        "visitors": 11,
+        "views": 11
       },
       {
         "code": "JP",
@@ -167,12 +167,17 @@
       {
         "country": "CN",
         "name": "Zhejiang",
-        "views": 40
+        "views": 24
       },
       {
         "country": "CN",
         "name": "Jiangsu",
         "views": 15
+      },
+      {
+        "country": "CN",
+        "name": "Shanghai",
+        "views": 13
       },
       {
         "country": "CN",
@@ -198,16 +203,6 @@
         "country": "CN",
         "name": "Shaanxi",
         "views": 4
-      },
-      {
-        "country": "CN",
-        "name": "Shanghai",
-        "views": 3
-      },
-      {
-        "country": "CN",
-        "name": "Chongqing",
-        "views": 2
       },
       {
         "country": "CN",
