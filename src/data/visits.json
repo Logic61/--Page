@@ -1,13 +1,13 @@
 {
-  "updated": "2026-11-24T04:19:08.184Z",
+  "updated": "2026-11-25T03:03:46.412Z",
   "all": {
-    "visitors": 905,
-    "views": 905,
+    "visitors": 914,
+    "views": 914,
     "countries": [
       {
         "code": "CN",
-        "visitors": 778,
-        "views": 778
+        "visitors": 787,
+        "views": 787
       },
       {
         "code": "HK",
@@ -139,13 +139,13 @@
     ]
   },
   "d30": {
-    "visitors": 330,
-    "views": 330,
+    "visitors": 339,
+    "views": 339,
     "countries": [
       {
         "code": "CN",
-        "visitors": 309,
-        "views": 309
+        "visitors": 318,
+        "views": 318
       },
       {
         "code": "HK",
