@@ -1,13 +1,13 @@
 {
-  "updated": "2026-11-25T03:03:46.412Z",
+  "updated": "2026-11-26T02:15:47.747Z",
   "all": {
-    "visitors": 914,
-    "views": 914,
+    "visitors": 924,
+    "views": 924,
     "countries": [
       {
         "code": "CN",
-        "visitors": 787,
-        "views": 787
+        "visitors": 797,
+        "views": 797
       },
       {
         "code": "HK",
@@ -139,13 +139,13 @@
     ]
   },
   "d30": {
-    "visitors": 339,
-    "views": 339,
+    "visitors": 324,
+    "views": 324,
     "countries": [
       {
         "code": "CN",
-        "visitors": 318,
-        "views": 318
+        "visitors": 303,
+        "views": 303
       },
       {
         "code": "HK",
@@ -162,12 +162,12 @@
       {
         "country": "CN",
         "name": "Zhejiang",
-        "views": 22
+        "views": 21
       },
       {
         "country": "CN",
         "name": "Jiangsu",
-        "views": 15
+        "views": 14
       },
       {
         "country": "CN",
@@ -198,11 +198,6 @@
         "country": "CN",
         "name": "Shaanxi",
         "views": 2
-      },
-      {
-        "country": "CN",
-        "name": "Anhui",
-        "views": 1
       },
       {
         "country": "CN",
